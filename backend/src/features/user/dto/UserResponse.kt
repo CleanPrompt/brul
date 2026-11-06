@@ -1,4 +1,4 @@
-package nl.example.backend.features.user.dto
+package nl.brul.backend.features.user.dto
 
 import kotlinx.serialization.Serializable
 

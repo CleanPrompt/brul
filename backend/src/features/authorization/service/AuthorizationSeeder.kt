@@ -1,9 +1,9 @@
-package nl.example.backend.features.authorization.service
+package nl.brul.backend.features.authorization.service
 
-import nl.example.backend.features.authorization.model.DefaultRole
-import nl.example.backend.features.authorization.model.Permission
-import nl.example.backend.features.authorization.model.Role
-import nl.example.backend.features.authorization.repository.AuthorizationRepository
+import nl.brul.backend.features.authorization.model.DefaultRole
+import nl.brul.backend.features.authorization.model.Permission
+import nl.brul.backend.features.authorization.model.Role
+import nl.brul.backend.features.authorization.repository.AuthorizationRepository
 import java.util.UUID
 
 /**

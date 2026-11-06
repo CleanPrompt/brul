@@ -1,7 +1,7 @@
-package nl.example.backend.features.feedback.model
+package nl.brul.backend.features.feedback.model
 
-import nl.example.backend.shared.paging.Page
-import nl.example.backend.shared.paging.SortDirection
+import nl.brul.backend.shared.paging.Page
+import nl.brul.backend.shared.paging.SortDirection
 import java.util.UUID
 
 /**

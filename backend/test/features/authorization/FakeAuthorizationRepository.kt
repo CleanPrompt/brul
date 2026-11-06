@@ -1,8 +1,8 @@
-package nl.example.backend.features.authorization
+package nl.brul.backend.features.authorization
 
-import nl.example.backend.features.authorization.model.Permission
-import nl.example.backend.features.authorization.model.Role
-import nl.example.backend.features.authorization.repository.AuthorizationRepository
+import nl.brul.backend.features.authorization.model.Permission
+import nl.brul.backend.features.authorization.model.Role
+import nl.brul.backend.features.authorization.repository.AuthorizationRepository
 import java.util.UUID
 
 /** In-memory [AuthorizationRepository] so service and route tests do not need a database. */

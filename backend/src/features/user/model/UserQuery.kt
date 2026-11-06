@@ -1,7 +1,7 @@
-package nl.example.backend.features.user.model
+package nl.brul.backend.features.user.model
 
-import nl.example.backend.shared.paging.Page
-import nl.example.backend.shared.paging.SortDirection
+import nl.brul.backend.shared.paging.Page
+import nl.brul.backend.shared.paging.SortDirection
 
 /**
  * What `GET /users` asks for: filters, sorting and a page. A filter that is `null` is not applied.

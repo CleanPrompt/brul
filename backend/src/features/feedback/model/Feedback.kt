@@ -1,4 +1,4 @@
-package nl.example.backend.features.feedback.model
+package nl.brul.backend.features.feedback.model
 
 import java.time.Instant
 import java.util.UUID

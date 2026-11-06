@@ -1,4 +1,4 @@
-package nl.example.backend.features.health.route
+package nl.brul.backend.features.health.route
 
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.response.respondText

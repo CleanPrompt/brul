@@ -1,10 +1,10 @@
-package nl.example.backend.features.user
+package nl.brul.backend.features.user
 
-import nl.example.backend.features.user.model.User
-import nl.example.backend.features.user.model.UserQuery
-import nl.example.backend.features.user.model.UserSortField
-import nl.example.backend.features.user.repository.UserRepository
-import nl.example.backend.shared.paging.SortDirection
+import nl.brul.backend.features.user.model.User
+import nl.brul.backend.features.user.model.UserQuery
+import nl.brul.backend.features.user.model.UserSortField
+import nl.brul.backend.features.user.repository.UserRepository
+import nl.brul.backend.shared.paging.SortDirection
 import java.util.UUID
 
 /** In-memory [UserRepository] so service and route tests do not need a database. */

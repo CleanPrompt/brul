@@ -408,7 +408,7 @@ become a 500. A service has no `call`.
 **9.1** You add a column to `UsersTable`. The server starts but requests fail. Why?
 
 - A. Exposed does not support new columns
-- B. `SchemaUtils.create` does not change existing tables; delete `data/example*` locally
+- B. `SchemaUtils.create` does not change existing tables; delete `data/brul*` locally
 - C. The column needs `@Serializable`
 - D. The JWT secret changed
 
@@ -599,7 +599,7 @@ database instead.
 **B.** `configureRouting` got a new parameter; every caller, including the test fixture, must pass it.
 </details>
 
-**12.2** Do you have to delete `data/example*` after adding the new `categories` table?
+**12.2** Do you have to delete `data/brul*` after adding the new `categories` table?
 
 - A. Yes, always after any change
 - B. No: a new table is created at startup; only changed existing tables need a reset

@@ -1,6 +1,6 @@
 openapi: 3.0.3
 info:
-  title: Example Backend API
+  title: Brul Backend API
   version: 1.0.0
   description: |
     Every error response uses the ErrorResponse schema.

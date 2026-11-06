@@ -27,7 +27,7 @@ The server reads its settings from environment variables. For local development 
 ```text
 HOST=127.0.0.1
 PORT=8080
-DATABASE_URL=jdbc:h2:file:./data/example
+DATABASE_URL=jdbc:h2:file:./data/brul
 JWT_SECRET=replace-with-a-long-random-secret
 BOOTSTRAP_ADMIN_EMAIL=admin@example.com
 ```
@@ -60,7 +60,7 @@ kotlin.bat run       (Windows)
 When you see a line like `Responding at http://127.0.0.1:8080`, the server is running. Open
 <http://127.0.0.1:8080/health> in a browser: it answers `OK`.
 
-The database is a file: `data/example.mv.db` in the repository root. It is created on the first start, together
+The database is a file: `data/brul.mv.db` in the repository root. It is created on the first start, together
 with the roles and permissions.
 
 ## Step 4: send requests
@@ -107,9 +107,9 @@ Every error in this API has this shape. Chapter 8 explains why.
 |---|---|
 | `Missing required configuration: JWT_SECRET` | `backend/.env` is missing or has no `JWT_SECRET` |
 | `{{baseUrl}}` appears literally in the request | Select the environment `dev` in the HTTP client |
-| Strange database errors after you changed a table | Stop the server and delete `data/example*`; see chapter 9 |
+| Strange database errors after you changed a table | Stop the server and delete `data/brul*`; see chapter 9 |
 | `429` in the `.http` files | Wait a minute; see the rate limit above |
-| The admin is not an admin | You registered the admin email before setting `BOOTSTRAP_ADMIN_EMAIL`. Delete `data/example*` and register again |
+| The admin is not an admin | You registered the admin email before setting `BOOTSTRAP_ADMIN_EMAIL`. Delete `data/brul*` and register again |
 
 ## Where to go next
 

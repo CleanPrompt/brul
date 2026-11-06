@@ -1,4 +1,4 @@
-package nl.example.backend.features.authorization.route
+package nl.brul.backend.features.authorization.route
 
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.request.receive
@@ -7,13 +7,13 @@ import io.ktor.server.routing.Route
 import io.ktor.server.routing.delete
 import io.ktor.server.routing.get
 import io.ktor.server.routing.post
-import nl.example.backend.features.authorization.dto.AssignRoleRequest
-import nl.example.backend.features.authorization.model.Permission
-import nl.example.backend.features.authorization.service.AuthorizationService
-import nl.example.backend.features.authorization.service.RoleService
-import nl.example.backend.plugins.currentUserId
-import nl.example.backend.shared.http.parseUuid
-import nl.example.backend.shared.http.uuidParameter
+import nl.brul.backend.features.authorization.dto.AssignRoleRequest
+import nl.brul.backend.features.authorization.model.Permission
+import nl.brul.backend.features.authorization.service.AuthorizationService
+import nl.brul.backend.features.authorization.service.RoleService
+import nl.brul.backend.plugins.currentUserId
+import nl.brul.backend.shared.http.parseUuid
+import nl.brul.backend.shared.http.uuidParameter
 
 /** Register inside `authenticate(JWT_AUTHENTICATION)`. */
 fun Route.roleRoutes(roleService: RoleService, authorizationService: AuthorizationService) {

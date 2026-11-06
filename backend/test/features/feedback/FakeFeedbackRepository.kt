@@ -1,10 +1,10 @@
-package nl.example.backend.features.feedback
+package nl.brul.backend.features.feedback
 
-import nl.example.backend.features.feedback.model.Feedback
-import nl.example.backend.features.feedback.model.FeedbackQuery
-import nl.example.backend.features.feedback.model.FeedbackSortField
-import nl.example.backend.features.feedback.repository.FeedbackRepository
-import nl.example.backend.shared.paging.SortDirection
+import nl.brul.backend.features.feedback.model.Feedback
+import nl.brul.backend.features.feedback.model.FeedbackQuery
+import nl.brul.backend.features.feedback.model.FeedbackSortField
+import nl.brul.backend.features.feedback.repository.FeedbackRepository
+import nl.brul.backend.shared.paging.SortDirection
 import java.util.UUID
 
 /** In-memory [FeedbackRepository] so service and route tests do not need a database. */

@@ -1,10 +1,10 @@
-package nl.example.backend.features.user
+package nl.brul.backend.features.user
 
-import nl.example.backend.features.user.dto.UpdateUserRequest
-import nl.example.backend.features.user.model.User
-import nl.example.backend.features.user.service.UserService
-import nl.example.backend.shared.error.AppException
-import nl.example.backend.TEST_CREATED_AT
+import nl.brul.backend.features.user.dto.UpdateUserRequest
+import nl.brul.backend.features.user.model.User
+import nl.brul.backend.features.user.service.UserService
+import nl.brul.backend.shared.error.AppException
+import nl.brul.backend.TEST_CREATED_AT
 import java.util.UUID
 import kotlin.test.Test
 import kotlin.test.assertEquals

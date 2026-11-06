@@ -1,13 +1,13 @@
-package nl.example.backend.features.authorization.repository
+package nl.brul.backend.features.authorization.repository
 
-import nl.example.backend.features.authorization.database.PermissionsTable
-import nl.example.backend.features.authorization.database.RolePermissionsTable
-import nl.example.backend.features.authorization.database.RolesTable
-import nl.example.backend.features.authorization.database.UserRolesTable
-import nl.example.backend.features.authorization.mapper.toPermission
-import nl.example.backend.features.authorization.mapper.toRole
-import nl.example.backend.features.authorization.model.Permission
-import nl.example.backend.features.authorization.model.Role
+import nl.brul.backend.features.authorization.database.PermissionsTable
+import nl.brul.backend.features.authorization.database.RolePermissionsTable
+import nl.brul.backend.features.authorization.database.RolesTable
+import nl.brul.backend.features.authorization.database.UserRolesTable
+import nl.brul.backend.features.authorization.mapper.toPermission
+import nl.brul.backend.features.authorization.mapper.toRole
+import nl.brul.backend.features.authorization.model.Permission
+import nl.brul.backend.features.authorization.model.Role
 import org.jetbrains.exposed.sql.JoinType
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.and

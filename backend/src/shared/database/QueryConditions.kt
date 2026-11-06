@@ -1,6 +1,6 @@
-package nl.example.backend.shared.database
+package nl.brul.backend.shared.database
 
-import nl.example.backend.shared.paging.SortDirection
+import nl.brul.backend.shared.paging.SortDirection
 import org.jetbrains.exposed.sql.Expression
 import org.jetbrains.exposed.sql.LikePattern
 import org.jetbrains.exposed.sql.Op

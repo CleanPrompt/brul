@@ -1,4 +1,4 @@
-package nl.example.backend.features.authentication.service
+package nl.brul.backend.features.authentication.service
 
 import org.mindrot.jbcrypt.BCrypt
 

@@ -1,14 +1,14 @@
-package nl.example.backend.features.feedback.mapper
+package nl.brul.backend.features.feedback.mapper
 
 import io.ktor.http.Parameters
-import nl.example.backend.features.feedback.model.FeedbackQuery
-import nl.example.backend.features.feedback.model.FeedbackSortField
-import nl.example.backend.features.feedback.model.FeedbackStatus
-import nl.example.backend.shared.http.oneOf
-import nl.example.backend.shared.http.page
-import nl.example.backend.shared.http.searchText
-import nl.example.backend.shared.http.sortDirection
-import nl.example.backend.shared.http.uuidOrNull
+import nl.brul.backend.features.feedback.model.FeedbackQuery
+import nl.brul.backend.features.feedback.model.FeedbackSortField
+import nl.brul.backend.features.feedback.model.FeedbackStatus
+import nl.brul.backend.shared.http.oneOf
+import nl.brul.backend.shared.http.page
+import nl.brul.backend.shared.http.searchText
+import nl.brul.backend.shared.http.sortDirection
+import nl.brul.backend.shared.http.uuidOrNull
 
 /**
  * Reads the query parameters of `GET /feedback`, e.g. `?q=slow&status=OPEN&sort=createdAt&order=desc&limit=20`.

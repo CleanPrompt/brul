@@ -1,7 +1,7 @@
-package nl.example.backend.features.user.mapper
+package nl.brul.backend.features.user.mapper
 
-import nl.example.backend.features.user.database.UsersTable
-import nl.example.backend.features.user.model.User
+import nl.brul.backend.features.user.database.UsersTable
+import nl.brul.backend.features.user.model.User
 import org.jetbrains.exposed.sql.ResultRow
 
 fun ResultRow.toUser(): User =

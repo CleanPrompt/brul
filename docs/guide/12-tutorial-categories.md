@@ -50,7 +50,7 @@ A `Category` is what the application works with. Not serializable: it never goes
 
 ```kotlin
 // model/Category.kt
-package nl.example.backend.features.category.model
+package nl.brul.backend.features.category.model
 
 import java.time.Instant
 import java.util.UUID
@@ -66,7 +66,7 @@ data class Category(
 
 ```kotlin
 // database/CategoriesTable.kt
-package nl.example.backend.features.category.database
+package nl.brul.backend.features.category.database
 
 import org.jetbrains.exposed.sql.Table
 import org.jetbrains.exposed.sql.javatime.timestamp
@@ -103,7 +103,7 @@ What the client sends and receives. A category only has a name to change, so cre
 
 ```kotlin
 // dto/CategoryRequest.kt
-package nl.example.backend.features.category.dto
+package nl.brul.backend.features.category.dto
 
 import kotlinx.serialization.Serializable
 
@@ -116,7 +116,7 @@ data class CategoryRequest(
 
 ```kotlin
 // dto/CategoryResponse.kt
-package nl.example.backend.features.category.dto
+package nl.brul.backend.features.category.dto
 
 import kotlinx.serialization.Serializable
 
@@ -135,10 +135,10 @@ Note: ids and timestamps are `String` in the DTO. The mapper converts them.
 
 ```kotlin
 // mapper/CategoryMapper.kt
-package nl.example.backend.features.category.mapper
+package nl.brul.backend.features.category.mapper
 
-import nl.example.backend.features.category.dto.CategoryResponse
-import nl.example.backend.features.category.model.Category
+import nl.brul.backend.features.category.dto.CategoryResponse
+import nl.brul.backend.features.category.model.Category
 
 fun Category.toResponse(): CategoryResponse =
     CategoryResponse(
@@ -150,10 +150,10 @@ fun Category.toResponse(): CategoryResponse =
 
 ```kotlin
 // mapper/CategoryDatabaseMapper.kt
-package nl.example.backend.features.category.mapper
+package nl.brul.backend.features.category.mapper
 
-import nl.example.backend.features.category.database.CategoriesTable
-import nl.example.backend.features.category.model.Category
+import nl.brul.backend.features.category.database.CategoriesTable
+import nl.brul.backend.features.category.model.Category
 import org.jetbrains.exposed.sql.ResultRow
 
 fun ResultRow.toCategory(): Category =
@@ -170,7 +170,7 @@ The list needs a query model, the sortable fields and a mapper from query parame
 
 ```kotlin
 // model/CategorySortField.kt
-package nl.example.backend.features.category.model
+package nl.brul.backend.features.category.model
 
 /** Fields a category list can be sorted on; [key] is the value of the `sort` query parameter. */
 enum class CategorySortField(val key: String) {
@@ -181,10 +181,10 @@ enum class CategorySortField(val key: String) {
 
 ```kotlin
 // model/CategoryQuery.kt
-package nl.example.backend.features.category.model
+package nl.brul.backend.features.category.model
 
-import nl.example.backend.shared.paging.Page
-import nl.example.backend.shared.paging.SortDirection
+import nl.brul.backend.shared.paging.Page
+import nl.brul.backend.shared.paging.SortDirection
 
 /** What `GET /categories` asks for. The default is alphabetical by name. */
 data class CategoryQuery(
@@ -198,15 +198,15 @@ data class CategoryQuery(
 
 ```kotlin
 // mapper/CategoryQueryMapper.kt
-package nl.example.backend.features.category.mapper
+package nl.brul.backend.features.category.mapper
 
 import io.ktor.http.Parameters
-import nl.example.backend.features.category.model.CategoryQuery
-import nl.example.backend.features.category.model.CategorySortField
-import nl.example.backend.shared.http.oneOf
-import nl.example.backend.shared.http.page
-import nl.example.backend.shared.http.searchText
-import nl.example.backend.shared.paging.SortDirection
+import nl.brul.backend.features.category.model.CategoryQuery
+import nl.brul.backend.features.category.model.CategorySortField
+import nl.brul.backend.shared.http.oneOf
+import nl.brul.backend.shared.http.page
+import nl.brul.backend.shared.http.searchText
+import nl.brul.backend.shared.paging.SortDirection
 
 /** Reads `?q=&sort=name|createdAt&order=asc|desc&limit=&offset=`; an invalid value gives 400. */
 fun Parameters.toCategoryQuery(): CategoryQuery =
@@ -229,10 +229,10 @@ First the interface: what the service may ask.
 
 ```kotlin
 // repository/CategoryRepository.kt
-package nl.example.backend.features.category.repository
+package nl.brul.backend.features.category.repository
 
-import nl.example.backend.features.category.model.Category
-import nl.example.backend.features.category.model.CategoryQuery
+import nl.brul.backend.features.category.model.Category
+import nl.brul.backend.features.category.model.CategoryQuery
 import java.util.UUID
 
 interface CategoryRepository {
@@ -255,16 +255,16 @@ Then the Exposed implementation. New compared with feedback: turning the unique-
 
 ```kotlin
 // repository/ExposedCategoryRepository.kt
-package nl.example.backend.features.category.repository
+package nl.brul.backend.features.category.repository
 
-import nl.example.backend.features.category.database.CategoriesTable
-import nl.example.backend.features.category.mapper.toCategory
-import nl.example.backend.features.category.model.Category
-import nl.example.backend.features.category.model.CategoryQuery
-import nl.example.backend.features.category.model.CategorySortField
-import nl.example.backend.shared.database.containsIgnoringCase
-import nl.example.backend.shared.database.toSortOrder
-import nl.example.backend.shared.error.AppException
+import nl.brul.backend.features.category.database.CategoriesTable
+import nl.brul.backend.features.category.mapper.toCategory
+import nl.brul.backend.features.category.model.Category
+import nl.brul.backend.features.category.model.CategoryQuery
+import nl.brul.backend.features.category.model.CategorySortField
+import nl.brul.backend.shared.database.containsIgnoringCase
+import nl.brul.backend.shared.database.toSortOrder
+import nl.brul.backend.shared.error.AppException
 import org.jetbrains.exposed.exceptions.ExposedSQLException
 import org.jetbrains.exposed.sql.Column
 import org.jetbrains.exposed.sql.Query
@@ -375,17 +375,17 @@ All business rules: trimming and checking the name, refusing duplicates, generat
 
 ```kotlin
 // service/CategoryService.kt
-package nl.example.backend.features.category.service
+package nl.brul.backend.features.category.service
 
-import nl.example.backend.features.category.dto.CategoryRequest
-import nl.example.backend.features.category.dto.CategoryResponse
-import nl.example.backend.features.category.mapper.toResponse
-import nl.example.backend.features.category.model.Category
-import nl.example.backend.features.category.model.CategoryQuery
-import nl.example.backend.features.category.repository.CategoryRepository
-import nl.example.backend.shared.error.AppException
-import nl.example.backend.shared.error.requireValid
-import nl.example.backend.shared.paging.PageResponse
+import nl.brul.backend.features.category.dto.CategoryRequest
+import nl.brul.backend.features.category.dto.CategoryResponse
+import nl.brul.backend.features.category.mapper.toResponse
+import nl.brul.backend.features.category.model.Category
+import nl.brul.backend.features.category.model.CategoryQuery
+import nl.brul.backend.features.category.repository.CategoryRepository
+import nl.brul.backend.shared.error.AppException
+import nl.brul.backend.shared.error.requireValid
+import nl.brul.backend.shared.paging.PageResponse
 import java.time.Instant
 import java.time.temporal.ChronoUnit
 import java.util.UUID
@@ -478,7 +478,7 @@ The access check is the first line of every route that needs one.
 
 ```kotlin
 // route/CategoryRoutes.kt
-package nl.example.backend.features.category.route
+package nl.brul.backend.features.category.route
 
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.request.receive
@@ -489,13 +489,13 @@ import io.ktor.server.routing.get
 import io.ktor.server.routing.patch
 import io.ktor.server.routing.post
 import io.ktor.server.routing.route
-import nl.example.backend.features.authorization.model.Permission
-import nl.example.backend.features.authorization.service.AuthorizationService
-import nl.example.backend.features.category.dto.CategoryRequest
-import nl.example.backend.features.category.mapper.toCategoryQuery
-import nl.example.backend.features.category.service.CategoryService
-import nl.example.backend.plugins.currentUserId
-import nl.example.backend.shared.http.uuidParameter
+import nl.brul.backend.features.authorization.model.Permission
+import nl.brul.backend.features.authorization.service.AuthorizationService
+import nl.brul.backend.features.category.dto.CategoryRequest
+import nl.brul.backend.features.category.mapper.toCategoryQuery
+import nl.brul.backend.features.category.service.CategoryService
+import nl.brul.backend.plugins.currentUserId
+import nl.brul.backend.shared.http.uuidParameter
 
 /**
  * Register inside `authenticate(JWT_AUTHENTICATION)`. Every logged-in user may read categories;
@@ -608,14 +608,14 @@ Like the database, the fake refuses a duplicate name. Otherwise the route tests 
 
 ```kotlin
 // FakeCategoryRepository.kt
-package nl.example.backend.features.category
+package nl.brul.backend.features.category
 
-import nl.example.backend.features.category.model.Category
-import nl.example.backend.features.category.model.CategoryQuery
-import nl.example.backend.features.category.model.CategorySortField
-import nl.example.backend.features.category.repository.CategoryRepository
-import nl.example.backend.shared.error.AppException
-import nl.example.backend.shared.paging.SortDirection
+import nl.brul.backend.features.category.model.Category
+import nl.brul.backend.features.category.model.CategoryQuery
+import nl.brul.backend.features.category.model.CategorySortField
+import nl.brul.backend.features.category.repository.CategoryRepository
+import nl.brul.backend.shared.error.AppException
+import nl.brul.backend.shared.paging.SortDirection
 import java.util.UUID
 
 /** In-memory [CategoryRepository]; like the database, it refuses a duplicate name. */
@@ -669,7 +669,7 @@ One test per status code you promised in the table at the top.
 
 ```kotlin
 // CategoryRoutesTest.kt
-package nl.example.backend.features.category
+package nl.brul.backend.features.category
 
 import io.ktor.client.request.bearerAuth
 import io.ktor.client.request.delete
@@ -685,13 +685,13 @@ import io.ktor.http.contentType
 import io.ktor.server.testing.ApplicationTestBuilder
 import io.ktor.server.testing.testApplication
 import kotlinx.serialization.json.Json
-import nl.example.backend.TEST_ADMIN_EMAIL
-import nl.example.backend.TestServices
-import nl.example.backend.configureTestApp
-import nl.example.backend.errorCode
-import nl.example.backend.features.category.dto.CategoryResponse
-import nl.example.backend.register
-import nl.example.backend.shared.paging.PageResponse
+import nl.brul.backend.TEST_ADMIN_EMAIL
+import nl.brul.backend.TestServices
+import nl.brul.backend.configureTestApp
+import nl.brul.backend.errorCode
+import nl.brul.backend.features.category.dto.CategoryResponse
+import nl.brul.backend.register
+import nl.brul.backend.shared.paging.PageResponse
 import java.util.UUID
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -804,13 +804,13 @@ This one proves that the **real** database turns a duplicate into 409; the route
 
 ```kotlin
 // CategoryRepositoryTest.kt
-package nl.example.backend.features.category
+package nl.brul.backend.features.category
 
-import nl.example.backend.TEST_CREATED_AT
-import nl.example.backend.features.category.database.CategoriesTable
-import nl.example.backend.features.category.model.Category
-import nl.example.backend.features.category.repository.ExposedCategoryRepository
-import nl.example.backend.shared.error.AppException
+import nl.brul.backend.TEST_CREATED_AT
+import nl.brul.backend.features.category.database.CategoriesTable
+import nl.brul.backend.features.category.model.Category
+import nl.brul.backend.features.category.repository.ExposedCategoryRepository
+import nl.brul.backend.shared.error.AppException
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -912,7 +912,7 @@ A feature is not done until others can use it:
 
 - Link feedback to a category: add a nullable `category_id` column to `FeedbackTable` with
   `reference("category_id", CategoriesTable.id).nullable()`. This **changes an existing table**: delete
-  `data/example*`. What should happen to feedback when its category is deleted?
+  `data/brul*`. What should happen to feedback when its category is deleted?
 - Add a filter `?categoryId=` to `GET /feedback`.
 
 ## Check yourself

@@ -1,4 +1,4 @@
-package nl.example.backend.shared.paging
+package nl.brul.backend.shared.paging
 
 import kotlinx.serialization.Serializable
 

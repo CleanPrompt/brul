@@ -1,7 +1,7 @@
-package nl.example.backend.features.feedback.mapper
+package nl.brul.backend.features.feedback.mapper
 
-import nl.example.backend.features.feedback.dto.FeedbackResponse
-import nl.example.backend.features.feedback.model.Feedback
+import nl.brul.backend.features.feedback.dto.FeedbackResponse
+import nl.brul.backend.features.feedback.model.Feedback
 
 fun Feedback.toResponse(): FeedbackResponse =
     FeedbackResponse(

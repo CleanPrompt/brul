@@ -77,7 +77,7 @@ requests.
 | You did | What to do |
 |---|---|
 | Added a new table | Nothing: it is created at the next start |
-| Added, removed or changed a column of an existing table | Stop the server, delete `data/example*`, start again |
+| Added, removed or changed a column of an existing table | Stop the server, delete `data/brul*`, start again |
 
 Deleting the file also deletes your test data; run `1-authentication.http` again afterwards. A real production system
 would use a **migration tool** such as Flyway, which applies numbered SQL scripts. That is a deliberate omission to

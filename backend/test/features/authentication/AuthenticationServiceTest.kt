@@ -1,13 +1,13 @@
-package nl.example.backend.features.authentication
+package nl.brul.backend.features.authentication
 
-import nl.example.backend.TEST_ADMIN_EMAIL
-import nl.example.backend.TEST_PASSWORD
-import nl.example.backend.TestServices
-import nl.example.backend.features.authentication.dto.ChangePasswordRequest
-import nl.example.backend.features.authentication.dto.LoginRequest
-import nl.example.backend.features.authentication.dto.RegisterRequest
-import nl.example.backend.features.authorization.model.DefaultRole
-import nl.example.backend.shared.error.AppException
+import nl.brul.backend.TEST_ADMIN_EMAIL
+import nl.brul.backend.TEST_PASSWORD
+import nl.brul.backend.TestServices
+import nl.brul.backend.features.authentication.dto.ChangePasswordRequest
+import nl.brul.backend.features.authentication.dto.LoginRequest
+import nl.brul.backend.features.authentication.dto.RegisterRequest
+import nl.brul.backend.features.authorization.model.DefaultRole
+import nl.brul.backend.shared.error.AppException
 import java.time.Instant
 import java.util.UUID
 import kotlin.test.Test

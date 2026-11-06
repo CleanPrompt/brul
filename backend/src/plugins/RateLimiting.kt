@@ -1,4 +1,4 @@
-package nl.example.backend.plugins
+package nl.brul.backend.plugins
 
 import io.ktor.server.application.Application
 import io.ktor.server.application.install

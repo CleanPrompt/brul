@@ -1,7 +1,7 @@
-package nl.example.backend.shared.http
+package nl.brul.backend.shared.http
 
 import io.ktor.server.application.ApplicationCall
-import nl.example.backend.shared.error.AppException
+import nl.brul.backend.shared.error.AppException
 import java.util.UUID
 
 /** Parses [value] as a UUID, or throws 400 with the name of the [field]. */

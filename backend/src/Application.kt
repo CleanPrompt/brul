@@ -1,27 +1,27 @@
-package nl.example.backend
+package nl.brul.backend
 
 import io.ktor.server.application.Application
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
-import nl.example.backend.config.AppConfig
-import nl.example.backend.config.DatabaseFactory
-import nl.example.backend.features.authentication.service.AuthenticationService
-import nl.example.backend.features.authentication.service.JwtService
-import nl.example.backend.features.authentication.service.PasswordHasher
-import nl.example.backend.features.authorization.repository.ExposedAuthorizationRepository
-import nl.example.backend.features.authorization.service.AuthorizationSeeder
-import nl.example.backend.features.authorization.service.AuthorizationService
-import nl.example.backend.features.authorization.service.RoleService
-import nl.example.backend.features.feedback.repository.ExposedFeedbackRepository
-import nl.example.backend.features.feedback.service.FeedbackService
-import nl.example.backend.features.user.repository.ExposedUserRepository
-import nl.example.backend.features.user.service.UserService
-import nl.example.backend.plugins.configureAuthentication
-import nl.example.backend.plugins.configureCallLogging
-import nl.example.backend.plugins.configureRateLimiting
-import nl.example.backend.plugins.configureRouting
-import nl.example.backend.plugins.configureSerialization
-import nl.example.backend.plugins.configureStatusPages
+import nl.brul.backend.config.AppConfig
+import nl.brul.backend.config.DatabaseFactory
+import nl.brul.backend.features.authentication.service.AuthenticationService
+import nl.brul.backend.features.authentication.service.JwtService
+import nl.brul.backend.features.authentication.service.PasswordHasher
+import nl.brul.backend.features.authorization.repository.ExposedAuthorizationRepository
+import nl.brul.backend.features.authorization.service.AuthorizationSeeder
+import nl.brul.backend.features.authorization.service.AuthorizationService
+import nl.brul.backend.features.authorization.service.RoleService
+import nl.brul.backend.features.feedback.repository.ExposedFeedbackRepository
+import nl.brul.backend.features.feedback.service.FeedbackService
+import nl.brul.backend.features.user.repository.ExposedUserRepository
+import nl.brul.backend.features.user.service.UserService
+import nl.brul.backend.plugins.configureAuthentication
+import nl.brul.backend.plugins.configureCallLogging
+import nl.brul.backend.plugins.configureRateLimiting
+import nl.brul.backend.plugins.configureRouting
+import nl.brul.backend.plugins.configureSerialization
+import nl.brul.backend.plugins.configureStatusPages
 
 fun main() {
     val config = AppConfig.load()

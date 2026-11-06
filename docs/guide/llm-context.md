@@ -39,7 +39,7 @@ whether an API exists in the versions below, say so instead of guessing. Never i
 | Tests | Kotlin Test, Ktor `testApplication` (test host), fakes; no mocking library |
 
 Source layout (Amper): sources in `backend/src/`, resources in `backend/resources/`, tests in `backend/test/`.
-There is **no** `src/main/kotlin`. Root package: `nl.example.backend`.
+There is **no** `src/main/kotlin`. Root package: `nl.brul.backend`.
 
 ## 3. Architecture rules
 
@@ -172,7 +172,7 @@ These cost real debugging time. Apply them without being asked.
 - Increments must be atomic: `it[col] = col + 1` inside `with(SqlExpressionBuilder) { ... }`, not read-modify-write.
 - A function returning different column types needs the type `Column<*>`.
 - `SchemaUtils.create` only creates **missing tables**. It never adds or changes columns. After changing an existing
-  table, tell the student to stop the server and delete `data/example*`. A new table needs no reset.
+  table, tell the student to stop the server and delete `data/brul*`. A new table needs no reset.
 
 **Time**
 - Truncate timestamps before saving: `Instant.now().truncatedTo(ChronoUnit.SECONDS)`. Otherwise the value read back
@@ -203,7 +203,7 @@ These cost real debugging time. Apply them without being asked.
 
 **Configuration**
 - `BOOTSTRAP_ADMIN_EMAIL` only works for an account registered *after* it is set. If the admin was registered before,
-  delete `data/example*` and register again.
+  delete `data/brul*` and register again.
 
 ## 10. Checklist before you answer with code
 
@@ -213,5 +213,5 @@ These cost real debugging time. Apply them without being asked.
 - [ ] Wired in `Application.kt`, `Routing.kt`, `TestServices` and `configureTestApp`.
 - [ ] Tests for the happy flow and 400/401/403/404/409; the fake behaves like the real repository.
 - [ ] No new dependencies, no `!!`, no wildcard imports, lines under ~120 characters.
-- [ ] Told the student if a table changed (delete `data/example*`), and which docs to update (`openapi.yaml`,
+- [ ] Told the student if a table changed (delete `data/brul*`), and which docs to update (`openapi.yaml`,
       `docs/implementation-plan.md`, the feature `README.md`).

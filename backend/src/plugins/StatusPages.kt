@@ -1,4 +1,4 @@
-package nl.example.backend.plugins
+package nl.brul.backend.plugins
 
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.Application
@@ -7,8 +7,8 @@ import io.ktor.server.plugins.BadRequestException
 import io.ktor.server.plugins.statuspages.StatusPages
 import io.ktor.server.plugins.statuspages.exception
 import io.ktor.server.response.respond
-import nl.example.backend.shared.error.AppException
-import nl.example.backend.shared.error.ErrorResponse
+import nl.brul.backend.shared.error.AppException
+import nl.brul.backend.shared.error.ErrorResponse
 
 fun Application.configureStatusPages() {
     val logger = environment.log

@@ -1,7 +1,7 @@
-package nl.example.backend.features.user.repository
+package nl.brul.backend.features.user.repository
 
-import nl.example.backend.features.user.model.User
-import nl.example.backend.features.user.model.UserQuery
+import nl.brul.backend.features.user.model.User
+import nl.brul.backend.features.user.model.UserQuery
 import java.util.UUID
 
 interface UserRepository {

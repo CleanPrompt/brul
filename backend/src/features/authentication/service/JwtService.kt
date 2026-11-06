@@ -1,9 +1,9 @@
-package nl.example.backend.features.authentication.service
+package nl.brul.backend.features.authentication.service
 
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
 import com.auth0.jwt.interfaces.JWTVerifier
-import nl.example.backend.config.AppConfig
+import nl.brul.backend.config.AppConfig
 import java.time.Instant
 import java.util.Date
 import java.util.UUID

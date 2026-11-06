@@ -1,4 +1,4 @@
-package nl.example.backend.shared.error
+package nl.brul.backend.shared.error
 
 import kotlinx.serialization.Serializable
 

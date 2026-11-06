@@ -1,11 +1,11 @@
-package nl.example.backend.features.feedback
+package nl.brul.backend.features.feedback
 
-import nl.example.backend.features.feedback.dto.FeedbackRequest
-import nl.example.backend.features.feedback.dto.UpdateFeedbackStatusRequest
-import nl.example.backend.features.feedback.model.FeedbackQuery
-import nl.example.backend.features.feedback.service.FeedbackService
-import nl.example.backend.shared.error.AppException
-import nl.example.backend.shared.paging.Page
+import nl.brul.backend.features.feedback.dto.FeedbackRequest
+import nl.brul.backend.features.feedback.dto.UpdateFeedbackStatusRequest
+import nl.brul.backend.features.feedback.model.FeedbackQuery
+import nl.brul.backend.features.feedback.service.FeedbackService
+import nl.brul.backend.shared.error.AppException
+import nl.brul.backend.shared.paging.Page
 import java.util.UUID
 import kotlin.test.Test
 import kotlin.test.assertEquals

@@ -1,12 +1,12 @@
-package nl.example.backend.features.feedback.repository
+package nl.brul.backend.features.feedback.repository
 
-import nl.example.backend.features.feedback.database.FeedbackTable
-import nl.example.backend.features.feedback.mapper.toFeedback
-import nl.example.backend.features.feedback.model.Feedback
-import nl.example.backend.features.feedback.model.FeedbackQuery
-import nl.example.backend.features.feedback.model.FeedbackSortField
-import nl.example.backend.shared.database.containsIgnoringCase
-import nl.example.backend.shared.database.toSortOrder
+import nl.brul.backend.features.feedback.database.FeedbackTable
+import nl.brul.backend.features.feedback.mapper.toFeedback
+import nl.brul.backend.features.feedback.model.Feedback
+import nl.brul.backend.features.feedback.model.FeedbackQuery
+import nl.brul.backend.features.feedback.model.FeedbackSortField
+import nl.brul.backend.shared.database.containsIgnoringCase
+import nl.brul.backend.shared.database.toSortOrder
 import org.jetbrains.exposed.sql.Column
 import org.jetbrains.exposed.sql.Query
 import org.jetbrains.exposed.sql.SortOrder

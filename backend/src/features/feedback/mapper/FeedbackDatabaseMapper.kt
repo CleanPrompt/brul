@@ -1,7 +1,7 @@
-package nl.example.backend.features.feedback.mapper
+package nl.brul.backend.features.feedback.mapper
 
-import nl.example.backend.features.feedback.database.FeedbackTable
-import nl.example.backend.features.feedback.model.Feedback
+import nl.brul.backend.features.feedback.database.FeedbackTable
+import nl.brul.backend.features.feedback.model.Feedback
 import org.jetbrains.exposed.sql.ResultRow
 
 fun ResultRow.toFeedback(): Feedback =

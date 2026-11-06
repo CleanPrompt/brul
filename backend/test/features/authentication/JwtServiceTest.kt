@@ -1,11 +1,11 @@
-package nl.example.backend.features.authentication
+package nl.brul.backend.features.authentication
 
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
 import com.auth0.jwt.exceptions.JWTVerificationException
 import com.auth0.jwt.exceptions.TokenExpiredException
-import nl.example.backend.features.authentication.service.JwtService
-import nl.example.backend.testConfig
+import nl.brul.backend.features.authentication.service.JwtService
+import nl.brul.backend.testConfig
 import java.time.Instant
 import java.util.Date
 import java.util.UUID

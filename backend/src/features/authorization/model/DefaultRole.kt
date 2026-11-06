@@ -1,4 +1,4 @@
-package nl.example.backend.features.authorization.model
+package nl.brul.backend.features.authorization.model
 
 /**
  * Roles created at startup with the permissions they grant (the permission matrix).

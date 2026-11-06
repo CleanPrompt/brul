@@ -1,4 +1,4 @@
-package nl.example.backend.features.authentication
+package nl.brul.backend.features.authentication
 
 import io.ktor.client.request.bearerAuth
 import io.ktor.client.request.get
@@ -12,13 +12,13 @@ import io.ktor.http.contentType
 import io.ktor.server.testing.ApplicationTestBuilder
 import io.ktor.server.testing.testApplication
 import kotlinx.serialization.json.Json
-import nl.example.backend.TEST_PASSWORD
-import nl.example.backend.TestServices
-import nl.example.backend.configureTestApp
-import nl.example.backend.errorCode
-import nl.example.backend.features.authentication.dto.AuthenticationResponse
-import nl.example.backend.postJson
-import nl.example.backend.register
+import nl.brul.backend.TEST_PASSWORD
+import nl.brul.backend.TestServices
+import nl.brul.backend.configureTestApp
+import nl.brul.backend.errorCode
+import nl.brul.backend.features.authentication.dto.AuthenticationResponse
+import nl.brul.backend.postJson
+import nl.brul.backend.register
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

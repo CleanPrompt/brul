@@ -1,4 +1,4 @@
-package nl.example.backend.plugins
+package nl.brul.backend.plugins
 
 import io.ktor.server.application.Application
 import io.ktor.server.application.ApplicationCall
@@ -6,10 +6,10 @@ import io.ktor.server.auth.authentication
 import io.ktor.server.auth.jwt.JWTPrincipal
 import io.ktor.server.auth.jwt.jwt
 import io.ktor.server.auth.principal
-import nl.example.backend.features.authentication.service.JwtService
-import nl.example.backend.features.user.repository.UserRepository
-import nl.example.backend.shared.error.AppException
-import nl.example.backend.shared.http.parseUuid
+import nl.brul.backend.features.authentication.service.JwtService
+import nl.brul.backend.features.user.repository.UserRepository
+import nl.brul.backend.shared.error.AppException
+import nl.brul.backend.shared.http.parseUuid
 import java.util.UUID
 
 /** Name of the JWT provider; use it as `authenticate(JWT_AUTHENTICATION) { ... }`. */
@@ -21,7 +21,7 @@ fun Application.configureAuthentication(
 ) {
     authentication {
         jwt(JWT_AUTHENTICATION) {
-            realm = "example-api"
+            realm = "brul-api"
 
             // Checks signature, issuer, audience and expiration.
             verifier(jwtService.verifier)

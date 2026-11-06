@@ -1,4 +1,4 @@
-package nl.example.backend.plugins
+package nl.brul.backend.plugins
 
 import io.ktor.serialization.kotlinx.json.json
 import io.ktor.server.application.Application

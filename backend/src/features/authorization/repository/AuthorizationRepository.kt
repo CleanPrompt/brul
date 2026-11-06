@@ -1,7 +1,7 @@
-package nl.example.backend.features.authorization.repository
+package nl.brul.backend.features.authorization.repository
 
-import nl.example.backend.features.authorization.model.Permission
-import nl.example.backend.features.authorization.model.Role
+import nl.brul.backend.features.authorization.model.Permission
+import nl.brul.backend.features.authorization.model.Role
 import java.util.UUID
 
 interface AuthorizationRepository {

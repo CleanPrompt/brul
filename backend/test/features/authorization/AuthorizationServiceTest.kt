@@ -1,14 +1,14 @@
-package nl.example.backend.features.authorization
+package nl.brul.backend.features.authorization
 
-import nl.example.backend.features.authorization.model.DefaultRole
-import nl.example.backend.features.authorization.model.Permission
-import nl.example.backend.features.authorization.service.AuthorizationSeeder
-import nl.example.backend.features.authorization.service.AuthorizationService
-import nl.example.backend.features.authorization.service.RoleService
-import nl.example.backend.features.user.FakeUserRepository
-import nl.example.backend.features.user.model.User
-import nl.example.backend.shared.error.AppException
-import nl.example.backend.TEST_CREATED_AT
+import nl.brul.backend.features.authorization.model.DefaultRole
+import nl.brul.backend.features.authorization.model.Permission
+import nl.brul.backend.features.authorization.service.AuthorizationSeeder
+import nl.brul.backend.features.authorization.service.AuthorizationService
+import nl.brul.backend.features.authorization.service.RoleService
+import nl.brul.backend.features.user.FakeUserRepository
+import nl.brul.backend.features.user.model.User
+import nl.brul.backend.shared.error.AppException
+import nl.brul.backend.TEST_CREATED_AT
 import java.util.UUID
 import kotlin.test.Test
 import kotlin.test.assertFailsWith

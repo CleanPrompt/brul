@@ -5,7 +5,7 @@ settings:
     serialization: json
   jvm:
     release: 21
-    mainClass: nl.example.backend.ApplicationKt
+    mainClass: nl.brul.backend.ApplicationKt
   ktor: enabled
 
 dependencies:

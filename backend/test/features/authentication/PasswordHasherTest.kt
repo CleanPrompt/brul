@@ -1,6 +1,6 @@
-package nl.example.backend.features.authentication
+package nl.brul.backend.features.authentication
 
-import nl.example.backend.features.authentication.service.PasswordHasher
+import nl.brul.backend.features.authentication.service.PasswordHasher
 import kotlin.test.Test
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue

@@ -1,13 +1,13 @@
-package nl.example.backend.features.authorization.service
+package nl.brul.backend.features.authorization.service
 
-import nl.example.backend.features.authorization.dto.RoleResponse
-import nl.example.backend.features.authorization.mapper.toResponse
-import nl.example.backend.features.authorization.model.DefaultRole
-import nl.example.backend.features.authorization.model.Role
-import nl.example.backend.features.authorization.repository.AuthorizationRepository
-import nl.example.backend.features.user.repository.UserRepository
-import nl.example.backend.shared.error.AppException
-import nl.example.backend.shared.error.requireValid
+import nl.brul.backend.features.authorization.dto.RoleResponse
+import nl.brul.backend.features.authorization.mapper.toResponse
+import nl.brul.backend.features.authorization.model.DefaultRole
+import nl.brul.backend.features.authorization.model.Role
+import nl.brul.backend.features.authorization.repository.AuthorizationRepository
+import nl.brul.backend.features.user.repository.UserRepository
+import nl.brul.backend.shared.error.AppException
+import nl.brul.backend.shared.error.requireValid
 import java.util.UUID
 
 /** Assigns and revokes roles. Roles and permissions themselves are created by [AuthorizationSeeder]. */

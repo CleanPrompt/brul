@@ -1,7 +1,7 @@
-package nl.example.backend.features.user.mapper
+package nl.brul.backend.features.user.mapper
 
-import nl.example.backend.features.user.dto.UserResponse
-import nl.example.backend.features.user.model.User
+import nl.brul.backend.features.user.dto.UserResponse
+import nl.brul.backend.features.user.model.User
 
 /** Public representation of a user; deliberately leaves out the password hash. */
 fun User.toResponse(): UserResponse =

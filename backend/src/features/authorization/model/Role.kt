@@ -1,4 +1,4 @@
-package nl.example.backend.features.authorization.model
+package nl.brul.backend.features.authorization.model
 
 import java.util.UUID
 

@@ -1,14 +1,14 @@
-package nl.example.backend.features.user.service
+package nl.brul.backend.features.user.service
 
-import nl.example.backend.features.user.dto.UpdateUserRequest
-import nl.example.backend.features.user.dto.UserResponse
-import nl.example.backend.features.user.mapper.toResponse
-import nl.example.backend.features.user.model.User
-import nl.example.backend.features.user.model.UserQuery
-import nl.example.backend.features.user.repository.UserRepository
-import nl.example.backend.shared.error.AppException
-import nl.example.backend.shared.error.requireValid
-import nl.example.backend.shared.paging.PageResponse
+import nl.brul.backend.features.user.dto.UpdateUserRequest
+import nl.brul.backend.features.user.dto.UserResponse
+import nl.brul.backend.features.user.mapper.toResponse
+import nl.brul.backend.features.user.model.User
+import nl.brul.backend.features.user.model.UserQuery
+import nl.brul.backend.features.user.repository.UserRepository
+import nl.brul.backend.shared.error.AppException
+import nl.brul.backend.shared.error.requireValid
+import nl.brul.backend.shared.paging.PageResponse
 import java.util.UUID
 
 class UserService(private val repository: UserRepository) {

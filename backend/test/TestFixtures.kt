@@ -1,4 +1,4 @@
-package nl.example.backend
+package nl.brul.backend
 
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
@@ -9,25 +9,25 @@ import io.ktor.http.contentType
 import io.ktor.server.application.Application
 import io.ktor.server.testing.ApplicationTestBuilder
 import kotlinx.serialization.json.Json
-import nl.example.backend.config.AppConfig
-import nl.example.backend.features.authentication.dto.AuthenticationResponse
-import nl.example.backend.features.authentication.service.AuthenticationService
-import nl.example.backend.features.authentication.service.JwtService
-import nl.example.backend.features.authentication.service.PasswordHasher
-import nl.example.backend.features.authorization.FakeAuthorizationRepository
-import nl.example.backend.features.authorization.service.AuthorizationSeeder
-import nl.example.backend.features.authorization.service.AuthorizationService
-import nl.example.backend.features.authorization.service.RoleService
-import nl.example.backend.features.feedback.FakeFeedbackRepository
-import nl.example.backend.features.feedback.service.FeedbackService
-import nl.example.backend.features.user.FakeUserRepository
-import nl.example.backend.features.user.service.UserService
-import nl.example.backend.plugins.configureAuthentication
-import nl.example.backend.plugins.configureRateLimiting
-import nl.example.backend.plugins.configureRouting
-import nl.example.backend.plugins.configureSerialization
-import nl.example.backend.plugins.configureStatusPages
-import nl.example.backend.shared.error.ErrorResponse
+import nl.brul.backend.config.AppConfig
+import nl.brul.backend.features.authentication.dto.AuthenticationResponse
+import nl.brul.backend.features.authentication.service.AuthenticationService
+import nl.brul.backend.features.authentication.service.JwtService
+import nl.brul.backend.features.authentication.service.PasswordHasher
+import nl.brul.backend.features.authorization.FakeAuthorizationRepository
+import nl.brul.backend.features.authorization.service.AuthorizationSeeder
+import nl.brul.backend.features.authorization.service.AuthorizationService
+import nl.brul.backend.features.authorization.service.RoleService
+import nl.brul.backend.features.feedback.FakeFeedbackRepository
+import nl.brul.backend.features.feedback.service.FeedbackService
+import nl.brul.backend.features.user.FakeUserRepository
+import nl.brul.backend.features.user.service.UserService
+import nl.brul.backend.plugins.configureAuthentication
+import nl.brul.backend.plugins.configureRateLimiting
+import nl.brul.backend.plugins.configureRouting
+import nl.brul.backend.plugins.configureSerialization
+import nl.brul.backend.plugins.configureStatusPages
+import nl.brul.backend.shared.error.ErrorResponse
 import java.time.Instant
 
 const val TEST_ADMIN_EMAIL = "admin@example.com"

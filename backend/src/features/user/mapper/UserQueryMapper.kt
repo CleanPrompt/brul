@@ -1,13 +1,13 @@
-package nl.example.backend.features.user.mapper
+package nl.brul.backend.features.user.mapper
 
 import io.ktor.http.Parameters
-import nl.example.backend.features.user.model.UserQuery
-import nl.example.backend.features.user.model.UserSortField
-import nl.example.backend.shared.http.booleanOrNull
-import nl.example.backend.shared.http.oneOf
-import nl.example.backend.shared.http.page
-import nl.example.backend.shared.http.searchText
-import nl.example.backend.shared.http.sortDirection
+import nl.brul.backend.features.user.model.UserQuery
+import nl.brul.backend.features.user.model.UserSortField
+import nl.brul.backend.shared.http.booleanOrNull
+import nl.brul.backend.shared.http.oneOf
+import nl.brul.backend.shared.http.page
+import nl.brul.backend.shared.http.searchText
+import nl.brul.backend.shared.http.sortDirection
 
 /**
  * Reads the query parameters of `GET /users`, e.g. `?q=alice&active=true&sort=displayName&order=asc&limit=20`.

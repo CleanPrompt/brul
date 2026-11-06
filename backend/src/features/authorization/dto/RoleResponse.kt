@@ -1,4 +1,4 @@
-package nl.example.backend.features.authorization.dto
+package nl.brul.backend.features.authorization.dto
 
 import kotlinx.serialization.Serializable
 

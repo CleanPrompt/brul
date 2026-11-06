@@ -1,4 +1,4 @@
-package nl.example.backend.features.authorization
+package nl.brul.backend.features.authorization
 
 import io.ktor.client.request.bearerAuth
 import io.ktor.client.request.delete
@@ -12,13 +12,13 @@ import io.ktor.http.contentType
 import io.ktor.server.testing.ApplicationTestBuilder
 import io.ktor.server.testing.testApplication
 import kotlinx.serialization.json.Json
-import nl.example.backend.TEST_ADMIN_EMAIL
-import nl.example.backend.TestServices
-import nl.example.backend.configureTestApp
-import nl.example.backend.errorCode
-import nl.example.backend.features.authorization.dto.RoleResponse
-import nl.example.backend.features.authorization.model.DefaultRole
-import nl.example.backend.register
+import nl.brul.backend.TEST_ADMIN_EMAIL
+import nl.brul.backend.TestServices
+import nl.brul.backend.configureTestApp
+import nl.brul.backend.errorCode
+import nl.brul.backend.features.authorization.dto.RoleResponse
+import nl.brul.backend.features.authorization.model.DefaultRole
+import nl.brul.backend.register
 import java.util.UUID
 import kotlin.test.Test
 import kotlin.test.assertEquals

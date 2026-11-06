@@ -1,17 +1,17 @@
-package nl.example.backend.features.user
+package nl.brul.backend.features.user
 
-import nl.example.backend.features.user.database.UsersTable
-import nl.example.backend.features.user.model.User
-import nl.example.backend.features.user.model.UserQuery
-import nl.example.backend.features.user.model.UserSortField
-import nl.example.backend.features.user.repository.ExposedUserRepository
-import nl.example.backend.shared.error.AppException
-import nl.example.backend.shared.paging.Page
-import nl.example.backend.shared.paging.SortDirection
+import nl.brul.backend.features.user.database.UsersTable
+import nl.brul.backend.features.user.model.User
+import nl.brul.backend.features.user.model.UserQuery
+import nl.brul.backend.features.user.model.UserSortField
+import nl.brul.backend.features.user.repository.ExposedUserRepository
+import nl.brul.backend.shared.error.AppException
+import nl.brul.backend.shared.paging.Page
+import nl.brul.backend.shared.paging.SortDirection
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
-import nl.example.backend.TEST_CREATED_AT
+import nl.brul.backend.TEST_CREATED_AT
 import java.util.UUID
 import kotlin.test.BeforeTest
 import kotlin.test.Test

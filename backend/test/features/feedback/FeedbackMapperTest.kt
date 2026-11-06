@@ -1,9 +1,9 @@
-package nl.example.backend.features.feedback
+package nl.brul.backend.features.feedback
 
-import nl.example.backend.TEST_CREATED_AT
-import nl.example.backend.features.feedback.mapper.toResponse
-import nl.example.backend.features.feedback.model.Feedback
-import nl.example.backend.features.feedback.model.FeedbackStatus
+import nl.brul.backend.TEST_CREATED_AT
+import nl.brul.backend.features.feedback.mapper.toResponse
+import nl.brul.backend.features.feedback.model.Feedback
+import nl.brul.backend.features.feedback.model.FeedbackStatus
 import java.util.UUID
 import kotlin.test.Test
 import kotlin.test.assertEquals

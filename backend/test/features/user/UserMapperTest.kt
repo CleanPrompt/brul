@@ -1,9 +1,9 @@
-package nl.example.backend.features.user
+package nl.brul.backend.features.user
 
 import kotlinx.serialization.json.Json
-import nl.example.backend.features.user.mapper.toResponse
-import nl.example.backend.features.user.model.User
-import nl.example.backend.TEST_CREATED_AT
+import nl.brul.backend.features.user.mapper.toResponse
+import nl.brul.backend.features.user.model.User
+import nl.brul.backend.TEST_CREATED_AT
 import java.util.UUID
 import kotlin.test.Test
 import kotlin.test.assertEquals

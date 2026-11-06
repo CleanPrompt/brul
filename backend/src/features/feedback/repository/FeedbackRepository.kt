@@ -1,7 +1,7 @@
-package nl.example.backend.features.feedback.repository
+package nl.brul.backend.features.feedback.repository
 
-import nl.example.backend.features.feedback.model.Feedback
-import nl.example.backend.features.feedback.model.FeedbackQuery
+import nl.brul.backend.features.feedback.model.Feedback
+import nl.brul.backend.features.feedback.model.FeedbackQuery
 import java.util.UUID
 
 interface FeedbackRepository {

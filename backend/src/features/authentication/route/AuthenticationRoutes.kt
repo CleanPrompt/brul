@@ -1,15 +1,15 @@
-package nl.example.backend.features.authentication.route
+package nl.brul.backend.features.authentication.route
 
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.request.receive
 import io.ktor.server.response.respond
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.post
-import nl.example.backend.features.authentication.dto.ChangePasswordRequest
-import nl.example.backend.features.authentication.dto.LoginRequest
-import nl.example.backend.features.authentication.dto.RegisterRequest
-import nl.example.backend.features.authentication.service.AuthenticationService
-import nl.example.backend.plugins.currentUserId
+import nl.brul.backend.features.authentication.dto.ChangePasswordRequest
+import nl.brul.backend.features.authentication.dto.LoginRequest
+import nl.brul.backend.features.authentication.dto.RegisterRequest
+import nl.brul.backend.features.authentication.service.AuthenticationService
+import nl.brul.backend.plugins.currentUserId
 
 /** Public and rate limited. */
 fun Route.authenticationRoutes(authenticationService: AuthenticationService) {

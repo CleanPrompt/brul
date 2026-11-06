@@ -1,10 +1,10 @@
-package nl.example.backend.shared.http
+package nl.brul.backend.shared.http
 
 import io.ktor.http.Parameters
-import nl.example.backend.shared.error.AppException
-import nl.example.backend.shared.error.requireValid
-import nl.example.backend.shared.paging.Page
-import nl.example.backend.shared.paging.SortDirection
+import nl.brul.backend.shared.error.AppException
+import nl.brul.backend.shared.error.requireValid
+import nl.brul.backend.shared.paging.Page
+import nl.brul.backend.shared.paging.SortDirection
 import java.util.UUID
 
 /*

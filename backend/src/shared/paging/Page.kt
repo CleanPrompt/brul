@@ -1,4 +1,4 @@
-package nl.example.backend.shared.paging
+package nl.brul.backend.shared.paging
 
 /**
  * Which part of a result list to return: at most [limit] items, after skipping the first [offset] items.

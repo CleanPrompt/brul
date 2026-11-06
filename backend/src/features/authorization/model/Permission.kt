@@ -1,4 +1,4 @@
-package nl.example.backend.features.authorization.model
+package nl.brul.backend.features.authorization.model
 
 /**
  * Every permission the application checks. Defined in code so a typo is a compile error;

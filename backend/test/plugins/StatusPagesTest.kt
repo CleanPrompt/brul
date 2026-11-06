@@ -1,4 +1,4 @@
-package nl.example.backend.plugins
+package nl.brul.backend.plugins
 
 import io.ktor.client.request.get
 import io.ktor.client.statement.HttpResponse
@@ -11,11 +11,11 @@ import io.ktor.server.routing.routing
 import io.ktor.server.testing.ApplicationTestBuilder
 import io.ktor.server.testing.testApplication
 import kotlinx.serialization.json.Json
-import nl.example.backend.features.authentication.service.JwtService
-import nl.example.backend.features.user.FakeUserRepository
-import nl.example.backend.shared.error.AppException
-import nl.example.backend.shared.error.ErrorResponse
-import nl.example.backend.testConfig
+import nl.brul.backend.features.authentication.service.JwtService
+import nl.brul.backend.features.user.FakeUserRepository
+import nl.brul.backend.shared.error.AppException
+import nl.brul.backend.shared.error.ErrorResponse
+import nl.brul.backend.testConfig
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

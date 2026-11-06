@@ -1,7 +1,7 @@
-package nl.example.backend.features.feedback.database
+package nl.brul.backend.features.feedback.database
 
-import nl.example.backend.features.feedback.model.FeedbackStatus
-import nl.example.backend.features.user.database.UsersTable
+import nl.brul.backend.features.feedback.model.FeedbackStatus
+import nl.brul.backend.features.user.database.UsersTable
 import org.jetbrains.exposed.sql.Table
 import org.jetbrains.exposed.sql.javatime.timestamp
 

@@ -8,5 +8,5 @@ Ktor backend module using JetBrains Amper and JVM 21.
    with `./kotlin test`.
 4. Try the API with the request files in `http/` (see `http/README.md`).
 
-The H2 database is stored in `data/` in the repository root. Delete `data/example*` after changing an existing table.
+The H2 database is stored in `data/` in the repository root. Delete `data/brul*` after changing an existing table.
 The full walkthrough is in `docs/guide/01-getting-started.md`.

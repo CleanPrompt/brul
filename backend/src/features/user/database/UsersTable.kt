@@ -1,4 +1,4 @@
-package nl.example.backend.features.user.database
+package nl.brul.backend.features.user.database
 
 import org.jetbrains.exposed.sql.Table
 import org.jetbrains.exposed.sql.javatime.timestamp

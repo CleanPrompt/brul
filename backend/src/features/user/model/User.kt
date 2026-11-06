@@ -1,4 +1,4 @@
-package nl.example.backend.features.user.model
+package nl.brul.backend.features.user.model
 
 import java.time.Instant
 import java.util.UUID

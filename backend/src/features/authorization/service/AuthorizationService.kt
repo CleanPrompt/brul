@@ -1,9 +1,9 @@
-package nl.example.backend.features.authorization.service
+package nl.brul.backend.features.authorization.service
 
-import nl.example.backend.features.authorization.model.Permission
-import nl.example.backend.features.authorization.repository.AuthorizationRepository
-import nl.example.backend.features.user.repository.UserRepository
-import nl.example.backend.shared.error.AppException
+import nl.brul.backend.features.authorization.model.Permission
+import nl.brul.backend.features.authorization.repository.AuthorizationRepository
+import nl.brul.backend.features.user.repository.UserRepository
+import nl.brul.backend.shared.error.AppException
 import java.util.UUID
 
 /**

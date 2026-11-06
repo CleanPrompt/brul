@@ -1,8 +1,8 @@
-package nl.example.backend.features.authorization.mapper
+package nl.brul.backend.features.authorization.mapper
 
-import nl.example.backend.features.authorization.database.RolesTable
-import nl.example.backend.features.authorization.dto.RoleResponse
-import nl.example.backend.features.authorization.model.Role
+import nl.brul.backend.features.authorization.database.RolesTable
+import nl.brul.backend.features.authorization.dto.RoleResponse
+import nl.brul.backend.features.authorization.model.Role
 import org.jetbrains.exposed.sql.ResultRow
 
 fun ResultRow.toRole(): Role =

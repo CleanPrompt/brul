@@ -1,4 +1,4 @@
-package nl.example.backend.features.feedback.route
+package nl.brul.backend.features.feedback.route
 
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.request.receive
@@ -9,14 +9,14 @@ import io.ktor.server.routing.get
 import io.ktor.server.routing.patch
 import io.ktor.server.routing.post
 import io.ktor.server.routing.route
-import nl.example.backend.features.authorization.model.Permission
-import nl.example.backend.features.authorization.service.AuthorizationService
-import nl.example.backend.features.feedback.dto.FeedbackRequest
-import nl.example.backend.features.feedback.dto.UpdateFeedbackStatusRequest
-import nl.example.backend.features.feedback.mapper.toFeedbackQuery
-import nl.example.backend.features.feedback.service.FeedbackService
-import nl.example.backend.plugins.currentUserId
-import nl.example.backend.shared.http.uuidParameter
+import nl.brul.backend.features.authorization.model.Permission
+import nl.brul.backend.features.authorization.service.AuthorizationService
+import nl.brul.backend.features.feedback.dto.FeedbackRequest
+import nl.brul.backend.features.feedback.dto.UpdateFeedbackStatusRequest
+import nl.brul.backend.features.feedback.mapper.toFeedbackQuery
+import nl.brul.backend.features.feedback.service.FeedbackService
+import nl.brul.backend.plugins.currentUserId
+import nl.brul.backend.shared.http.uuidParameter
 
 /**
  * Register inside `authenticate(JWT_AUTHENTICATION)`. Owners may always read, edit and delete their own items;

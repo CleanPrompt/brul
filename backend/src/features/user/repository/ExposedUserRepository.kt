@@ -1,13 +1,13 @@
-package nl.example.backend.features.user.repository
+package nl.brul.backend.features.user.repository
 
-import nl.example.backend.features.user.database.UsersTable
-import nl.example.backend.features.user.mapper.toUser
-import nl.example.backend.features.user.model.User
-import nl.example.backend.features.user.model.UserQuery
-import nl.example.backend.features.user.model.UserSortField
-import nl.example.backend.shared.database.containsIgnoringCase
-import nl.example.backend.shared.database.toSortOrder
-import nl.example.backend.shared.error.AppException
+import nl.brul.backend.features.user.database.UsersTable
+import nl.brul.backend.features.user.mapper.toUser
+import nl.brul.backend.features.user.model.User
+import nl.brul.backend.features.user.model.UserQuery
+import nl.brul.backend.features.user.model.UserSortField
+import nl.brul.backend.shared.database.containsIgnoringCase
+import nl.brul.backend.shared.database.toSortOrder
+import nl.brul.backend.shared.error.AppException
 import org.jetbrains.exposed.exceptions.ExposedSQLException
 import org.jetbrains.exposed.sql.Column
 import org.jetbrains.exposed.sql.Query

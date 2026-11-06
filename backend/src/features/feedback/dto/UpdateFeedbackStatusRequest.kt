@@ -1,4 +1,4 @@
-package nl.example.backend.features.feedback.dto
+package nl.brul.backend.features.feedback.dto
 
 import kotlinx.serialization.Serializable
 

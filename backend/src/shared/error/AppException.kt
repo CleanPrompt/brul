@@ -1,4 +1,4 @@
-package nl.example.backend.shared.error
+package nl.brul.backend.shared.error
 
 /**
  * Expected application errors. `plugins/StatusPages.kt` maps each subtype to an HTTP status code

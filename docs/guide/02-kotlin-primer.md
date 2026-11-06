@@ -276,7 +276,7 @@ fun verify(password: String, passwordHash: String): Boolean =
 
 ## Packages and imports
 
-The first line of every file is its package, for example `package nl.example.backend.features.user.service`. It
+The first line of every file is its package, for example `package nl.brul.backend.features.user.service`. It
 matches the folder. This project never uses wildcard imports (`import x.*`): every import names one thing, so you can
 see where it comes from.
 

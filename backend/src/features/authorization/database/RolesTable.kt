@@ -1,4 +1,4 @@
-package nl.example.backend.features.authorization.database
+package nl.brul.backend.features.authorization.database
 
 import org.jetbrains.exposed.sql.Table
 

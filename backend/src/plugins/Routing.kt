@@ -1,22 +1,22 @@
-package nl.example.backend.plugins
+package nl.brul.backend.plugins
 
 import io.ktor.server.application.Application
 import io.ktor.server.auth.authenticate
 import io.ktor.server.plugins.ratelimit.rateLimit
 import io.ktor.server.routing.route
 import io.ktor.server.routing.routing
-import nl.example.backend.features.authentication.route.authenticationRoutes
-import nl.example.backend.features.authentication.route.logoutRoutes
-import nl.example.backend.features.authentication.route.passwordRoutes
-import nl.example.backend.features.authentication.service.AuthenticationService
-import nl.example.backend.features.authorization.route.roleRoutes
-import nl.example.backend.features.authorization.service.AuthorizationService
-import nl.example.backend.features.authorization.service.RoleService
-import nl.example.backend.features.feedback.route.feedbackRoutes
-import nl.example.backend.features.feedback.service.FeedbackService
-import nl.example.backend.features.health.route.healthRoutes
-import nl.example.backend.features.user.route.userRoutes
-import nl.example.backend.features.user.service.UserService
+import nl.brul.backend.features.authentication.route.authenticationRoutes
+import nl.brul.backend.features.authentication.route.logoutRoutes
+import nl.brul.backend.features.authentication.route.passwordRoutes
+import nl.brul.backend.features.authentication.service.AuthenticationService
+import nl.brul.backend.features.authorization.route.roleRoutes
+import nl.brul.backend.features.authorization.service.AuthorizationService
+import nl.brul.backend.features.authorization.service.RoleService
+import nl.brul.backend.features.feedback.route.feedbackRoutes
+import nl.brul.backend.features.feedback.service.FeedbackService
+import nl.brul.backend.features.health.route.healthRoutes
+import nl.brul.backend.features.user.route.userRoutes
+import nl.brul.backend.features.user.service.UserService
 
 fun Application.configureRouting(
     authenticationService: AuthenticationService,

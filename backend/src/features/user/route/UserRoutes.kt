@@ -1,4 +1,4 @@
-package nl.example.backend.features.user.route
+package nl.brul.backend.features.user.route
 
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.request.receive
@@ -9,13 +9,13 @@ import io.ktor.server.routing.get
 import io.ktor.server.routing.patch
 import io.ktor.server.routing.post
 import io.ktor.server.routing.route
-import nl.example.backend.features.authorization.model.Permission
-import nl.example.backend.features.authorization.service.AuthorizationService
-import nl.example.backend.features.user.dto.UpdateUserRequest
-import nl.example.backend.features.user.mapper.toUserQuery
-import nl.example.backend.features.user.service.UserService
-import nl.example.backend.plugins.currentUserId
-import nl.example.backend.shared.http.uuidParameter
+import nl.brul.backend.features.authorization.model.Permission
+import nl.brul.backend.features.authorization.service.AuthorizationService
+import nl.brul.backend.features.user.dto.UpdateUserRequest
+import nl.brul.backend.features.user.mapper.toUserQuery
+import nl.brul.backend.features.user.service.UserService
+import nl.brul.backend.plugins.currentUserId
+import nl.brul.backend.shared.http.uuidParameter
 
 /**
  * Register inside `authenticate(JWT_AUTHENTICATION)`. The permission check runs before the lookup,

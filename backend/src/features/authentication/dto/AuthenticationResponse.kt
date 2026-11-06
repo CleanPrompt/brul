@@ -1,7 +1,7 @@
-package nl.example.backend.features.authentication.dto
+package nl.brul.backend.features.authentication.dto
 
 import kotlinx.serialization.Serializable
-import nl.example.backend.features.user.dto.UserResponse
+import nl.brul.backend.features.user.dto.UserResponse
 
 @Serializable
 data class AuthenticationResponse(

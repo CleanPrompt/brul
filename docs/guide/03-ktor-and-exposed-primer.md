@@ -35,7 +35,7 @@ settings:
     serialization: json
   jvm:
     release: 21
-    mainClass: nl.example.backend.ApplicationKt
+    mainClass: nl.brul.backend.ApplicationKt
   ktor: enabled
 
 dependencies:
@@ -206,8 +206,8 @@ A query returns rows of type `ResultRow`. You read a column with `row[UsersTable
 
 ## H2: the database
 
-H2 is a SQL database written in Java. With `DATABASE_URL=jdbc:h2:file:./data/example` it stores everything in
-`data/example.mv.db`. The tests use `jdbc:h2:mem:...`: a database that only lives in memory during the test.
+H2 is a SQL database written in Java. With `DATABASE_URL=jdbc:h2:file:./data/brul` it stores everything in
+`data/brul.mv.db`. The tests use `jdbc:h2:mem:...`: a database that only lives in memory during the test.
 
 ## JWT, BCrypt and logging
 

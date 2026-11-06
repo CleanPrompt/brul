@@ -1,0 +1,288 @@
+# Run 1-authentication.http first (sets userToken, userId, adminToken, adminId).
+# Safe to run repeatedly: deactivation and the password change use a new throwaway user every time.
+
+### Current user
+GET {{baseUrl}}/api/v1/users/me
+Authorization: Bearer {{userToken}}
+
+> {%
+    client.test("Current user is returned", function () {
+        client.assert(response.status === 200, "Expected 200, got " + response.status);
+        client.assert(response.body.id === client.global.get("userId"), "Wrong user returned");
+        client.assert(response.body.passwordHash === undefined, "Password hash must never be returned");
+        client.assert(response.body.createdAt.endsWith("Z"), "createdAt must be ISO 8601 UTC");
+    });
+%}
+
+
+### No token (expect 401 UNAUTHORIZED)
+GET {{baseUrl}}/api/v1/users/me
+
+> {%
+    client.test("Request without token is rejected", function () {
+        client.assert(response.status === 401, "Expected 401, got " + response.status);
+        client.assert(response.body.code === "UNAUTHORIZED", "Got code " + response.body.code);
+    });
+%}
+
+
+### Own account, no permission needed
+GET {{baseUrl}}/api/v1/users/{{userId}}
+Authorization: Bearer {{userToken}}
+
+> {%
+    client.test("User can read own account", function () {
+        client.assert(response.status === 200, "Expected 200, got " + response.status);
+    });
+%}
+
+
+### Another account as regular user (expect 403)
+GET {{baseUrl}}/api/v1/users/{{adminId}}
+Authorization: Bearer {{userToken}}
+
+> {%
+    client.test("User cannot read another account", function () {
+        client.assert(response.status === 403, "Expected 403, got " + response.status);
+    });
+%}
+
+
+### Update own display name
+PATCH {{baseUrl}}/api/v1/users/{{userId}}
+Authorization: Bearer {{userToken}}
+Content-Type: application/json
+
+{
+  "displayName": "Renamed User"
+}
+
+> {%
+    client.test("User can update own display name", function () {
+        client.assert(response.status === 200, "Expected 200, got " + response.status);
+        client.assert(response.body.displayName === "Renamed User", "Name was not updated");
+    });
+%}
+
+
+### All users as regular user (expect 403)
+GET {{baseUrl}}/api/v1/users
+Authorization: Bearer {{userToken}}
+
+> {%
+    client.test("User cannot list all users", function () {
+        client.assert(response.status === 403, "Expected 403, got " + response.status);
+    });
+%}
+
+
+### All users as admin (user.read)
+GET {{baseUrl}}/api/v1/users
+Authorization: Bearer {{adminToken}}
+
+> {%
+    client.test("Admin can list all users", function () {
+        client.assert(response.status === 200, "Expected 200, got " + response.status);
+        client.assert(response.body.total >= 2, "Expected at least the user and the admin");
+        client.assert(response.body.limit === 20 && response.body.offset === 0, "Expected the default page");
+    });
+%}
+
+
+### Search users: text in email or display name, sorted by email (admin)
+GET {{baseUrl}}/api/v1/users?q={{userEmail}}&sort=email&order=asc&limit=5
+Authorization: Bearer {{adminToken}}
+
+> {%
+    client.test("Admin can search users by email", function () {
+        client.assert(response.status === 200, "Expected 200, got " + response.status);
+        const userId = client.global.get("userId");
+        client.assert(response.body.items.some(function (user) { return user.id === userId; }), "User not found");
+        client.assert(response.body.items.length <= 5, "Page is larger than limit");
+    });
+%}
+
+
+### Filter deactivated users (admin)
+GET {{baseUrl}}/api/v1/users?active=false
+Authorization: Bearer {{adminToken}}
+
+> {%
+    client.test("Only deactivated users are returned", function () {
+        client.assert(response.status === 200, "Expected 200, got " + response.status);
+        client.assert(response.body.items.every(function (user) { return user.active === false; }), "Found an active user");
+    });
+%}
+
+
+### Invalid page size (expect 400)
+GET {{baseUrl}}/api/v1/users?limit=500
+Authorization: Bearer {{adminToken}}
+
+> {%
+    client.test("limit above 100 is rejected", function () {
+        client.assert(response.status === 400, "Expected 400, got " + response.status);
+    });
+%}
+
+
+### Register a throwaway user to deactivate (stores tempToken and tempId)
+POST {{baseUrl}}/api/v1/auth/register
+Content-Type: application/json
+
+{
+  "email": "temp-{{$uuid}}@example.com",
+  "displayName": "Temporary User",
+  "password": "{{password}}"
+}
+
+> {%
+    client.test("Throwaway user is registered", function () {
+        client.assert(response.status === 201, "Expected 201, got " + response.status);
+    });
+    client.global.set("tempToken", response.body.accessToken);
+    client.global.set("tempId", response.body.user.id);
+    client.global.set("tempEmail", response.body.user.email);
+%}
+
+
+### Deactivate the throwaway user as admin (user.delete)
+DELETE {{baseUrl}}/api/v1/users/{{tempId}}
+Authorization: Bearer {{adminToken}}
+
+> {%
+    client.test("Admin can deactivate a user", function () {
+        client.assert(response.status === 204, "Expected 204, got " + response.status);
+    });
+%}
+
+
+### Token of the deactivated user no longer works (expect 401)
+GET {{baseUrl}}/api/v1/users/me
+Authorization: Bearer {{tempToken}}
+
+> {%
+    client.test("Deactivated user's token is rejected", function () {
+        client.assert(response.status === 401, "Expected 401, got " + response.status);
+    });
+%}
+
+
+### Reactivate as regular user (expect 403)
+POST {{baseUrl}}/api/v1/users/{{tempId}}/reactivate
+Authorization: Bearer {{userToken}}
+
+> {%
+    client.test("User cannot reactivate a user", function () {
+        client.assert(response.status === 403, "Expected 403, got " + response.status);
+    });
+%}
+
+
+### Reactivate the throwaway user as admin (user.delete)
+POST {{baseUrl}}/api/v1/users/{{tempId}}/reactivate
+Authorization: Bearer {{adminToken}}
+
+> {%
+    client.test("Admin can reactivate a user", function () {
+        client.assert(response.status === 204, "Expected 204, got " + response.status);
+    });
+%}
+
+
+### Old token stays invalid after reactivation (expect 401)
+GET {{baseUrl}}/api/v1/users/me
+Authorization: Bearer {{tempToken}}
+
+> {%
+    client.test("Token from before the deactivation is still rejected", function () {
+        client.assert(response.status === 401, "Expected 401, got " + response.status);
+    });
+%}
+
+
+### Reactivated user can log in again (rate limited endpoint)
+POST {{baseUrl}}/api/v1/auth/login
+Content-Type: application/json
+
+{
+  "email": "{{tempEmail}}",
+  "password": "{{password}}"
+}
+
+> {%
+    client.test("Reactivated user can log in", function () {
+        client.assert(response.status === 200, "Expected 200, got " + response.status);
+    });
+    client.global.set("tempToken", response.body.accessToken);
+%}
+
+
+### Change password with a wrong current password (expect 400 INVALID_CURRENT_PASSWORD)
+POST {{baseUrl}}/api/v1/users/me/password
+Authorization: Bearer {{tempToken}}
+Content-Type: application/json
+
+{
+  "currentPassword": "Wrong-password-123",
+  "newPassword": "New-password-456"
+}
+
+> {%
+    client.test("Wrong current password is rejected", function () {
+        client.assert(response.status === 400, "Expected 400, got " + response.status);
+        client.assert(response.body.code === "INVALID_CURRENT_PASSWORD", "Got code " + response.body.code);
+    });
+%}
+
+
+### Change password of the throwaway user (stores tempNewToken)
+POST {{baseUrl}}/api/v1/users/me/password
+Authorization: Bearer {{tempToken}}
+Content-Type: application/json
+
+{
+  "currentPassword": "{{password}}",
+  "newPassword": "New-password-456"
+}
+
+> {%
+    client.test("Password is changed and a new token is returned", function () {
+        client.assert(response.status === 200, "Expected 200, got " + response.status);
+        client.assert(response.body.accessToken !== undefined, "Expected a new token");
+    });
+    client.global.set("tempNewToken", response.body.accessToken);
+%}
+
+
+### Token from before the password change no longer works (expect 401)
+GET {{baseUrl}}/api/v1/users/me
+Authorization: Bearer {{tempToken}}
+
+> {%
+    client.test("Old token is rejected after the password change", function () {
+        client.assert(response.status === 401, "Expected 401, got " + response.status);
+    });
+%}
+
+
+### New token from the password change works
+GET {{baseUrl}}/api/v1/users/me
+Authorization: Bearer {{tempNewToken}}
+
+> {%
+    client.test("New token is accepted", function () {
+        client.assert(response.status === 200, "Expected 200, got " + response.status);
+    });
+%}
+
+
+### Admin cannot deactivate own account (expect 400)
+DELETE {{baseUrl}}/api/v1/users/{{adminId}}
+Authorization: Bearer {{adminToken}}
+
+> {%
+    client.test("Admin cannot deactivate own account", function () {
+        client.assert(response.status === 400, "Expected 400, got " + response.status);
+    });
+%}

@@ -1,0 +1,24 @@
+# General
+.idea/
+*.iml
+.gradle/
+build/
+**/build/
+**/.amper/
+**/.env
+**/*.db
+**/*.mv.db
+**/*.trace.db
+
+# Course material (kept locally, not part of the product)
+docs/school/
+
+# Local code indexes (CodeGraph for the assistant, GitNexus for the owner's visualization)
+.codegraph
+.gitnexus
+
+AGENTS.md
+CLAUDE.md
+
+MASTER_PROMPT.md
+script.txt

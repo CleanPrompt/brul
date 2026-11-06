@@ -1,0 +1,108 @@
+# Run 1-authentication.http first (sets userToken, userId, adminToken).
+# Shows that permissions come from the database: the regular user keeps the same token,
+# yet gains and loses access as soon as the ADMIN role is assigned and removed.
+
+### All roles as admin (role.read; stores adminRoleId)
+GET {{baseUrl}}/api/v1/roles
+Authorization: Bearer {{adminToken}}
+
+> {%
+    client.test("Admin can list the roles", function () {
+        client.assert(response.status === 200, "Expected 200, got " + response.status);
+    });
+    const adminRole = response.body.find(function (role) { return role.name === "ADMIN"; });
+    client.global.set("adminRoleId", adminRole.id);
+%}
+
+
+### All roles as regular user (expect 403)
+GET {{baseUrl}}/api/v1/roles
+Authorization: Bearer {{userToken}}
+
+> {%
+    client.test("User cannot list the roles", function () {
+        client.assert(response.status === 403, "Expected 403, got " + response.status);
+    });
+%}
+
+
+### Own roles as regular user
+GET {{baseUrl}}/api/v1/users/{{userId}}/roles
+Authorization: Bearer {{userToken}}
+
+> {%
+    client.test("User can see own roles", function () {
+        client.assert(response.status === 200, "Expected 200, got " + response.status);
+    });
+%}
+
+
+### Before: regular user cannot list users (expect 403)
+GET {{baseUrl}}/api/v1/users
+Authorization: Bearer {{userToken}}
+
+> {%
+    client.test("Without ADMIN the user is denied", function () {
+        client.assert(response.status === 403, "Expected 403, got " + response.status);
+    });
+%}
+
+
+### Assign ADMIN to the regular user (role.assign)
+POST {{baseUrl}}/api/v1/users/{{userId}}/roles
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+  "roleId": "{{adminRoleId}}"
+}
+
+> {%
+    client.test("Admin can assign a role", function () {
+        client.assert(response.status === 204, "Expected 204, got " + response.status);
+    });
+%}
+
+
+### After assigning: same token, now allowed
+GET {{baseUrl}}/api/v1/users
+Authorization: Bearer {{userToken}}
+
+> {%
+    client.test("With ADMIN the same token is allowed", function () {
+        client.assert(response.status === 200, "Expected 200, got " + response.status);
+    });
+%}
+
+
+### Remove ADMIN from the regular user again (role.assign)
+DELETE {{baseUrl}}/api/v1/users/{{userId}}/roles/{{adminRoleId}}
+Authorization: Bearer {{adminToken}}
+
+> {%
+    client.test("Admin can remove a role", function () {
+        client.assert(response.status === 204, "Expected 204, got " + response.status);
+    });
+%}
+
+
+### After removing: same token, denied again (expect 403)
+GET {{baseUrl}}/api/v1/users
+Authorization: Bearer {{userToken}}
+
+> {%
+    client.test("After removing ADMIN the user is denied again", function () {
+        client.assert(response.status === 403, "Expected 403, got " + response.status);
+    });
+%}
+
+
+### Admin cannot remove their own ADMIN role (expect 400)
+DELETE {{baseUrl}}/api/v1/users/{{adminId}}/roles/{{adminRoleId}}
+Authorization: Bearer {{adminToken}}
+
+> {%
+    client.test("Admin cannot remove own ADMIN role", function () {
+        client.assert(response.status === 400, "Expected 400, got " + response.status);
+    });
+%}

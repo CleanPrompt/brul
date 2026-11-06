@@ -1,0 +1,51 @@
+# Run 1-authentication.http first. Logout ends every session of the user, so userToken stops working
+# as well: run 1-authentication.http again before re-running the other files.
+
+### Log in as the regular user (stores sessionToken)
+POST {{baseUrl}}/api/v1/auth/login
+Content-Type: application/json
+
+{
+  "email": "{{userEmail}}",
+  "password": "{{password}}"
+}
+
+> {%
+    client.test("User can log in", function () {
+        client.assert(response.status === 200, "Expected 200, got " + response.status);
+    });
+    client.global.set("sessionToken", response.body.accessToken);
+%}
+
+
+### Log out (expect 204)
+POST {{baseUrl}}/api/v1/auth/logout
+Authorization: Bearer {{sessionToken}}
+
+> {%
+    client.test("Logout succeeds", function () {
+        client.assert(response.status === 204, "Expected 204, got " + response.status);
+    });
+%}
+
+
+### The token from before the logout is rejected (expect 401)
+GET {{baseUrl}}/api/v1/users/me
+Authorization: Bearer {{sessionToken}}
+
+> {%
+    client.test("Old token is rejected", function () {
+        client.assert(response.status === 401, "Expected 401, got " + response.status);
+    });
+%}
+
+
+### Logout without token (expect 401 UNAUTHORIZED)
+POST {{baseUrl}}/api/v1/auth/logout
+
+> {%
+    client.test("Logout without token is rejected", function () {
+        client.assert(response.status === 401, "Expected 401, got " + response.status);
+        client.assert(response.body.code === "UNAUTHORIZED", "Got code " + response.body.code);
+    });
+%}

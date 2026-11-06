@@ -1,0 +1,8 @@
+### Health check
+GET {{baseUrl}}/health
+
+> {%
+    client.test("Server is running", function () {
+        client.assert(response.status === 200, "Expected 200, got " + response.status);
+    });
+%}

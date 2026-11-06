@@ -1,0 +1,108 @@
+# Registers a regular user and the admin, then logs both in and stores their tokens.
+# Requires BOOTSTRAP_ADMIN_EMAIL in backend/.env to equal adminEmail in http-client.env.json.
+# Safe to run repeatedly: a second registration returns 409, which is expected.
+
+### Register the regular user
+POST {{baseUrl}}/api/v1/auth/register
+Content-Type: application/json
+
+{
+  "email": "{{userEmail}}",
+  "displayName": "Test User",
+  "password": "{{password}}"
+}
+
+> {%
+    client.test("User is registered (201) or already exists (409)", function () {
+        client.assert(response.status === 201 || response.status === 409, "Got " + response.status);
+    });
+%}
+
+
+### Register the admin
+POST {{baseUrl}}/api/v1/auth/register
+Content-Type: application/json
+
+{
+  "email": "{{adminEmail}}",
+  "displayName": "Admin",
+  "password": "{{password}}"
+}
+
+> {%
+    client.test("Admin is registered (201) or already exists (409)", function () {
+        client.assert(response.status === 201 || response.status === 409, "Got " + response.status);
+    });
+%}
+
+
+### Log in as the regular user (stores userToken and userId)
+POST {{baseUrl}}/api/v1/auth/login
+Content-Type: application/json
+
+{
+  "email": "{{userEmail}}",
+  "password": "{{password}}"
+}
+
+> {%
+    client.test("User can log in", function () {
+        client.assert(response.status === 200, "Expected 200, got " + response.status);
+        client.assert(response.body.tokenType === "Bearer", "Expected a Bearer token");
+    });
+    client.global.set("userToken", response.body.accessToken);
+    client.global.set("userId", response.body.user.id);
+%}
+
+
+### Log in as the admin (stores adminToken and adminId)
+POST {{baseUrl}}/api/v1/auth/login
+Content-Type: application/json
+
+{
+  "email": "{{adminEmail}}",
+  "password": "{{password}}"
+}
+
+> {%
+    client.test("Admin can log in", function () {
+        client.assert(response.status === 200, "Expected 200, got " + response.status);
+    });
+    client.global.set("adminToken", response.body.accessToken);
+    client.global.set("adminId", response.body.user.id);
+%}
+
+
+### Wrong password (expect 401 INVALID_CREDENTIALS)
+POST {{baseUrl}}/api/v1/auth/login
+Content-Type: application/json
+
+{
+  "email": "{{userEmail}}",
+  "password": "Wrong-password-123"
+}
+
+> {%
+    client.test("Wrong password is rejected", function () {
+        client.assert(response.status === 401, "Expected 401, got " + response.status);
+        client.assert(response.body.code === "INVALID_CREDENTIALS", "Got code " + response.body.code);
+    });
+%}
+
+
+### Invalid registration (expect 400 INVALID_REQUEST)
+POST {{baseUrl}}/api/v1/auth/register
+Content-Type: application/json
+
+{
+  "email": "not-an-email",
+  "displayName": "Invalid",
+  "password": "short"
+}
+
+> {%
+    client.test("Invalid input is rejected", function () {
+        client.assert(response.status === 400, "Expected 400, got " + response.status);
+        client.assert(response.body.code === "INVALID_REQUEST", "Got code " + response.body.code);
+    });
+%}

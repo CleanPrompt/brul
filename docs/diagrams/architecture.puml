@@ -1,0 +1,70 @@
+@startuml
+title Backend architecture
+skinparam componentStyle rectangle
+
+actor "Client\n(Android app, .http files)" as Client
+
+package "plugins" {
+  component "RateLimiting" as RateLimit
+  component "Authentication (JWT)" as Jwt
+  component "StatusPages\nAppException -> { code, message }" as StatusPages
+  component "Routing" as Routing
+}
+
+package "features/authentication" {
+  component "AuthenticationRoutes" as AuthenticationRoutes
+  component "AuthenticationService\nJwtService, PasswordHasher" as AuthenticationService
+}
+
+package "features/user" {
+  component "UserRoutes" as UserRoutes
+  component "UserService" as UserService
+  component "UserRepository" as UserRepository
+}
+
+package "features/authorization" {
+  component "RoleRoutes" as RoleRoutes
+  component "AuthorizationService\nRoleService" as AuthorizationService
+  component "AuthorizationRepository" as AuthorizationRepository
+  component "AuthorizationSeeder\nPermission, DefaultRole" as Seeder
+}
+
+package "features/feedback" {
+  component "FeedbackRoutes" as FeedbackRoutes
+  component "FeedbackService" as FeedbackService
+  component "FeedbackRepository" as FeedbackRepository
+}
+
+database "H2\nusers, roles, permissions,\nuser_roles, role_permissions,\nfeedback" as DB
+
+Client --> Routing
+Routing --> RateLimit
+RateLimit --> AuthenticationRoutes : /api/v1/auth
+Routing --> Jwt
+Jwt --> AuthenticationRoutes : /api/v1/auth/logout
+Jwt --> UserRoutes : /api/v1/users
+Jwt --> RoleRoutes : /api/v1/roles
+Jwt --> FeedbackRoutes : /api/v1/feedback
+Jwt --> UserRepository : user active,\nsame token version
+
+AuthenticationRoutes --> AuthenticationService
+AuthenticationService --> UserRepository
+AuthenticationService --> AuthorizationService : default role
+
+UserRoutes --> AuthorizationService : check access
+UserRoutes --> UserService
+RoleRoutes --> AuthorizationService
+FeedbackRoutes --> AuthorizationService : owner or permission
+FeedbackRoutes --> FeedbackService
+FeedbackService --> FeedbackRepository
+FeedbackRepository --> DB
+
+UserService --> UserRepository
+AuthorizationService --> AuthorizationRepository
+Seeder --> AuthorizationRepository
+
+UserRepository --> DB
+AuthorizationRepository --> DB
+
+StatusPages ..> Client : error responses
+@enduml

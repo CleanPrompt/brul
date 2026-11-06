@@ -1,0 +1,221 @@
+# Run 1-authentication.http first (sets userToken, userId, adminToken).
+# Safe to run repeatedly: every run creates a new item and deletes it at the end.
+
+### Create feedback as regular user (stores feedbackId)
+POST {{baseUrl}}/api/v1/feedback
+Authorization: Bearer {{userToken}}
+Content-Type: application/json
+
+{
+  "message": "The app is slow on my phone"
+}
+
+> {%
+    client.test("User can create feedback", function () {
+        client.assert(response.status === 201, "Expected 201, got " + response.status);
+        client.assert(response.body.userId === client.global.get("userId"), "Caller must be the owner");
+        client.assert(response.body.status === "OPEN", "New feedback must be OPEN");
+    });
+    client.global.set("feedbackId", response.body.id);
+%}
+
+
+### Empty message (expect 400)
+POST {{baseUrl}}/api/v1/feedback
+Authorization: Bearer {{userToken}}
+Content-Type: application/json
+
+{
+  "message": "   "
+}
+
+> {%
+    client.test("Empty message is rejected", function () {
+        client.assert(response.status === 400, "Expected 400, got " + response.status);
+    });
+%}
+
+
+### Own feedback list as regular user
+GET {{baseUrl}}/api/v1/feedback
+Authorization: Bearer {{userToken}}
+
+> {%
+    client.test("User sees only own feedback", function () {
+        client.assert(response.status === 200, "Expected 200, got " + response.status);
+        const userId = client.global.get("userId");
+        client.assert(response.body.items.every(function (item) { return item.userId === userId; }), "Found someone else's item");
+    });
+%}
+
+
+### Read own item
+GET {{baseUrl}}/api/v1/feedback/{{feedbackId}}
+Authorization: Bearer {{userToken}}
+
+> {%
+    client.test("Owner can read the item", function () {
+        client.assert(response.status === 200, "Expected 200, got " + response.status);
+    });
+%}
+
+
+### Edit own message
+PATCH {{baseUrl}}/api/v1/feedback/{{feedbackId}}
+Authorization: Bearer {{userToken}}
+Content-Type: application/json
+
+{
+  "message": "The app is slow on my phone after the update"
+}
+
+> {%
+    client.test("Owner can edit the message", function () {
+        client.assert(response.status === 200, "Expected 200, got " + response.status);
+    });
+%}
+
+
+### Owner changes the status (expect 403: needs feedback.update)
+PATCH {{baseUrl}}/api/v1/feedback/{{feedbackId}}/status
+Authorization: Bearer {{userToken}}
+Content-Type: application/json
+
+{
+  "status": "CLOSED"
+}
+
+> {%
+    client.test("Owner cannot change the status", function () {
+        client.assert(response.status === 403, "Expected 403, got " + response.status);
+    });
+%}
+
+
+### Admin sees every item (feedback.read)
+GET {{baseUrl}}/api/v1/feedback
+Authorization: Bearer {{adminToken}}
+
+> {%
+    client.test("Admin can list all feedback", function () {
+        client.assert(response.status === 200, "Expected 200, got " + response.status);
+        const feedbackId = client.global.get("feedbackId");
+        client.assert(response.body.items.some(function (item) { return item.id === feedbackId; }), "User's item is missing");
+    });
+%}
+
+
+### Search as regular user: userId of someone else is ignored
+GET {{baseUrl}}/api/v1/feedback?userId={{adminId}}
+Authorization: Bearer {{userToken}}
+
+> {%
+    client.test("Filters cannot widen a regular user's search", function () {
+        client.assert(response.status === 200, "Expected 200, got " + response.status);
+        const userId = client.global.get("userId");
+        client.assert(response.body.items.every(function (item) { return item.userId === userId; }), "Found someone else's item");
+    });
+%}
+
+
+### Search on text and owner, oldest first, small page (admin)
+GET {{baseUrl}}/api/v1/feedback?q=SLOW&userId={{userId}}&sort=createdAt&order=asc&limit=1
+Authorization: Bearer {{adminToken}}
+
+> {%
+    client.test("Admin can search on text and owner", function () {
+        client.assert(response.status === 200, "Expected 200, got " + response.status);
+        client.assert(response.body.items.length === 1, "Expected one item on this page");
+        client.assert(response.body.items[0].message.toLowerCase().includes("slow"), "Text does not match");
+        client.assert(response.body.total >= 1, "Expected a total");
+    });
+%}
+
+
+### Unknown sort field (expect 400)
+GET {{baseUrl}}/api/v1/feedback?sort=message
+Authorization: Bearer {{adminToken}}
+
+> {%
+    client.test("Unknown sort field is rejected", function () {
+        client.assert(response.status === 400, "Expected 400, got " + response.status);
+    });
+%}
+
+
+### Admin changes the status (feedback.update)
+PATCH {{baseUrl}}/api/v1/feedback/{{feedbackId}}/status
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+  "status": "IN_PROGRESS"
+}
+
+> {%
+    client.test("Admin can change the status", function () {
+        client.assert(response.status === 200, "Expected 200, got " + response.status);
+        client.assert(response.body.status === "IN_PROGRESS", "Got status " + response.body.status);
+    });
+%}
+
+
+### Unknown status (expect 400)
+PATCH {{baseUrl}}/api/v1/feedback/{{feedbackId}}/status
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+  "status": "DONE"
+}
+
+> {%
+    client.test("Unknown status is rejected", function () {
+        client.assert(response.status === 400, "Expected 400, got " + response.status);
+    });
+%}
+
+
+### Unknown item (expect 404 FEEDBACK_NOT_FOUND)
+GET {{baseUrl}}/api/v1/feedback/00000000-0000-0000-0000-000000000000
+Authorization: Bearer {{adminToken}}
+
+> {%
+    client.test("Unknown item gives 404", function () {
+        client.assert(response.status === 404, "Expected 404, got " + response.status);
+        client.assert(response.body.code === "FEEDBACK_NOT_FOUND", "Got code " + response.body.code);
+    });
+%}
+
+
+### Delete own item
+DELETE {{baseUrl}}/api/v1/feedback/{{feedbackId}}
+Authorization: Bearer {{userToken}}
+
+> {%
+    client.test("Owner can delete the item", function () {
+        client.assert(response.status === 204, "Expected 204, got " + response.status);
+    });
+%}
+
+
+### Deleted item is gone (expect 404)
+GET {{baseUrl}}/api/v1/feedback/{{feedbackId}}
+Authorization: Bearer {{userToken}}
+
+> {%
+    client.test("Deleted item is gone", function () {
+        client.assert(response.status === 404, "Expected 404, got " + response.status);
+    });
+%}
+
+
+### No token (expect 401 UNAUTHORIZED)
+GET {{baseUrl}}/api/v1/feedback
+
+> {%
+    client.test("Request without token is rejected", function () {
+        client.assert(response.status === 401, "Expected 401, got " + response.status);
+        client.assert(response.body.code === "UNAUTHORIZED", "Got code " + response.body.code);
+    });
+%}

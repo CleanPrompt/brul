@@ -1,4 +1,4 @@
-openapi: 3.0.3
+﻿openapi: 3.0.3
 info:
   title: Brul Backend API
   version: 1.0.0
@@ -118,6 +118,14 @@ paths:
       summary: Search, filter, sort and page users (user.read)
       security: [{ bearerAuth: [] }]
       parameters:
+    HelpRequestId:
+      name: id
+      in: path
+      required: true
+      description: UUID of the help request
+      schema:
+        type: string
+        format: uuid
         - $ref: '#/components/parameters/SearchText'
         - name: active
           in: query
@@ -149,6 +157,14 @@ paths:
 
   /api/v1/users/{id}:
     parameters:
+    HelpRequestId:
+      name: id
+      in: path
+      required: true
+      description: UUID of the help request
+      schema:
+        type: string
+        format: uuid
       - $ref: '#/components/parameters/UserId'
     get:
       summary: One user (own account, or user.read)
@@ -201,6 +217,14 @@ paths:
 
   /api/v1/users/{id}/reactivate:
     parameters:
+    HelpRequestId:
+      name: id
+      in: path
+      required: true
+      description: UUID of the help request
+      schema:
+        type: string
+        format: uuid
       - $ref: '#/components/parameters/UserId'
     post:
       summary: Reactivate a deactivated user (user.delete); tokens from before the deactivation stay invalid
@@ -231,6 +255,14 @@ paths:
 
   /api/v1/users/{id}/roles:
     parameters:
+    HelpRequestId:
+      name: id
+      in: path
+      required: true
+      description: UUID of the help request
+      schema:
+        type: string
+        format: uuid
       - $ref: '#/components/parameters/UserId'
     get:
       summary: Roles of a user (own account, or role.read)
@@ -269,6 +301,14 @@ paths:
 
   /api/v1/users/{id}/roles/{roleId}:
     parameters:
+    HelpRequestId:
+      name: id
+      in: path
+      required: true
+      description: UUID of the help request
+      schema:
+        type: string
+        format: uuid
       - $ref: '#/components/parameters/UserId'
       - name: roleId
         in: path
@@ -314,6 +354,14 @@ paths:
         permission the userId filter is ignored.
       security: [{ bearerAuth: [] }]
       parameters:
+    HelpRequestId:
+      name: id
+      in: path
+      required: true
+      description: UUID of the help request
+      schema:
+        type: string
+        format: uuid
         - $ref: '#/components/parameters/SearchText'
         - name: status
           in: query
@@ -349,6 +397,14 @@ paths:
 
   /api/v1/feedback/{id}:
     parameters:
+    HelpRequestId:
+      name: id
+      in: path
+      required: true
+      description: UUID of the help request
+      schema:
+        type: string
+        format: uuid
       - $ref: '#/components/parameters/FeedbackId'
     get:
       summary: One item (owner, or feedback.read)
@@ -401,6 +457,14 @@ paths:
 
   /api/v1/feedback/{id}/status:
     parameters:
+    HelpRequestId:
+      name: id
+      in: path
+      required: true
+      description: UUID of the help request
+      schema:
+        type: string
+        format: uuid
       - $ref: '#/components/parameters/FeedbackId'
     patch:
       summary: Change the status (feedback.update; also required for the owner)
@@ -423,6 +487,135 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 
+
+  /api/v1/help-requests/{id}/calendar.ics:
+    parameters:
+      - $ref: '#/components/parameters/HelpRequestId'
+    get:
+      summary: Download RFC 5545 iCalendar feed for calendar apps (public)
+      responses:
+        '200':
+          description: iCalendar feed
+          content:
+            text/calendar:
+              schema:
+                type: string
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /api/v1/help-requests/{id}/participants/summary:
+    parameters:
+      - $ref: '#/components/parameters/HelpRequestId'
+    get:
+      summary: Get volunteer capacity and availability summary (public)
+      responses:
+        '200':
+          description: Capacity summary
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HelpParticipationSummaryResponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /api/v1/help-requests/{id}/participants:
+    parameters:
+      - $ref: '#/components/parameters/HelpRequestId'
+    get:
+      summary: List all registered volunteers for a help request
+      security: [{ bearerAuth: [] }]
+      responses:
+        '200':
+          description: List of participants
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/HelpParticipationResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    post:
+      summary: Sign up as a volunteer for a help request
+      security: [{ bearerAuth: [] }]
+      responses:
+        '201':
+          description: Successfully signed up
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HelpParticipationResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+
+  /api/v1/help-requests/{id}/participants/me:
+    parameters:
+      - $ref: '#/components/parameters/HelpRequestId'
+    delete:
+      summary: Cancel own volunteer participation for a help request
+      security: [{ bearerAuth: [] }]
+      responses:
+        '204':
+          description: Successfully left
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /api/v1/help-requests/{id}/check-in-code:
+    parameters:
+      - $ref: '#/components/parameters/HelpRequestId'
+    post:
+      summary: Generate a 6-digit OTP check-in code (owner only)
+      security: [{ bearerAuth: [] }]
+      responses:
+        '200':
+          description: Generated check-in code and expiration
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CheckInCodeResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+
+  /api/v1/help-requests/{id}/check-in:
+    parameters:
+      - $ref: '#/components/parameters/HelpRequestId'
+    post:
+      summary: Register volunteer attendance using OTP code and GPS location
+      security: [{ bearerAuth: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CheckInRequest'
+      responses:
+        '200':
+          description: Check-in outcome
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CheckInResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
 components:
   securitySchemes:
     bearerAuth:
@@ -431,6 +624,14 @@ components:
       bearerFormat: JWT
 
   parameters:
+    HelpRequestId:
+      name: id
+      in: path
+      required: true
+      description: UUID of the help request
+      schema:
+        type: string
+        format: uuid
     UserId:
       name: id
       in: path
@@ -706,3 +907,81 @@ components:
           format: date-time
           description: Set by the server, ISO 8601 in UTC
           example: '2026-11-05T09:30:00Z'
+    HelpParticipationResponse:
+      type: object
+      required: [id, helpRequestId, userId, status]
+      properties:
+        id:
+          type: string
+          format: uuid
+        helpRequestId:
+          type: string
+          format: uuid
+        userId:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum: [SIGNED_UP, ATTENDED, CANCELLED, LATE_CANCELLED, NO_SHOW]
+        checkedInAt:
+          type: string
+          format: date-time
+          nullable: true
+          description: ISO 8601 in UTC when checked in, e.g. '2026-11-20T10:05:00Z'
+    HelpParticipationSummaryResponse:
+      type: object
+      required: [helpRequestId, volunteersNeeded, participantCount, availablePlaces, isFull]
+      properties:
+        helpRequestId:
+          type: string
+          format: uuid
+        volunteersNeeded:
+          type: integer
+        participantCount:
+          type: integer
+        availablePlaces:
+          type: integer
+        isFull:
+          type: boolean
+    CheckInRequest:
+      type: object
+      required: [code]
+      properties:
+        code:
+          type: string
+          example: '492817'
+        latitude:
+          type: number
+          format: double
+          nullable: true
+          example: 51.9244
+        longitude:
+          type: number
+          format: double
+          nullable: true
+          example: 4.4777
+    CheckInResponse:
+      type: object
+      required: [success, message]
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+        checkedInAt:
+          type: string
+          format: date-time
+          nullable: true
+    CheckInCodeResponse:
+      type: object
+      required: [helpRequestId, code, expiresAt]
+      properties:
+        helpRequestId:
+          type: string
+          format: uuid
+        code:
+          type: string
+          example: '492817'
+        expiresAt:
+          type: string
+          format: date-time

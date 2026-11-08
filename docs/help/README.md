@@ -12,4 +12,4 @@ Dit dossier legt stap voor stap uit hoe deze module is opgebouwd volgens de *fea
 5. [Stap 5: Repository Laag & In-memory Fakes](05-repository-laag-en-fakes.md)
 6. [Stap 6: Service Laag & Contracten](06-service-laag-en-contracten.md)
 7. [Stap 7: HTTP Routes & Ktor Wiring](07-http-routes-en-ktor-wiring.md)
-8. *Stap 8: OpenAPI Specificatie & HTTP Client Tests*
+8. [Stap 8: Documentatie & Verificatie (OpenAPI & HTTP Client)](08-documentatie-en-verificatie.md)

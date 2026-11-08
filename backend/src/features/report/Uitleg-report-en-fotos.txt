@@ -1,0 +1,253 @@
+BRUL - features/report: WAT DOET ELK BESTAND?
+=============================================
+
+Verantwoordelijke: Maikel (features/report)
+Branch: Maikel-3-11-2026 in de repository CleanPrompt/brul
+
+Dit is je report-feature uit Brul2, opnieuw gebouwd op de nieuwe basis van
+Phuc, volgens de handleiding in docs/guide/llm-context.md. Daarom staat het
+commentaar in de code in het Engels. Deze uitleg is de Nederlandse versie, om
+te leren en voor het assessment.
+
+
+WAT IS ER ANDERS DAN IN BRUL2?
+------------------------------
+
+- Id's zijn UUID's (willekeurige, niet te raden id's) in plaats van 1, 2, 3.
+- Tijden zijn een Instant en staan in de JSON als ISO-tekst,
+  bijvoorbeeld "2026-11-08T09:30:00Z".
+- Fouten zijn een AppException met een vaste code, zoals REPORT_NOT_FOUND.
+  StatusPages maakt daar { "code": ..., "message": ... } van.
+- Wie wat mag, controleert AuthorizationService.requireOwnerOrPermission:
+  de eigenaar mag altijd, anderen hebben een permission nodig (een admin
+  heeft ze allemaal). De rol komt uit de database, niet uit de token.
+- Alle routes zitten achter de login (authenticate). In Brul2 waren
+  meldingen en foto's zonder login te zien.
+- De lijst van meldingen geeft een pagina terug: { items, total, limit,
+  offset }.
+- Niet meegekomen: sorteren op likes en de controle op het aantal
+  deelnemers van een hulpvraag. Die horen bij vote en help, en die bestaan
+  in de nieuwe basis nog niet.
+
+
+model/  -  HET DOMEIN (de regels die altijd gelden)
+---------------------------------------------------
+
+Report
+    Eén melding: id, eigenaar, titel, beschrijving, categorie, locatie,
+    details, status, tijdstip en aantal keer bekeken. In init staan de regels:
+    titel 1-120 tekens, beschrijving 1-2000, en de categorie moet bij het
+    soort melding passen. Een ongeldige melding kan dus niet bestaan.
+    In Brul2 was elk soort een subklasse; nu is er één klasse en zit het
+    verschil in ReportDetails. Zo staan de gemeenschappelijke regels op één
+    plek en werkt copy() bij het wijzigen.
+
+ReportDetails
+    Wat per soort verschilt (sealed interface met drie varianten):
+    - Nuisance: niets extra.
+    - Safety(urgent): veiligheid, met "is het dringend?".
+    - HelpRequest(volunteersNeeded): hulpvraag, 1 tot 50 vrijwilligers.
+    ReportDetails.of() maakt de juiste variant van de twee losse velden uit
+    het verzoek, en geeft 400 als een veld bij het verkeerde soort hoort.
+
+ReportType
+    SAFETY, NUISANCE of HELP_REQUEST, elk met de categorieën die erbij mogen.
+
+ReportCategory
+    Alle categorieën (THEFT, NOISE, GROCERIES, ...).
+
+ReportStatus
+    OPEN, IN_PROGRESS of RESOLVED, met de statusregel canChangeTo():
+    alleen vooruit. OPEN naar IN_PROGRESS of RESOLVED, IN_PROGRESS naar
+    RESOLVED, en RESOLVED blijft RESOLVED.
+
+Location
+    Een punt op aarde (latitude -90..90, longitude -180..180), met
+    distanceKmTo(): de afstand in kilometers (haversine-formule).
+
+ReportQuery en ReportSortField
+    Wat GET /reports vraagt: tekst, soort, categorie, status, eigenaar,
+    een gebied (punt + straal) en sorteren op tijd, views of afstand.
+
+ReportPhoto, PhotoLocation, LocationSource, PhotoFile, ImageFormat
+    De foto's: zie het deel FOTO'S hieronder.
+
+
+database/  -  DE TABELLEN
+-------------------------
+
+ReportsTable (tabel reports)
+    owner_id verwijst naar users. Enums staan er als hun naam in (SAFETY).
+    urgent is alleen gevuld bij SAFETY, volunteers_needed alleen bij
+    HELP_REQUEST.
+
+ReportPhotosTable (tabel report_photos)
+    report_id met CASCADE: verdwijnt de melding, dan ook de foto-rijen.
+    De afbeelding zelf staat niet in de database maar als bestand.
+
+Het zijn nieuwe tabellen, dus de database (data/brul*) hoeft niet weg.
+
+
+dto/  -  DE JSON
+----------------
+
+CreateReportRequest: wat de app stuurt bij een nieuwe melding.
+UpdateReportRequest: de hele melding opnieuw, plus de status (PUT).
+ReportResponse: wat de API terugstuurt. urgent en volunteersNeeded zijn
+    alleen gevuld bij het soort waar ze bij horen.
+ReportPhotoResponse: één foto, met latitude, longitude, locationSource en
+    de url van de afbeelding.
+
+
+mapper/  -  ALLE OMZETTINGEN
+----------------------------
+
+ReportMapper
+    - toResponse(): melding naar JSON.
+    - CreateReportRequest.toReport(): verzoek naar een nieuwe melding. De
+      service geeft de id, de eigenaar en de tijd.
+    - UpdateReportRequest.toReport(existing): de bestaande melding met de
+      nieuwe velden. Het soort mag niet veranderen (400).
+    - parseEnum: tekst zoals "SAFETY" naar een enum, of 400 met de lijst
+      van wat wel mag.
+
+ReportDatabaseMapper
+    toReport(): rij uit de database naar een melding.
+
+ReportQueryMapper
+    toReportQuery(): de query-parameters (?q=...&type=...&latitude=...) naar
+    een ReportQuery. Een straal of sort=distance zonder locatie, of maar één
+    coördinaat, geeft 400. Bij sort=distance is de standaard "dichtstbij
+    eerst".
+
+ReportPhotoMapper en ReportPhotoDatabaseMapper
+    Foto naar JSON, rij naar foto, en appLocationOf() voor de coördinaten
+    uit het uploadformulier.
+
+
+repository/  -  HET GEHEUGEN
+----------------------------
+
+ReportRepository (interface) en ExposedReportRepository
+    - findMatching(): de meldingen die passen bij tekst, soort, categorie,
+      status en eigenaar, nieuwste eerst. Dit gebeurt in SQL.
+    - save, update: update verandert nooit de eigenaar, de tijd of de views.
+    - incrementViewCount(): view_count = view_count + 1 in één SQL-opdracht,
+      zodat twee lezers tegelijk allebei geteld worden.
+    - delete: de foto-rijen gaan mee door de CASCADE.
+
+ReportPhotoRepository, ExposedReportPhotoRepository, PhotoStorage,
+FileSystemPhotoStorage
+    De foto-gegevens in de database en de bestanden in data/uploads/.
+
+
+service/  -  DE BEDRIJFSREGELS
+------------------------------
+
+ReportService
+    - create: de server zet id, eigenaar, status OPEN en de tijd.
+    - search: haalt de passende meldingen op, laat ReportSearch het gebied en
+      de volgorde doen, en neemt de gevraagde pagina.
+    - getById: telt een view, en het antwoord bevat die view al.
+    - getOwnerId: voor de toegangscontrole in de route.
+    - update: de statusregel. Terug in status geeft 409
+      INVALID_STATUS_CHANGE.
+    - delete: verwijdert de melding en ruimt de fotobestanden op.
+
+ReportSearch
+    Het deel van zoeken dat afstand nodig heeft. H2 kan geen afstand
+    uitrekenen in SQL, dus dit gebeurt in Kotlin: alleen meldingen binnen de
+    straal, dan sorteren op tijd, views of afstand, en bij gelijke waarden
+    op id (zodat pagina's stabiel blijven). Een pure functie, dus makkelijk
+    te testen.
+
+
+route/  -  DE ENDPOINTS
+-----------------------
+
+ReportRoutes
+    POST /reports, GET /reports, GET /reports/{id}, PUT /reports/{id},
+    DELETE /reports/{id}. Wijzigen en verwijderen: eerst de eigenaar opzoeken
+    (404 als de melding niet bestaat), dan requireOwnerOrPermission met
+    report.update of report.delete.
+
+ReportPhotoRoutes
+    GET en POST /reports/{id}/photos, GET en DELETE /photos/{id}.
+
+
+FOTO'S MET GPS
+--------------
+
+Hoe een upload verloopt (POST /api/v1/reports/{id}/photos):
+1. De route zoekt de eigenaar van de melding op (404 als die niet bestaat)
+   en controleert: eigenaar, of report.update (admin). Anders 403.
+2. De route leest het formulier: het bestand in "photo" en eventueel
+   latitude en longitude. Te groot: 413 PHOTO_TOO_LARGE. Geen foto: 400
+   PHOTO_REQUIRED.
+3. PhotoRules controleert de foto:
+   - P2: maximaal 5 MB (413)
+   - P3: alleen JPEG of PNG, herkend aan de eerste bytes (415
+     UNSUPPORTED_PHOTO_TYPE)
+   - P4: maximaal 3 foto's per melding (409 PHOTO_LIMIT_REACHED)
+4. De locatie:
+   - G1: PhotoGpsReader haalt de GPS uit de EXIF-gegevens van de JPEG
+     (locationSource = PHOTO). De foto wint van de app.
+   - G2: zonder GPS in de foto de latitude en longitude van de app
+     (locationSource = APP).
+   - Geen van beide: geen locatie.
+5. Het bestand gaat naar data/uploads/ onder de id van de foto, daarna de
+   gegevens naar de database. Mislukt de database, dan wordt het bestand
+   weer verwijderd.
+6. Antwoord: 201 met de gegevens van de foto.
+
+Verwijderen (DELETE /photos/{id}): de uploader, of report.photo.delete
+(admin).
+
+Let op privacy: de GPS blijft in het opgeslagen bestand zitten en staat in
+de JSON. Iedereen die is ingelogd, kan zien waar een foto gemaakt is.
+
+
+AppException (shared/error) en StatusPages (plugins)
+----------------------------------------------------
+
+Twee soorten fouten toegevoegd aan de basis van Phuc: PayloadTooLarge (413)
+en UnsupportedMediaType (415), allebei voor de foto's.
+
+
+Permission (features/authorization/model)
+-----------------------------------------
+
+Drie nieuwe permissions: report.update, report.delete en
+report.photo.delete. ADMIN krijgt ze automatisch (Permission.entries); de
+seeder zet ze bij het starten in de database.
+
+
+TESTS (backend/test/features/report)
+------------------------------------
+
+Zonder database:
+    ReportModelTest       de domeinregels: categorie per soort, extra veld
+                          per soort, statusregel, locatie, afstand
+    ReportSearchTest      gebied, sorteren op afstand, views, stabiele
+                          volgorde
+    ReportServiceTest     maken, zoeken met pagina, views, wijzigen,
+                          statusregel (409), verwijderen met fotobestanden
+    ReportMapperTest      JSON en de query-parameters
+    PhotoRulesTest        P2 tot P4 en de formaatherkenning
+    PhotoGpsReaderTest    GPS uit EXIF, ook kapotte bestanden
+    ReportPhotoServiceTest  G1, G2, opslag, 404's, opruimen
+    ReportPhotoMapperTest   foto-JSON en appLocationOf
+
+Met een echte H2-database:
+    ReportRepositoryTest, ReportPhotoRepositoryTest (ook de CASCADE)
+
+Via de API (TestServices met fakes):
+    ReportRoutesTest, ReportPhotoRoutesTest: 401, 403, 404, 400, 409, 413
+    en 415, en dat eigenaar en admin wel mogen.
+
+Fakes: FakeReportRepository, FakeReportPhotoRepository en
+InMemoryPhotoStorage. ReportTestData heeft een melding in Breda en echte
+JPEG- en PNG-bestanden, ook een JPEG met GPS.
+
+Handmatig testen: backend/http/6-reports.http, met report-photo.jpg (een
+kleine foto met GPS erin).

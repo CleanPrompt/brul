@@ -15,6 +15,10 @@ import nl.brul.backend.features.authorization.service.RoleService
 import nl.brul.backend.features.feedback.route.feedbackRoutes
 import nl.brul.backend.features.feedback.service.FeedbackService
 import nl.brul.backend.features.health.route.healthRoutes
+import nl.brul.backend.features.report.route.reportPhotoRoutes
+import nl.brul.backend.features.report.route.reportRoutes
+import nl.brul.backend.features.report.service.ReportPhotoService
+import nl.brul.backend.features.report.service.ReportService
 import nl.brul.backend.features.user.route.userRoutes
 import nl.brul.backend.features.user.service.UserService
 
@@ -23,7 +27,9 @@ fun Application.configureRouting(
     userService: UserService,
     roleService: RoleService,
     authorizationService: AuthorizationService,
-    feedbackService: FeedbackService
+    feedbackService: FeedbackService,
+    reportService: ReportService,
+    reportPhotoService: ReportPhotoService
 ) {
     routing {
         healthRoutes()
@@ -47,6 +53,8 @@ fun Application.configureRouting(
                 userRoutes(userService, authorizationService)
                 roleRoutes(roleService, authorizationService)
                 feedbackRoutes(feedbackService, authorizationService)
+                reportRoutes(reportService, authorizationService)
+                reportPhotoRoutes(reportPhotoService, authorizationService)
             }
         }
     }

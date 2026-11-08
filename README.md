@@ -45,7 +45,7 @@ assistant? Give it `docs/guide/llm-context.md` first.
     │   ├── config/
     │   ├── plugins/
     │   ├── shared/           # error, http, paging, database helpers
-    │   └── features/         # authentication, authorization, user, feedback, health
+    │   └── features/         # authentication, authorization, user, feedback, report, health
     └── test/                 # same structure as src/, plus TestFixtures.kt
 ```
 

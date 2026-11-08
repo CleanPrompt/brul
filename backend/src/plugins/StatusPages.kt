@@ -54,4 +54,6 @@ private fun AppException.toHttpStatus(): HttpStatusCode =
         is AppException.Forbidden -> HttpStatusCode.Forbidden
         is AppException.NotFound -> HttpStatusCode.NotFound
         is AppException.Conflict -> HttpStatusCode.Conflict
+        is AppException.PayloadTooLarge -> HttpStatusCode.PayloadTooLarge
+        is AppException.UnsupportedMediaType -> HttpStatusCode.UnsupportedMediaType
     }

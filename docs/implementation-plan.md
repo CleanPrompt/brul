@@ -12,6 +12,8 @@ Guiding principle: keep the code simple enough to explain line by line during th
 Phases 1–13 are done (128 tests). The base is complete: users, authentication, RBAC, the reference feature
 `feedback`, search and paging on every list, and a learning guide (`docs/guide/`).
 
+Phase 14 adds the first domain feature, `report` (Maikel, branch `Maikel-3-11-2026`): reports with photos and GPS.
+
 **Next:** decide on the optional admin password reset.
 
 This document holds the decisions and the history. The current endpoints, permission matrix, error codes and data
@@ -47,6 +49,17 @@ model are in `TECHNICAL_DESIGN.md`; see `docs/README.md` for where each fact liv
 | Sorting | `sort` from a fixed list per feature (enum with a `key`), `order=asc\|desc`; the id is always a second sort key | Only known columns can be sorted on; the extra id key keeps pages stable when values are equal |
 | Filters and access | Filters only narrow a result. `GET /feedback` forces `userId` to the caller without `feedback.read` | A filter must never show more than the caller may see |
 | Invalid parameters | 400 with the parameter name, never a silent default | A typo such as `limit=1O` should be noticed, not hidden |
+| Reports: one model | One `data class Report` with a `sealed interface ReportDetails` (`Nuisance`, `Safety(urgent)`, `HelpRequest(volunteersNeeded)`) instead of a subclass per type | The common fields and rules stay in one place and `copy()` works for updates; `when (details)` makes the compiler check that every type is handled |
+| Reports: domain rules | The categories per type (`ReportType.categories`), the extra field per type (`ReportDetails.of`) and the status rule (`ReportStatus.canChangeTo`) live in the model and use `requireValid()` | An invalid report cannot exist, whichever code creates it; the rules can be tested without a database |
+| Reports: status | Part of `PUT /reports/{id}` (owner or `report.update`), only forward; going back gives 409 `INVALID_STATUS_CHANGE` | The owner handles their own report; a status that conflicts with the current one is a conflict, not bad input |
+| Reports: search on distance | The repository applies the plain filters in SQL; `ReportSearch` applies the area, sorting and page in Kotlin | H2 has no distance function; a neighbourhood has few reports, so filtering in memory is fast enough and easy to test |
+| Reports: views | `GET /reports/{id}` adds one to `view_count` with one SQL statement (`view_count + 1`) | Two readers at the same time are both counted |
+| Reports: visibility | Every logged-in user sees every report and photo; all report routes are inside `authenticate(JWT_AUTHENTICATION)` | Reports are meant for the whole neighbourhood; the app always has a token (in Brul2 the reads were public) |
+| Photos: storage | Files in `data/uploads/` through the interface `PhotoStorage`; the table keeps the key | Bytes do not belong in H2; tests use `InMemoryPhotoStorage` |
+| Photos: rules | At most 3 per report, 5 MB, JPEG or PNG by their first bytes; 413 and 415 added to `AppException` | Limits keep the disk and memory safe; the bytes cannot lie, a file name or header can |
+| Photos: location | GPS from the EXIF data of the photo (`PhotoGpsReader`, no library), or else `latitude`/`longitude` from the app; kept in the file and returned in the JSON | The place where the photo was taken matters for a report; the group still has to decide on privacy |
+| Photos: access | Adding: owner of the report or `report.update`; deleting: uploader or `report.photo.delete` | The same `requireOwnerOrPermission` as everywhere; an admin can help |
+| Photos: list | `GET /reports/{id}/photos` returns a plain list, no `PageResponse` | There are at most 3 |
 | Documentation | One source per fact (`docs/README.md`); `CLAUDE.md` imports the shared rules from `docs/guide/llm-context.md` | Endpoints, permissions and rules were copied into four to six files and drifted apart; one source means one place to update |
 
 ## Phases
@@ -171,13 +184,26 @@ The parameters per list are in `TECHNICAL_DESIGN.md` §6.
   of this plan into `TECHNICAL_DESIGN.md`; `CLAUDE.md` imports `docs/guide/llm-context.md` instead of repeating its
   rules; the folder READMEs and the root `README.md` became short pointers.
 
+### Phase 14 — Reports and photos with GPS ✅
+
+- `features/report`: reports of three types with their own categories and extra field, a status that only moves
+  forward, search on text, type, category, status, owner and area, sorting on time, views or distance, and a view
+  count.
+- Photos: upload (multipart), list, download and delete; GPS from the EXIF data or from the app; the files are removed
+  with the report.
+- `AppException.PayloadTooLarge` (413) and `UnsupportedMediaType` (415); permissions `report.update`, `report.delete`
+  and `report.photo.delete`.
+- New tables only (`reports`, `report_photos`), so no database reset is needed.
+- Ported from Brul2 without the links to `vote` and `help` (sorting on likes, the check against the number of
+  participants): those features do not exist here yet.
+
 ### Optional
 
 - Admin password reset (the only recovery path without an email flow); still to decide.
 
 ## Out of scope
 
-- Other domain features beyond the reference feature
+- Other domain features beyond `feedback` and `report` (votes and help participation come later)
 - Refresh tokens
 - Creating roles or permissions through the API; direct user permissions
 - Organization-scoped roles and object-level permissions beyond "own account"

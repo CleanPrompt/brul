@@ -423,6 +423,265 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 
+  /api/v1/reports:
+    post:
+      summary: Make a report; the caller becomes the owner and the status starts as OPEN
+      security: [{ bearerAuth: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateReportRequest'
+      responses:
+        '201':
+          $ref: '#/components/responses/Report'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    get:
+      summary: >-
+        Search, filter, sort and page reports. Every logged-in user sees every report. latitude, longitude and
+        radiusKm limit the result to an area; sort=distance needs latitude and longitude and is nearest first.
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - $ref: '#/components/parameters/SearchText'
+        - name: type
+          in: query
+          schema:
+            type: string
+            enum: [SAFETY, NUISANCE, HELP_REQUEST]
+        - name: category
+          in: query
+          schema:
+            $ref: '#/components/schemas/ReportCategory'
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [OPEN, IN_PROGRESS, RESOLVED]
+        - name: ownerId
+          in: query
+          schema:
+            type: string
+            format: uuid
+        - name: latitude
+          in: query
+          description: Together with longitude; needed for radiusKm and sort=distance
+          schema:
+            type: number
+            minimum: -90
+            maximum: 90
+        - name: longitude
+          in: query
+          schema:
+            type: number
+            minimum: -180
+            maximum: 180
+        - name: radiusKm
+          in: query
+          description: Only reports within this many kilometres of latitude and longitude
+          schema:
+            type: number
+            exclusiveMinimum: true
+            minimum: 0
+            maximum: 100
+        - name: sort
+          in: query
+          schema:
+            type: string
+            enum: [createdAt, viewCount, distance]
+            default: createdAt
+        - $ref: '#/components/parameters/Order'
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/Offset'
+      responses:
+        '200':
+          description: One page of reports; `q` matches part of the title or the description, ignoring case
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportPageResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /api/v1/reports/{id}:
+    parameters:
+      - $ref: '#/components/parameters/ReportId'
+    get:
+      summary: One report; counts as a view (the response already includes it)
+      security: [{ bearerAuth: [] }]
+      responses:
+        '200':
+          $ref: '#/components/responses/Report'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      summary: >-
+        Replace the content and the status (owner, or report.update). The type cannot change; the status only moves
+        forward (OPEN → IN_PROGRESS → RESOLVED, or OPEN → RESOLVED).
+      security: [{ bearerAuth: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateReportRequest'
+      responses:
+        '200':
+          $ref: '#/components/responses/Report'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          description: The status cannot go back (`INVALID_STATUS_CHANGE`)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      summary: Delete a report for good, with its photos (owner, or report.delete)
+      security: [{ bearerAuth: [] }]
+      responses:
+        '204':
+          description: Report deleted
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /api/v1/reports/{id}/photos:
+    parameters:
+      - $ref: '#/components/parameters/ReportId'
+    get:
+      summary: The photos of a report, oldest first (at most 3, so no paging)
+      security: [{ bearerAuth: [] }]
+      responses:
+        '200':
+          description: The photos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ReportPhotoResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    post:
+      summary: >-
+        Add a photo (owner of the report, or report.update). The location comes from the GPS data in the photo, or
+        else from the optional latitude and longitude fields.
+      security: [{ bearerAuth: [] }]
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: [photo]
+              properties:
+                photo:
+                  type: string
+                  format: binary
+                  description: A JPEG or PNG of at most 5 MB
+                latitude:
+                  type: number
+                  description: Only used when the photo has no GPS data; send together with longitude
+                longitude:
+                  type: number
+      responses:
+        '201':
+          description: The photo was added
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportPhotoResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          description: The report already has 3 photos (`PHOTO_LIMIT_REACHED`)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '413':
+          description: The photo is larger than 5 MB (`PHOTO_TOO_LARGE`)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '415':
+          description: The file is not a JPEG or PNG (`UNSUPPORTED_PHOTO_TYPE`)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/photos/{id}:
+    parameters:
+      - $ref: '#/components/parameters/PhotoId'
+    get:
+      summary: The image itself
+      security: [{ bearerAuth: [] }]
+      responses:
+        '200':
+          description: The image
+          content:
+            image/jpeg:
+              schema:
+                type: string
+                format: binary
+            image/png:
+              schema:
+                type: string
+                format: binary
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      summary: Delete a photo (uploader, or report.photo.delete)
+      security: [{ bearerAuth: [] }]
+      responses:
+        '204':
+          description: Photo deleted
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
 components:
   securitySchemes:
     bearerAuth:
@@ -439,6 +698,20 @@ components:
         type: string
         format: uuid
     FeedbackId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    ReportId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    PhotoId:
       name: id
       in: path
       required: true
@@ -478,6 +751,12 @@ components:
         default: 0
 
   responses:
+    Report:
+      description: The report
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ReportResponse'
     Feedback:
       description: The feedback item
       content:
@@ -517,7 +796,9 @@ components:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
     NotFound:
-      description: Resource not found (`USER_NOT_FOUND`, `ROLE_NOT_FOUND`, `FEEDBACK_NOT_FOUND`)
+      description: >-
+        Resource not found (`USER_NOT_FOUND`, `ROLE_NOT_FOUND`, `FEEDBACK_NOT_FOUND`, `REPORT_NOT_FOUND`,
+        `PHOTO_NOT_FOUND`)
       content:
         application/json:
           schema:
@@ -706,3 +987,135 @@ components:
           format: date-time
           description: Set by the server, ISO 8601 in UTC
           example: '2026-11-05T09:30:00Z'
+    ReportCategory:
+      type: string
+      description: >-
+        SAFETY: THEFT, SUSPICIOUS_SITUATION, TRAFFIC_SAFETY. NUISANCE: NOISE, WASTE, VANDALISM, PARKING.
+        HELP_REQUEST: GROCERIES, TRANSPORT, MOVING, CHORES, OTHER.
+      enum: [THEFT, SUSPICIOUS_SITUATION, TRAFFIC_SAFETY, NOISE, WASTE, VANDALISM, PARKING, GROCERIES, TRANSPORT,
+        MOVING, CHORES, OTHER]
+    CreateReportRequest:
+      description: urgent is required for SAFETY only, volunteersNeeded for HELP_REQUEST only; otherwise leave them out
+      type: object
+      required: [type, title, description, category, latitude, longitude]
+      properties:
+        type:
+          type: string
+          enum: [SAFETY, NUISANCE, HELP_REQUEST]
+        title:
+          type: string
+          minLength: 1
+          maxLength: 120
+        description:
+          type: string
+          minLength: 1
+          maxLength: 2000
+        category:
+          $ref: '#/components/schemas/ReportCategory'
+        latitude:
+          type: number
+          minimum: -90
+          maximum: 90
+        longitude:
+          type: number
+          minimum: -180
+          maximum: 180
+        urgent:
+          type: boolean
+        volunteersNeeded:
+          type: integer
+          minimum: 1
+          maximum: 50
+    UpdateReportRequest:
+      description: The whole report again, plus its status. The type must stay the same.
+      allOf:
+        - $ref: '#/components/schemas/CreateReportRequest'
+        - type: object
+          required: [status]
+          properties:
+            status:
+              type: string
+              enum: [OPEN, IN_PROGRESS, RESOLVED]
+    ReportResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        ownerId:
+          type: string
+          format: uuid
+        type:
+          type: string
+          enum: [SAFETY, NUISANCE, HELP_REQUEST]
+        title:
+          type: string
+        description:
+          type: string
+        category:
+          $ref: '#/components/schemas/ReportCategory'
+        latitude:
+          type: number
+        longitude:
+          type: number
+        status:
+          type: string
+          enum: [OPEN, IN_PROGRESS, RESOLVED]
+        urgent:
+          type: boolean
+          nullable: true
+        volunteersNeeded:
+          type: integer
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+          example: '2026-11-08T09:30:00Z'
+        viewCount:
+          type: integer
+    ReportPageResponse:
+      description: PageResponse with ReportResponse items
+      allOf:
+        - $ref: '#/components/schemas/PageInfo'
+        - type: object
+          properties:
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/ReportResponse'
+    ReportPhotoResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        reportId:
+          type: string
+          format: uuid
+        uploaderId:
+          type: string
+          format: uuid
+        contentType:
+          type: string
+          enum: [image/jpeg, image/png]
+        sizeBytes:
+          type: integer
+          format: int64
+        createdAt:
+          type: string
+          format: date-time
+        latitude:
+          type: number
+          nullable: true
+          description: Where the photo was taken; null when neither the photo nor the app gave a location
+        longitude:
+          type: number
+          nullable: true
+        locationSource:
+          type: string
+          enum: [PHOTO, APP]
+          nullable: true
+          description: PHOTO = from the GPS data in the photo, APP = sent by the app
+        url:
+          type: string
+          example: /api/v1/photos/0b9f4f0e-6c2a-4c1e-9d0e-3f1a2b3c4d5e

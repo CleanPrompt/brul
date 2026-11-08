@@ -1,0 +1,220 @@
+# Run 1-authentication.http first (sets userToken, userId, adminToken).
+# Safe to run repeatedly: every run creates a new report with a photo and deletes it at the end.
+# report-photo.jpg is a tiny JPEG with GPS data (51.5856, 4.7763) in its EXIF block, like a phone photo.
+
+### Create a safety report as regular user (stores reportId)
+POST {{baseUrl}}/api/v1/reports
+Authorization: Bearer {{userToken}}
+Content-Type: application/json
+
+{
+  "type": "SAFETY",
+  "title": "Bike stolen at the station",
+  "description": "My blue bike was taken from the rack this morning",
+  "category": "THEFT",
+  "latitude": 51.5866,
+  "longitude": 4.7760,
+  "urgent": true
+}
+
+> {%
+    client.test("User can make a report", function () {
+        client.assert(response.status === 201, "Expected 201, got " + response.status);
+        client.assert(response.body.ownerId === client.global.get("userId"), "Caller must be the owner");
+        client.assert(response.body.status === "OPEN", "New report must be OPEN");
+    });
+    client.global.set("reportId", response.body.id);
+%}
+
+
+### Category that does not belong to the type (expect 400)
+POST {{baseUrl}}/api/v1/reports
+Authorization: Bearer {{userToken}}
+Content-Type: application/json
+
+{
+  "type": "SAFETY",
+  "title": "Loud music",
+  "description": "Every night",
+  "category": "NOISE",
+  "latitude": 51.5866,
+  "longitude": 4.7760,
+  "urgent": false
+}
+
+> {%
+    client.test("Wrong category is rejected", function () {
+        client.assert(response.status === 400, "Expected 400, got " + response.status);
+    });
+%}
+
+
+### Reports within 2 km of Breda, nearest first
+GET {{baseUrl}}/api/v1/reports?latitude=51.5866&longitude=4.7760&radiusKm=2&sort=distance
+Authorization: Bearer {{adminToken}}
+
+> {%
+    client.test("The new report is in the area", function () {
+        client.assert(response.status === 200, "Expected 200, got " + response.status);
+        const reportId = client.global.get("reportId");
+        client.assert(response.body.items.some(function (item) { return item.id === reportId; }), "Report not found");
+    });
+%}
+
+
+### Open the report (counts as a view)
+GET {{baseUrl}}/api/v1/reports/{{reportId}}
+Authorization: Bearer {{adminToken}}
+
+> {%
+    client.test("Every user can open a report", function () {
+        client.assert(response.status === 200, "Expected 200, got " + response.status);
+        client.assert(response.body.viewCount >= 1, "The view must be counted");
+    });
+%}
+
+
+### Add a photo with GPS (stores photoId)
+POST {{baseUrl}}/api/v1/reports/{{reportId}}/photos
+Authorization: Bearer {{userToken}}
+Content-Type: multipart/form-data; boundary=BrulBoundary
+
+--BrulBoundary
+Content-Disposition: form-data; name="photo"; filename="report-photo.jpg"
+Content-Type: image/jpeg
+
+< ./report-photo.jpg
+--BrulBoundary--
+
+> {%
+    client.test("Owner can add a photo; its location comes from the photo", function () {
+        client.assert(response.status === 201, "Expected 201, got " + response.status);
+        client.assert(response.body.locationSource === "PHOTO", "Expected the GPS of the photo");
+    });
+    client.global.set("photoId", response.body.id);
+%}
+
+
+### A text file instead of a photo (expect 415)
+POST {{baseUrl}}/api/v1/reports/{{reportId}}/photos
+Authorization: Bearer {{userToken}}
+Content-Type: multipart/form-data; boundary=BrulBoundary
+
+--BrulBoundary
+Content-Disposition: form-data; name="photo"; filename="note.txt"
+Content-Type: text/plain
+
+This is not an image
+--BrulBoundary--
+
+> {%
+    client.test("Only JPEG and PNG are accepted", function () {
+        client.assert(response.status === 415, "Expected 415, got " + response.status);
+    });
+%}
+
+
+### Photos of the report
+GET {{baseUrl}}/api/v1/reports/{{reportId}}/photos
+Authorization: Bearer {{adminToken}}
+
+> {%
+    client.test("The photo is listed with its location", function () {
+        client.assert(response.status === 200, "Expected 200, got " + response.status);
+        client.assert(response.body.length === 1, "Expected one photo");
+        client.assert(response.body[0].latitude !== null, "Expected a latitude");
+    });
+%}
+
+
+### Download the image
+GET {{baseUrl}}/api/v1/photos/{{photoId}}
+Authorization: Bearer {{adminToken}}
+
+> {%
+    client.test("The image comes back as a JPEG", function () {
+        client.assert(response.status === 200, "Expected 200, got " + response.status);
+        client.assert(response.contentType.mimeType === "image/jpeg", "Expected image/jpeg");
+    });
+%}
+
+
+### Owner sets the status to IN_PROGRESS
+PUT {{baseUrl}}/api/v1/reports/{{reportId}}
+Authorization: Bearer {{userToken}}
+Content-Type: application/json
+
+{
+  "type": "SAFETY",
+  "title": "Bike stolen at the station",
+  "description": "The police are looking into it",
+  "category": "THEFT",
+  "latitude": 51.5866,
+  "longitude": 4.7760,
+  "status": "IN_PROGRESS",
+  "urgent": false
+}
+
+> {%
+    client.test("Owner can update the report", function () {
+        client.assert(response.status === 200, "Expected 200, got " + response.status);
+        client.assert(response.body.status === "IN_PROGRESS", "Status must be IN_PROGRESS");
+    });
+%}
+
+
+### Status back to OPEN (expect 409)
+PUT {{baseUrl}}/api/v1/reports/{{reportId}}
+Authorization: Bearer {{userToken}}
+Content-Type: application/json
+
+{
+  "type": "SAFETY",
+  "title": "Bike stolen at the station",
+  "description": "The police are looking into it",
+  "category": "THEFT",
+  "latitude": 51.5866,
+  "longitude": 4.7760,
+  "status": "OPEN",
+  "urgent": false
+}
+
+> {%
+    client.test("The status only moves forward", function () {
+        client.assert(response.status === 409, "Expected 409, got " + response.status);
+        client.assert(response.body.code === "INVALID_STATUS_CHANGE", "Expected INVALID_STATUS_CHANGE");
+    });
+%}
+
+
+### Delete the photo as uploader
+DELETE {{baseUrl}}/api/v1/photos/{{photoId}}
+Authorization: Bearer {{userToken}}
+
+> {%
+    client.test("Uploader can delete the photo", function () {
+        client.assert(response.status === 204, "Expected 204, got " + response.status);
+    });
+%}
+
+
+### Delete the report as owner
+DELETE {{baseUrl}}/api/v1/reports/{{reportId}}
+Authorization: Bearer {{userToken}}
+
+> {%
+    client.test("Owner can delete the report", function () {
+        client.assert(response.status === 204, "Expected 204, got " + response.status);
+    });
+%}
+
+
+### The report is gone (expect 404)
+GET {{baseUrl}}/api/v1/reports/{{reportId}}
+Authorization: Bearer {{adminToken}}
+
+> {%
+    client.test("A deleted report is not found", function () {
+        client.assert(response.status === 404, "Expected 404, got " + response.status);
+    });
+%}

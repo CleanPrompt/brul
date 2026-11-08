@@ -25,6 +25,12 @@ sealed class AppException(
 
     /** 409: the request conflicts with existing data, e.g. a duplicate email. */
     class Conflict(message: String, code: String) : AppException(code, message)
+
+    /** 413: the request body is larger than allowed, e.g. a photo over 5 MB. */
+    class PayloadTooLarge(message: String, code: String) : AppException(code, message)
+
+    /** 415: the uploaded file has a type the server does not accept, e.g. a PDF instead of a photo. */
+    class UnsupportedMediaType(message: String, code: String) : AppException(code, message)
 }
 
 /**

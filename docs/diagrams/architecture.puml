@@ -35,7 +35,15 @@ package "features/feedback" {
   component "FeedbackRepository" as FeedbackRepository
 }
 
-database "H2\nusers, roles, permissions,\nuser_roles, role_permissions,\nfeedback" as DB
+package "features/report" {
+  component "ReportRoutes\nReportPhotoRoutes" as ReportRoutes
+  component "ReportService\nReportSearch" as ReportService
+  component "ReportPhotoService\nPhotoRules, PhotoGpsReader" as ReportPhotoService
+  component "ReportRepository\nReportPhotoRepository" as ReportRepository
+  component "PhotoStorage\n(data/uploads/)" as PhotoStorage
+}
+
+database "H2\nusers, roles, permissions,\nuser_roles, role_permissions,\nfeedback, reports, report_photos" as DB
 
 Client --> Routing
 Routing --> RateLimit
@@ -45,6 +53,7 @@ Jwt --> AuthenticationRoutes : /api/v1/auth/logout
 Jwt --> UserRoutes : /api/v1/users
 Jwt --> RoleRoutes : /api/v1/roles
 Jwt --> FeedbackRoutes : /api/v1/feedback
+Jwt --> ReportRoutes : /api/v1/reports\n/api/v1/photos
 Jwt --> UserRepository : user active,\nsame token version
 
 AuthenticationRoutes --> AuthenticationService
@@ -58,6 +67,14 @@ FeedbackRoutes --> AuthorizationService : owner or permission
 FeedbackRoutes --> FeedbackService
 FeedbackService --> FeedbackRepository
 FeedbackRepository --> DB
+ReportRoutes --> AuthorizationService : owner or permission
+ReportRoutes --> ReportService
+ReportRoutes --> ReportPhotoService
+ReportService --> ReportRepository
+ReportService --> ReportPhotoService : delete photo files
+ReportPhotoService --> ReportRepository
+ReportPhotoService --> PhotoStorage
+ReportRepository --> DB
 
 UserService --> UserRepository
 AuthorizationService --> AuthorizationRepository

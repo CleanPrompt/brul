@@ -9,6 +9,8 @@ build/
 **/*.db
 **/*.mv.db
 **/*.trace.db
+# Photos of reports (FileSystemPhotoStorage)
+data/uploads/
 
 # Course material (kept locally, not part of the product)
 docs/school/

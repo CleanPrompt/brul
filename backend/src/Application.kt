@@ -14,6 +14,11 @@ import nl.brul.backend.features.authorization.service.AuthorizationService
 import nl.brul.backend.features.authorization.service.RoleService
 import nl.brul.backend.features.feedback.repository.ExposedFeedbackRepository
 import nl.brul.backend.features.feedback.service.FeedbackService
+import nl.brul.backend.features.report.repository.ExposedReportPhotoRepository
+import nl.brul.backend.features.report.repository.ExposedReportRepository
+import nl.brul.backend.features.report.repository.FileSystemPhotoStorage
+import nl.brul.backend.features.report.service.ReportPhotoService
+import nl.brul.backend.features.report.service.ReportService
 import nl.brul.backend.features.user.repository.ExposedUserRepository
 import nl.brul.backend.features.user.service.UserService
 import nl.brul.backend.plugins.configureAuthentication
@@ -22,6 +27,7 @@ import nl.brul.backend.plugins.configureRateLimiting
 import nl.brul.backend.plugins.configureRouting
 import nl.brul.backend.plugins.configureSerialization
 import nl.brul.backend.plugins.configureStatusPages
+import java.nio.file.Path
 
 fun main() {
     val config = AppConfig.load()
@@ -44,6 +50,10 @@ fun Application.module(config: AppConfig = AppConfig.load()) {
     val userRepository = ExposedUserRepository()
     val authorizationRepository = ExposedAuthorizationRepository()
     val feedbackRepository = ExposedFeedbackRepository()
+    val reportRepository = ExposedReportRepository()
+    val reportPhotoRepository = ExposedReportPhotoRepository()
+    // Photo files live next to the database file; the folder is ignored by Git.
+    val photoStorage = FileSystemPhotoStorage(Path.of("data", "uploads"))
 
     AuthorizationSeeder(authorizationRepository).seed()
 
@@ -60,6 +70,8 @@ fun Application.module(config: AppConfig = AppConfig.load()) {
         bootstrapAdminEmail = config.bootstrapAdminEmail
     )
     val feedbackService = FeedbackService(feedbackRepository)
+    val reportPhotoService = ReportPhotoService(reportRepository, reportPhotoRepository, photoStorage)
+    val reportService = ReportService(reportRepository, reportPhotoService)
 
     // Plugins and routes
     configureCallLogging()
@@ -67,5 +79,13 @@ fun Application.module(config: AppConfig = AppConfig.load()) {
     configureStatusPages()
     configureRateLimiting()
     configureAuthentication(jwtService, userRepository)
-    configureRouting(authenticationService, userService, roleService, authorizationService, feedbackService)
+    configureRouting(
+        authenticationService,
+        userService,
+        roleService,
+        authorizationService,
+        feedbackService,
+        reportService,
+        reportPhotoService
+    )
 }

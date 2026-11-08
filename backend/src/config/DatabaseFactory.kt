@@ -5,6 +5,8 @@ import nl.brul.backend.features.authorization.database.RolePermissionsTable
 import nl.brul.backend.features.authorization.database.RolesTable
 import nl.brul.backend.features.authorization.database.UserRolesTable
 import nl.brul.backend.features.feedback.database.FeedbackTable
+import nl.brul.backend.features.report.database.ReportPhotosTable
+import nl.brul.backend.features.report.database.ReportsTable
 import nl.brul.backend.features.user.database.UsersTable
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
@@ -27,7 +29,9 @@ object DatabaseFactory {
                 PermissionsTable,
                 UserRolesTable,
                 RolePermissionsTable,
-                FeedbackTable
+                FeedbackTable,
+                ReportsTable,
+                ReportPhotosTable
             )
         }
     }

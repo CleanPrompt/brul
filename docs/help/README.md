@@ -6,7 +6,7 @@ Dit dossier legt stap voor stap uit hoe deze module is opgebouwd volgens de *fea
 ## Inhoudsopgave
 
 1. [Stap 1: Autorisatie & RBAC](01-autorisatie-en-rbac.md)
-2. *Stap 2: Pure Logica & Value Objects (CheckInValidator, CalendarFeedService)*
+2. [Stap 2: Pure Logica & Value Objects (CheckInValidator, CalendarFeedService)](02-pure-logica-en-value-objects.md)
 3. *Stap 3: Domeinmodel, DTO's & Mappers*
 4. *Stap 4: Database Tabel & Seeding*
 5. *Stap 5: Repository Laag & In-memory Fakes*

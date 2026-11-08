@@ -106,7 +106,7 @@ class HelpParticipationService(
         val request = findHelpRequestOrThrow(helpRequestId)
 
         if (request.ownerId != userId) {
-            throw AppException.Forbidden("Only the owner can generate a check-in code.")
+            throw AppException.Forbidden("Only the owner can generate a check-in code.", "NOT_HELP_REQUEST_OWNER")
         }
 
         if (!request.isOpen) {

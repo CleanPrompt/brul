@@ -20,6 +20,9 @@ import nl.brul.backend.features.authorization.service.AuthorizationService
 import nl.brul.backend.features.authorization.service.RoleService
 import nl.brul.backend.features.feedback.FakeFeedbackRepository
 import nl.brul.backend.features.feedback.service.FeedbackService
+import nl.brul.backend.features.help.FakeHelpParticipationRepository
+import nl.brul.backend.features.help.FakeHelpRequestProvider
+import nl.brul.backend.features.help.service.HelpParticipationService
 import nl.brul.backend.features.user.FakeUserRepository
 import nl.brul.backend.features.user.service.UserService
 import nl.brul.backend.plugins.configureAuthentication
@@ -68,6 +71,9 @@ class TestServices {
     )
     val feedbackRepository = FakeFeedbackRepository()
     val feedbackService = FeedbackService(feedbackRepository)
+    val helpParticipationRepository = FakeHelpParticipationRepository()
+    val helpRequestProvider = FakeHelpRequestProvider()
+    val helpParticipationService = HelpParticipationService(helpParticipationRepository, helpRequestProvider)
 }
 
 /** Installs the plugins and routes like `Application.module()`, but with [services]. */
@@ -81,7 +87,8 @@ fun Application.configureTestApp(services: TestServices) {
         services.userService,
         services.roleService,
         services.authorizationService,
-        services.feedbackService
+        services.feedbackService,
+        services.helpParticipationService
     )
 }
 

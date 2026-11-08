@@ -10,6 +10,6 @@ Dit dossier legt stap voor stap uit hoe deze module is opgebouwd volgens de *fea
 3. [Stap 3: Domeinmodel, DTO's & Mappers](03-domeinmodel-dtos-en-mappers.md)
 4. [Stap 4: Database Tabel & Seeding](04-database-tabel-en-seeding.md)
 5. [Stap 5: Repository Laag & In-memory Fakes](05-repository-laag-en-fakes.md)
-6. *Stap 6: Service Laag & Contracten*
+6. [Stap 6: Service Laag & Contracten](06-service-laag-en-contracten.md)
 7. *Stap 7: HTTP Routes & Ktor Wiring*
 8. *Stap 8: OpenAPI Specificatie & HTTP Client Tests*

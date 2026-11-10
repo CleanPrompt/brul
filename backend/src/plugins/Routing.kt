@@ -21,6 +21,8 @@ import nl.brul.backend.features.report.service.ReportPhotoService
 import nl.brul.backend.features.report.service.ReportService
 import nl.brul.backend.features.user.route.userRoutes
 import nl.brul.backend.features.user.service.UserService
+import nl.brul.backend.features.vote.route.voteRoutes
+import nl.brul.backend.features.vote.service.VoteService
 
 fun Application.configureRouting(
     authenticationService: AuthenticationService,
@@ -30,6 +32,7 @@ fun Application.configureRouting(
     feedbackService: FeedbackService,
     reportService: ReportService,
     reportPhotoService: ReportPhotoService
+    voteService: VoteService
 ) {
     routing {
         healthRoutes()
@@ -41,6 +44,8 @@ fun Application.configureRouting(
                     authenticationRoutes(authenticationService)
                 }
             }
+
+            voteRoutes(voteService)
 
             // Everything below requires a valid token; each route checks its own permission.
             authenticate(JWT_AUTHENTICATION) {

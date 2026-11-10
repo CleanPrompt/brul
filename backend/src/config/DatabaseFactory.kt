@@ -8,6 +8,7 @@ import nl.brul.backend.features.feedback.database.FeedbackTable
 import nl.brul.backend.features.report.database.ReportPhotosTable
 import nl.brul.backend.features.report.database.ReportsTable
 import nl.brul.backend.features.user.database.UsersTable
+import nl.brul.backend.features.vote.database.VotesTable
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -32,6 +33,7 @@ object DatabaseFactory {
                 FeedbackTable,
                 ReportsTable,
                 ReportPhotosTable
+                VotesTable
             )
         }
     }

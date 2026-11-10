@@ -55,6 +55,7 @@ functions. `dto/` holds the request/response contracts; `model/` holds the domai
 | `features/user/` | User model, persistence and user endpoints |
 | `features/feedback/` | Reference feature: user-owned CRUD with an admin override; the template for new features |
 | `features/report/` | Neighbourhood reports (safety, nuisance, help requests) with search on distance, and photos with GPS |
+| `features/vote/` | Community voting and score engine for feedback items |
 | `features/health/` | `GET /health` |
 
 Naming: code uses the full words `authentication` and `authorization`; only the URL keeps the
@@ -111,6 +112,18 @@ token_version int (ver claim)
             volunteers_needed only HELP_REQUEST (1–50)
             created_at        timestamp (UTC)
             view_count        int, +1 per GET /reports/{id}
+      └──── feedback
+            id          UUID  PK
+            user_id     FK (owner)
+            message     max 2000 characters
+            status      OPEN | IN_PROGRESS | CLOSED
+            created_at  timestamp (UTC)
+            │
+            └──── votes
+                  id           UUID  PK
+                  feedback_id  FK (CASCADE)
+                  user_id      FK (CASCADE)
+                  type         LIKE | DISLIKE
 ```
 
 - A user has one or more roles; a role has one or more permissions (many-to-many).
@@ -232,6 +245,10 @@ The overview; parameters and schemas are in `openapi.yaml`.
 | `POST` | `/api/v1/reports/{id}/photos` | Owner of the report, or `report.update`; multipart (`photo`, optional `latitude`, `longitude`) |
 | `GET` | `/api/v1/photos/{id}` | Authenticated; the image itself |
 | `DELETE` | `/api/v1/photos/{id}` | Uploader, or `report.photo.delete` |
+| `GET` | `/api/v1/feedback/{id}/votes` | Public (summary: likes, dislikes, score, total) |
+| `PUT` | `/api/v1/feedback/{id}/vote` | Authenticated (non-owner only; creates or updates vote) |
+| `GET` | `/api/v1/feedback/{id}/vote/me` | Authenticated (caller's own vote) |
+| `DELETE` | `/api/v1/feedback/{id}/vote` | Authenticated (removes caller's own vote) |
 
 ### Lists: search, filter, sort and paging
 
@@ -275,6 +292,10 @@ in `backend/http/`: numbered files that assert their expected status codes (see 
 | Unit | Domain rules, mappers, query parameters, password hashing, JWT | `ReportModelTest`, `ReportSearchTest`, `PhotoRulesTest`, `PhotoGpsReaderTest`, `UserMapperTest`, `FeedbackMapperTest`, `ReportMapperTest`, `QueryParametersTest`, `PasswordHasherTest`, `JwtServiceTest` |
 | Integration | Exposed repositories and the seeder against in-memory H2 | `UserRepositoryTest`, `AuthorizationRepositoryTest`, `FeedbackRepositoryTest`, `ReportRepositoryTest`, `ReportPhotoRepositoryTest` |
 | API | `testApplication` with `TestServices` (all services wired with fakes) | `AuthenticationRoutesTest`, `UserRoutesTest`, `RoleRoutesTest`, `FeedbackRoutesTest`, `ReportRoutesTest`, `ReportPhotoRoutesTest`, `StatusPagesTest` |
+| Unit | Services with fake repositories | `AuthenticationServiceTest`, `AuthorizationServiceTest`, `UserServiceTest`, `FeedbackServiceTest`, `VoteServiceTest` |
+| Unit | Mappers, query parameters, password hashing, JWT | `UserMapperTest`, `FeedbackMapperTest`, `VoteMapperTest`, `VoteModelTest`, `QueryParametersTest`, `PasswordHasherTest`, `JwtServiceTest` |
+| Integration | Exposed repositories and the seeder against in-memory H2 | `UserRepositoryTest`, `AuthorizationRepositoryTest`, `FeedbackRepositoryTest`, `VoteRepositoryTest` |
+| API | `testApplication` with `TestServices` (all services wired with fakes) | `AuthenticationRoutesTest`, `UserRoutesTest`, `RoleRoutesTest`, `FeedbackRoutesTest`, `VoteRoutesTest`, `StatusPagesTest` |
 
 Every endpoint is tested for the happy flow and the relevant error flows. Run all tests with `./kotlin test`.
 

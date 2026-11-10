@@ -423,6 +423,7 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 
+<<<<<<< HEAD
   /api/v1/reports:
     post:
       summary: Make a report; the caller becomes the owner and the status starts as OPEN
@@ -527,12 +528,33 @@ paths:
       summary: >-
         Replace the content and the status (owner, or report.update). The type cannot change; the status only moves
         forward (OPEN → IN_PROGRESS → RESOLVED, or OPEN → RESOLVED).
+=======
+  /api/v1/feedback/{id}/votes:
+    parameters:
+      - $ref: '#/components/parameters/FeedbackId'
+    get:
+      summary: Public vote summary for a feedback item
+      responses:
+        '200':
+          $ref: '#/components/responses/VoteSummary'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /api/v1/feedback/{id}/vote:
+    parameters:
+      - $ref: '#/components/parameters/FeedbackId'
+    put:
+      summary: Cast or update a vote (non-owner only; 201 if created, 200 if updated)
+>>>>>>> Joss7-11-26
       security: [{ bearerAuth: [] }]
       requestBody:
         required: true
         content:
           application/json:
             schema:
+<<<<<<< HEAD
               $ref: '#/components/schemas/UpdateReportRequest'
       responses:
         '200':
@@ -616,6 +638,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ReportPhotoResponse'
+=======
+              $ref: '#/components/schemas/VoteRequest'
+      responses:
+        '200':
+          $ref: '#/components/responses/Vote'
+        '201':
+          $ref: '#/components/responses/Vote'
+>>>>>>> Joss7-11-26
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -624,6 +654,7 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+<<<<<<< HEAD
         '409':
           description: The report already has 3 photos (`PHOTO_LIMIT_REACHED`)
           content:
@@ -673,12 +704,39 @@ paths:
       responses:
         '204':
           description: Photo deleted
+=======
+    delete:
+      summary: Remove the caller's vote
+      security: [{ bearerAuth: [] }]
+      responses:
+        '204':
+          description: Vote removed
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
           $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /api/v1/feedback/{id}/vote/me:
+    parameters:
+      - $ref: '#/components/parameters/FeedbackId'
+    get:
+      summary: Retrieve the caller's vote for this feedback item
+      security: [{ bearerAuth: [] }]
+      responses:
+        '200':
+          $ref: '#/components/responses/Vote'
+>>>>>>> Joss7-11-26
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+<<<<<<< HEAD
         '403':
           $ref: '#/components/responses/Forbidden'
+=======
+>>>>>>> Joss7-11-26
         '404':
           $ref: '#/components/responses/NotFound'
 
@@ -763,6 +821,18 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/FeedbackResponse'
+    Vote:
+      description: The vote
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/VoteResponse'
+    VoteSummary:
+      description: The vote summary
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/VoteSummaryResponse'
     User:
       description: The user
       content:
@@ -987,6 +1057,7 @@ components:
           format: date-time
           description: Set by the server, ISO 8601 in UTC
           example: '2026-11-05T09:30:00Z'
+<<<<<<< HEAD
     ReportCategory:
       type: string
       description: >-
@@ -1038,10 +1109,26 @@ components:
               enum: [OPEN, IN_PROGRESS, RESOLVED]
     ReportResponse:
       type: object
+=======
+    VoteType:
+      type: string
+      enum: [LIKE, DISLIKE]
+      example: LIKE
+    VoteRequest:
+      type: object
+      required: [type]
+      properties:
+        type:
+          $ref: '#/components/schemas/VoteType'
+    VoteResponse:
+      type: object
+      required: [id, feedbackId, userId, type]
+>>>>>>> Joss7-11-26
       properties:
         id:
           type: string
           format: uuid
+<<<<<<< HEAD
         ownerId:
           type: string
           format: uuid
@@ -1119,3 +1206,32 @@ components:
         url:
           type: string
           example: /api/v1/photos/0b9f4f0e-6c2a-4c1e-9d0e-3f1a2b3c4d5e
+=======
+        feedbackId:
+          type: string
+          format: uuid
+        userId:
+          type: string
+          format: uuid
+        type:
+          $ref: '#/components/schemas/VoteType'
+    VoteSummaryResponse:
+      type: object
+      required: [feedbackId, likes, dislikes, score, totalVotes]
+      properties:
+        feedbackId:
+          type: string
+          format: uuid
+        likes:
+          type: integer
+          example: 5
+        dislikes:
+          type: integer
+          example: 1
+        score:
+          type: integer
+          example: 4
+        totalVotes:
+          type: integer
+          example: 6
+>>>>>>> Joss7-11-26

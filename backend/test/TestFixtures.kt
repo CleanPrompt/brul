@@ -27,6 +27,8 @@ import nl.brul.backend.features.report.service.ReportPhotoService
 import nl.brul.backend.features.report.service.ReportService
 import nl.brul.backend.features.user.FakeUserRepository
 import nl.brul.backend.features.user.service.UserService
+import nl.brul.backend.features.vote.FakeVoteRepository
+import nl.brul.backend.features.vote.service.VoteService
 import nl.brul.backend.plugins.configureAuthentication
 import nl.brul.backend.plugins.configureRateLimiting
 import nl.brul.backend.plugins.configureRouting
@@ -78,6 +80,8 @@ class TestServices {
     val photoStorage = InMemoryPhotoStorage()
     val reportPhotoService = ReportPhotoService(reportRepository, reportPhotoRepository, photoStorage)
     val reportService = ReportService(reportRepository, reportPhotoService)
+    val voteRepository = FakeVoteRepository()
+    val voteService = VoteService(voteRepository, feedbackService)
 }
 
 /** Installs the plugins and routes like `Application.module()`, but with [services]. */
@@ -94,6 +98,7 @@ fun Application.configureTestApp(services: TestServices) {
         services.feedbackService,
         services.reportService,
         services.reportPhotoService
+        services.voteService
     )
 }
 

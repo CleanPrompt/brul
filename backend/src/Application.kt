@@ -21,6 +21,8 @@ import nl.brul.backend.features.report.service.ReportPhotoService
 import nl.brul.backend.features.report.service.ReportService
 import nl.brul.backend.features.user.repository.ExposedUserRepository
 import nl.brul.backend.features.user.service.UserService
+import nl.brul.backend.features.vote.repository.ExposedVoteRepository
+import nl.brul.backend.features.vote.service.VoteService
 import nl.brul.backend.plugins.configureAuthentication
 import nl.brul.backend.plugins.configureCallLogging
 import nl.brul.backend.plugins.configureRateLimiting
@@ -54,6 +56,7 @@ fun Application.module(config: AppConfig = AppConfig.load()) {
     val reportPhotoRepository = ExposedReportPhotoRepository()
     // Photo files live next to the database file; the folder is ignored by Git.
     val photoStorage = FileSystemPhotoStorage(Path.of("data", "uploads"))
+    val voteRepository = ExposedVoteRepository()
 
     AuthorizationSeeder(authorizationRepository).seed()
 
@@ -72,6 +75,7 @@ fun Application.module(config: AppConfig = AppConfig.load()) {
     val feedbackService = FeedbackService(feedbackRepository)
     val reportPhotoService = ReportPhotoService(reportRepository, reportPhotoRepository, photoStorage)
     val reportService = ReportService(reportRepository, reportPhotoService)
+    val voteService = VoteService(voteRepository, feedbackService)
 
     // Plugins and routes
     configureCallLogging()
@@ -87,5 +91,6 @@ fun Application.module(config: AppConfig = AppConfig.load()) {
         feedbackService,
         reportService,
         reportPhotoService
+        voteService
     )
 }

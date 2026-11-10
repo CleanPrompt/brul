@@ -423,6 +423,73 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 
+  /api/v1/feedback/{id}/votes:
+    parameters:
+      - $ref: '#/components/parameters/FeedbackId'
+    get:
+      summary: Public vote summary for a feedback item
+      responses:
+        '200':
+          $ref: '#/components/responses/VoteSummary'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /api/v1/feedback/{id}/vote:
+    parameters:
+      - $ref: '#/components/parameters/FeedbackId'
+    put:
+      summary: Cast or update a vote (non-owner only; 201 if created, 200 if updated)
+      security: [{ bearerAuth: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VoteRequest'
+      responses:
+        '200':
+          $ref: '#/components/responses/Vote'
+        '201':
+          $ref: '#/components/responses/Vote'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      summary: Remove the caller's vote
+      security: [{ bearerAuth: [] }]
+      responses:
+        '204':
+          description: Vote removed
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /api/v1/feedback/{id}/vote/me:
+    parameters:
+      - $ref: '#/components/parameters/FeedbackId'
+    get:
+      summary: Retrieve the caller's vote for this feedback item
+      security: [{ bearerAuth: [] }]
+      responses:
+        '200':
+          $ref: '#/components/responses/Vote'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
 components:
   securitySchemes:
     bearerAuth:
@@ -484,6 +551,18 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/FeedbackResponse'
+    Vote:
+      description: The vote
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/VoteResponse'
+    VoteSummary:
+      description: The vote summary
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/VoteSummaryResponse'
     User:
       description: The user
       content:
@@ -706,3 +785,47 @@ components:
           format: date-time
           description: Set by the server, ISO 8601 in UTC
           example: '2026-11-05T09:30:00Z'
+    VoteType:
+      type: string
+      enum: [LIKE, DISLIKE]
+      example: LIKE
+    VoteRequest:
+      type: object
+      required: [type]
+      properties:
+        type:
+          $ref: '#/components/schemas/VoteType'
+    VoteResponse:
+      type: object
+      required: [id, feedbackId, userId, type]
+      properties:
+        id:
+          type: string
+          format: uuid
+        feedbackId:
+          type: string
+          format: uuid
+        userId:
+          type: string
+          format: uuid
+        type:
+          $ref: '#/components/schemas/VoteType'
+    VoteSummaryResponse:
+      type: object
+      required: [feedbackId, likes, dislikes, score, totalVotes]
+      properties:
+        feedbackId:
+          type: string
+          format: uuid
+        likes:
+          type: integer
+          example: 5
+        dislikes:
+          type: integer
+          example: 1
+        score:
+          type: integer
+          example: 4
+        totalVotes:
+          type: integer
+          example: 6

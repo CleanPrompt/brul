@@ -188,6 +188,91 @@ Authorization: Bearer {{adminToken}}
 %}
 
 
+### Owner cannot vote on own feedback (expect 403)
+PUT {{baseUrl}}/api/v1/feedback/{{feedbackId}}/vote
+Authorization: Bearer {{userToken}}
+Content-Type: application/json
+
+{
+  "type": "LIKE"
+}
+
+> {%
+    client.test("Owner cannot vote on own feedback", function () {
+        client.assert(response.status === 403, "Expected 403, got " + response.status);
+    });
+%}
+
+
+### Another user (admin) votes LIKE (expect 201)
+PUT {{baseUrl}}/api/v1/feedback/{{feedbackId}}/vote
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+  "type": "LIKE"
+}
+
+> {%
+    client.test("Another user can cast vote", function () {
+        client.assert(response.status === 201, "Expected 201, got " + response.status);
+        client.assert(response.body.type === "LIKE", "Vote must be LIKE");
+    });
+%}
+
+
+### Public vote summary (expect 200)
+GET {{baseUrl}}/api/v1/feedback/{{feedbackId}}/votes
+
+> {%
+    client.test("Vote summary has 1 like", function () {
+        client.assert(response.status === 200, "Expected 200, got " + response.status);
+        client.assert(response.body.likes === 1, "Expected 1 like");
+        client.assert(response.body.score === 1, "Expected score 1");
+    });
+%}
+
+
+### Admin changes vote to DISLIKE (expect 200)
+PUT {{baseUrl}}/api/v1/feedback/{{feedbackId}}/vote
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+  "type": "DISLIKE"
+}
+
+> {%
+    client.test("Vote can be updated", function () {
+        client.assert(response.status === 200, "Expected 200, got " + response.status);
+        client.assert(response.body.type === "DISLIKE", "Vote must be DISLIKE");
+    });
+%}
+
+
+### Admin checks own vote (expect 200)
+GET {{baseUrl}}/api/v1/feedback/{{feedbackId}}/vote/me
+Authorization: Bearer {{adminToken}}
+
+> {%
+    client.test("Can retrieve own vote", function () {
+        client.assert(response.status === 200, "Expected 200, got " + response.status);
+        client.assert(response.body.type === "DISLIKE", "Vote must be DISLIKE");
+    });
+%}
+
+
+### Admin removes own vote (expect 204)
+DELETE {{baseUrl}}/api/v1/feedback/{{feedbackId}}/vote
+Authorization: Bearer {{adminToken}}
+
+> {%
+    client.test("Vote removed", function () {
+        client.assert(response.status === 204, "Expected 204, got " + response.status);
+    });
+%}
+
+
 ### Delete own item
 DELETE {{baseUrl}}/api/v1/feedback/{{feedbackId}}
 Authorization: Bearer {{userToken}}

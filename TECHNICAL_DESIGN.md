@@ -54,6 +54,7 @@ functions. `dto/` holds the request/response contracts; `model/` holds the domai
 | `features/authorization/` | What may the caller do? Permissions, roles, seeding, access checks |
 | `features/user/` | User model, persistence and user endpoints |
 | `features/feedback/` | Reference feature: user-owned CRUD with an admin override; the template for new features |
+| `features/vote/` | Community voting and score engine for feedback items |
 | `features/health/` | `GET /health` |
 
 Naming: code uses the full words `authentication` and `authorization`; only the URL keeps the
@@ -94,6 +95,12 @@ token_version int (ver claim)
             message     max 2000 characters
             status      OPEN | IN_PROGRESS | CLOSED
             created_at  timestamp (UTC)
+            │
+            └──── votes
+                  id           UUID  PK
+                  feedback_id  FK (CASCADE)
+                  user_id      FK (CASCADE)
+                  type         LIKE | DISLIKE
 ```
 
 - A user has one or more roles; a role has one or more permissions (many-to-many).
@@ -167,7 +174,7 @@ code and returns one consistent body:
 | `BadRequest`, malformed JSON, invalid UUID or query parameter | 400 | `INVALID_REQUEST`, `INVALID_CURRENT_PASSWORD` |
 | `Unauthorized`, missing or invalid JWT | 401 | `UNAUTHORIZED`, `INVALID_CREDENTIALS` |
 | `Forbidden` | 403 | `FORBIDDEN` |
-| `NotFound`, unknown route | 404 | `USER_NOT_FOUND`, `ROLE_NOT_FOUND`, `FEEDBACK_NOT_FOUND`, `NOT_FOUND` |
+| `NotFound`, unknown route | 404 | `USER_NOT_FOUND`, `ROLE_NOT_FOUND`, `FEEDBACK_NOT_FOUND`, `VOTE_NOT_FOUND`, `NOT_FOUND` |
 | `Conflict` (also enforced by a unique index) | 409 | `EMAIL_ALREADY_REGISTERED` |
 | Rate limit exceeded | 429 | `TOO_MANY_REQUESTS` |
 | Any other exception (logged, no details to the client) | 500 | `INTERNAL_ERROR` |
@@ -197,6 +204,10 @@ The overview; parameters and schemas are in `openapi.yaml`.
 | `GET` | `/api/v1/feedback` | Own items, or all with `feedback.read`; search, filter, sort, page |
 | `GET` / `PATCH` / `DELETE` | `/api/v1/feedback/{id}` | Owner, or `feedback.read` / `feedback.update` / `feedback.delete` |
 | `PATCH` | `/api/v1/feedback/{id}/status` | `feedback.update` |
+| `GET` | `/api/v1/feedback/{id}/votes` | Public (summary: likes, dislikes, score, total) |
+| `PUT` | `/api/v1/feedback/{id}/vote` | Authenticated (non-owner only; creates or updates vote) |
+| `GET` | `/api/v1/feedback/{id}/vote/me` | Authenticated (caller's own vote) |
+| `DELETE` | `/api/v1/feedback/{id}/vote` | Authenticated (removes caller's own vote) |
 
 ### Lists: search, filter, sort and paging
 
@@ -234,10 +245,10 @@ in `backend/http/`: numbered files that assert their expected status codes (see 
 
 | Level | Approach | Example |
 |---|---|---|
-| Unit | Services with fake repositories | `AuthenticationServiceTest`, `AuthorizationServiceTest`, `UserServiceTest`, `FeedbackServiceTest` |
-| Unit | Mappers, query parameters, password hashing, JWT | `UserMapperTest`, `FeedbackMapperTest`, `QueryParametersTest`, `PasswordHasherTest`, `JwtServiceTest` |
-| Integration | Exposed repositories and the seeder against in-memory H2 | `UserRepositoryTest`, `AuthorizationRepositoryTest`, `FeedbackRepositoryTest` |
-| API | `testApplication` with `TestServices` (all services wired with fakes) | `AuthenticationRoutesTest`, `UserRoutesTest`, `RoleRoutesTest`, `FeedbackRoutesTest`, `StatusPagesTest` |
+| Unit | Services with fake repositories | `AuthenticationServiceTest`, `AuthorizationServiceTest`, `UserServiceTest`, `FeedbackServiceTest`, `VoteServiceTest` |
+| Unit | Mappers, query parameters, password hashing, JWT | `UserMapperTest`, `FeedbackMapperTest`, `VoteMapperTest`, `VoteModelTest`, `QueryParametersTest`, `PasswordHasherTest`, `JwtServiceTest` |
+| Integration | Exposed repositories and the seeder against in-memory H2 | `UserRepositoryTest`, `AuthorizationRepositoryTest`, `FeedbackRepositoryTest`, `VoteRepositoryTest` |
+| API | `testApplication` with `TestServices` (all services wired with fakes) | `AuthenticationRoutesTest`, `UserRoutesTest`, `RoleRoutesTest`, `FeedbackRoutesTest`, `VoteRoutesTest`, `StatusPagesTest` |
 
 Every endpoint is tested for the happy flow and the relevant error flows. Run all tests with `./kotlin test`.
 

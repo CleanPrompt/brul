@@ -17,13 +17,16 @@ import nl.brul.backend.features.feedback.service.FeedbackService
 import nl.brul.backend.features.health.route.healthRoutes
 import nl.brul.backend.features.user.route.userRoutes
 import nl.brul.backend.features.user.service.UserService
+import nl.brul.backend.features.vote.route.voteRoutes
+import nl.brul.backend.features.vote.service.VoteService
 
 fun Application.configureRouting(
     authenticationService: AuthenticationService,
     userService: UserService,
     roleService: RoleService,
     authorizationService: AuthorizationService,
-    feedbackService: FeedbackService
+    feedbackService: FeedbackService,
+    voteService: VoteService
 ) {
     routing {
         healthRoutes()
@@ -35,6 +38,8 @@ fun Application.configureRouting(
                     authenticationRoutes(authenticationService)
                 }
             }
+
+            voteRoutes(voteService)
 
             // Everything below requires a valid token; each route checks its own permission.
             authenticate(JWT_AUTHENTICATION) {

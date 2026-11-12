@@ -1,0 +1,100 @@
+# Run 1-authentication.http first (sets userToken, userId, adminToken).
+# Uses a seeded in-memory help request ID (e.g. 11111111-1111-1111-1111-111111111111).
+# Safe to run repeatedly.
+
+@helpRequestId = 11111111-1111-1111-1111-111111111111
+
+### 1. Download RFC 5545 iCalendar feed (Public, no token)
+GET {{baseUrl}}/api/v1/help-requests/{{helpRequestId}}/calendar.ics
+
+> {%
+    client.test("Public calendar feed returns 200 and text/calendar", function () {
+        client.assert(response.status === 200, "Expected 200, got " + response.status);
+        client.assert(response.body.indexOf("BEGIN:VCALENDAR") !== -1, "Must contain BEGIN:VCALENDAR");
+        client.assert(response.body.indexOf("END:VCALENDAR") !== -1, "Must contain END:VCALENDAR");
+    });
+%}
+
+
+### 2. View participant capacity summary (Public, no token)
+GET {{baseUrl}}/api/v1/help-requests/{{helpRequestId}}/participants/summary
+
+> {%
+    client.test("Summary returns 200 and capacity numbers", function () {
+        client.assert(response.status === 200, "Expected 200, got " + response.status);
+        client.assert(response.body.helpRequestId === "11111111-1111-1111-1111-111111111111", "Matching help request id");
+        client.assert(typeof response.body.volunteersNeeded === "number", "volunteersNeeded must be a number");
+        client.assert(typeof response.body.availablePlaces === "number", "availablePlaces must be a number");
+    });
+%}
+
+
+### 3. Join as volunteer (Authenticated)
+POST {{baseUrl}}/api/v1/help-requests/{{helpRequestId}}/participants
+Authorization: Bearer {{userToken}}
+
+> {%
+    client.test("Volunteer can join", function () {
+        client.assert(response.status === 201 || response.status === 409, "Expected 201 (or 409 if already joined), got " + response.status);
+        if (response.status === 201) {
+            client.assert(response.body.status === "SIGNED_UP", "Initial status must be SIGNED_UP");
+        }
+    });
+%}
+
+
+### 4. List participants (Authenticated)
+GET {{baseUrl}}/api/v1/help-requests/{{helpRequestId}}/participants
+Authorization: Bearer {{userToken}}
+
+> {%
+    client.test("List participants returns 200", function () {
+        client.assert(response.status === 200, "Expected 200, got " + response.status);
+        client.assert(Array.isArray(response.body), "Response must be an array");
+    });
+%}
+
+
+### 5. Generate check-in code (Owner only)
+# Uses adminToken representing the default seeded owner
+POST {{baseUrl}}/api/v1/help-requests/{{helpRequestId}}/check-in-code
+Authorization: Bearer {{adminToken}}
+
+> {%
+    client.test("Owner can generate check-in code", function () {
+        client.assert(response.status === 200 || response.status === 403, "Expected 200 (or 403 if not owner), got " + response.status);
+        if (response.status === 200) {
+            client.assert(response.body.code.length === 6, "Code must be 6 digits");
+            client.global.set("activeCheckInCode", response.body.code);
+        }
+    });
+%}
+
+
+### 6. Check in as volunteer (Authenticated, with OTP & GPS location)
+POST {{baseUrl}}/api/v1/help-requests/{{helpRequestId}}/check-in
+Authorization: Bearer {{userToken}}
+Content-Type: application/json
+
+{
+  "code": "{{activeCheckInCode}}",
+  "latitude": 51.9244,
+  "longitude": 4.4777
+}
+
+> {%
+    client.test("Check-in response received", function () {
+        client.assert(response.status === 200 || response.status === 400, "Expected 200 or 400 (if code not set), got " + response.status);
+    });
+%}
+
+
+### 7. Cancel participation / Leave (Authenticated)
+DELETE {{baseUrl}}/api/v1/help-requests/{{helpRequestId}}/participants/me
+Authorization: Bearer {{userToken}}
+
+> {%
+    client.test("Volunteer can leave", function () {
+        client.assert(response.status === 204 || response.status === 404, "Expected 204 (or 404 if not joined), got " + response.status);
+    });
+%}

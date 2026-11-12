@@ -15,10 +15,6 @@ import nl.brul.backend.features.authorization.service.RoleService
 import nl.brul.backend.features.feedback.route.feedbackRoutes
 import nl.brul.backend.features.feedback.service.FeedbackService
 import nl.brul.backend.features.health.route.healthRoutes
-import nl.brul.backend.features.report.route.reportPhotoRoutes
-import nl.brul.backend.features.report.route.reportRoutes
-import nl.brul.backend.features.report.service.ReportPhotoService
-import nl.brul.backend.features.report.service.ReportService
 import nl.brul.backend.features.user.route.userRoutes
 import nl.brul.backend.features.user.service.UserService
 import nl.brul.backend.features.vote.route.voteRoutes
@@ -29,15 +25,15 @@ fun Application.configureRouting(
     userService: UserService,
     roleService: RoleService,
     authorizationService: AuthorizationService,
-    feedbackService: FeedbackService,
-    reportService: ReportService,
-    reportPhotoService: ReportPhotoService
-    voteService: VoteService
+    feedbackService: FeedbackService
 ) {
     routing {
         healthRoutes()
 
         route("/api/v1") {
+            // Public calendar feed and summary
+            helpParticipationPublicRoutes(helpParticipationService)
+
             // Public, but rate limited.
             rateLimit(AUTHENTICATION_RATE_LIMIT) {
                 route("/auth") {
@@ -58,8 +54,6 @@ fun Application.configureRouting(
                 userRoutes(userService, authorizationService)
                 roleRoutes(roleService, authorizationService)
                 feedbackRoutes(feedbackService, authorizationService)
-                reportRoutes(reportService, authorizationService)
-                reportPhotoRoutes(reportPhotoService, authorizationService)
             }
         }
     }

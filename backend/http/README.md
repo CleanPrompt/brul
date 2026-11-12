@@ -5,7 +5,7 @@ whole file works as a smoke test; results appear in the Tests tab.
 
 1. In `backend/.env`, set `BOOTSTRAP_ADMIN_EMAIL` to the `adminEmail` in `http-client.env.json`.
 2. Start the server (`kotlin.bat run`) and choose the environment `dev`.
-3. Run the files in order: `0-health`, `1-authentication`, `2-users`, `3-roles`, `4-feedback`, `5-logout`.
+3. Run the files in order: `0-health`, `1-authentication`, `2-users`, `3-roles`, `4-feedback`, `6-help`, `5-logout`.
    Logout ends every session of the user, so run `1-authentication` again before re-running the others.
    `6-reports` needs valid tokens too: run it before `5-logout`, or run `1-authentication` again first. It uploads
    `report-photo.jpg`, a tiny photo with GPS data in it.

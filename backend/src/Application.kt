@@ -14,11 +14,6 @@ import nl.brul.backend.features.authorization.service.AuthorizationService
 import nl.brul.backend.features.authorization.service.RoleService
 import nl.brul.backend.features.feedback.repository.ExposedFeedbackRepository
 import nl.brul.backend.features.feedback.service.FeedbackService
-import nl.brul.backend.features.report.repository.ExposedReportPhotoRepository
-import nl.brul.backend.features.report.repository.ExposedReportRepository
-import nl.brul.backend.features.report.repository.FileSystemPhotoStorage
-import nl.brul.backend.features.report.service.ReportPhotoService
-import nl.brul.backend.features.report.service.ReportService
 import nl.brul.backend.features.user.repository.ExposedUserRepository
 import nl.brul.backend.features.user.service.UserService
 import nl.brul.backend.features.vote.repository.ExposedVoteRepository
@@ -52,11 +47,6 @@ fun Application.module(config: AppConfig = AppConfig.load()) {
     val userRepository = ExposedUserRepository()
     val authorizationRepository = ExposedAuthorizationRepository()
     val feedbackRepository = ExposedFeedbackRepository()
-    val reportRepository = ExposedReportRepository()
-    val reportPhotoRepository = ExposedReportPhotoRepository()
-    // Photo files live next to the database file; the folder is ignored by Git.
-    val photoStorage = FileSystemPhotoStorage(Path.of("data", "uploads"))
-    val voteRepository = ExposedVoteRepository()
 
     AuthorizationSeeder(authorizationRepository).seed()
 
@@ -73,9 +63,6 @@ fun Application.module(config: AppConfig = AppConfig.load()) {
         bootstrapAdminEmail = config.bootstrapAdminEmail
     )
     val feedbackService = FeedbackService(feedbackRepository)
-    val reportPhotoService = ReportPhotoService(reportRepository, reportPhotoRepository, photoStorage)
-    val reportService = ReportService(reportRepository, reportPhotoService)
-    val voteService = VoteService(voteRepository, feedbackService)
 
     // Plugins and routes
     configureCallLogging()
@@ -83,14 +70,5 @@ fun Application.module(config: AppConfig = AppConfig.load()) {
     configureStatusPages()
     configureRateLimiting()
     configureAuthentication(jwtService, userRepository)
-    configureRouting(
-        authenticationService,
-        userService,
-        roleService,
-        authorizationService,
-        feedbackService,
-        reportService,
-        reportPhotoService
-        voteService
-    )
+    configureRouting(authenticationService, userService, roleService, authorizationService, feedbackService)
 }

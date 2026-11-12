@@ -20,11 +20,6 @@ import nl.brul.backend.features.authorization.service.AuthorizationService
 import nl.brul.backend.features.authorization.service.RoleService
 import nl.brul.backend.features.feedback.FakeFeedbackRepository
 import nl.brul.backend.features.feedback.service.FeedbackService
-import nl.brul.backend.features.report.FakeReportPhotoRepository
-import nl.brul.backend.features.report.FakeReportRepository
-import nl.brul.backend.features.report.InMemoryPhotoStorage
-import nl.brul.backend.features.report.service.ReportPhotoService
-import nl.brul.backend.features.report.service.ReportService
 import nl.brul.backend.features.user.FakeUserRepository
 import nl.brul.backend.features.user.service.UserService
 import nl.brul.backend.features.vote.FakeVoteRepository
@@ -75,13 +70,6 @@ class TestServices {
     )
     val feedbackRepository = FakeFeedbackRepository()
     val feedbackService = FeedbackService(feedbackRepository)
-    val reportRepository = FakeReportRepository()
-    val reportPhotoRepository = FakeReportPhotoRepository()
-    val photoStorage = InMemoryPhotoStorage()
-    val reportPhotoService = ReportPhotoService(reportRepository, reportPhotoRepository, photoStorage)
-    val reportService = ReportService(reportRepository, reportPhotoService)
-    val voteRepository = FakeVoteRepository()
-    val voteService = VoteService(voteRepository, feedbackService)
 }
 
 /** Installs the plugins and routes like `Application.module()`, but with [services]. */
@@ -95,10 +83,7 @@ fun Application.configureTestApp(services: TestServices) {
         services.userService,
         services.roleService,
         services.authorizationService,
-        services.feedbackService,
-        services.reportService,
-        services.reportPhotoService
-        services.voteService
+        services.feedbackService
     )
 }
 

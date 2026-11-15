@@ -3,6 +3,8 @@ package nl.brul.backend.features.help.database
 import nl.brul.backend.features.help.model.ParticipationStatus
 import nl.brul.backend.features.user.database.UsersTable
 import org.jetbrains.exposed.sql.Table
+import org.jetbrains.exposed.sql.ReferenceOption
+import nl.brul.backend.features.report.database.ReportsTable
 import org.jetbrains.exposed.sql.javatime.timestamp
 
 /**
@@ -10,7 +12,7 @@ import org.jetbrains.exposed.sql.javatime.timestamp
  */
 object HelpParticipationsTable : Table("help_participations") {
     val id = uuid("id")
-    val helpRequestId = uuid("help_request_id")
+    val helpRequestId = reference("help_request_id", ReportsTable.id, onDelete = ReferenceOption.CASCADE)
     /** Foreign key: every participation belongs to an existing user. */
     val userId = reference("user_id", UsersTable.id)
     /** Stored as the enum name (`SIGNED_UP`, `ATTENDED`, etc.). */

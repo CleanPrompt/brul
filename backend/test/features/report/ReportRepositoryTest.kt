@@ -1,6 +1,7 @@
 package nl.brul.backend.features.report
 
 import nl.brul.backend.TEST_CREATED_AT
+import nl.brul.backend.features.help.database.HelpParticipationsTable
 import nl.brul.backend.features.report.database.ReportPhotosTable
 import nl.brul.backend.features.report.database.ReportsTable
 import nl.brul.backend.features.report.model.Report
@@ -33,7 +34,7 @@ class ReportRepositoryTest {
     @BeforeTest
     fun setUp() {
         Database.connect("jdbc:h2:mem:report_repository_test;DB_CLOSE_DELAY=-1", driver = "org.h2.Driver")
-        transaction { SchemaUtils.create(UsersTable, ReportsTable, ReportPhotosTable) }
+        transaction { SchemaUtils.create(HelpParticipationsTable, UsersTable, ReportsTable, ReportPhotosTable) }
     }
 
     /** The foreign key needs an existing user. */

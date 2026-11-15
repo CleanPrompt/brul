@@ -22,5 +22,7 @@ data class ReportResponse(
     val volunteersNeeded: Int? = null,
     /** ISO 8601 in UTC, e.g. `2026-11-08T09:30:00Z`. */
     val createdAt: String,
-    val viewCount: Int
+    val viewCount: Int,
+    val startTime: String? = null,
+    val endTime: String? = null
 )

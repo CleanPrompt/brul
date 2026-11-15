@@ -15,6 +15,13 @@ import nl.brul.backend.features.authorization.service.RoleService
 import nl.brul.backend.features.feedback.route.feedbackRoutes
 import nl.brul.backend.features.feedback.service.FeedbackService
 import nl.brul.backend.features.health.route.healthRoutes
+import nl.brul.backend.features.help.route.helpParticipationPublicRoutes
+import nl.brul.backend.features.help.route.helpParticipationRoutes
+import nl.brul.backend.features.help.service.HelpParticipationService
+import nl.brul.backend.features.report.route.reportRoutes
+import nl.brul.backend.features.report.route.reportPhotoRoutes
+import nl.brul.backend.features.report.service.ReportService
+import nl.brul.backend.features.report.service.ReportPhotoService
 import nl.brul.backend.features.user.route.userRoutes
 import nl.brul.backend.features.user.service.UserService
 import nl.brul.backend.features.vote.route.voteRoutes
@@ -25,7 +32,11 @@ fun Application.configureRouting(
     userService: UserService,
     roleService: RoleService,
     authorizationService: AuthorizationService,
-    feedbackService: FeedbackService
+    feedbackService: FeedbackService,
+    voteService: VoteService,
+    helpParticipationService: HelpParticipationService,
+    reportService: ReportService,
+    reportPhotoService: ReportPhotoService
 ) {
     routing {
         healthRoutes()
@@ -54,6 +65,9 @@ fun Application.configureRouting(
                 userRoutes(userService, authorizationService)
                 roleRoutes(roleService, authorizationService)
                 feedbackRoutes(feedbackService, authorizationService)
+                helpParticipationRoutes(helpParticipationService, authorizationService)
+                reportRoutes(reportService, authorizationService)
+                reportPhotoRoutes(reportPhotoService, authorizationService)
             }
         }
     }

@@ -26,7 +26,7 @@ class HelpParticipationService(
     /**
      * Signs up a volunteer for a help request.
      */
-    fun join(helpRequestId: UUID, userId: UUID): HelpParticipation {
+    fun join(helpRequestId: UUID, userId: UUID): HelpParticipation = helpRequestProvider.withRequestLock(helpRequestId) {
         val request = findHelpRequestOrThrow(helpRequestId)
 
         if (request.ownerId == userId) {
@@ -57,20 +57,20 @@ class HelpParticipationService(
             status = ParticipationStatus.SIGNED_UP
         )
 
-        return participationRepository.save(participation)
+        participationRepository.save(participation)
     }
 
     /**
      * Removes a volunteer's registration.
      */
-    fun leave(helpRequestId: UUID, userId: UUID): Boolean {
+    fun leave(helpRequestId: UUID, userId: UUID): Boolean = helpRequestProvider.withRequestLock(helpRequestId) {
         findHelpRequestOrThrow(helpRequestId)
 
         val removed = participationRepository.delete(helpRequestId, userId)
         if (!removed) {
             throw AppException.NotFound("Participation not found.", "PARTICIPATION_NOT_FOUND")
         }
-        return true
+        true
     }
 
     /**
@@ -102,7 +102,7 @@ class HelpParticipationService(
     /**
      * Generates a 6-digit check-in code. Only the owner of the help request can perform this.
      */
-    fun generateCheckInCode(helpRequestId: UUID, userId: UUID): CheckInCodeResponse {
+    fun generateCheckInCode(helpRequestId: UUID, userId: UUID): CheckInCodeResponse = helpRequestProvider.withRequestLock(helpRequestId) {
         val request = findHelpRequestOrThrow(helpRequestId)
 
         if (request.ownerId != userId) {
@@ -117,10 +117,11 @@ class HelpParticipationService(
         }
 
         val code = (100000..999999).random().toString()
-        val expiresAt = request.endTime
+        requirePlanning(request)
+        val expiresAt = request.endTime!!
         helpRequestProvider.setCheckInCode(helpRequestId, code, expiresAt)
 
-        return CheckInCodeResponse(
+        CheckInCodeResponse(
             helpRequestId = helpRequestId.toString(),
             code = code,
             expiresAt = expiresAt.toString()
@@ -135,7 +136,7 @@ class HelpParticipationService(
         userId: UUID,
         code: String,
         volunteerLocation: Location?
-    ): CheckInResponse {
+    ): CheckInResponse = helpRequestProvider.withRequestLock(helpRequestId) {
         val request = findHelpRequestOrThrow(helpRequestId)
 
         val participation = participationRepository.findByHelpRequestAndUser(helpRequestId, userId)
@@ -144,6 +145,7 @@ class HelpParticipationService(
                 "NOT_REGISTERED"
             )
 
+        requirePlanning(request)
         val stored = helpRequestProvider.getCheckInCode(helpRequestId)
             ?: throw AppException.BadRequest(
                 "No active check-in code has been generated for this help request.",
@@ -151,11 +153,14 @@ class HelpParticipationService(
             )
 
         val now = currentTime()
+        if (now.isAfter(stored.expiresAt)) {
+            throw AppException.BadRequest("Check-in window has expired.", "CHECK_IN_TOO_LATE")
+        }
         val result = CheckInValidator.validate(
             expectedCode = stored.code,
             providedCode = code,
-            startTime = request.startTime,
-            endTime = request.endTime,
+            startTime = request.startTime!!,
+            endTime = request.endTime!!,
             now = now,
             requestLocation = request.location,
             volunteerLocation = volunteerLocation,
@@ -164,14 +169,17 @@ class HelpParticipationService(
 
         when (result) {
             is CheckInResult.Success -> {
-                participationRepository.updateStatus(
+                val updated = participationRepository.updateStatus(
                     helpRequestId = helpRequestId,
                     userId = userId,
                     status = ParticipationStatus.ATTENDED,
                     checkedInAt = now
                 )
 
-                return CheckInResponse(
+                if (!updated) {
+                    throw AppException.NotFound("You are not registered as a volunteer for this help request.", "NOT_REGISTERED")
+                }
+                CheckInResponse(
                     success = true,
                     message = "Check-in successful.",
                     checkedInAt = now.toString()
@@ -203,6 +211,7 @@ class HelpParticipationService(
      */
     fun getCalendarFeed(helpRequestId: UUID): String {
         val request = findHelpRequestOrThrow(helpRequestId)
+        requirePlanning(request)
         val item = HelpCalendarItem(
             id = request.id,
             title = request.title,
@@ -213,10 +222,16 @@ class HelpParticipationService(
 
         return CalendarFeedService.generateIcs(
             item = item,
-            startTime = request.startTime,
-            endTime = request.endTime,
+            startTime = request.startTime!!,
+            endTime = request.endTime!!,
             now = currentTime()
         )
+    }
+
+    private fun requirePlanning(request: HelpRequestInfo) {
+        if (request.startTime == null || request.endTime == null) {
+            throw AppException.Conflict("This help request has no planning", "HELP_REQUEST_NOT_SCHEDULED")
+        }
     }
 
     private fun findHelpRequestOrThrow(id: UUID): HelpRequestInfo =

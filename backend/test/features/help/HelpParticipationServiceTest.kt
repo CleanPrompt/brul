@@ -165,7 +165,7 @@ class HelpParticipationServiceTest {
     @Test
     fun `checkIn succeeds when code, time and location are valid`() {
         service.join(helpRequestId, volunteerId)
-        provider.setCheckInCode(helpRequestId, "123456", defaultRequest.endTime)
+        provider.setCheckInCode(helpRequestId, "123456", assertNotNull(defaultRequest.endTime))
         currentTime = Instant.parse("2026-11-20T10:05:00Z")
 
         val response = service.checkIn(
@@ -185,7 +185,7 @@ class HelpParticipationServiceTest {
     @Test
     fun `checkIn throws BadRequest for invalid code`() {
         service.join(helpRequestId, volunteerId)
-        provider.setCheckInCode(helpRequestId, "123456", defaultRequest.endTime)
+        provider.setCheckInCode(helpRequestId, "123456", assertNotNull(defaultRequest.endTime))
 
         assertFailsWith<AppException.BadRequest> {
             service.checkIn(helpRequestId, volunteerId, "000000", location)
@@ -195,7 +195,7 @@ class HelpParticipationServiceTest {
     @Test
     fun `checkIn throws BadRequest when too early`() {
         service.join(helpRequestId, volunteerId)
-        provider.setCheckInCode(helpRequestId, "123456", defaultRequest.endTime)
+        provider.setCheckInCode(helpRequestId, "123456", assertNotNull(defaultRequest.endTime))
         // 20 minutes before 10:00
         currentTime = Instant.parse("2026-11-20T09:40:00Z")
 
@@ -207,7 +207,7 @@ class HelpParticipationServiceTest {
     @Test
     fun `checkIn throws BadRequest when too far away`() {
         service.join(helpRequestId, volunteerId)
-        provider.setCheckInCode(helpRequestId, "123456", defaultRequest.endTime)
+        provider.setCheckInCode(helpRequestId, "123456", assertNotNull(defaultRequest.endTime))
         currentTime = Instant.parse("2026-11-20T10:05:00Z")
         val farLocation = Location(51.595, 4.771) // ~1.5 km away
 
@@ -218,7 +218,7 @@ class HelpParticipationServiceTest {
 
     @Test
     fun `checkIn throws NotFound when user is not registered`() {
-        provider.setCheckInCode(helpRequestId, "123456", defaultRequest.endTime)
+        provider.setCheckInCode(helpRequestId, "123456", assertNotNull(defaultRequest.endTime))
 
         assertFailsWith<AppException.NotFound> {
             service.checkIn(helpRequestId, volunteerId, "123456", location)

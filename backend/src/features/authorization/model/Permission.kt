@@ -14,7 +14,10 @@ enum class Permission(val key: String) {
     ROLE_ASSIGN("role.assign"),
     FEEDBACK_READ("feedback.read"),
     FEEDBACK_UPDATE("feedback.update"),
-    FEEDBACK_DELETE("feedback.delete");
+    FEEDBACK_DELETE("feedback.delete"),
+    REPORT_UPDATE("report.update"),
+    REPORT_DELETE("report.delete"),
+    REPORT_PHOTO_DELETE("report.photo.delete");
 
     companion object {
         fun fromKey(key: String): Permission? = entries.find { it.key == key }

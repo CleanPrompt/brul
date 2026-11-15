@@ -69,7 +69,9 @@ class ReportService(
             )
         }
 
-        repository.update(updated)
+        if (!repository.update(updated)) {
+            throw reportNotFound()
+        }
         return updated.toResponse()
     }
 

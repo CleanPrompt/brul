@@ -1,6 +1,10 @@
 package nl.brul.backend.features.help
 
 import nl.brul.backend.TEST_CREATED_AT
+import nl.brul.backend.features.report.ReportTestData
+import nl.brul.backend.features.report.model.ReportDetails
+import nl.brul.backend.features.report.model.ReportCategory
+import nl.brul.backend.features.report.repository.ExposedReportRepository
 import nl.brul.backend.features.help.database.HelpParticipationsTable
 import nl.brul.backend.features.help.model.HelpParticipation
 import nl.brul.backend.features.help.model.ParticipationStatus
@@ -43,7 +47,7 @@ class HelpParticipationRepositoryTest {
     @Test
     fun `saves and retrieves a participation`() {
         val userId = newUser()
-        val helpRequestId = UUID.randomUUID()
+        val helpRequestId = ExposedReportRepository().save(ReportTestData.nuisance(ownerId = newUser()).copy(category = ReportCategory.CHORES, details = ReportDetails.HelpRequest(3))).id
         val participation = HelpParticipation(
             id = UUID.randomUUID(),
             helpRequestId = helpRequestId,
@@ -59,7 +63,7 @@ class HelpParticipationRepositoryTest {
     @Test
     fun `findByHelpRequestAndUser returns matching participation`() {
         val userId = newUser()
-        val helpRequestId = UUID.randomUUID()
+        val helpRequestId = ExposedReportRepository().save(ReportTestData.nuisance(ownerId = newUser()).copy(category = ReportCategory.CHORES, details = ReportDetails.HelpRequest(3))).id
         val participation = repository.save(
             HelpParticipation(
                 id = UUID.randomUUID(),
@@ -77,7 +81,7 @@ class HelpParticipationRepositoryTest {
 
     @Test
     fun `countByHelpRequest counts participations accurately`() {
-        val helpRequestId = UUID.randomUUID()
+        val helpRequestId = ExposedReportRepository().save(ReportTestData.nuisance(ownerId = newUser()).copy(category = ReportCategory.CHORES, details = ReportDetails.HelpRequest(3))).id
         val user1 = newUser()
         val user2 = newUser()
 
@@ -92,7 +96,7 @@ class HelpParticipationRepositoryTest {
     @Test
     fun `updateStatus updates status and check-in timestamp`() {
         val userId = newUser()
-        val helpRequestId = UUID.randomUUID()
+        val helpRequestId = ExposedReportRepository().save(ReportTestData.nuisance(ownerId = newUser()).copy(category = ReportCategory.CHORES, details = ReportDetails.HelpRequest(3))).id
         repository.save(HelpParticipation(UUID.randomUUID(), helpRequestId, userId))
 
         val checkInTime = Instant.now().truncatedTo(ChronoUnit.SECONDS)
@@ -113,7 +117,7 @@ class HelpParticipationRepositoryTest {
     @Test
     fun `delete removes the participation`() {
         val userId = newUser()
-        val helpRequestId = UUID.randomUUID()
+        val helpRequestId = ExposedReportRepository().save(ReportTestData.nuisance(ownerId = newUser()).copy(category = ReportCategory.CHORES, details = ReportDetails.HelpRequest(3))).id
         repository.save(HelpParticipation(UUID.randomUUID(), helpRequestId, userId))
 
         val removed = repository.delete(helpRequestId, userId)
@@ -126,7 +130,7 @@ class HelpParticipationRepositoryTest {
     @Test
     fun `duplicate save for same help request and user throws Conflict`() {
         val userId = newUser()
-        val helpRequestId = UUID.randomUUID()
+        val helpRequestId = ExposedReportRepository().save(ReportTestData.nuisance(ownerId = newUser()).copy(category = ReportCategory.CHORES, details = ReportDetails.HelpRequest(3))).id
         repository.save(HelpParticipation(UUID.randomUUID(), helpRequestId, userId))
 
         val duplicate = HelpParticipation(UUID.randomUUID(), helpRequestId, userId)

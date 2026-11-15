@@ -16,8 +16,8 @@ data class HelpRequestInfo(
     val location: Location,
     val volunteersNeeded: Int,
     val isOpen: Boolean = true,
-    val startTime: Instant,
-    val endTime: Instant
+    val startTime: Instant?,
+    val endTime: Instant?
 )
 
 /**
@@ -32,6 +32,9 @@ data class ActiveCheckInCode(
  * Provider interface decoupling the help feature from the concrete Report repository and tables.
  */
 interface HelpRequestProvider {
+    /** Production implementations serialize mutations against the report row. */
+    fun <T> withRequestLock(id: UUID, action: () -> T): T = action()
+
     fun findHelpRequest(id: UUID): HelpRequestInfo?
     fun setCheckInCode(helpRequestId: UUID, code: String, expiresAt: Instant)
     fun getCheckInCode(helpRequestId: UUID): ActiveCheckInCode?

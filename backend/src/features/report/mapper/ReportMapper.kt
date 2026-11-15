@@ -28,7 +28,9 @@ fun Report.toResponse(): ReportResponse =
         urgent = (details as? ReportDetails.Safety)?.urgent,
         volunteersNeeded = (details as? ReportDetails.HelpRequest)?.volunteersNeeded,
         createdAt = createdAt.toString(),
-        viewCount = viewCount
+        viewCount = viewCount,
+        startTime = (details as? ReportDetails.HelpRequest)?.startTime?.toString(),
+        endTime = (details as? ReportDetails.HelpRequest)?.endTime?.toString()
     )
 
 /** A new report from the request; the service gives it its [id], [ownerId] and [createdAt]. */
@@ -42,7 +44,7 @@ fun CreateReportRequest.toReport(id: UUID, ownerId: UUID, createdAt: Instant): R
         description = description.trim(),
         category = parseEnum<ReportCategory>(category, "category"),
         location = Location(latitude, longitude),
-        details = ReportDetails.of(type, urgent, volunteersNeeded),
+        details = ReportDetails.of(type, urgent, volunteersNeeded, parseTime(startTime), parseTime(endTime)),
         status = ReportStatus.OPEN,
         createdAt = createdAt,
         viewCount = 0
@@ -62,7 +64,7 @@ fun UpdateReportRequest.toReport(existing: Report): Report {
         description = description.trim(),
         category = parseEnum<ReportCategory>(category, "category"),
         location = Location(latitude, longitude),
-        details = ReportDetails.of(type, urgent, volunteersNeeded),
+        details = ReportDetails.of(type, urgent, volunteersNeeded, parseTime(startTime), parseTime(endTime)),
         status = parseEnum<ReportStatus>(status, "status")
     )
 }
@@ -71,3 +73,9 @@ fun UpdateReportRequest.toReport(existing: Report): Report {
 private inline fun <reified T : Enum<T>> parseEnum(value: String, field: String): T =
     enumValues<T>().find { it.name == value }
         ?: throw AppException.BadRequest("$field must be one of: ${enumValues<T>().joinToString()}")
+
+private fun parseTime(value: String?): Instant? = value?.let {
+    try { Instant.parse(it) } catch (_: java.time.format.DateTimeParseException) {
+        throw AppException.BadRequest("startTime and endTime must be ISO 8601 instants")
+    }
+}

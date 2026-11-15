@@ -23,6 +23,8 @@ object ReportsTable : Table("reports") {
     val urgent = bool("urgent").nullable()
     /** Only for HELP_REQUEST reports; empty for the other types. */
     val volunteersNeeded = integer("volunteers_needed").nullable()
+    val startTime = timestamp("start_time").nullable()
+    val endTime = timestamp("end_time").nullable()
     val createdAt = timestamp("created_at")
     val viewCount = integer("view_count").default(0)
 

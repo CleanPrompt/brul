@@ -19,6 +19,7 @@ import nl.brul.backend.features.help.model.Location
 import nl.brul.backend.features.help.service.HelpParticipationService
 import nl.brul.backend.plugins.currentUserId
 import nl.brul.backend.shared.http.uuidParameter
+import nl.brul.backend.shared.error.requireValid
 
 /**
  * Public routes: calendar export (.ics) and participant capacity summary.
@@ -71,6 +72,9 @@ fun Route.helpParticipationRoutes(
             val id = call.uuidParameter("id")
             val currentUserId = call.currentUserId()
             val request = call.receive<CheckInRequest>()
+            requireValid((request.latitude == null) == (request.longitude == null)) { "Send both GPS coordinates or neither" }
+            request.latitude?.let { requireValid(it.isFinite() && it in -90.0..90.0) { "Invalid latitude" } }
+            request.longitude?.let { requireValid(it.isFinite() && it in -180.0..180.0) { "Invalid longitude" } }
             val location = if (request.latitude != null && request.longitude != null) {
                 Location(request.latitude, request.longitude)
             } else {

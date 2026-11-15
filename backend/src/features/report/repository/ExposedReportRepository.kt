@@ -6,6 +6,8 @@ import nl.brul.backend.features.report.model.Report
 import nl.brul.backend.features.report.model.ReportDetails
 import nl.brul.backend.features.report.model.ReportQuery
 import nl.brul.backend.shared.database.containsIgnoringCase
+import nl.brul.backend.features.help.database.HelpParticipationsTable
+import nl.brul.backend.shared.error.AppException
 import org.jetbrains.exposed.sql.Query
 import org.jetbrains.exposed.sql.SortOrder
 import org.jetbrains.exposed.sql.SqlExpressionBuilder
@@ -62,6 +64,20 @@ class ExposedReportRepository : ReportRepository {
     }
 
     override fun update(report: Report): Boolean = transaction {
+        val current = ReportsTable.selectAll().where { ReportsTable.id eq report.id }.forUpdate()
+            .singleOrNull()?.toReport() ?: return@transaction false
+        if (current.type != report.type) {
+            throw AppException.BadRequest("The type of a report cannot change")
+        }
+        // A request may have waited while another transaction closed the report.
+        if (!current.status.canChangeTo(report.status)) {
+            throw AppException.Conflict("The status cannot change from ${current.status} to ${report.status}", "INVALID_STATUS_CHANGE")
+        }
+        val details = report.details as? ReportDetails.HelpRequest
+        if (details != null && HelpParticipationsTable.selectAll()
+                .where { HelpParticipationsTable.helpRequestId eq report.id }.count() > details.volunteersNeeded) {
+            throw AppException.Conflict("Capacity cannot be below the number of participants", "HELP_CAPACITY_TOO_LOW")
+        }
         ReportsTable.update({ ReportsTable.id eq report.id }) {
             writeContent(it, report)
         } > 0
@@ -81,6 +97,8 @@ class ExposedReportRepository : ReportRepository {
 
     /** The columns that `save` and `update` both write; the column that does not belong to the type is emptied. */
     private fun writeContent(statement: UpdateBuilder<*>, report: Report) {
+        statement[ReportsTable.startTime] = (report.details as? ReportDetails.HelpRequest)?.startTime
+        statement[ReportsTable.endTime] = (report.details as? ReportDetails.HelpRequest)?.endTime
         statement[ReportsTable.title] = report.title
         statement[ReportsTable.description] = report.description
         statement[ReportsTable.category] = report.category

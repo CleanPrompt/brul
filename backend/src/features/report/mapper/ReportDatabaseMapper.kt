@@ -29,6 +29,7 @@ private fun ResultRow.toDetails(): ReportDetails =
             this[ReportsTable.urgent] ?: error("Safety report without urgent")
         )
         ReportType.HELP_REQUEST -> ReportDetails.HelpRequest(
-            this[ReportsTable.volunteersNeeded] ?: error("Help request without volunteersNeeded")
+            this[ReportsTable.volunteersNeeded] ?: error("Help request without volunteersNeeded"),
+            this[ReportsTable.startTime], this[ReportsTable.endTime]
         )
     }

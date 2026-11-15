@@ -16,5 +16,8 @@ data class CreateReportRequest(
     val latitude: Double,
     val longitude: Double,
     val urgent: Boolean? = null,
-    val volunteersNeeded: Int? = null
+    val volunteersNeeded: Int? = null,
+    /** Optional ISO 8601 instants; both must be provided together, only for HELP_REQUEST. */
+    val startTime: String? = null,
+    val endTime: String? = null
 )

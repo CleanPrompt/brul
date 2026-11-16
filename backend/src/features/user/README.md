@@ -1,7 +1,7 @@
 # User
 
-User accounts: the `User` model, its storage and the `/users` endpoints. The `authentication` feature reuses
-`UserRepository` to register and log in, so there is only one place where users are stored.
+User accounts: the `User` model, its storage, the profile image and the `/users` endpoints. The `authentication`
+feature reuses `UserRepository` to register and log in, so there is only one place where users are stored.
 
 Users differ from the reference feature (`feedback`), so do not copy this one:
 
@@ -27,6 +27,16 @@ Endpoints and permissions: `TECHNICAL_DESIGN.md` §4 and §6.
 | `mapper/UserMapper.kt` | `User.toResponse()`: model → JSON |
 | `mapper/UserDatabaseMapper.kt` | `ResultRow.toUser()`: database row → model |
 | `mapper/UserQueryMapper.kt` | `Parameters.toUserQuery()`: query parameters → `UserQuery`; an invalid value gives 400 |
+
+### Profile image
+
+| File | What it does |
+|---|---|
+| `database/UserProfileImagesTable.kt` | The `user_profile_images` table. `user_id` is the primary key and a foreign key to `users`, so a user has at most one image. The bytes are stored in `data`; the type (JPEG or PNG) is not stored, because it follows from the bytes (`ImageType.detect` in `shared/image/`) |
+| `model/ProfileImage.kt` | The image of one user: `userId`, `data`, `createdAt`. A normal class, not a data class, because a data class compares a `ByteArray` by reference |
+| `repository/ProfileImageRepository.kt` | The interface: `save` (replaces an existing image), `findByUserId`, `delete` |
+| `repository/ExposedProfileImageRepository.kt` | The Exposed implementation. `save` deletes the old row and inserts the new one in one transaction |
+| `mapper/ProfileImageDatabaseMapper.kt` | `ResultRow.toProfileImage()`: database row → model |
 
 ## How a request flows
 

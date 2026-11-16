@@ -149,14 +149,21 @@ De volgorde van het werk, met een commit als checkpoint na elke stap, staat in
 ## 7. Valkuilen
 
 1. **`ByteArray` in een data class.** `data class ProfileImage(..., val data: ByteArray)` vergelijkt arrays op
-   *referentie*, niet op inhoud. `assertEquals` faalt dan, ook als de bytes hetzelfde zijn. Vergelijk in tests met
-   `contentEquals`.
+   *referentie*, niet op inhoud. **Opgelost:** `ProfileImage` is een gewone `class`, en de tests vergelijken met
+   `assertContentEquals`.
 2. **Kolomtype in Exposed:** `binary(name, length)` geeft een `ByteArray`, `blob(name)` een `ExposedBlob`.
-   `binary` is makkelijker uit te leggen. **Te controleren in stap 2:** of H2 2 MB in zo'n kolom toestaat.
-3. **De grootte van de body begrenzen in Ktor 3.** **Te controleren in stap 4.** Eerste idee: de header
+   `binary` is makkelijker uit te leggen. **Gecontroleerd in checkpoint 3:** 2 MB past (er is een test voor).
+3. **Geen `upsert` op een `binary`-kolom.** Gevonden in checkpoint 3: op H2 komt elke byte boven `7F` terug als
+   `EF BF BD` (het UTF-8-teken voor "onbekend"). Vervangen gaat daarom met `deleteWhere` + `insert` in één
+   transactie. Staat ook in `docs/guide/llm-context.md` §9.
+4. **De grootte van de body begrenzen in Ktor 3.** **Te controleren in checkpoint 5.** Eerste idee: de header
    `Content-Length` controleren vóór het lezen, en daarna de echte grootte nog eens.
-4. **EXIF-gegevens** (onder andere de GPS-locatie in foto's) blijven in het bestand staan, tenzij de app ze
+5. **EXIF-gegevens** (onder andere de GPS-locatie in foto's) blijven in het bestand staan, tenzij de app ze
    weghaalt. Dat is een privacy-risico; we schrijven het op als beperking.
+6. **Alleen het begin wordt gecontroleerd.** Een bestand dat met de JPEG-bytes begint en daarna onzin bevat, komt
+   erdoor. Geen veiligheidsprobleem: de server opent of voert het bestand nooit uit, en stuurt het terug als
+   `image/jpeg` of `image/png`. In het slechtste geval toont de app een kapot plaatje. De hele afbeelding
+   decoderen (`ImageIO`) zou dat vangen, maar kost veel geheugen en is lastiger uit te leggen.
 
 ---
 

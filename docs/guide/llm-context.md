@@ -178,6 +178,11 @@ These cost real debugging time. Apply them without being asked.
 - `deleteWhere { Table.id eq id }` needs `import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq`.
 - Increments must be atomic: `it[col] = col + 1` inside `with(SqlExpressionBuilder) { ... }`, not read-modify-write.
 - A function returning different column types needs the type `Column<*>`.
+- Do not use `upsert` on a `binary` column: on H2 it damages the bytes (every byte above `0x7F` comes back as
+  `EF BF BD`). To replace a row, `deleteWhere` and then `insert` in one `transaction`, as
+  `ExposedProfileImageRepository.save` does. `insert` and `selectAll` keep binary data intact.
+- A data class compares a `ByteArray` property by reference, not by content. Use a normal class for a model with
+  bytes, and compare bytes in tests with `assertContentEquals`.
 - `SchemaUtils.create` only creates **missing tables**. It never adds or changes columns. After changing an existing
   table, tell the student to stop the server and delete `data/brul*`. A new table needs no reset.
 

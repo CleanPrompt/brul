@@ -31,8 +31,8 @@ flowchart LR
 |---|---|---|
 | 0 | Documentatie herstructureren ✅ | `Restructure documentation: one job per document, a README per feature` |
 | 1 | Plan afbeeldingen ✅ | `Plan profile images` |
-| 2 | `ImageType` in `shared/image/` (klaar, nog committen) | `Add ImageType with JPEG/PNG detection and size check` |
-| 3 | Tabel en repository | `Add user_profile_images table and repository` |
+| 2 | `ImageType` in `shared/image/` ✅ | `Add ImageType with JPEG/PNG detection and size check` |
+| 3 | Tabel en repository (klaar, nog committen) | `Add user_profile_images table and repository` |
 | 4 | Service | `Add ProfileImageService` |
 | 5 | Routes en koppelen | `Add profile image endpoints` |
 | 6 | Documentatie | `Document profile images` |
@@ -129,37 +129,39 @@ Klaar als:
 
 Nieuw in `backend/src/features/user/`:
 
-- [ ] `database/UserProfileImagesTable.kt`: `user_id` (primaire sleutel, verwijst naar `users`), `data`
-      (`binary`, max. 2 MB), `created_at`
-- [ ] `model/ProfileImage.kt`: `userId`, `data`, `createdAt`
-- [ ] `mapper/ProfileImageDatabaseMapper.kt`: `ResultRow.toProfileImage()`
-- [ ] `repository/ProfileImageRepository.kt`: `save(image)`, `findByUserId(userId)`, `delete(userId): Boolean`
-- [ ] `repository/ExposedProfileImageRepository.kt`: `save` vervangt een bestaande foto van dezelfde gebruiker
+- [x] `database/UserProfileImagesTable.kt`: `user_id` (primaire sleutel, verwijst naar `users`), `data`
+      (`binary`, max. `ImageType.MAX_BYTES`), `created_at`
+- [x] `model/ProfileImage.kt`: `userId`, `data`, `createdAt`; een **gewone class**, geen data class (valkuil 1)
+- [x] `mapper/ProfileImageDatabaseMapper.kt`: `ResultRow.toProfileImage()`
+- [x] `repository/ProfileImageRepository.kt`: `save(image)`, `findByUserId(userId)`, `delete(userId): Boolean`
+- [x] `repository/ExposedProfileImageRepository.kt`: `save` vervangt met `deleteWhere` + `insert` in één
+      transactie, **niet** met `upsert` (valkuil 3)
 
 Gewijzigd:
 
-- [ ] `backend/src/config/DatabaseFactory.kt`: `UserProfileImagesTable` toevoegen aan `SchemaUtils.create`
+- [x] `backend/src/config/DatabaseFactory.kt`: `UserProfileImagesTable` in `SchemaUtils.create`
 
-Eerst controleren (valkuil 2 in 03):
+Eerst controleren:
 
-- [ ] Past een foto van 2 MB in de `binary`-kolom van H2? Zo niet: `blob` gebruiken en dat in 03 opschrijven.
+- [x] Past een foto van 2 MB in de `binary`-kolom van H2? **Ja.**
+- [x] Onverwacht gevonden: `upsert` beschadigt binaire data op H2. Opgeschreven in 03 en in `llm-context.md` §9
 
 Tests in `backend/test/features/user/ProfileImageRepositoryTest.kt` (H2 in het geheugen):
 
-- [ ] Opslaan en ophalen geeft dezelfde bytes (vergelijk met `contentEquals`, valkuil 1)
-- [ ] Een tweede `save` vervangt de eerste
-- [ ] `findByUserId` zonder foto geeft `null`
-- [ ] `delete` geeft `true`, daarna `false`
-- [ ] Een foto van 2 MB past
+- [x] Opslaan en ophalen geeft dezelfde bytes (`assertContentEquals`)
+- [x] Een tweede `save` vervangt de eerste
+- [x] `findByUserId` zonder foto geeft `null`
+- [x] `delete` geeft `true`, daarna `false`
+- [x] Een foto van 2 MB past
 
 README:
 
-- [ ] De nieuwe bestanden in `backend/src/features/user/README.md`
+- [x] Een blok "Profile image" in `backend/src/features/user/README.md`
 
 Klaar als:
 
-- [ ] `kotlin.bat test` slaagt
-- [ ] Geen reset van `data/brul*` nodig (alleen een nieuwe tabel)
+- [x] `kotlin.bat test` slaagt (142 tests)
+- [x] Geen reset van `data/brul*` nodig (alleen een nieuwe tabel)
 
 **Commit:** `Add user_profile_images table and repository`
 

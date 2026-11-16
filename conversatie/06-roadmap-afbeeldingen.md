@@ -32,8 +32,8 @@ flowchart LR
 | 0 | Documentatie herstructureren ✅ | `Restructure documentation: one job per document, a README per feature` |
 | 1 | Plan afbeeldingen ✅ | `Plan profile images` |
 | 2 | `ImageType` in `shared/image/` ✅ | `Add ImageType with JPEG/PNG detection and size check` |
-| 3 | Tabel en repository (klaar, nog committen) | `Add user_profile_images table and repository` |
-| 4 | Service | `Add ProfileImageService` |
+| 3 | Tabel en repository ✅ | `Add user_profile_images table and repository` |
+| 4 | Service (klaar, nog committen) | `Add ProfileImageService` |
 | 5 | Routes en koppelen | `Add profile image endpoints` |
 | 6 | Documentatie | `Document profile images` |
 | 7 | Later: foto's bij reports | — |
@@ -173,29 +173,29 @@ Klaar als:
 
 Nieuw:
 
-- [ ] `backend/src/features/user/service/ProfileImageService.kt`
-  - [ ] `upload(userId, bytes)`: roept `requireValidImage` aan, zet `createdAt`
+- [x] `backend/src/features/user/service/ProfileImageService.kt`
+  - [x] `upload(userId, bytes)`: roept `requireValidImage` aan, zet `createdAt`
         (`Instant.now().truncatedTo(ChronoUnit.SECONDS)`), slaat op
-  - [ ] `get(userId): ProfileImage`: 404 `PROFILE_IMAGE_NOT_FOUND` zonder foto
-  - [ ] `delete(userId)`: 404 `PROFILE_IMAGE_NOT_FOUND` zonder foto
-- [ ] `backend/test/features/user/FakeProfileImageRepository.kt`: een map met `userId` als sleutel; `save`
+  - [x] `get(userId): ProfileImage`: 404 `PROFILE_IMAGE_NOT_FOUND` zonder foto
+  - [x] `delete(userId)`: 404 `PROFILE_IMAGE_NOT_FOUND` zonder foto
+- [x] `backend/test/features/user/FakeProfileImageRepository.kt`: een map met `userId` als sleutel; `save`
       vervangt, net als de echte versie
-- [ ] `backend/test/features/user/ProfileImageServiceTest.kt`
+- [x] `backend/test/features/user/ProfileImageServiceTest.kt`
 
 Tests:
 
-- [ ] Uploaden en ophalen van een JPEG en een PNG
-- [ ] Een nieuwe upload vervangt de oude
-- [ ] Verkeerd type en te groot geven 400 met de juiste code
-- [ ] Ophalen en verwijderen zonder foto geven 404
+- [x] Uploaden en ophalen van een JPEG en een PNG
+- [x] Een nieuwe upload vervangt de oude
+- [x] Verkeerd type en te groot geven 400 met de juiste code
+- [x] Ophalen en verwijderen zonder foto geven 404
 
 README:
 
-- [ ] `ProfileImageService` in `backend/src/features/user/README.md`
+- [x] `ProfileImageService` in `backend/src/features/user/README.md`
 
 Klaar als:
 
-- [ ] `kotlin.bat test` slaagt
+- [x] `kotlin.bat test` slaagt (148 tests)
 
 **Commit:** `Add ProfileImageService`
 

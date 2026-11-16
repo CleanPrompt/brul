@@ -37,6 +37,7 @@ Endpoints and permissions: `TECHNICAL_DESIGN.md` §4 and §6.
 | `repository/ProfileImageRepository.kt` | The interface: `save` (replaces an existing image), `findByUserId`, `delete` |
 | `repository/ExposedProfileImageRepository.kt` | The Exposed implementation. `save` deletes the old row and inserts the new one in one transaction |
 | `mapper/ProfileImageDatabaseMapper.kt` | `ResultRow.toProfileImage()`: database row → model |
+| `service/ProfileImageService.kt` | The rules: `upload` checks the image with `requireValidImage` (400 `INVALID_IMAGE_TYPE` or `IMAGE_TOO_LARGE`), sets `createdAt` and saves it; `get` and `delete` give 404 `PROFILE_IMAGE_NOT_FOUND` when the user has no image. The route checks that the user exists first |
 
 ## How a request flows
 

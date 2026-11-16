@@ -29,9 +29,9 @@ flowchart LR
 
 | # | Checkpoint | Commitbericht |
 |---|---|---|
-| 0 | Documentatie herstructureren (klaar, nog committen) | `Restructure documentation: one job per document, a README per feature` |
-| 1 | Plan afbeeldingen (klaar, nog committen) | `Plan profile images` |
-| 2 | `ImageType` in `shared/image/` | `Add ImageType with JPEG/PNG detection and size check` |
+| 0 | Documentatie herstructureren ✅ | `Restructure documentation: one job per document, a README per feature` |
+| 1 | Plan afbeeldingen ✅ | `Plan profile images` |
+| 2 | `ImageType` in `shared/image/` (klaar, nog committen) | `Add ImageType with JPEG/PNG detection and size check` |
 | 3 | Tabel en repository | `Add user_profile_images table and repository` |
 | 4 | Service | `Add ProfileImageService` |
 | 5 | Routes en koppelen | `Add profile image endpoints` |
@@ -62,7 +62,8 @@ Klaar als:
 - [ ] Je hebt de root-README, de gids-README en de README van `feedback` doorgelezen en vindt ze duidelijk
 - [ ] `kotlin.bat test` slaagt (er is geen code veranderd, alleen documentatie)
 
-**Commit:** `Restructure documentation: one job per document, a README per feature`
+**Commit:** `Restructure documentation: one job per document, a README per feature` (samen met checkpoint 1
+gecommit als `docs restructure`)
 
 ---
 
@@ -89,30 +90,34 @@ Klaar als:
 **Doel:** één plek die zegt of bytes een geldige foto zijn. Pure Kotlin, zonder Ktor en zonder database, dus
 makkelijk te testen.
 
+Beginnersvriendelijk: een `when` en een `for`-lus. `detect` staat in een `companion object`, net als
+`Permission.fromKey`: een functie die bij het type hoort en de juiste enum-waarde zoekt.
+
 Nieuw:
 
-- [ ] `backend/src/shared/image/ImageType.kt`
-  - [ ] `enum class ImageType(val contentType: String)` met `JPEG("image/jpeg")` en `PNG("image/png")`
-  - [ ] `const val MAX_IMAGE_BYTES = 2 * 1024 * 1024`
-  - [ ] `detect(bytes): ImageType?`: herkent JPEG (`FF D8 FF`) en PNG (`89 50 4E 47 0D 0A 1A 0A`) aan de eerste
-        bytes, anders `null`
-  - [ ] `requireValidImage(bytes): ImageType`: gooit `AppException.BadRequest` met code `IMAGE_TOO_LARGE` (groter
+- [x] `backend/src/shared/image/ImageType.kt`
+  - [x] `enum class ImageType(val contentType: String)` met `JPEG("image/jpeg")` en `PNG("image/png")`
+  - [x] `ImageType.MAX_BYTES = 2 * 1024 * 1024` (in het `companion object`)
+  - [x] `ImageType.detect(bytes): ImageType?` (in het `companion object`): herkent JPEG (`FF D8 FF`) en PNG (`89` + de letters `PNG`) aan de
+        eerste bytes, anders `null`
+  - [x] `requireValidImage(bytes): ImageType`: gooit `AppException.BadRequest` met code `IMAGE_TOO_LARGE` (groter
         dan 2 MB) of `INVALID_IMAGE_TYPE` (leeg of geen JPEG/PNG)
-- [ ] `backend/test/shared/image/ImageTypeTest.kt`
+- [x] `backend/test/shared/image/ImageTypeTest.kt` (5 tests)
 
 Tests:
 
-- [ ] JPEG en PNG worden herkend
-- [ ] Lege bytes, tekst en een GIF (`47 49 46 38`) geven `INVALID_IMAGE_TYPE`
-- [ ] Precies 2 MB mag; 2 MB + 1 byte geeft `IMAGE_TOO_LARGE`
+- [x] JPEG en PNG worden herkend
+- [x] Tekst, een GIF, lege bytes en te korte bytes geven `null`
+- [x] Precies 2 MB mag; 2 MB + 1 byte geeft `IMAGE_TOO_LARGE`
+- [x] Geen afbeelding geeft `INVALID_IMAGE_TYPE`
 
 README:
 
-- [ ] `image/` toegevoegd aan `backend/src/shared/README.md`
+- [x] `image/ImageType.kt` toegevoegd aan `backend/src/shared/README.md`
 
 Klaar als:
 
-- [ ] `kotlin.bat test` slaagt
+- [x] `kotlin.bat test` slaagt (137 tests)
 
 **Commit:** `Add ImageType with JPEG/PNG detection and size check`
 

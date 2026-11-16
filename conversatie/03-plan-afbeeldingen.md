@@ -121,7 +121,7 @@ We gebruiken 400 en geen 413 voor een te grote foto, zodat er geen nieuwe `AppEx
 
 ```text
 shared/image/
-  ImageType.kt                   ← JPEG/PNG, contentType, detect(bytes), MAX_IMAGE_BYTES, requireValidImage(bytes)
+  ImageType.kt                   ← JPEG/PNG, contentType, MAX_BYTES + detect (companion), requireValidImage
 features/user/
   database/UserProfileImagesTable.kt
   model/ProfileImage.kt          ← userId, data, createdAt

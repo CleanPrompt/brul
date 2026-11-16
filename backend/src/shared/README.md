@@ -14,6 +14,7 @@ in that feature.
 | `paging/Page.kt` | `limit` (1–100, default 20) and `offset` of one page |
 | `paging/SortDirection.kt` | `ASC` or `DESC` |
 | `paging/PageResponse.kt` | The response of every list: `items`, `total`, `limit`, `offset` |
+| `image/ImageType.kt` | Checks uploaded images for every feature that stores them. `ImageType.detect(bytes)` recognises a JPEG or PNG by its first bytes (never by the header or file name); `requireValidImage(bytes)` throws 400 `IMAGE_TOO_LARGE` above 2 MB or `INVALID_IMAGE_TYPE` for anything else. Each feature stores its own images |
 | `database/QueryConditions.kt` | Exposed helpers for repositories: `containsIgnoringCase(text)` (a `LIKE` search where `%` and `_` match literally) and `SortDirection.toSortOrder()` |
 
 ## How a feature uses it

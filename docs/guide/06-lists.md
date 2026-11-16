@@ -1,4 +1,4 @@
-# 10. Lists: search, filter, sort and paging
+# 6. Lists: search, filter, sort and paging
 
 Every list endpoint in this project works the same way: the client asks with query parameters, and gets one page
 back. Learn it once, use it in every feature.
@@ -224,8 +224,8 @@ enum class FeedbackSortField(val key: String) {
 4. `search(query): PageResponse<...>` in the service.
 5. In the route: read the query, limit it to what the caller may see, call the service.
 
-Chapter 12 does exactly this for categories.
+Chapter 8 does exactly this for categories.
 
 ## Check yourself
 
-[Quiz, chapter 10](14-quiz.md#chapter-10-lists). Next: [chapter 11, testing](11-testing.md).
+[Quiz: lists](09-quiz.md#lists-chapter-6). Next: [chapter 7, testing](07-testing.md).

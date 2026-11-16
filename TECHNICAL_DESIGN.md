@@ -3,8 +3,9 @@
 A REST API in Kotlin with Ktor that provides users, authentication and role-based access control (RBAC)
 as the foundation for later domain features. A future Android app will consume the API.
 
-This is the reference description. Decisions and their reasons: `docs/implementation-plan.md`. The exact API contract:
-`backend/resources/openapi/openapi.yaml`. A step-by-step explanation for newcomers: `docs/guide/`.
+This document **lists** how the system is built: technology, components, data model, permissions, error codes and
+endpoints. It does not explain; the learning guide (`docs/guide/`) does. Decisions and their reasons:
+`docs/implementation-plan.md`. The exact API contract: `backend/resources/openapi/openapi.yaml`.
 
 ## 1. Technology
 
@@ -22,78 +23,119 @@ This is the reference description. Decisions and their reasons: `docs/implementa
 
 ## 2. Architecture
 
-A **feature-first modular monolith**: one deployable application, with code grouped by feature
-instead of by technical layer. Each feature uses the same layers:
+A **feature-first modular monolith**: one deployable application, with code grouped by feature. Every feature uses the
+same layers (`route/` → `service/` → `repository/` → `database/`, plus `model/`, `dto/` and `mapper/`). The layers,
+the wiring in `Application.kt` and the path of one request are explained in
+`docs/guide/03-architecture-and-requests.md`; the folder structure is in the root `README.md`.
 
-```text
-HTTP request
-   │
-   ▼
-route/        receives the request, checks access, calls the service, sends the response
-   │
-   ▼
-service/      business rules and validation; throws AppException on failure
-   │
-   ▼
-repository/   interface + Exposed implementation; returns domain models
-   │
-   ▼
-database/     Exposed table definitions  ──►  H2
+```mermaid
+flowchart LR
+    Client(["Client<br/>Android app, .http files"])
+
+    subgraph plugins
+        Routing
+        RateLimit[RateLimiting]
+        Jwt["Authentication (JWT)"]
+        StatusPages["StatusPages<br/>AppException → { code, message }"]
+    end
+
+    subgraph authentication
+        AuthenticationRoutes
+        AuthenticationService["AuthenticationService<br/>JwtService, PasswordHasher"]
+    end
+
+    subgraph user
+        UserRoutes
+        UserService
+        UserRepository
+    end
+
+    subgraph authorization
+        RoleRoutes
+        AuthorizationService["AuthorizationService<br/>RoleService"]
+        AuthorizationRepository
+        Seeder["AuthorizationSeeder<br/>Permission, DefaultRole"]
+    end
+
+    subgraph feedback
+        FeedbackRoutes
+        FeedbackService
+        FeedbackRepository
+    end
+
+    DB[("H2")]
+
+    Client --> Routing
+    Routing --> RateLimit -->|/api/v1/auth| AuthenticationRoutes
+    Routing --> Jwt
+    Jwt -->|/auth/logout| AuthenticationRoutes
+    Jwt -->|/users| UserRoutes
+    Jwt -->|/roles| RoleRoutes
+    Jwt -->|/feedback| FeedbackRoutes
+    Jwt -->|"user active, same token version"| UserRepository
+
+    AuthenticationRoutes --> AuthenticationService
+    AuthenticationService --> UserRepository
+    AuthenticationService -->|default role| AuthorizationService
+
+    UserRoutes -->|check access| AuthorizationService
+    UserRoutes --> UserService --> UserRepository
+    RoleRoutes --> AuthorizationService
+    FeedbackRoutes -->|owner or permission| AuthorizationService
+    FeedbackRoutes --> FeedbackService --> FeedbackRepository
+
+    AuthorizationService --> AuthorizationRepository
+    Seeder --> AuthorizationRepository
+    UserRepository --> DB
+    AuthorizationRepository --> DB
+    FeedbackRepository --> DB
+    StatusPages -.->|error responses| Client
 ```
 
-`mapper/` converts between representations (database row → model, model → DTO) using extension
-functions. `dto/` holds the request/response contracts; `model/` holds the domain objects.
-
-| Package | Responsibility |
-|---|---|
-| `Application.kt` | Entry point; creates all objects once and wires them together (constructor injection, no DI framework) |
-| `config/` | `AppConfig` (configuration), `DatabaseFactory` (connection and schema) |
-| `plugins/` | Ktor plugin configuration: serialization, errors, logging, rate limiting, JWT, routing |
-| `shared/` | `AppException`, `ErrorResponse`, request and query parameter helpers, paging (`PageResponse<T>`) and Exposed search helpers, shared by all features |
-| `features/authentication/` | Who is the caller? Registration, login, password hashing, JWT issuance |
-| `features/authorization/` | What may the caller do? Permissions, roles, seeding, access checks |
-| `features/user/` | User model, persistence and user endpoints |
-| `features/feedback/` | Reference feature: user-owned CRUD with an admin override; the template for new features |
-| `features/health/` | `GET /health` |
-
-Naming: code uses the full words `authentication` and `authorization`; only the URL keeps the
-conventional short prefix `/auth`.
-
-### Request flow: a protected request
-
-```text
-GET /api/v1/users/{id}
- → authenticate(JWT_AUTHENTICATION)        verify token; user must exist, be active, same ver → else 401
- → userRoutes                              call.currentUserId() reads the sub claim
- → requireOwnerOrPermission                own account, or permission user.read from the database → else 403
- → UserService.getById                     user or AppException.NotFound → 404
- → user.toResponse()                       UserResponse (never the password hash)
- → 200 OK
-```
+Naming: code uses the full words `authentication` and `authorization`; only the URL keeps the conventional short
+prefix `/auth`.
 
 ## 3. Data model
 
-```text
-users                       roles              permissions
-─────────────────           ──────────         ───────────
-id            UUID  PK      id    UUID  PK     id    UUID  PK
-email         unique        name  unique       name  unique   (e.g. user.read)
-display_name
-password_hash
-active        boolean
-created_at    timestamp (UTC)
-token_version int (ver claim)
-      │                        │    │                │
-      └──── user_roles ────────┘    └─ role_permissions ─┘
-      │     user_id  FK                role_id        FK
-      │     role_id  FK                permission_id  FK
-      │
-      └──── feedback
-            id          UUID  PK
-            owner_id    FK (owner)
-            message     max 2000 characters
-            status      OPEN | IN_PROGRESS | CLOSED
-            created_at  timestamp (UTC)
+```mermaid
+erDiagram
+    users {
+        uuid id PK
+        varchar email "unique"
+        varchar display_name
+        varchar password_hash
+        bool active
+        timestamp created_at
+        int token_version
+    }
+    roles {
+        uuid id PK
+        varchar name "unique"
+    }
+    permissions {
+        uuid id PK
+        varchar name "unique, e.g. user.read"
+    }
+    user_roles {
+        uuid user_id FK
+        uuid role_id FK
+    }
+    role_permissions {
+        uuid role_id FK
+        uuid permission_id FK
+    }
+    feedback {
+        uuid id PK
+        uuid owner_id FK "owner"
+        varchar message
+        varchar status "OPEN, IN_PROGRESS, CLOSED"
+        timestamp created_at
+    }
+    users ||--o{ user_roles : ""
+    roles ||--o{ user_roles : ""
+    roles ||--o{ role_permissions : ""
+    permissions ||--o{ role_permissions : ""
+    users ||--o{ feedback : owns
 ```
 
 - A user has one or more roles; a role has one or more permissions (many-to-many).
@@ -207,12 +249,8 @@ GET /api/v1/feedback?q=slow&status=OPEN&sort=createdAt&order=desc&limit=20&offse
 { "items": [ ... ], "total": 42, "limit": 20, "offset": 0 }
 ```
 
-| Parameter | Meaning |
-|---|---|
-| `q` | Free text, max 100 characters; matches part of a text column, ignoring case (`%` and `_` literal) |
-| feature filters | Exact matches: `active` for users; `status` and `ownerId` for feedback |
-| `sort`, `order` | A field from a fixed list per feature; `asc` or `desc` (default newest first) |
-| `limit`, `offset` | Page size 1–100 (default 20) and the number of items to skip |
+The parameters (`q`, filters, `sort`, `order`, `limit`, `offset`) and how they flow through the layers are explained
+in `docs/guide/06-lists.md`. Per list:
 
 | | `GET /users` | `GET /feedback` |
 |---|---|---|
@@ -223,24 +261,17 @@ GET /api/v1/feedback?q=slow&status=OPEN&sort=createdAt&order=desc&limit=20&offse
 - An invalid value gives 400 with the parameter name; a missing one means "no filter" or the default.
 - Filters only narrow a result. A regular user's feedback search is always limited to their own items, whatever
   `ownerId` they send.
-- Flow: the mapper turns the query parameters into a `<Name>Query`; the repository adds one `AND` condition per filter
-  that is set, sorts on the chosen column plus the id (stable pages), and counts the matches with the same filters.
 
 The contract is documented in `backend/resources/openapi/openapi.yaml`; requests for manual testing are
 in `backend/http/`: numbered files that assert their expected status codes (see `backend/http/README.md`).
 
 ## 7. Testing
 
-| Level | Approach | Example |
-|---|---|---|
-| Unit | Services with fake repositories | `AuthenticationServiceTest`, `AuthorizationServiceTest`, `UserServiceTest`, `FeedbackServiceTest` |
-| Unit | Mappers, query parameters, password hashing, JWT | `UserMapperTest`, `FeedbackMapperTest`, `QueryParametersTest`, `PasswordHasherTest`, `JwtServiceTest` |
-| Integration | Exposed repositories and the seeder against in-memory H2 | `UserRepositoryTest`, `AuthorizationRepositoryTest`, `FeedbackRepositoryTest` |
-| API | `testApplication` with `TestServices` (all services wired with fakes) | `AuthenticationRoutesTest`, `UserRoutesTest`, `RoleRoutesTest`, `FeedbackRoutesTest`, `StatusPagesTest` |
-
-Every endpoint is tested for the happy flow and the relevant error flows. Run all tests with `./kotlin test`.
+Services are tested with fakes, repositories against in-memory H2, and endpoints with `testApplication`; how is in
+`docs/guide/07-testing.md`. Every endpoint is tested for the happy flow and the relevant error flows (400, 401, 403,
+404, 409). Run all tests with `./kotlin test`.
 
 ## 8. Adding a feature
 
-Copy `features/feedback/` (for an item owned by a user) or follow the `categories` tutorial (for a global resource).
-The step-by-step tutorial and the checklist are in `docs/guide/12-tutorial-categories.md`.
+Copy `features/feedback/` (an item owned by a user) or follow the `categories` tutorial (a global resource):
+`docs/guide/08-tutorial-categories.md`.

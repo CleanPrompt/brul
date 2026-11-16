@@ -99,7 +99,7 @@ Send a request without the `Authorization` header and look at the answer:
 { "code": "UNAUTHORIZED", "message": "Authentication required" }
 ```
 
-Every error in this API has this shape. Chapter 8 explains why.
+Every error in this API has this shape. Chapter 5 explains why.
 
 ## When something goes wrong
 
@@ -107,10 +107,10 @@ Every error in this API has this shape. Chapter 8 explains why.
 |---|---|
 | `Missing required configuration: JWT_SECRET` | `backend/.env` is missing or has no `JWT_SECRET` |
 | `{{baseUrl}}` appears literally in the request | Select the environment `dev` in the HTTP client |
-| Strange database errors after you changed a table | Stop the server and delete `data/brul*`; see chapter 9 |
+| Strange database errors after you changed a table | Stop the server and delete `data/brul*`; see chapter 5 |
 | `429` in the `.http` files | Wait a minute; see the rate limit above |
 | The admin is not an admin | You registered the admin email before setting `BOOTSTRAP_ADMIN_EMAIL`. Delete `data/brul*` and register again |
 
 ## Where to go next
 
-Before you read the code, learn the Kotlin features it uses: [chapter 2](02-kotlin-primer.md).
+Before you read the code, learn the Kotlin features it uses: [chapter 2](02-kotlin-ktor-exposed.md).

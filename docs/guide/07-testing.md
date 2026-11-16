@@ -1,4 +1,4 @@
-# 11. Testing
+# 7. Testing
 
 Run all tests with `./kotlin test` (Windows: `kotlin.bat test`). This chapter explains the four kinds of tests in
 the project and the tools behind them.
@@ -160,4 +160,4 @@ Use them after a change to check the whole chain, including the SQL and the conf
 
 ## Check yourself
 
-[Quiz, chapter 11](14-quiz.md#chapter-11-testing). Next: [chapter 12, the tutorial](12-tutorial-categories.md).
+[Quiz: testing](09-quiz.md#testing-chapter-7). Next: [chapter 8, the tutorial](08-tutorial-categories.md).

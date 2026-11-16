@@ -287,7 +287,7 @@ Er worden zowel de goede situatie als de fouten getest: 400, 401, 403, 404 en 40
 5. Werk `openapi.yaml`, `TECHNICAL_DESIGN.md` en `docs/implementation-plan.md` bij.
 6. Nieuwe kolom in een bestaande tabel? Stop de server en verwijder `data/brul*`.
 
-De volledige stap-voor-stap-tutorial staat in `docs/guide/12-tutorial-categories.md`.
+De volledige stap-voor-stap-tutorial staat in `docs/guide/08-tutorial-categories.md`.
 
 ---
 
@@ -296,8 +296,9 @@ De volledige stap-voor-stap-tutorial staat in `docs/guide/12-tutorial-categories
 | Je zoekt | Kijk in |
 |---|---|
 | Beginnen en installeren | `docs/guide/01-getting-started.md` |
-| Uitleg Kotlin / Ktor / Exposed | `docs/guide/02-...` en `03-...` |
+| Uitleg Kotlin / Ktor / Exposed | `docs/guide/02-kotlin-ktor-exposed.md` |
 | Alle endpoints en wie wat mag | `TECHNICAL_DESIGN.md` §4 en §6 |
 | Het exacte API-contract | `backend/resources/openapi/openapi.yaml` |
-| Waarom iets zo gekozen is | `docs/implementation-plan.md` |
-| Begrippenlijst en oefenquiz | `docs/guide/15-glossary.md`, `docs/guide/14-quiz.md` |
+| Waarom iets zo gekozen is (met het alternatief) | `docs/implementation-plan.md`, de beslissingentabellen |
+| Wat de code van een feature doet | de `README.md` in die featuremap |
+| Begrippenlijst en oefenquiz | `docs/guide/10-glossary.md`, `docs/guide/09-quiz.md` |

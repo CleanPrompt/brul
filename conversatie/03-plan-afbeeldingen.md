@@ -1,201 +1,171 @@
-# Plan: afbeeldingen (concept)
+# Plan: afbeeldingen
 
-Status: **brainstorm, nog niet gebouwd.** Sommige besluiten wachten op het domein van de feature *reports*, die
-ook afbeeldingen gaat gebruiken.
+Status: **gekozen richting, nog niet gebouwd.** Dit bestand is het ontwerp; de stappen staan in
+[06-roadmap-afbeeldingen.md](06-roadmap-afbeeldingen.md).
 
----
-
-## 1. Doel
-
-- Gebruikers kunnen een **profielfoto** hebben.
-- Later kan **reports** (en eventueel andere features) ook afbeeldingen gebruiken.
-- Het datamodel voldoet aan de **derde normaalvorm (3NF)**.
-- De code blijft simpel, beginnersvriendelijk en zonder nieuwe libraries.
+Uitgangspunt: alleen de branch `Base`. Reports bestaan daar nog niet, dus eerst komt de **profielfoto**. De foto's
+bij reports volgen pas als de feature reports er is ([05-domein-reports.md](05-domein-reports.md)).
 
 ---
 
-## 2. Wat al besloten is
+## 1. De keuze in één zin
 
-| Besluit | Keuze | Reden |
-|---|---|---|
-| Soort afbeeldingen | **Algemeen** (een eigen feature `image`), niet alleen een profielfoto | Profielfoto's én reports gebruiken afbeeldingen |
-| Naam van de eigenaarskolom | `owner_id` / `ownerId` | Zelfde naam als in feedback en als de parameter van `requireOwnerOrPermission` |
-| Toegangscheck | Eerst de eigenaar ophalen (`getOwnerId`), dan `requireOwnerOrPermission` | De regel die sinds fase 14 overal geldt |
+**Elke feature bewaart zijn eigen foto's; alleen de controle "is dit een geldige foto?" is gedeeld.**
+
+Er komt dus **geen** centrale feature `images`, en geen "eerst uploaden, dan koppelen". Een foto hoort bij precies
+één gebruiker of één report.
+
+Waarom dit voor medestudenten het makkelijkst is:
+
+1. **Eén verzoek per foto.** Je stuurt de foto naar `/users/{id}/profile-image`, en klaar.
+2. **Geen nieuwe toegangsregels.** Wie de gebruiker mag wijzigen, mag ook zijn profielfoto wijzigen. Dat is
+   dezelfde `getOwnerId` + `requireOwnerOrPermission` als bij `PATCH /users/{id}`.
+3. **Klein gedeeld stuk.** In `shared/image/` staat één bestand: welke typen mogen (JPEG, PNG) en hoe groot een
+   foto mag zijn.
+4. **Het patroon komt twee keer terug.** De reportfoto's worden later bijna een kopie van de profielfoto.
+
+Nadeel, bewust geaccepteerd: krijgt een derde feature ooit foto's, dan krijgt die ook een eigen tabel.
+
+### Frontend en aannames
+
+**Besloten:** de frontend is minimaal Android en mag multiplatform worden (bijvoorbeeld ook web of desktop).
+
+Voor de server verandert dat niets. Foto's blijven achter de login, net als de rest van de API. Elke client haalt
+een foto op met de header `Authorization: Bearer ...`. Op Android en desktop is dat gewoon een HTTP-verzoek. Een
+webclient kan geen kale `<img src="...">` gebruiken, omdat die geen token meestuurt. Hij haalt de foto op met
+`fetch` en toont hem via een blob-URL. Dat is werk voor de client, niet voor de server.
+
+| Aanname (nog bevestigen) | Gevolg als het anders blijkt |
+|---|---|
+| Een report met foto's gaat in **twee verzoeken**: eerst het report, dan de foto's | Eén verzoek vraagt multipart; dat is lastiger uit te leggen |
 
 ---
 
-## 3. Het idee
-
-**Een afbeelding is een eigen ding met een eigenaar. Een feature die een afbeelding gebruikt, verwijst ernaar met
-een eigen koppeltabel.**
-
-De tabel `images` weet dus niet waar een afbeelding gebruikt wordt: geen kolom `kind`, geen `is_profile_photo`,
-geen `report_id`.
-
----
-
-## 4. Datamodel
+## 2. Datamodel
 
 ```mermaid
 erDiagram
+    users ||--o| user_profile_images : "heeft profielfoto"
+    reports ||--o{ report_images : "heeft foto's (later)"
     users {
         uuid id PK
     }
-    images {
-        uuid id PK
-        uuid owner_id FK "wie heeft hem geüpload"
-        bytes data "max. 2 MB"
-        timestamp created_at "UTC"
-    }
     user_profile_images {
-        uuid user_id PK, FK "max. 1 profielfoto per gebruiker"
-        uuid image_id FK
+        uuid user_id PK, FK "max. 1 per gebruiker"
+        bytes data "JPEG of PNG, max. 2 MB"
+        timestamp created_at "UTC"
     }
     reports {
         uuid id PK "later"
     }
     report_images {
-        uuid report_id PK, FK "later"
-        uuid image_id PK, FK
-        int position "volgorde, optioneel"
+        uuid id PK "later"
+        uuid report_id FK
+        bytes data
+        timestamp created_at
     }
-    users ||--o{ images : "is eigenaar van"
-    users ||--o| user_profile_images : "heeft profielfoto"
-    images ||--o{ user_profile_images : "gebruikt als"
-    reports ||--o{ report_images : "heeft"
-    images ||--o{ report_images : "gebruikt in"
 ```
 
-- **Twee nieuwe tabellen** (`images`, `user_profile_images`), en `users` verandert niet. Er is dus **geen reset**
-  van `data/brul*` nodig.
-- **Geen kringverwijzing.** Een kolom `users.profile_image_id` zou dat wel geven: `images` → `users` → `images`.
-- **`user_id` als primaire sleutel** in `user_profile_images`: maximaal één profielfoto per gebruiker, en dat dwingt
-  de database zelf af.
-- **Reports** krijgt later een eigen koppeltabel `report_images`, met meerdere foto's per report.
+- **Nieuwe tabel**, `users` verandert niet. Er is dus geen reset van `data/brul*` nodig.
+- **`user_id` is de primaire sleutel.** Daardoor dwingt de database af dat elke gebruiker maximaal één
+  profielfoto heeft. Een nieuwe foto **vervangt** de oude; er blijft geen oude foto achter.
+- **Geen `content_type` en geen `size`.** Die volgen uit de bytes (zie §3).
 
 ---
 
-## 5. Toets aan de normaalvormen
+## 3. Toets aan de normaalvormen
 
 | Normaalvorm | Regel | Toepassing |
 |---|---|---|
-| **1NF** | Elke cel bevat één waarde; geen herhalende groepen | Geen kolom `image_ids = "a,b,c"`; één rij per afbeelding of koppeling |
-| **2NF** | Bij een samengestelde sleutel hangt niets af van maar een deel van die sleutel | In `report_images (report_id, image_id)` geen `content_type` (hangt alleen af van `image_id`). `position` mag wel: die hangt af van beide samen |
-| **3NF** | Een kolom hangt alleen af van de sleutel, niet van een andere kolom | Geen `owner_email` in `images` (hangt af van `owner_id`). Geen `kind` of `is_profile_photo` (dat is een feit over de gebruiker of het report, niet over de afbeelding) |
+| **1NF** | Elke cel bevat één waarde | Eén rij per foto, geen lijst met foto's in één kolom |
+| **2NF** | Bij een samengestelde sleutel hangt niets af van maar een deel ervan | Beide tabellen hebben een enkele sleutel (`user_id`, `id`), dus dat speelt hier niet |
+| **3NF** | Een kolom hangt alleen af van de sleutel, niet van een andere kolom | `content_type` en `size` hangen af van `data`, dus die slaan we niet op |
 
-### Het lastige geval: `content_type` en `size`
+Over `content_type`: het type staat in de eerste bytes van het bestand. PNG begint met `89 50 4E 47`, JPEG met
+`FF D8 FF`. Er geldt `data → content_type`, en `data` is geen sleutel. Daarom berekent `ImageType.detect(bytes)`
+het type, zowel bij het uploaden (controle) als bij het downloaden (header).
 
-Deze volgen uit de bytes zelf:
-
-- het type staat in de eerste bytes: PNG begint met `89 50 4E 47`, JPEG met `FF D8 FF`;
-- de grootte is `data.size`.
-
-Er geldt dus `data → content_type` en `data → size`, terwijl `data` geen sleutel is. Dat is een transitieve
-afhankelijkheid, en die past niet in 3NF.
-
-**Keuze:** we slaan ze **niet op**. Eén functie, bijvoorbeeld `ImageType.detect(bytes)`, controleert het type bij
-het uploaden en bepaalt de `Content-Type`-header bij het downloaden.
-
-> **Voor het assessment:** wie `content_type` wél opslaat, moet dat verdedigen als bewuste denormalisatie: één
-> keer controleren in plaats van bij elke download.
+> **Voor het assessment:** wie `content_type` wél opslaat, moet dat verdedigen als bewuste denormalisatie.
 
 ---
 
-## 6. Endpoints (eerste versie)
+## 4. Endpoints van de profielfoto
 
 | Endpoint | Toegang | Antwoord |
 |---|---|---|
-| `POST /api/v1/images` | Elke ingelogde gebruiker; die wordt de eigenaar | 201 + `{ id, ownerId, contentType, createdAt }` |
-| `GET /api/v1/images/{id}` | Eigenaar, of `image.read` | 200 + de bytes met de juiste `Content-Type` |
-| `DELETE /api/v1/images/{id}` | Eigenaar, of `image.delete` | 204 |
-| `PUT /api/v1/users/{id}/profile-image` | Eigenaar van het account, of `user.update`; body `{ "imageId": "..." }` | 204 |
-| `GET /api/v1/users/{id}/profile-image` | Elke ingelogde gebruiker | 200 + de bytes, of 404 |
+| `PUT /api/v1/users/{id}/profile-image` | Eigenaar van het account, of `user.update` | 204 |
+| `GET /api/v1/users/{id}/profile-image` | Elke ingelogde gebruiker | 200 met de foto, of 404 |
+| `DELETE /api/v1/users/{id}/profile-image` | Eigenaar van het account, of `user.update` | 204, of 404 zonder foto |
 
-Regels:
+- **De body is het bestand zelf** (raw body), met `Content-Type: image/jpeg` of `image/png`.
+- **Alleen JPEG en PNG.** Gecontroleerd op de eerste bytes; de header vertrouwen we niet. **Geen SVG** (XSS-risico).
+- **Maximaal 2 MB.** Verkleinen doet de app vóór het uploaden.
+- **Geen nieuwe permissies.** De rechten van `user.update` gelden ook voor de foto.
 
-- **Upload als raw body:** de body is het bestand zelf, met `Content-Type: image/jpeg` of `image/png`.
-- **Alleen JPEG en PNG.** Dat wordt gecontroleerd op de eerste bytes; de header vertrouwen we niet. **Geen SVG**
-  (XSS-risico).
-- **Maximaal 2 MB**, anders 400.
-- **Verkleinen** doet de Android-app voor het uploaden, niet de server.
-- **Koppelen** mag alleen met een afbeelding van die gebruiker zelf, anders 400.
-- **`contentType` in het antwoord** wordt door de mapper berekend, niet uit de database gelezen.
-- **Elke feature bepaalt zelf** wie zijn afbeeldingen mag zien:
-  - profielfoto via `/users/{id}/profile-image`;
-  - reportfoto's later via `/reports/{id}/images/{imageId}`, met de toegangscheck van het report.
+### Foutcodes
+
+| Situatie | Status | Code |
+|---|---|---|
+| Lege body, of geen JPEG/PNG | 400 | `INVALID_IMAGE_TYPE` |
+| Groter dan 2 MB | 400 | `IMAGE_TOO_LARGE` |
+| Gebruiker bestaat niet | 404 | `USER_NOT_FOUND` (bestaat al) |
+| Gebruiker heeft geen profielfoto | 404 | `PROFILE_IMAGE_NOT_FOUND` |
+| Geen of ongeldige token | 401 | bestaat al |
+| Andermans foto wijzigen zonder `user.update` | 403 | bestaat al |
+
+We gebruiken 400 en geen 413 voor een te grote foto, zodat er geen nieuwe `AppException` nodig is.
 
 ---
 
-## 7. Code-indeling
+## 5. Code-indeling
 
 ```text
-features/image/                        ← nieuw, volgens het patroon van feedback
-  database/ImagesTable.kt
-  model/Image.kt
-  model/ImageType.kt                   ← JPEG/PNG + detect(bytes)
-  repository/ImageRepository.kt, ExposedImageRepository.kt
-  service/ImageService.kt              ← validatie, getOwnerId
-  route/ImageRoutes.kt
-  dto/ImageResponse.kt
-  mapper/ImageMapper.kt
+shared/image/
+  ImageType.kt                   ← JPEG/PNG, contentType, detect(bytes), MAX_IMAGE_BYTES, requireValidImage(bytes)
 features/user/
-  database/UserProfileImagesTable.kt   ← de profielfoto is een feit over de gebruiker
+  database/UserProfileImagesTable.kt
+  model/ProfileImage.kt          ← userId, data, createdAt
+  repository/ProfileImageRepository.kt, ExposedProfileImageRepository.kt
+  service/ProfileImageService.kt ← controleert de foto, zet createdAt
+  route/ProfileImageRoutes.kt    ← de drie endpoints
+test/
+  shared/image/ImageTypeTest.kt
+  features/user/FakeProfileImageRepository.kt, ProfileImageRepositoryTest.kt,
+  ProfileImageServiceTest.kt, ProfileImageRoutesTest.kt
 ```
 
-Nieuwe permissies in `Permission.kt`: `IMAGE_READ` en `IMAGE_DELETE`. ADMIN krijgt ze automatisch via
-`Permission.entries`.
-
-Koppelen in `Application.kt`, `Routing.kt`, `TestServices` en `configureTestApp`, plus een
-`FakeImageRepository` voor de tests.
+Een eigen `ProfileImageService` houdt `UserService` klein. De route gebruikt `userService.getOwnerId(id)` voor de
+toegangscheck, net als de andere user-routes.
 
 ---
 
-## 8. Valkuilen
+## 6. Roadmap
 
-1. **`ByteArray` in een data class.** `data class Image(..., val data: ByteArray)` vergelijkt arrays op
+De volgorde van het werk, met een commit als checkpoint na elke stap, staat in
+[06-roadmap-afbeeldingen.md](06-roadmap-afbeeldingen.md).
+
+---
+
+## 7. Valkuilen
+
+1. **`ByteArray` in een data class.** `data class ProfileImage(..., val data: ByteArray)` vergelijkt arrays op
    *referentie*, niet op inhoud. `assertEquals` faalt dan, ook als de bytes hetzelfde zijn. Vergelijk in tests met
    `contentEquals`.
 2. **Kolomtype in Exposed:** `binary(name, length)` geeft een `ByteArray`, `blob(name)` een `ExposedBlob`.
-   `binary` is makkelijker uit te leggen. **Nog te controleren:** of H2 2 MB in zo'n kolom toestaat.
-3. **Grootte van de body begrenzen in Ktor 3:** **nog te controleren** hoe dat precies gaat, voordat de hele body
-   in het geheugen staat.
-4. **`getOwnerId` laadt de hele afbeelding.** Voor kleine foto's is dat geen probleem; eventueel later een query
-   die alleen `owner_id` leest.
-5. **EXIF-gegevens** (onder andere de GPS-locatie in foto's) blijven in het bestand staan, tenzij de app ze
-   weghaalt.
+   `binary` is makkelijker uit te leggen. **Te controleren in stap 2:** of H2 2 MB in zo'n kolom toestaat.
+3. **De grootte van de body begrenzen in Ktor 3.** **Te controleren in stap 4.** Eerste idee: de header
+   `Content-Length` controleren vóór het lezen, en daarna de echte grootte nog eens.
+4. **EXIF-gegevens** (onder andere de GPS-locatie in foto's) blijven in het bestand staan, tenzij de app ze
+   weghaalt. Dat is een privacy-risico; we schrijven het op als beperking.
 
 ---
 
-## 9. Open besluiten
+## 8. Open punten
 
-| # | Besluit | Advies | Wacht op reports? |
-|---|---|---|---|
-| 1 | Wie mag een afbeelding zien? | De feature die hem gebruikt bepaalt dat; `/images/{id}` alleen voor de eigenaar of `image.read` | Ja: bevestigen |
-| 2 | `content_type` opslaan of berekenen? | Berekenen (zuiver 3NF) | Nee |
-| 3 | Afbeelding verwijderen die in gebruik is | Profielfoto: cascade (de koppeling verdwijnt). Reports: misschien blokkeren met 409, als foto's bewijs zijn | Ja |
-| 4 | Oude profielfoto bij vervangen | Laten staan; de gebruiker kan hem zelf verwijderen. Opschrijven als beperking | Nee |
-| 5 | `profileImageId` in `UserResponse`? | Voorlopig niet (dat vergt een join in de user-repository) | Nee |
-| 6 | Mag één afbeelding op meerdere plekken gebruikt worden? | Liever niet ("een upload hoort bij één gebruik"), maar de database dwingt dat niet vanzelf af | Ja |
-| 7 | EXIF-privacy | De app haalt het weg, of je accepteert het als beperking | Nee |
-
----
-
-## 10. Vragen over het reports-domein
-
-1. Wie maakt een report, en wie mag het zien? Alleen de maker, een admin, of een groep?
-2. Hoeveel foto's per report? Is de volgorde belangrijk?
-3. Mag een report of een foto later nog veranderen of verwijderd worden? Of moet het blijven staan, als een soort
-   bewijs?
-4. Wie voegt de foto's toe? Alleen de maker van het report, of ook anderen?
-
----
-
-## 11. Volgende stappen
-
-1. Het reports-domein bekijken en besluiten 1, 3 en 6 vastleggen.
-2. De open punten controleren: `binary` in Exposed en H2 (2 MB), en de begrenzing van de body in Ktor 3.
-3. Bouwen in deze volgorde: `image` (upload, ophalen, verwijderen), dan de profielfoto, daarna `report_images`
-   samen met reports.
-4. Tests voor 201, 200, 204, 400 (verkeerd type, te groot, andermans afbeelding), 401, 403 en 404.
-5. Bijwerken: `openapi.yaml`, `TECHNICAL_DESIGN.md` (§3 datamodel, §4 permissies, §5 foutcodes, §6 endpoints),
-   de beslissingentabel in `docs/implementation-plan.md` en `backend/http/`.
+| # | Punt | Voorstel |
+|---|---|---|
+| 1 | ~~Alleen Android, of ook een website?~~ | **Besloten:** minimaal Android, mag multiplatform (§1) |
+| 2 | Een report met foto's in één of twee verzoeken? | Twee (aanname in §1) |
+| 3 | Mag iedereen die ingelogd is een profielfoto zien? | Ja; het is een buurtapp |
+| 4 | Foto van een gedeactiveerde gebruiker | Blijft staan; `GET` geeft hem gewoon terug |
+| 5 | `hasProfileImage` in `UserResponse`? | Voorlopig niet (vraagt een extra query); de app probeert `GET` en krijgt 404 |

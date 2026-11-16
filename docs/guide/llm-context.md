@@ -22,8 +22,15 @@ whether an API exists in the versions below, say so instead of guessing. Never i
   without saying clearly that it is a new dependency and asking first.
 - All project content is in **English**: code, comments, KDoc, names, API paths, JSON fields, error and log
   messages, tests, configuration, README files, OpenAPI and diagrams.
-- Documentation has **one source per fact** (see the table in `docs/README.md`). When a change touches a documented
-  fact, update that source and point to it from elsewhere; do not copy the fact into a second file.
+- Documentation has **one source per fact** (see "Where to find what" in the root `README.md`). When a change
+  touches a documented fact, update that source and point to it from elsewhere; do not copy the fact into a second
+  file. Each kind of document has one job: `docs/guide/` explains, `TECHNICAL_DESIGN.md` lists, a feature README
+  describes its code. Do not copy code into documentation; name the file instead.
+- Every feature folder (`features/<name>/`) and `shared/` has a `README.md` in English that explains **what the
+  code does**: the purpose, what each file is responsible for, and how a request flows through it. It points to the
+  sources for endpoints, permissions, error codes and the data model instead of copying them. Update the README in
+  the same change as the code. Other source folders get no README; the root `README.md` describes them.
+- Diagrams are Mermaid inside the Markdown file; folder trees may stay plain text.
 
 ## 2. Stack and versions
 
@@ -213,5 +220,6 @@ These cost real debugging time. Apply them without being asked.
 - [ ] Wired in `Application.kt`, `Routing.kt`, `TestServices` and `configureTestApp`.
 - [ ] Tests for the happy flow and 400/401/403/404/409; the fake behaves like the real repository.
 - [ ] No new dependencies, no `!!`, no wildcard imports, lines under ~120 characters.
+- [ ] The `README.md` of every changed feature (and of `shared/`) still explains what its code does.
 - [ ] Told the student if a table changed (delete `data/brul*`), and which docs to update (`openapi.yaml`,
       `docs/implementation-plan.md`, the feature `README.md`).

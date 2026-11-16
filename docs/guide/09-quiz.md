@@ -1,10 +1,10 @@
-# 14. Quiz
+# 9. Quiz
 
 Multiple-choice questions per chapter. Choose an answer, then open **Answer** to check it and read why.
 
 ---
 
-## Chapter 2: Kotlin
+## Kotlin (chapter 2)
 
 **2.1** What does `val user: User? = repository.findById(id)` tell you?
 
@@ -71,7 +71,7 @@ code fail to compile until it is handled, which is exactly what you want.
 
 ---
 
-## Chapter 3: Libraries
+## Libraries (chapter 2)
 
 **3.1** Which library turns `UserResponse` into JSON?
 
@@ -124,7 +124,7 @@ tokens, H2 is the database.
 
 ---
 
-## Chapter 4: Architecture
+## Architecture (chapter 3)
 
 **4.1** A business rule changes: feedback messages may now be 5000 characters. Which layer changes first?
 
@@ -136,7 +136,7 @@ tokens, H2 is the database.
 <details><summary>Answer</summary>
 
 **B.** Validation is a business rule and lives in the service. Because the column is `varchar(2000)`, the table
-definition must change too (and with it the local database, see chapter 9).
+definition must change too (and with it the local database, see chapter 5).
 </details>
 
 **4.2** Which layer is allowed to use `ResultRow`?
@@ -178,7 +178,7 @@ in; tests pass in fakes the same way.
 
 ---
 
-## Chapter 5: Life of a request
+## Life of a request (chapter 3)
 
 **5.1** A request has no `Authorization` header and goes to `GET /api/v1/feedback/{id}`. Which code runs?
 
@@ -231,7 +231,7 @@ in; tests pass in fakes the same way.
 
 ---
 
-## Chapter 6: Authentication
+## Authentication (chapter 4)
 
 **6.1** Why does the database store a hash instead of the password?
 
@@ -296,7 +296,7 @@ devices are logged out.
 
 ---
 
-## Chapter 7: Authorization
+## Authorization (chapter 4)
 
 **7.1** Where does the server get a user's permissions on each request?
 
@@ -362,7 +362,7 @@ devices are logged out.
 
 ---
 
-## Chapter 8: Errors and validation
+## Errors and validation (chapter 5)
 
 **8.1** How should a service reject a display name of 500 characters?
 
@@ -403,7 +403,7 @@ become a 500. A service has no `call`.
 
 ---
 
-## Chapter 9: Database
+## Database (chapter 5)
 
 **9.1** You add a column to `UsersTable`. The server starts but requests fail. Why?
 
@@ -456,7 +456,7 @@ database instead.
 
 ---
 
-## Chapter 10: Lists
+## Lists (chapter 6)
 
 **10.1** `GET /api/v1/users?limit=10&offset=20` returns which matches?
 
@@ -532,7 +532,7 @@ database instead.
 
 ---
 
-## Chapter 11: Testing
+## Testing (chapter 7)
 
 **11.1** What is a fake repository?
 
@@ -585,7 +585,7 @@ database instead.
 
 ---
 
-## Chapter 12: Building a feature
+## Building a feature (chapter 8)
 
 **12.1** You added `CategoriesTable` and its routes, but the tests do not compile. What did you most likely forget?
 
@@ -637,7 +637,7 @@ database instead.
 
 ---
 
-## Chapter 13: Design decisions
+## Design decisions (implementation plan)
 
 **13.1** Why does the API not create roles at runtime?
 

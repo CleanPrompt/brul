@@ -1,4 +1,4 @@
-# 15. Glossary
+# 10. Glossary
 
 | Term | Meaning |
 |---|---|

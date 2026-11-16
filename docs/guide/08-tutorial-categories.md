@@ -1,4 +1,4 @@
-# 12. Tutorial: add a `categories` feature
+# 8. Tutorial: add a `categories` feature
 
 In this tutorial you build a complete feature yourself. When you are done, you have touched every layer and every
 place that needs wiring, and you can do the same for any feature you invent.
@@ -95,7 +95,7 @@ SchemaUtils.create(
 )
 ```
 
-Because it is a **new** table, you do not have to delete your local database (chapter 9).
+Because it is a **new** table, you do not have to delete your local database (chapter 5).
 
 ## Step 3: the DTOs
 
@@ -166,7 +166,7 @@ fun ResultRow.toCategory(): Category =
 
 ## Step 5: search support
 
-The list needs a query model, the sortable fields and a mapper from query parameters (chapter 10).
+The list needs a query model, the sortable fields and a mapper from query parameters (chapter 6).
 
 ```kotlin
 // model/CategorySortField.kt
@@ -251,7 +251,7 @@ interface CategoryRepository {
 }
 ```
 
-Then the Exposed implementation. New compared with feedback: turning the unique-index error into a 409 (chapter 9).
+Then the Exposed implementation. New compared with feedback: turning the unique-index error into a 409 (chapter 5).
 
 ```kotlin
 // repository/ExposedCategoryRepository.kt
@@ -892,7 +892,8 @@ A feature is not done until others can use it:
 
 - [ ] `openapi.yaml`: the five endpoints and the schemas `CategoryRequest`, `CategoryResponse`.
 - [ ] `docs/implementation-plan.md`: the endpoints, the new permission, the new error codes.
-- [ ] `features/category/README.md`: two or three lines on what the feature does.
+- [ ] `features/category/README.md`: what the feature does, what each file is responsible for and how a request
+      flows through it. Point to `TECHNICAL_DESIGN.md` and `openapi.yaml` for endpoints and permissions.
 - [ ] `TECHNICAL_DESIGN.md`: the permission matrix and the data model.
 
 ## Checklist for every new feature
@@ -917,4 +918,5 @@ A feature is not done until others can use it:
 
 ## Check yourself
 
-[Quiz, chapter 12](14-quiz.md#chapter-12-building-a-feature). Next: [chapter 13, design decisions](13-design-decisions.md).
+[Quiz: building a feature](09-quiz.md#building-a-feature-chapter-8). Next: the design decisions in
+[`docs/implementation-plan.md`](../implementation-plan.md#decisions), and test yourself with the [quiz](09-quiz.md).

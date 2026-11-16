@@ -210,7 +210,7 @@ These cost real debugging time. Apply them without being asked.
 - Login and registration share a rate limit of 10 per minute; a full run of the files uses most of it. New requests
   should reuse stored tokens (`client.global.set(...)`) instead of logging in again. Rate-limited endpoints with a
   different purpose get their own limiter in `plugins/RateLimiting.kt`.
-- `5-logout.http` invalidates the user's tokens; `1-authentication.http` must run again afterwards.
+- `6-logout.http` invalidates the user's tokens; `1-authentication.http` must run again afterwards.
 - Make request files repeatable: create throwaway data, or accept 409 where a resource may already exist.
 
 **Configuration**

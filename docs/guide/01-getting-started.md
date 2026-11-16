@@ -69,11 +69,12 @@ Open the folder `backend/http/` in IntelliJ. Each `.http` file contains requests
 the status code.
 
 1. In the top bar of the editor, select the environment **`dev`**. Without it, `{{baseUrl}}` is not filled in.
-2. Run the files in this order: `0-health`, `1-authentication`, `2-users`, `3-roles`, `4-feedback`, `5-logout`.
+2. Run the files in this order: `0-health`, `1-authentication`, `2-users`, `3-roles`, `4-feedback`,
+   `5-profile-image`, `6-logout`.
 3. The results appear in the **Tests** tab.
 
 `1-authentication.http` registers a normal user and the admin, logs in and stores the tokens in variables. The
-other files use those tokens. `5-logout.http` logs the user out on every device, so run `1-authentication.http`
+other files use those tokens. `6-logout.http` logs the user out on every device, so run `1-authentication.http`
 again before running the others a second time.
 
 > **429 Too Many Requests?** Login and registration allow 10 requests per minute. If you run

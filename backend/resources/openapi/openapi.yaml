@@ -217,6 +217,75 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 
+  /api/v1/users/{id}/profile-image:
+    parameters:
+      - $ref: '#/components/parameters/UserId'
+    put:
+      summary: Upload or replace the profile image (own account, or user.update)
+      description: |
+        The body is the image file itself, not JSON. Only JPEG and PNG of at most 2 MB are accepted; the type is
+        read from the first bytes of the file, not from the Content-Type header. The Content-Length header is
+        required. A new image replaces the old one.
+      security: [{ bearerAuth: [] }]
+      requestBody:
+        required: true
+        content:
+          image/jpeg:
+            schema:
+              type: string
+              format: binary
+          image/png:
+            schema:
+              type: string
+              format: binary
+      responses:
+        '204':
+          description: Image stored
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    get:
+      summary: The profile image (every logged-in user)
+      description: An unknown user has no image, so it also gives 404 `PROFILE_IMAGE_NOT_FOUND`.
+      security: [{ bearerAuth: [] }]
+      responses:
+        '200':
+          description: The image file; the Content-Type follows from its bytes
+          content:
+            image/jpeg:
+              schema:
+                type: string
+                format: binary
+            image/png:
+              schema:
+                type: string
+                format: binary
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      summary: Delete the profile image (own account, or user.update)
+      security: [{ bearerAuth: [] }]
+      responses:
+        '204':
+          description: Image deleted
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
   /api/v1/roles:
     get:
       summary: All roles (role.read)
@@ -499,7 +568,8 @@ components:
             items:
               $ref: '#/components/schemas/RoleResponse'
     BadRequest:
-      description: Invalid input or malformed body (`INVALID_REQUEST`)
+      description: Invalid input or malformed body (`INVALID_REQUEST`), or an image that is not a JPEG or PNG
+        (`INVALID_IMAGE_TYPE`) or larger than 2 MB (`IMAGE_TOO_LARGE`)
       content:
         application/json:
           schema:
@@ -517,7 +587,8 @@ components:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
     NotFound:
-      description: Resource not found (`USER_NOT_FOUND`, `ROLE_NOT_FOUND`, `FEEDBACK_NOT_FOUND`)
+      description: Resource not found (`USER_NOT_FOUND`, `ROLE_NOT_FOUND`, `FEEDBACK_NOT_FOUND`,
+        `PROFILE_IMAGE_NOT_FOUND`)
       content:
         application/json:
           schema:

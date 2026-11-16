@@ -34,8 +34,8 @@ flowchart LR
 | 2 | `ImageType` in `shared/image/` ✅ | `Add ImageType with JPEG/PNG detection and size check` |
 | 3 | Tabel en repository ✅ | `Add user_profile_images table and repository` |
 | 4 | Service ✅ | `Add ProfileImageService` |
-| 5 | Routes en koppelen (klaar, nog committen) | `Add profile image endpoints` |
-| 6 | Documentatie | `Document profile images` |
+| 5 | Routes en koppelen ✅ | `Add profile image endpoints` |
+| 6 | Documentatie (klaar, nog committen) | `Document profile images` |
 | 7 | Later: foto's bij reports | — |
 
 ---
@@ -248,9 +248,7 @@ README:
 Klaar als:
 
 - [x] `kotlin.bat test` slaagt (158 tests)
-- [ ] De server start (`kotlin.bat run`) en de nieuwe tabel bestaat. **Nog zelf doen:** poort 8080 was bezet
-      door je eigen server, dus ik kon hem niet starten. Herstart je server; in checkpoint 6 komt een
-      `.http`-bestand om het te proberen
+- [x] De server start (`kotlin.bat run`) en de nieuwe tabel bestaat (door jou gestart)
 
 **Commit:** `Add profile image endpoints`
 
@@ -260,21 +258,27 @@ Klaar als:
 
 **Doel:** elk feit staat in zijn eigen bron ("Where to find what" in de root-`README.md`).
 
-- [ ] `backend/resources/openapi/openapi.yaml`: de drie endpoints, met `image/jpeg` en `image/png` als body en
-      antwoord
-- [ ] `TECHNICAL_DESIGN.md` §3 datamodel: `user_profile_images`
-- [ ] `TECHNICAL_DESIGN.md` §5 foutcodes: `INVALID_IMAGE_TYPE`, `IMAGE_TOO_LARGE`, `PROFILE_IMAGE_NOT_FOUND`
-- [ ] `TECHNICAL_DESIGN.md` §6 endpoints: de drie endpoints met hun toegang
-- [ ] `docs/implementation-plan.md`: besluit "Images per feature" in de tabel, fase 15 en de status bijwerken
-- [ ] `backend/http/`: een nieuw request-bestand met een kleine testfoto; tokens hergebruiken (rate limit)
-- [ ] `docs/guide/llm-context.md` §9: alleen de valkuilen die echt tijd kostten, bijvoorbeeld `ByteArray` in een
-      data class
-- [ ] Controleren of `backend/src/features/user/README.md` en `backend/src/shared/README.md` nog kloppen
+- [x] `backend/resources/openapi/openapi.yaml`: `PUT`, `GET` en `DELETE /users/{id}/profile-image`, met
+      `image/jpeg` en `image/png` als body en antwoord; de nieuwe foutcodes bij `BadRequest` en `NotFound`
+- [x] `TECHNICAL_DESIGN.md` §3 datamodel: `user_profile_images` in het diagram, met de regel "geen centrale
+      tabel `images`"
+- [x] `TECHNICAL_DESIGN.md` §5 foutcodes: `INVALID_IMAGE_TYPE`, `IMAGE_TOO_LARGE`, `PROFILE_IMAGE_NOT_FOUND`
+- [x] `TECHNICAL_DESIGN.md` §6 endpoints: de drie endpoints met hun toegang
+- [x] `docs/implementation-plan.md`: tabel "Images" met tien beslissingen (elk met alternatief), fase 16, de
+      status, en EXIF bij "Out of scope"
+- [x] `backend/http/5-profile-image.http` met `profile-image.png` (een echte PNG van 1 × 1 pixel, 69 bytes);
+      `5-logout.http` heet nu `6-logout.http`, omdat logout de tokens ongeldig maakt en dus als laatste moet
+- [x] De volgorde van de `.http`-bestanden bijgewerkt in `backend/http/README.md`, `docs/guide/01-getting-started.md`
+      en `docs/guide/llm-context.md` §9
+- [x] `llm-context.md` §9: de valkuilen (`upsert` op `binary`, `ByteArray` in een data class) stonden er al sinds
+      checkpoint 3
+- [x] De READMEs van `user` en `shared` kloppen nog
 
 Klaar als:
 
-- [ ] De `.http`-requests werken tegen de draaiende server
-- [ ] `kotlin.bat test` slaagt
+- [ ] `5-profile-image.http` werkt tegen de draaiende server. **Zelf doen:** start de server, kies `dev`, draai
+      `1-authentication.http` en dan `5-profile-image.http`. Alle zes requests moeten groen zijn
+- [x] `kotlin.bat test` slaagt (158 tests; alleen documentatie en `.http`-bestanden veranderd)
 
 **Commit:** `Document profile images`
 

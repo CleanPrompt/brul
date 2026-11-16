@@ -1,7 +1,8 @@
 # Brul Backend
 
-A REST API in Kotlin with Ktor (a feature-first modular monolith, built with JetBrains Amper) that provides users,
-authentication, role-based access control and a reference feature. It is the base for an Android app.
+A REST API in Kotlin with Ktor (a feature-first modular monolith, built with JetBrains Amper) that provides users
+(with a profile image), authentication, role-based access control and a reference feature. It is the base for an
+Android app.
 
 ## Getting started
 

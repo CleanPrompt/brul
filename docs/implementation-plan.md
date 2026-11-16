@@ -9,10 +9,10 @@ Guiding principle: keep the code simple enough to explain line by line during th
 
 ## Status
 
-Phases 1–15 are done (132 tests). The base is complete: users, authentication, RBAC, the reference feature
-`feedback`, search and paging on every list, and a learning guide (`docs/guide/`).
+Phases 1–16 are done (158 tests). The base is complete: users, authentication, RBAC, the reference feature
+`feedback`, search and paging on every list, profile images, and a learning guide (`docs/guide/`).
 
-**Next:** profile images, then the `reports` feature. Still to decide: the optional admin password reset.
+**Next:** the `reports` feature. Still to decide: the optional admin password reset.
 
 This document holds the decisions and the history. The current endpoints, permission matrix, error codes and data
 model are in `TECHNICAL_DESIGN.md`; the root `README.md` says where each fact lives.
@@ -88,6 +88,21 @@ Before you make a new decision, ask:
 | `sort` from a fixed list per feature (enum with a `key`), `order=asc\|desc`; the id is always a second sort key | Any column name | Only known columns can be sorted on; the extra id key keeps pages stable when values are equal |
 | Filters only narrow a result; `GET /feedback` forces `ownerId` to the caller without `feedback.read` | Trust the filter | A filter must never show more than the caller may see |
 | Invalid parameter → 400 with the parameter name | Silently use a default | A typo such as `limit=1O` should be noticed, not hidden |
+
+### Images
+
+| Decision | Alternative | Reason |
+|---|---|---|
+| Images are stored with the feature they belong to (`user_profile_images`; later `report_images`); only the check is shared (`shared/image/`) | A central `images` table with link tables | An image belongs to exactly one user or report: access follows the owner, no image can be left unlinked, and one request is enough to upload |
+| The type is read from the first bytes (`ImageType.detect`) and not stored | Trust the `Content-Type` header or file name; store a `content_type` column | The client controls the header and the name; a stored type would depend on `data`, not on the key (3NF) |
+| Only JPEG and PNG, at most 2 MB; the app makes photos smaller | Also SVG or GIF; resizing on the server | An SVG can contain JavaScript (XSS); resizing needs an image library |
+| Only the first bytes are checked | Decode the whole image (`ImageIO`) | Decoding costs a lot of memory; the server never opens or runs the file, so a damaged file is only a broken picture |
+| The upload body is the file itself (raw bytes) | `multipart/form-data` | One request without form parsing; easier to explain and to test |
+| The size is checked with `Content-Length` before the body is read (`receiveImage()`) | Read the body first; a body-limit plugin | Ktor 3.6 has no body-limit plugin; a huge body is never loaded into memory |
+| An image that is too large gives 400 `IMAGE_TOO_LARGE` | 413 Payload Too Large | No new `AppException` subtype needed |
+| The `Content-Type` of a download comes from a mapper (`ProfileImage.contentType()`) | Derive it in the route | Every conversion lives in `mapper/`; the route stays thin |
+| Changing or deleting a profile image uses the rights of `PATCH /users/{id}` (own account or `user.update`); every logged-in user may see it | New permissions such as `image.update` | The image is part of the account; no new permission to explain |
+| Replace an image with `deleteWhere` + `insert` in one transaction | `upsert` | `upsert` damages binary data in Exposed 0.61 on H2 (see `llm-context.md` §9) |
 
 ### Documentation
 
@@ -244,6 +259,21 @@ The parameters per list are in `TECHNICAL_DESIGN.md` §6.
   removed), and the explanations of layers, lists and tests point to the guide.
 - Every feature README and `shared/README.md` explains its code file by file.
 
+### Phase 16 — Profile images ✅
+
+- `shared/image/`: `ImageType` (JPEG, PNG) with `ImageType.detect(bytes)` and `MAX_BYTES` in its companion object,
+  `requireValidImage(bytes)` (400 `INVALID_IMAGE_TYPE` or `IMAGE_TOO_LARGE`) and `call.receiveImage()`, which checks
+  `Content-Length` before reading the body.
+- `user_profile_images` table (`user_id` primary and foreign key, `data`, `created_at`); a new table, so no reset of
+  `data/brul*`. `ProfileImage` is a normal class, because a data class compares a `ByteArray` by reference.
+- `ProfileImageService`, `ProfileImageRoutes` (`PUT`, `GET`, `DELETE /users/{id}/profile-image`) and the
+  `ProfileImage.contentType()` mapper; wired in `Application.kt`, `Routing.kt`, `TestServices` and
+  `configureTestApp`.
+- Found while building: `upsert` damages binary data on H2, so `save` deletes and inserts in one transaction.
+- Tests (26 new): `ImageType`, the repository against H2 (including an image of exactly 2 MB), the service with a
+  fake, the mapper, and route tests for 204, 200, 400, 401, 403 and 404. `5-profile-image.http` uploads a real PNG;
+  logout moved to `6-logout.http`.
+
 ### Optional
 
 - Admin password reset (the only recovery path without an email flow); still to decide.
@@ -252,7 +282,8 @@ The parameters per list are in `TECHNICAL_DESIGN.md` §6.
 
 | Left out | Why | When you would add it |
 |---|---|---|
-| Domain features beyond the reference feature | The base comes first | Now: profile images and reports are next |
+| Domain features beyond the reference feature and profile images | The base comes first | Now: reports are next |
+| Removing EXIF data (such as the GPS location) from photos | Needs an image library on the server | The app removes it before uploading; until then it is a known limitation |
 | Database migrations (Flyway) | An extra tool to learn; `SchemaUtils.create` is enough during development | As soon as there is a production database whose data must survive schema changes |
 | Refresh tokens | More endpoints and storage | When users should stay logged in for weeks without re-entering a password |
 | Email verification, password reset by email | Needs an email service | For a public app |

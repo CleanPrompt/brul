@@ -1,0 +1,80 @@
+# Run 1-authentication.http first (sets userToken, userId, adminToken, adminId).
+# The body of an upload is the image file itself, not JSON. profile-image.png is a real PNG of 1 x 1 pixel.
+# Safe to run repeatedly: the image is replaced on every upload and deleted at the end.
+
+### Upload own profile image (expect 204)
+PUT {{baseUrl}}/api/v1/users/{{userId}}/profile-image
+Authorization: Bearer {{userToken}}
+Content-Type: image/png
+
+< ./profile-image.png
+
+> {%
+    client.test("User can upload their own profile image", function () {
+        client.assert(response.status === 204, "Expected 204, got " + response.status);
+    });
+%}
+
+
+### Another user sees the image (expect 200 and image/png)
+GET {{baseUrl}}/api/v1/users/{{userId}}/profile-image
+Authorization: Bearer {{adminToken}}
+
+> {%
+    client.test("Any logged-in user can see a profile image", function () {
+        client.assert(response.status === 200, "Expected 200, got " + response.status);
+        client.assert(response.contentType.mimeType === "image/png", "Expected image/png, got " + response.contentType.mimeType);
+    });
+%}
+
+
+### Regular user changes the admin's image (expect 403)
+PUT {{baseUrl}}/api/v1/users/{{adminId}}/profile-image
+Authorization: Bearer {{userToken}}
+Content-Type: image/png
+
+< ./profile-image.png
+
+> {%
+    client.test("A regular user cannot change someone else's image", function () {
+        client.assert(response.status === 403, "Expected 403, got " + response.status);
+    });
+%}
+
+
+### A file that is not a JPEG or PNG (expect 400)
+PUT {{baseUrl}}/api/v1/users/{{userId}}/profile-image
+Authorization: Bearer {{userToken}}
+Content-Type: image/png
+
+This is text, not an image.
+
+> {%
+    client.test("Only JPEG and PNG are accepted, whatever the header says", function () {
+        client.assert(response.status === 400, "Expected 400, got " + response.status);
+        client.assert(response.body.code === "INVALID_IMAGE_TYPE", "Expected INVALID_IMAGE_TYPE, got " + response.body.code);
+    });
+%}
+
+
+### Delete own profile image (expect 204)
+DELETE {{baseUrl}}/api/v1/users/{{userId}}/profile-image
+Authorization: Bearer {{userToken}}
+
+> {%
+    client.test("User can delete their own profile image", function () {
+        client.assert(response.status === 204, "Expected 204, got " + response.status);
+    });
+%}
+
+
+### The image is gone (expect 404)
+GET {{baseUrl}}/api/v1/users/{{userId}}/profile-image
+Authorization: Bearer {{userToken}}
+
+> {%
+    client.test("A deleted image is gone", function () {
+        client.assert(response.status === 404, "Expected 404, got " + response.status);
+        client.assert(response.body.code === "PROFILE_IMAGE_NOT_FOUND", "Expected PROFILE_IMAGE_NOT_FOUND");
+    });
+%}

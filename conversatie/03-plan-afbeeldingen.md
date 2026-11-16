@@ -1,7 +1,8 @@
 # Plan: afbeeldingen
 
-Status: **gekozen richting, nog niet gebouwd.** Dit bestand is het ontwerp; de stappen staan in
-[06-roadmap-afbeeldingen.md](06-roadmap-afbeeldingen.md).
+Status: **profielfoto gebouwd** (fase 16 in `docs/implementation-plan.md`); foto's bij reports volgen later. Dit
+bestand is het ontwerp; de stappen staan in [06-roadmap-afbeeldingen.md](06-roadmap-afbeeldingen.md). De
+beslissingen staan, met hun alternatief, ook in de tabel "Images" van het implementatieplan.
 
 Uitgangspunt: alleen de branch `Base`. Reports bestaan daar nog niet, dus eerst komt de **profielfoto**. De foto's
 bij reports volgen pas als de feature reports er is ([05-domein-reports.md](05-domein-reports.md)).

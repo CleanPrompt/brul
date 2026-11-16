@@ -9,7 +9,7 @@ Guiding principle: keep the code simple enough to explain line by line during th
 
 ## Status
 
-Phases 1–13 are done (128 tests). The base is complete: users, authentication, RBAC, the reference feature
+Phases 1–14 are done (132 tests). The base is complete: users, authentication, RBAC, the reference feature
 `feedback`, search and paging on every list, and a learning guide (`docs/guide/`).
 
 **Next:** decide on the optional admin password reset.
@@ -40,12 +40,13 @@ model are in `TECHNICAL_DESIGN.md`; see `docs/README.md` for where each fact liv
 | Token revocation | `token_version` per user, sent as the `ver` claim and compared in `validate`; logout, password change and deactivation increment it | A JWT cannot be revoked on its own; this needs one column and no extra query. Trade-off: logout ends the sessions on every device |
 | Reference feature | `feedback`: user-owned CRUD with an admin override | The `user` feature is an exception (created via `/auth/register`, soft delete); other developers need a plain example to copy |
 | Feedback status | Separate endpoint `PATCH /feedback/{id}/status` (`feedback.update`) instead of a status field in `PATCH /feedback/{id}` | Each route has exactly one access check; a combined body would need a different check per field |
-| Owned items | The route reads the owner (`getOwnerId`) and then calls `requireOwnerOrPermission`; an unknown id gives 404 before the access check | The owner is only known after a lookup; ids are random UUIDs, so this reveals nothing useful |
+| Owned items | The route reads the owner (`getOwnerId`) and then calls `requireOwnerOrPermission`; an unknown id gives 404 before the access check. User accounts follow the same order (`userService.getOwnerId`) | The owner is only known after a lookup; ids are random UUIDs, so this reveals nothing useful. One order everywhere is easier to learn than a rule with an exception |
+| Owner naming | The column that points to the owner is `owner_id` (property `ownerId`), also in JSON and as a query filter | `userId` could also mean "the caller"; `ownerId` matches the `ownerId` parameter of `requireOwnerOrPermission` |
 | Search | Query parameters on the existing list endpoints (`GET /users`, `GET /feedback`), no global `/search` endpoint | The feature that owns the data knows its filters and its access rules; a global endpoint would need every feature's rules |
 | Text search | `LOWER(column) LIKE '%text%'` with `%` and `_` escaped (`containsIgnoringCase`) | Enough for this amount of data; full-text search (Lucene, H2 fulltext) would be a new technology |
 | Paging | `limit` (default 20, max 100) and `offset`; response `PageResponse<T>` with `items`, `total`, `limit`, `offset` | Offset paging is the easiest to explain; `total` lets a client show "page 2 of 5". The Android client does not exist yet, so changing the list shape is free now |
 | Sorting | `sort` from a fixed list per feature (enum with a `key`), `order=asc\|desc`; the id is always a second sort key | Only known columns can be sorted on; the extra id key keeps pages stable when values are equal |
-| Filters and access | Filters only narrow a result. `GET /feedback` forces `userId` to the caller without `feedback.read` | A filter must never show more than the caller may see |
+| Filters and access | Filters only narrow a result. `GET /feedback` forces `ownerId` to the caller without `feedback.read` | A filter must never show more than the caller may see |
 | Invalid parameters | 400 with the parameter name, never a silent default | A typo such as `limit=1O` should be noticed, not hidden |
 | Documentation | One source per fact (`docs/README.md`); `CLAUDE.md` imports the shared rules from `docs/guide/llm-context.md` | Endpoints, permissions and rules were copied into four to six files and drifted apart; one source means one place to update |
 
@@ -170,6 +171,16 @@ The parameters per list are in `TECHNICAL_DESIGN.md` §6.
 - Documentation: one source per fact (table in `docs/README.md`). The endpoint, permission and error tables moved out
   of this plan into `TECHNICAL_DESIGN.md`; `CLAUDE.md` imports `docs/guide/llm-context.md` instead of repeating its
   rules; the folder READMEs and the root `README.md` became short pointers.
+
+### Phase 14 — One owner rule ✅
+
+- Every `requireOwnerOrPermission` call reads the owner first. `UserService.getOwnerId(id)` returns the account id,
+  or 404 for an unknown user; `GET`/`PATCH /users/{id}` and `GET /users/{id}/roles` use it, so a regular user now
+  gets 404 instead of 403 for an unknown id. `roleRoutes` receives `UserService` for this.
+- Feedback: `user_id` became `owner_id` and `userId` became `ownerId` in the model, the JSON response and the
+  `GET /feedback` filter (breaking change; no client exists yet). The `feedback` table changed: delete `data/brul*`.
+- Tests (4 new): `getOwnerId`, 404 for an unknown user and for the roles of an unknown user, 403 for another user's
+  roles.
 
 ### Optional
 

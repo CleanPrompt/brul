@@ -90,7 +90,7 @@ token_version int (ver claim)
       │
       └──── feedback
             id          UUID  PK
-            user_id     FK (owner)
+            owner_id    FK (owner)
             message     max 2000 characters
             status      OPEN | IN_PROGRESS | CLOSED
             created_at  timestamp (UTC)
@@ -124,10 +124,9 @@ token_version int (ver claim)
 - Permissions are a Kotlin `enum class Permission`; `enum class DefaultRole` is the permission matrix.
   `AuthorizationSeeder` stores both in the database at startup.
 - Each protected route starts with one call to `AuthorizationService`: `requirePermission(...)`, or
-  `requireOwnerOrPermission(...)` when the owner is always allowed. Users own their account, so for `/users/{id}`
-  the account id is the owner id and the check runs before the lookup: a caller without access cannot find out
-  whether an id exists. For owned items such as feedback the owner is read first, so an unknown id gives 404; ids
-  are random UUIDs, so this reveals nothing useful.
+  `requireOwnerOrPermission(...)` when the owner is always allowed. For that check the route always reads the owner
+  first (`getOwnerId`), so an unknown id gives 404; ids are random UUIDs, so this reveals nothing useful. Users own
+  their account, so for `/users/{id}` the owner is the account itself.
 - Permissions are read from the database on every request, so assigning or revoking a role takes effect
   immediately, also for a token that was issued earlier.
 - Deny by default. No or invalid token → 401; valid token without the permission → 403.
@@ -211,19 +210,19 @@ GET /api/v1/feedback?q=slow&status=OPEN&sort=createdAt&order=desc&limit=20&offse
 | Parameter | Meaning |
 |---|---|
 | `q` | Free text, max 100 characters; matches part of a text column, ignoring case (`%` and `_` literal) |
-| feature filters | Exact matches: `active` for users; `status` and `userId` for feedback |
+| feature filters | Exact matches: `active` for users; `status` and `ownerId` for feedback |
 | `sort`, `order` | A field from a fixed list per feature; `asc` or `desc` (default newest first) |
 | `limit`, `offset` | Page size 1–100 (default 20) and the number of items to skip |
 
 | | `GET /users` | `GET /feedback` |
 |---|---|---|
 | `q` searches in | email and display name | message |
-| filters | `active=true\|false` | `status=OPEN\|IN_PROGRESS\|CLOSED`, `userId` (only with `feedback.read`) |
+| filters | `active=true\|false` | `status=OPEN\|IN_PROGRESS\|CLOSED`, `ownerId` (only with `feedback.read`) |
 | `sort` | `createdAt` (default), `displayName`, `email` | `createdAt` (default), `status` |
 
 - An invalid value gives 400 with the parameter name; a missing one means "no filter" or the default.
 - Filters only narrow a result. A regular user's feedback search is always limited to their own items, whatever
-  `userId` they send.
+  `ownerId` they send.
 - Flow: the mapper turns the query parameters into a `<Name>Query`; the repository adds one `AND` condition per filter
   that is set, sorts on the chosen column plus the id (stable pages), and counts the matches with the same filters.
 

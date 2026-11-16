@@ -168,6 +168,25 @@ class UserRoutesTest {
     }
 
     @Test
+    fun `regular user gets 404 for an unknown user, because the owner is read before the access check`() =
+        testApplication {
+            application { configureTestApp(TestServices()) }
+            val alice = register("alice@example.com")
+            val unknownId = UUID.randomUUID()
+
+            val read = client.get("/api/v1/users/$unknownId") { bearerAuth(alice.accessToken) }
+            val update = client.patch("/api/v1/users/$unknownId") {
+                bearerAuth(alice.accessToken)
+                contentType(ContentType.Application.Json)
+                setBody("""{"displayName":"Mallory"}""")
+            }
+
+            assertEquals(HttpStatusCode.NotFound, read.status)
+            assertEquals("USER_NOT_FOUND", read.errorCode())
+            assertEquals(HttpStatusCode.NotFound, update.status)
+        }
+
+    @Test
     fun `user can update own display name`() = testApplication {
         application { configureTestApp(TestServices()) }
         val alice = register("alice@example.com", "Alice")

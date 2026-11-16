@@ -38,7 +38,7 @@ class FakeFeedbackRepository : FeedbackRepository {
 
     private fun matching(query: FeedbackQuery): List<Feedback> =
         items.values.filter { item ->
-            (query.userId == null || item.userId == query.userId) &&
+            (query.ownerId == null || item.ownerId == query.ownerId) &&
                 (query.status == null || item.status == query.status) &&
                 (query.text == null || item.message.contains(query.text, ignoreCase = true))
         }

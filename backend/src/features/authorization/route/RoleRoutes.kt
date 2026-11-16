@@ -11,12 +11,17 @@ import nl.brul.backend.features.authorization.dto.AssignRoleRequest
 import nl.brul.backend.features.authorization.model.Permission
 import nl.brul.backend.features.authorization.service.AuthorizationService
 import nl.brul.backend.features.authorization.service.RoleService
+import nl.brul.backend.features.user.service.UserService
 import nl.brul.backend.plugins.currentUserId
 import nl.brul.backend.shared.http.parseUuid
 import nl.brul.backend.shared.http.uuidParameter
 
 /** Register inside `authenticate(JWT_AUTHENTICATION)`. */
-fun Route.roleRoutes(roleService: RoleService, authorizationService: AuthorizationService) {
+fun Route.roleRoutes(
+    roleService: RoleService,
+    userService: UserService,
+    authorizationService: AuthorizationService
+) {
     get("/roles") {
         authorizationService.requirePermission(call.currentUserId(), Permission.ROLE_READ)
         call.respond(roleService.findAllRoles())
@@ -25,7 +30,9 @@ fun Route.roleRoutes(roleService: RoleService, authorizationService: Authorizati
     get("/users/{id}/roles") {
         val userId = call.uuidParameter("id")
         // Users own their account, so they may always see their own roles.
-        authorizationService.requireOwnerOrPermission(call.currentUserId(), userId, Permission.ROLE_READ)
+        authorizationService.requireOwnerOrPermission(
+            call.currentUserId(), userService.getOwnerId(userId), Permission.ROLE_READ
+        )
         call.respond(roleService.findRolesForUser(userId))
     }
 

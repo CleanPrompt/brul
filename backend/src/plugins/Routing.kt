@@ -45,7 +45,7 @@ fun Application.configureRouting(
                     passwordRoutes(authenticationService)
                 }
                 userRoutes(userService, authorizationService)
-                roleRoutes(roleService, authorizationService)
+                roleRoutes(roleService, userService, authorizationService)
                 feedbackRoutes(feedbackService, authorizationService)
             }
         }

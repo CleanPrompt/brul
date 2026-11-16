@@ -18,7 +18,7 @@ fun Parameters.toFeedbackQuery(): FeedbackQuery =
     FeedbackQuery(
         text = searchText("q"),
         status = oneOf("status", FeedbackStatus.entries.associateBy { it.name }),
-        userId = uuidOrNull("userId"),
+        ownerId = uuidOrNull("ownerId"),
         sortField = oneOf("sort", FeedbackSortField.entries.associateBy { it.key }) ?: FeedbackSortField.CREATED_AT,
         sortDirection = sortDirection(),
         page = page()

@@ -115,7 +115,7 @@ The service turns it into a `FeedbackResponse` (mapper).
 ```json
 {
   "id": "3f2c...e91",
-  "userId": "8a1d...0b4",
+  "ownerId": "8a1d...0b4",
   "message": "The app is slow on my phone",
   "status": "OPEN",
   "createdAt": "2026-11-05T09:30:00Z"

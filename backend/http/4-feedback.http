@@ -13,7 +13,7 @@ Content-Type: application/json
 > {%
     client.test("User can create feedback", function () {
         client.assert(response.status === 201, "Expected 201, got " + response.status);
-        client.assert(response.body.userId === client.global.get("userId"), "Caller must be the owner");
+        client.assert(response.body.ownerId === client.global.get("userId"), "Caller must be the owner");
         client.assert(response.body.status === "OPEN", "New feedback must be OPEN");
     });
     client.global.set("feedbackId", response.body.id);
@@ -44,7 +44,7 @@ Authorization: Bearer {{userToken}}
     client.test("User sees only own feedback", function () {
         client.assert(response.status === 200, "Expected 200, got " + response.status);
         const userId = client.global.get("userId");
-        client.assert(response.body.items.every(function (item) { return item.userId === userId; }), "Found someone else's item");
+        client.assert(response.body.items.every(function (item) { return item.ownerId === userId; }), "Found someone else's item");
     });
 %}
 
@@ -105,21 +105,21 @@ Authorization: Bearer {{adminToken}}
 %}
 
 
-### Search as regular user: userId of someone else is ignored
-GET {{baseUrl}}/api/v1/feedback?userId={{adminId}}
+### Search as regular user: ownerId of someone else is ignored
+GET {{baseUrl}}/api/v1/feedback?ownerId={{adminId}}
 Authorization: Bearer {{userToken}}
 
 > {%
     client.test("Filters cannot widen a regular user's search", function () {
         client.assert(response.status === 200, "Expected 200, got " + response.status);
         const userId = client.global.get("userId");
-        client.assert(response.body.items.every(function (item) { return item.userId === userId; }), "Found someone else's item");
+        client.assert(response.body.items.every(function (item) { return item.ownerId === userId; }), "Found someone else's item");
     });
 %}
 
 
 ### Search on text and owner, oldest first, small page (admin)
-GET {{baseUrl}}/api/v1/feedback?q=SLOW&userId={{userId}}&sort=createdAt&order=asc&limit=1
+GET {{baseUrl}}/api/v1/feedback?q=SLOW&ownerId={{userId}}&sort=createdAt&order=asc&limit=1
 Authorization: Bearer {{adminToken}}
 
 > {%

@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 data class FeedbackResponse(
     val id: String,
     /** The owner's user id. */
-    val userId: String,
+    val ownerId: String,
     val message: String,
     /** `OPEN`, `IN_PROGRESS` or `CLOSED`. */
     val status: String,

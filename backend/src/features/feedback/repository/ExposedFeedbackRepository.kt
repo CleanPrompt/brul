@@ -44,7 +44,7 @@ class ExposedFeedbackRepository : FeedbackRepository {
     /** Starts with every row and adds one `AND` condition for each filter that is set. */
     private fun filtered(query: FeedbackQuery): Query {
         val rows = FeedbackTable.selectAll()
-        query.userId?.let { userId -> rows.andWhere { FeedbackTable.userId eq userId } }
+        query.ownerId?.let { ownerId -> rows.andWhere { FeedbackTable.ownerId eq ownerId } }
         query.status?.let { status -> rows.andWhere { FeedbackTable.status eq status } }
         query.text?.let { text -> rows.andWhere { FeedbackTable.message.containsIgnoringCase(text) } }
         return rows
@@ -60,7 +60,7 @@ class ExposedFeedbackRepository : FeedbackRepository {
         transaction {
             FeedbackTable.insert {
                 it[id] = feedback.id
-                it[userId] = feedback.userId
+                it[ownerId] = feedback.ownerId
                 it[message] = feedback.message
                 it[status] = feedback.status
                 it[createdAt] = feedback.createdAt

@@ -87,9 +87,9 @@ Each feature has only the folders it needs:
   `AuthorizationService`, before the work:
   - `requirePermission(call.currentUserId(), Permission.X)`: the caller needs the permission.
   - `requireOwnerOrPermission(currentUserId, ownerId, Permission.X)`: the owner is always allowed, anyone else needs
-    the permission. For a user account the account id is the owner id (`/users/{id}`), so the check comes before any
-    lookup. For an item owned by a user, the owner comes from the service's `getOwnerId(id)` (404 when unknown),
-    then the check.
+    the permission. Always read the owner first with the service's `getOwnerId(id)` (404 when unknown), then
+    check. For a user account the owner is the account itself (`userService.getOwnerId(id)`). Name the owner
+    column `owner_id` (property `ownerId`), as in `FeedbackTable`.
 - Do not write authorization logic in routes beyond calling these functions. Do not trust roles in the JWT; the
   database is the source of truth.
 - Deny by default: missing/invalid token → 401, missing permission → 403.

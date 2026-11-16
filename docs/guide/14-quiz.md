@@ -214,7 +214,7 @@ in; tests pass in fakes the same way.
 
 <details><summary>Answer</summary>
 
-**D.** For owned items the owner is read first (`getOwnerId`), so an unknown id gives 404 before the access check.
+**D.** The owner is always read first (`getOwnerId`), so an unknown id gives 404 before the access check.
 </details>
 
 **5.4** A route contains a bug that throws a `NullPointerException`. What does the client see?
@@ -345,7 +345,7 @@ devices are logged out.
 
 **B.** The owner may delete their own item; anyone else needs the permission. D compares the user id with the
 *feedback* id, which never matches: the owner id must come from `feedbackService.getOwnerId(id)`. (For a user account
-the URL id would be right, because users own their account.)
+`userService.getOwnerId(id)` returns the URL id itself, because users own their account.)
 </details>
 
 **7.5** Why can an admin not remove their own `ADMIN` role?
@@ -482,11 +482,11 @@ database instead.
 **B.** There is a next page while `offset + items.size < total`.
 </details>
 
-**10.3** A normal user calls `GET /api/v1/feedback?userId=<someone else>`. What do they get?
+**10.3** A normal user calls `GET /api/v1/feedback?ownerId=<someone else>`. What do they get?
 
 - A. The other user's items
 - B. 403
-- C. Only their own items: the route overwrites `userId`
+- C. Only their own items: the route overwrites `ownerId`
 - D. 400
 
 <details><summary>Answer</summary>

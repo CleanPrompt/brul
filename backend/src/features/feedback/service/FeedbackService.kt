@@ -17,11 +17,11 @@ import java.util.UUID
 
 /** Business rules for feedback. Access checks happen in the routes, through `AuthorizationService`. */
 class FeedbackService(private val repository: FeedbackRepository) {
-    /** The server sets the id, the owner ([userId]), the status and the creation time; the client only sends text. */
-    fun create(userId: UUID, request: FeedbackRequest): FeedbackResponse {
+    /** The server sets the id, the owner ([ownerId]), the status and the creation time; the client only sends text. */
+    fun create(ownerId: UUID, request: FeedbackRequest): FeedbackResponse {
         val feedback = Feedback(
             id = UUID.randomUUID(),
-            userId = userId,
+            ownerId = ownerId,
             message = validMessage(request.message),
             status = FeedbackStatus.OPEN,
             createdAt = Instant.now().truncatedTo(ChronoUnit.SECONDS)
@@ -43,7 +43,7 @@ class FeedbackService(private val repository: FeedbackRepository) {
 
     /** The owner of an item, so a route can check access before it reads or changes the item. */
     fun getOwnerId(id: UUID): UUID =
-        findFeedback(id).userId
+        findFeedback(id).ownerId
 
     fun updateMessage(id: UUID, request: FeedbackRequest): FeedbackResponse {
         val updated = findFeedback(id).copy(message = validMessage(request.message))

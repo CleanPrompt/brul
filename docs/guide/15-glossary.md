@@ -42,7 +42,7 @@
 | **Modular monolith** | One application, internally split into independent modules (features) |
 | **Null safety** | Kotlin's rule that a value can only be `null` if its type ends with `?` |
 | **Offset paging** | Paging with `limit` (page size) and `offset` (how many to skip) |
-| **Owner** | The user a resource belongs to, such as `feedback.user_id` |
+| **Owner** | The user a resource belongs to, such as `feedback.owner_id` |
 | **`PageResponse`** | The shape of every list: `{ items, total, limit, offset }` |
 | **Permission** | A single right, such as `user.read`; defined in `enum class Permission` |
 | **Plugin (Ktor)** | A feature installed in the server, such as authentication or JSON |

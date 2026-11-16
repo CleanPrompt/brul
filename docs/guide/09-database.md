@@ -35,7 +35,7 @@ erDiagram
     }
     feedback {
         uuid id PK
-        uuid user_id FK "owner"
+        uuid owner_id FK "owner"
         varchar message
         varchar status "OPEN, IN_PROGRESS, CLOSED"
         timestamp created_at
@@ -127,7 +127,7 @@ statements to succeed or fail together.
 fun ResultRow.toFeedback(): Feedback =
     Feedback(
         id = this[FeedbackTable.id],
-        userId = this[FeedbackTable.userId],
+        ownerId = this[FeedbackTable.ownerId],
         message = this[FeedbackTable.message],
         status = this[FeedbackTable.status],
         createdAt = this[FeedbackTable.createdAt]
@@ -168,10 +168,10 @@ never succeed, so it would only waste time and fill the log.
 
 ### Foreign keys
 
-`feedback.user_id` references `users.id`:
+`feedback.owner_id` references `users.id`:
 
 ```kotlin
-val userId = reference("user_id", UsersTable.id)
+val ownerId = reference("owner_id", UsersTable.id)
 ```
 
 The database refuses a feedback item for a user that does not exist.

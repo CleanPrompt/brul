@@ -41,8 +41,8 @@ class FeedbackRepositoryTest {
             User(UUID.randomUUID(), "${UUID.randomUUID()}@example.com", "Owner", "hash", true, TEST_CREATED_AT)
         ).id
 
-    private fun newFeedback(userId: UUID, createdAt: Instant = TEST_CREATED_AT) =
-        Feedback(UUID.randomUUID(), userId, "The app is slow", FeedbackStatus.OPEN, createdAt)
+    private fun newFeedback(ownerId: UUID, createdAt: Instant = TEST_CREATED_AT) =
+        Feedback(UUID.randomUUID(), ownerId, "The app is slow", FeedbackStatus.OPEN, createdAt)
 
     @Test
     fun `saves and retrieves feedback`() {
@@ -60,8 +60,8 @@ class FeedbackRepositoryTest {
         val newer = repository.save(newFeedback(owner, TEST_CREATED_AT.plusSeconds(60)))
         repository.save(newFeedback(newOwner()))
 
-        assertEquals(listOf(newer, older), repository.search(FeedbackQuery(userId = owner)))
-        assertEquals(2, repository.count(FeedbackQuery(userId = owner)))
+        assertEquals(listOf(newer, older), repository.search(FeedbackQuery(ownerId = owner)))
+        assertEquals(2, repository.count(FeedbackQuery(ownerId = owner)))
     }
 
     @Test
@@ -70,9 +70,9 @@ class FeedbackRepositoryTest {
         val slow = repository.save(newFeedback(owner).copy(message = "The app is SLOW"))
         repository.save(newFeedback(owner).copy(message = "Crash on start", status = FeedbackStatus.CLOSED))
 
-        assertEquals(listOf(slow), repository.search(FeedbackQuery(userId = owner, text = "slow")))
-        assertEquals(listOf(slow), repository.search(FeedbackQuery(userId = owner, status = FeedbackStatus.OPEN)))
-        assertEquals(0, repository.count(FeedbackQuery(userId = owner, text = "slow", status = FeedbackStatus.CLOSED)))
+        assertEquals(listOf(slow), repository.search(FeedbackQuery(ownerId = owner, text = "slow")))
+        assertEquals(listOf(slow), repository.search(FeedbackQuery(ownerId = owner, status = FeedbackStatus.OPEN)))
+        assertEquals(0, repository.count(FeedbackQuery(ownerId = owner, text = "slow", status = FeedbackStatus.CLOSED)))
     }
 
     @Test
@@ -81,7 +81,7 @@ class FeedbackRepositoryTest {
         val discount = repository.save(newFeedback(owner).copy(message = "Give 50% discount"))
         repository.save(newFeedback(owner).copy(message = "50 people complained"))
 
-        assertEquals(listOf(discount), repository.search(FeedbackQuery(userId = owner, text = "50%")))
+        assertEquals(listOf(discount), repository.search(FeedbackQuery(ownerId = owner, text = "50%")))
     }
 
     @Test
@@ -90,7 +90,7 @@ class FeedbackRepositoryTest {
         val first = repository.save(newFeedback(owner, TEST_CREATED_AT))
         val second = repository.save(newFeedback(owner, TEST_CREATED_AT.plusSeconds(60)))
         val third = repository.save(newFeedback(owner, TEST_CREATED_AT.plusSeconds(120)))
-        val ascending = FeedbackQuery(userId = owner, sortDirection = SortDirection.ASC)
+        val ascending = FeedbackQuery(ownerId = owner, sortDirection = SortDirection.ASC)
         val firstPage = ascending.copy(page = Page(limit = 2, offset = 0))
         val secondPage = ascending.copy(page = Page(limit = 2, offset = 2))
 
@@ -104,7 +104,7 @@ class FeedbackRepositoryTest {
         val feedback = repository.save(newFeedback(newOwner()))
 
         val updated = repository.update(
-            feedback.copy(message = "Fixed", status = FeedbackStatus.CLOSED, userId = UUID.randomUUID())
+            feedback.copy(message = "Fixed", status = FeedbackStatus.CLOSED, ownerId = UUID.randomUUID())
         )
 
         assertTrue(updated)

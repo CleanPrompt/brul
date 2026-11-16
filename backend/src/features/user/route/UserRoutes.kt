@@ -18,9 +18,8 @@ import nl.brul.backend.plugins.currentUserId
 import nl.brul.backend.shared.http.uuidParameter
 
 /**
- * Register inside `authenticate(JWT_AUTHENTICATION)`. The permission check runs before the lookup,
- * so a caller without access gets 403 and cannot find out whether an id exists.
- * Users own their account, so for `{id}` the account id is also the owner id.
+ * Register inside `authenticate(JWT_AUTHENTICATION)`. Users own their account. As in every feature, the route first
+ * reads the owner (`getOwnerId`, 404 for an unknown id) and then calls `requireOwnerOrPermission`.
  */
 fun Route.userRoutes(userService: UserService, authorizationService: AuthorizationService) {
     route("/users") {
@@ -37,13 +36,17 @@ fun Route.userRoutes(userService: UserService, authorizationService: Authorizati
 
         get("/{id}") {
             val id = call.uuidParameter("id")
-            authorizationService.requireOwnerOrPermission(call.currentUserId(), id, Permission.USER_READ)
+            authorizationService.requireOwnerOrPermission(
+                call.currentUserId(), userService.getOwnerId(id), Permission.USER_READ
+            )
             call.respond(userService.getById(id))
         }
 
         patch("/{id}") {
             val id = call.uuidParameter("id")
-            authorizationService.requireOwnerOrPermission(call.currentUserId(), id, Permission.USER_UPDATE)
+            authorizationService.requireOwnerOrPermission(
+                call.currentUserId(), userService.getOwnerId(id), Permission.USER_UPDATE
+            )
             val request = call.receive<UpdateUserRequest>()
             call.respond(userService.updateDisplayName(id, request))
         }

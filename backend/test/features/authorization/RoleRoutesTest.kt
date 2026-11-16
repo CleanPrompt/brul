@@ -113,4 +113,26 @@ class RoleRoutesTest {
         assertEquals(HttpStatusCode.OK, response.status)
         assertEquals(listOf("USER"), Json.decodeFromString<List<RoleResponse>>(response.bodyAsText()).map { it.name })
     }
+
+    @Test
+    fun `user cannot see the roles of another user`() = testApplication {
+        application { configureTestApp(services) }
+        val alice = register("alice@example.com")
+        val bob = register("bob@example.com")
+
+        val response = client.get("/api/v1/users/${bob.user.id}/roles") { bearerAuth(alice.accessToken) }
+
+        assertEquals(HttpStatusCode.Forbidden, response.status)
+    }
+
+    @Test
+    fun `roles of an unknown user return 404`() = testApplication {
+        application { configureTestApp(services) }
+        val alice = register("alice@example.com")
+
+        val response = client.get("/api/v1/users/${UUID.randomUUID()}/roles") { bearerAuth(alice.accessToken) }
+
+        assertEquals(HttpStatusCode.NotFound, response.status)
+        assertEquals("USER_NOT_FOUND", response.errorCode())
+    }
 }

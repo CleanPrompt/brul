@@ -25,7 +25,7 @@ class FeedbackServiceTest {
     fun `create sets the owner, trims the message and starts as OPEN`() {
         val response = service.create(ownerId, FeedbackRequest("  The app is slow  "))
 
-        assertEquals(ownerId.toString(), response.userId)
+        assertEquals(ownerId.toString(), response.ownerId)
         assertEquals("The app is slow", response.message)
         assertEquals("OPEN", response.status)
         assertTrue(response.createdAt.endsWith("Z"), "createdAt must be ISO 8601 UTC")
@@ -42,7 +42,7 @@ class FeedbackServiceTest {
         repeat(3) { create() }
         service.create(UUID.randomUUID(), FeedbackRequest("Someone else"))
 
-        val page = service.search(FeedbackQuery(userId = ownerId, page = Page(limit = 2, offset = 0)))
+        val page = service.search(FeedbackQuery(ownerId = ownerId, page = Page(limit = 2, offset = 0)))
 
         assertEquals(2, page.items.size)
         assertEquals(3, page.total)

@@ -38,6 +38,12 @@ class UserServiceTest {
     }
 
     @Test
+    fun `the owner of an account is the account itself`() {
+        assertEquals(user.id, service.getOwnerId(user.id))
+        assertFailsWith<AppException.NotFound> { service.getOwnerId(UUID.randomUUID()) }
+    }
+
+    @Test
     fun `deactivate marks another user inactive`() {
         service.deactivate(user.id, currentUserId = UUID.randomUUID())
 

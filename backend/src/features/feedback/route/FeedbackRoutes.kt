@@ -38,11 +38,11 @@ fun Route.feedbackRoutes(feedbackService: FeedbackService, authorizationService:
             val currentUserId = call.currentUserId()
             val query = call.request.queryParameters.toFeedbackQuery()
             // Filters only narrow the result: without feedback.read the search stays within the caller's own
-            // items, whatever userId the caller sent.
+            // items, whatever ownerId the caller sent.
             val allowedQuery = if (authorizationService.hasPermission(currentUserId, Permission.FEEDBACK_READ)) {
                 query
             } else {
-                query.copy(userId = currentUserId)
+                query.copy(ownerId = currentUserId)
             }
             call.respond(feedbackService.search(allowedQuery))
         }

@@ -6,7 +6,7 @@ import nl.brul.backend.features.feedback.model.Feedback
 fun Feedback.toResponse(): FeedbackResponse =
     FeedbackResponse(
         id = id.toString(),
-        userId = userId.toString(),
+        ownerId = ownerId.toString(),
         message = message,
         status = status.name,
         createdAt = createdAt.toString()

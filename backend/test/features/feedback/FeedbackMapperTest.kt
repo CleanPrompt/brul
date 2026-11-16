@@ -18,7 +18,7 @@ class FeedbackMapperTest {
         val response = feedback.toResponse()
 
         assertEquals(feedback.id.toString(), response.id)
-        assertEquals(feedback.userId.toString(), response.userId)
+        assertEquals(feedback.ownerId.toString(), response.ownerId)
         assertEquals("The app is slow", response.message)
         assertEquals("IN_PROGRESS", response.status)
         assertEquals("2026-01-01T12:00:00Z", response.createdAt)

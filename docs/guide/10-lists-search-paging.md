@@ -24,7 +24,7 @@ GET /api/v1/feedback?q=slow&status=OPEN&sort=createdAt&order=desc&limit=20&offse
 | Parameter | Meaning | Default |
 |---|---|---|
 | `q` | Free text (max 100 characters), matches part of a text field, ignoring upper/lower case | no text filter |
-| filters | Exact matches, different per feature (`status`, `userId`, `active`) | no filter |
+| filters | Exact matches, different per feature (`status`, `ownerId`, `active`) | no filter |
 | `sort` | Field to sort on, from a fixed list per feature | `createdAt` |
 | `order` | `asc` (A→Z, old→new) or `desc` | `desc` (newest first) |
 | `limit` | Page size, 1–100 | 20 |
@@ -32,7 +32,7 @@ GET /api/v1/feedback?q=slow&status=OPEN&sort=createdAt&order=desc&limit=20&offse
 
 Which text fields, filters and sort fields each list has is in `TECHNICAL_DESIGN.md` §6. For example, `GET /users`
 searches in email and display name and filters on `active`; `GET /feedback` searches in the message and filters on
-`status` and `userId`.
+`status` and `ownerId`.
 
 ## Paging with `limit` and `offset`
 
@@ -69,7 +69,7 @@ fun Parameters.toFeedbackQuery(): FeedbackQuery =
     FeedbackQuery(
         text = searchText("q"),
         status = oneOf("status", FeedbackStatus.entries.associateBy { it.name }),
-        userId = uuidOrNull("userId"),
+        ownerId = uuidOrNull("ownerId"),
         sortField = oneOf("sort", FeedbackSortField.entries.associateBy { it.key }) ?: FeedbackSortField.CREATED_AT,
         sortDirection = sortDirection(),
         page = page()
@@ -84,7 +84,7 @@ parameter is missing, and throws **400 with the parameter name** when it is inva
 | `searchText("q")` | trimmed text up to 100 characters; empty means no filter | 101 characters |
 | `oneOf("sort", options)` | one of the keys in a map | `sort=password` |
 | `booleanOrNull("active")` | `true` or `false` | `active=yes` |
-| `uuidOrNull("userId")` | a UUID | `userId=bob` |
+| `uuidOrNull("ownerId")` | a UUID | `ownerId=bob` |
 | `sortDirection()` | `asc` or `desc` | `order=up` |
 | `page()` | `limit` 1–100, `offset` 0 or more | `limit=500`, `limit=ten` |
 
@@ -98,7 +98,7 @@ The result is a plain data class:
 data class FeedbackQuery(
     val text: String? = null,
     val status: FeedbackStatus? = null,
-    val userId: UUID? = null,
+    val ownerId: UUID? = null,
     val sortField: FeedbackSortField = FeedbackSortField.CREATED_AT,
     val sortDirection: SortDirection = SortDirection.DESC,
     val page: Page = Page()
@@ -117,15 +117,15 @@ get {
     val allowedQuery = if (authorizationService.hasPermission(currentUserId, Permission.FEEDBACK_READ)) {
         query
     } else {
-        query.copy(userId = currentUserId)
+        query.copy(ownerId = currentUserId)
     }
     call.respond(feedbackService.search(allowedQuery))
 }
 ```
 
-A normal user who sends `?userId=<someone else>` still only sees their own items, because the route overwrites
-`userId`. **A filter may only make the result smaller, never show more than the caller is allowed to see.** This is
-tested in `FeedbackRoutesTest`: `userId filter cannot widen a regular user's search`.
+A normal user who sends `?ownerId=<someone else>` still only sees their own items, because the route overwrites
+`ownerId`. **A filter may only make the result smaller, never show more than the caller is allowed to see.** This is
+tested in `FeedbackRoutesTest`: `ownerId filter cannot widen a regular user's search`.
 
 ### 3. Service: one page plus the total
 
@@ -164,7 +164,7 @@ override fun count(query: FeedbackQuery): Long = transaction {
 /** Starts with every row and adds one AND condition for each filter that is set. */
 private fun filtered(query: FeedbackQuery): Query {
     val rows = FeedbackTable.selectAll()
-    query.userId?.let { userId -> rows.andWhere { FeedbackTable.userId eq userId } }
+    query.ownerId?.let { ownerId -> rows.andWhere { FeedbackTable.ownerId eq ownerId } }
     query.status?.let { status -> rows.andWhere { FeedbackTable.status eq status } }
     query.text?.let { text -> rows.andWhere { FeedbackTable.message.containsIgnoringCase(text) } }
     return rows

@@ -311,7 +311,7 @@ paths:
     get:
       summary: >-
         Search, filter, sort and page feedback. Own items only, or every item with feedback.read; without that
-        permission the userId filter is ignored.
+        permission the ownerId filter is ignored.
       security: [{ bearerAuth: [] }]
       parameters:
         - $ref: '#/components/parameters/SearchText'
@@ -320,7 +320,7 @@ paths:
           schema:
             type: string
             enum: [OPEN, IN_PROGRESS, CLOSED]
-        - name: userId
+        - name: ownerId
           in: query
           description: Only items of this owner (needs feedback.read to see other owners)
           schema:
@@ -692,7 +692,7 @@ components:
         id:
           type: string
           format: uuid
-        userId:
+        ownerId:
           type: string
           format: uuid
           description: The owner

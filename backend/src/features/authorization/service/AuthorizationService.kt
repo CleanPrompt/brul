@@ -29,7 +29,7 @@ class AuthorizationService(
 
     /**
      * Owners may always access their own resource; others need [permission]. [ownerId] is the user id of the owner:
-     * `feedback.userId` for a feedback item, or the account's own id for a user account (users own their account).
+     * `feedback.ownerId` for a feedback item, or the account's own id for a user account (users own their account).
      */
     fun requireOwnerOrPermission(currentUserId: UUID, ownerId: UUID, permission: Permission) {
         if (currentUserId != ownerId) {

@@ -13,7 +13,7 @@ data class FeedbackQuery(
     val text: String? = null,
     val status: FeedbackStatus? = null,
     /** Only items of this owner. The route forces it to the caller for users without `feedback.read`. */
-    val userId: UUID? = null,
+    val ownerId: UUID? = null,
     val sortField: FeedbackSortField = FeedbackSortField.CREATED_AT,
     val sortDirection: SortDirection = SortDirection.DESC,
     val page: Page = Page()

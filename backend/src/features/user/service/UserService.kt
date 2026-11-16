@@ -24,6 +24,13 @@ class UserService(private val repository: UserRepository) {
     fun getById(id: UUID): UserResponse =
         findUser(id).toResponse()
 
+    /**
+     * Users own their account, so the owner of an account is the account itself. Like `getOwnerId` in other
+     * features, it reads the user first, so an unknown id gives 404 before the access check.
+     */
+    fun getOwnerId(id: UUID): UUID =
+        findUser(id).id
+
     fun updateDisplayName(id: UUID, request: UpdateUserRequest): UserResponse {
         val name = request.displayName.trim()
         requireValid(name.isNotEmpty() && name.length <= 120) {

@@ -84,7 +84,7 @@ fun requireOwnerOrPermission(currentUserId: UUID, ownerId: UUID, permission: Per
 }
 ```
 
-There are only two checks. What is the owner? For a feedback item, the user who created it (`feedback.userId`). For
+There are only two checks. What is the owner? For a feedback item, the user who created it (`feedback.ownerId`). For
 a user account, the user themselves: **users own their account**, so the account id is the owner id.
 
 ### Which check do I use?
@@ -107,11 +107,8 @@ get {
 }
 ```
 
-For user accounts the check even comes before the lookup: the id in the URL *is* the owner id, so nothing has to be
-read first. A caller without access gets 403 for every id, so they cannot find out which ids exist.
-
-For **owned items** (feedback) that is impossible: you only know the owner after reading the item. So the route reads
-the owner first, then checks:
+With `requireOwnerOrPermission` there is one rule everywhere: **read the owner first, then check**. You only know the
+owner after reading the item, so the route asks the service with `getOwnerId(id)`:
 
 ```kotlin
 delete("/{id}") {
@@ -126,6 +123,9 @@ delete("/{id}") {
 
 An unknown id then gives 404 before the access check. That is acceptable because ids are random UUIDs: guessing one is
 practically impossible.
+
+User accounts follow the same rule. Users own their account, so `userService.getOwnerId(id)` returns the account's
+own id, or 404 when the account does not exist.
 
 ## Permissions come from the database, every time
 

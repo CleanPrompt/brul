@@ -7,7 +7,7 @@ import org.jetbrains.exposed.sql.ResultRow
 fun ResultRow.toFeedback(): Feedback =
     Feedback(
         id = this[FeedbackTable.id],
-        userId = this[FeedbackTable.userId],
+        ownerId = this[FeedbackTable.ownerId],
         message = this[FeedbackTable.message],
         status = this[FeedbackTable.status],
         createdAt = this[FeedbackTable.createdAt]

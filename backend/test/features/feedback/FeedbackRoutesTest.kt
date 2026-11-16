@@ -74,7 +74,7 @@ class FeedbackRoutesTest {
 
         assertEquals(HttpStatusCode.Created, response.status)
         val feedback = response.body()
-        assertEquals(alice.user.id, feedback.userId)
+        assertEquals(alice.user.id, feedback.ownerId)
         assertEquals("OPEN", feedback.status)
     }
 
@@ -106,22 +106,22 @@ class FeedbackRoutesTest {
         val asAlice = client.get("/api/v1/feedback") { bearerAuth(alice.accessToken) }
         val asAdmin = client.get("/api/v1/feedback") { bearerAuth(admin.accessToken) }
 
-        assertEquals(listOf(alice.user.id), asAlice.page().items.map { it.userId })
+        assertEquals(listOf(alice.user.id), asAlice.page().items.map { it.ownerId })
         assertEquals(2, asAdmin.page().total)
     }
 
     @Test
-    fun `userId filter cannot widen a regular user's search`() = testApplication {
+    fun `ownerId filter cannot widen a regular user's search`() = testApplication {
         application { configureTestApp(TestServices()) }
         val alice = register("alice@example.com")
         val bob = register("bob@example.com")
         createFeedback(alice.accessToken)
         createFeedback(bob.accessToken)
 
-        val response = client.get("/api/v1/feedback?userId=${bob.user.id}") { bearerAuth(alice.accessToken) }
+        val response = client.get("/api/v1/feedback?ownerId=${bob.user.id}") { bearerAuth(alice.accessToken) }
 
         assertEquals(HttpStatusCode.OK, response.status)
-        assertEquals(listOf(alice.user.id), response.page().items.map { it.userId })
+        assertEquals(listOf(alice.user.id), response.page().items.map { it.ownerId })
     }
 
     @Test
@@ -134,13 +134,13 @@ class FeedbackRoutesTest {
         val crashId = createFeedback(bob.accessToken, message = "Crash on start").body().id
         patchJson("/api/v1/feedback/$crashId/status", admin.accessToken, """{"status":"CLOSED"}""")
 
-        val byOwner = client.get("/api/v1/feedback?userId=${alice.user.id}") { bearerAuth(admin.accessToken) }
+        val byOwner = client.get("/api/v1/feedback?ownerId=${alice.user.id}") { bearerAuth(admin.accessToken) }
         val byStatus = client.get("/api/v1/feedback?status=CLOSED") { bearerAuth(admin.accessToken) }
         val byText = client.get("/api/v1/feedback?q=SLOW") { bearerAuth(admin.accessToken) }
 
-        assertEquals(listOf(alice.user.id), byOwner.page().items.map { it.userId })
+        assertEquals(listOf(alice.user.id), byOwner.page().items.map { it.ownerId })
         assertEquals(listOf(crashId), byStatus.page().items.map { it.id })
-        assertEquals(listOf(alice.user.id), byText.page().items.map { it.userId })
+        assertEquals(listOf(alice.user.id), byText.page().items.map { it.ownerId })
     }
 
     @Test
@@ -171,7 +171,7 @@ class FeedbackRoutesTest {
         val paths = listOf(
             "/api/v1/feedback?status=DONE",
             "/api/v1/feedback?sort=message",
-            "/api/v1/feedback?userId=not-a-uuid",
+            "/api/v1/feedback?ownerId=not-a-uuid",
             "/api/v1/feedback?limit=500"
         )
 

@@ -107,9 +107,10 @@ het type, zowel bij het uploaden (controle) als bij het downloaden (header).
 | Situatie | Status | Code |
 |---|---|---|
 | Lege body, of geen JPEG/PNG | 400 | `INVALID_IMAGE_TYPE` |
-| Groter dan 2 MB | 400 | `IMAGE_TOO_LARGE` |
-| Gebruiker bestaat niet | 404 | `USER_NOT_FOUND` (bestaat al) |
-| Gebruiker heeft geen profielfoto | 404 | `PROFILE_IMAGE_NOT_FOUND` |
+| Groter dan 2 MB (al aan de header `Content-Length` te zien) | 400 | `IMAGE_TOO_LARGE` |
+| Upload zonder header `Content-Length` | 400 | `INVALID_REQUEST` (bestaat al) |
+| `PUT`/`DELETE` voor een gebruiker die niet bestaat | 404 | `USER_NOT_FOUND` (bestaat al) |
+| Gebruiker heeft geen profielfoto; ook `GET` voor een onbekende gebruiker | 404 | `PROFILE_IMAGE_NOT_FOUND` |
 | Geen of ongeldige token | 401 | bestaat al |
 | Andermans foto wijzigen zonder `user.update` | 403 | bestaat al |
 
@@ -122,20 +123,23 @@ We gebruiken 400 en geen 413 voor een te grote foto, zodat er geen nieuwe `AppEx
 ```text
 shared/image/
   ImageType.kt                   ← JPEG/PNG, contentType, MAX_BYTES + detect (companion), requireValidImage
+  ImageRequest.kt                ← call.receiveImage(): leest de body, checkt eerst Content-Length
 features/user/
   database/UserProfileImagesTable.kt
-  model/ProfileImage.kt          ← userId, data, createdAt
+  model/ProfileImage.kt          ← userId, data, createdAt (gewone class, geen data class)
+  mapper/ProfileImageDatabaseMapper.kt, ProfileImageMapper.kt ← row → model; model → Content-Type
   repository/ProfileImageRepository.kt, ExposedProfileImageRepository.kt
   service/ProfileImageService.kt ← controleert de foto, zet createdAt
   route/ProfileImageRoutes.kt    ← de drie endpoints
 test/
   shared/image/ImageTypeTest.kt
   features/user/FakeProfileImageRepository.kt, ProfileImageRepositoryTest.kt,
-  ProfileImageServiceTest.kt, ProfileImageRoutesTest.kt
+  ProfileImageServiceTest.kt, ProfileImageMapperTest.kt, ProfileImageRoutesTest.kt
 ```
 
 Een eigen `ProfileImageService` houdt `UserService` klein. De route gebruikt `userService.getOwnerId(id)` voor de
-toegangscheck, net als de andere user-routes.
+toegangscheck, net als de andere user-routes. De `Content-Type` bij het downloaden komt uit een mapper
+(`ProfileImage.contentType()`), omdat elke conversie in `mapper/` staat; zo blijft de route dun.
 
 ---
 
@@ -156,8 +160,11 @@ De volgorde van het werk, met een commit als checkpoint na elke stap, staat in
 3. **Geen `upsert` op een `binary`-kolom.** Gevonden in checkpoint 3: op H2 komt elke byte boven `7F` terug als
    `EF BF BD` (het UTF-8-teken voor "onbekend"). Vervangen gaat daarom met `deleteWhere` + `insert` in één
    transactie. Staat ook in `docs/guide/llm-context.md` §9.
-4. **De grootte van de body begrenzen in Ktor 3.** **Te controleren in checkpoint 5.** Eerste idee: de header
-   `Content-Length` controleren vóór het lezen, en daarna de echte grootte nog eens.
+4. **De grootte van de body begrenzen in Ktor 3.** **Gecontroleerd in checkpoint 5:** Ktor 3.6 heeft hier geen
+   ingebouwde plugin voor. `call.receiveImage()` (`shared/image/ImageRequest.kt`) controleert de header
+   `Content-Length` vóór het lezen (zonder header: 400; boven 2 MB: `IMAGE_TOO_LARGE`), en de service
+   controleert daarna de echte grootte nog eens. `receive<ByteArray>()` werkt naast de JSON-plugin, omdat die
+   `ByteArray` overslaat.
 5. **EXIF-gegevens** (onder andere de GPS-locatie in foto's) blijven in het bestand staan, tenzij de app ze
    weghaalt. Dat is een privacy-risico; we schrijven het op als beperking.
 6. **Alleen het begin wordt gecontroleerd.** Een bestand dat met de JPEG-bytes begint en daarna onzin bevat, komt

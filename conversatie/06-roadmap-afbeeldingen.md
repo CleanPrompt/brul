@@ -33,8 +33,8 @@ flowchart LR
 | 1 | Plan afbeeldingen ✅ | `Plan profile images` |
 | 2 | `ImageType` in `shared/image/` ✅ | `Add ImageType with JPEG/PNG detection and size check` |
 | 3 | Tabel en repository ✅ | `Add user_profile_images table and repository` |
-| 4 | Service (klaar, nog committen) | `Add ProfileImageService` |
-| 5 | Routes en koppelen | `Add profile image endpoints` |
+| 4 | Service ✅ | `Add ProfileImageService` |
+| 5 | Routes en koppelen (klaar, nog committen) | `Add profile image endpoints` |
 | 6 | Documentatie | `Document profile images` |
 | 7 | Later: foto's bij reports | — |
 
@@ -207,43 +207,50 @@ Klaar als:
 
 Nieuw:
 
-- [ ] `backend/src/features/user/route/ProfileImageRoutes.kt`, binnen `authenticate(JWT_AUTHENTICATION)`:
-  - [ ] `PUT /users/{id}/profile-image`: `getOwnerId` + `requireOwnerOrPermission(..., Permission.USER_UPDATE)`,
-        body lezen als `ByteArray`, `upload`, 204
-  - [ ] `GET /users/{id}/profile-image`: `getOwnerId` (404 voor een onbekende gebruiker), foto ophalen,
-        antwoorden met de bytes en de `Content-Type` van `ImageType`
-  - [ ] `DELETE /users/{id}/profile-image`: zelfde toegangscheck als `PUT`, `delete`, 204
+- [x] `backend/src/features/user/route/ProfileImageRoutes.kt`, binnen `authenticate(JWT_AUTHENTICATION)`:
+  - [x] `PUT /users/{id}/profile-image`: `getOwnerId` + `requireOwnerOrPermission(..., Permission.USER_UPDATE)`,
+        body lezen met `call.receiveImage()`, `upload`, 204
+  - [x] `GET /users/{id}/profile-image`: foto ophalen, antwoorden met de bytes en `image.contentType()`. Geen
+        opzoeking van de gebruiker: een onbekende gebruiker heeft gewoon geen foto (404 `PROFILE_IMAGE_NOT_FOUND`)
+  - [x] `DELETE /users/{id}/profile-image`: zelfde toegangscheck als `PUT`, `delete`, 204
+- [x] `backend/src/features/user/mapper/ProfileImageMapper.kt`: `ProfileImage.contentType()` (jouw keuze: in een
+      mapper, niet in de route)
+- [x] `backend/src/shared/image/ImageRequest.kt`: `call.receiveImage()`
 
-Eerst controleren (valkuil 3 in 03):
+Eerst controleren:
 
-- [ ] Hoe begrens je in Ktor 3 de grootte vóór de hele body in het geheugen staat? Eerste idee: `Content-Length`
-      controleren vóór het lezen. Schrijf de gekozen oplossing op in 03.
+- [x] Grootte begrenzen in Ktor 3.6: **geen ingebouwde plugin** (gecontroleerd in de broncode). Oplossing: de
+      header `Content-Length` controleren vóór het lezen. Opgeschreven in 03, valkuil 4
+- [x] `receive<ByteArray>()` werkt naast de JSON-plugin (`ByteArray` staat in de lijst die de plugin overslaat)
 
 Koppelen (vier plekken):
 
-- [ ] `backend/src/Application.kt`: `ExposedProfileImageRepository` en `ProfileImageService` maken
-- [ ] `backend/src/plugins/Routing.kt`: `profileImageService` als parameter, `profileImageRoutes(...)` aanroepen
-- [ ] `backend/test/TestFixtures.kt`: `TestServices` krijgt de fake repository en de service
-- [ ] `backend/test/TestFixtures.kt`: `configureTestApp` geeft de service door
+- [x] `backend/src/Application.kt`: `ExposedProfileImageRepository` en `ProfileImageService` maken
+- [x] `backend/src/plugins/Routing.kt`: `profileImageService` als parameter, `profileImageRoutes(...)` aanroepen
+- [x] `backend/test/TestFixtures.kt`: `TestServices` krijgt de fake repository en de service
+- [x] `backend/test/TestFixtures.kt`: `configureTestApp` geeft de service door
 
-Tests in `backend/test/features/user/ProfileImageRoutesTest.kt`:
+Tests in `backend/test/features/user/ProfileImageRoutesTest.kt` (9) en `ProfileImageMapperTest.kt` (1):
 
-- [ ] 204 bij uploaden van de eigen foto; daarna 200 met dezelfde bytes en `Content-Type: image/png`
-- [ ] Een andere ingelogde gebruiker kan de foto zien (200)
-- [ ] 204 bij verwijderen; daarna 404 `PROFILE_IMAGE_NOT_FOUND`
-- [ ] 400 `INVALID_IMAGE_TYPE` en 400 `IMAGE_TOO_LARGE`
-- [ ] 401 zonder token
-- [ ] 403 bij andermans foto wijzigen of verwijderen; een admin mag het wel
-- [ ] 404 `USER_NOT_FOUND` voor een onbekende gebruiker
+- [x] 204 bij uploaden; een andere gebruiker ziet de foto (200, dezelfde bytes, `Content-Type: image/png`)
+- [x] Een nieuwe upload vervangt de oude en krijgt zijn eigen `Content-Type`
+- [x] 204 bij verwijderen; daarna 404 `PROFILE_IMAGE_NOT_FOUND`
+- [x] 400 `INVALID_IMAGE_TYPE` (een SVG), 400 `IMAGE_TOO_LARGE`, 400 voor een ongeldige id
+- [x] 401 zonder token (`PUT`, `GET`, `DELETE`)
+- [x] 403 bij andermans foto wijzigen of verwijderen; een admin mag het wel
+- [x] 404 `USER_NOT_FOUND` bij `PUT` voor een onbekende gebruiker
 
 README:
 
-- [ ] De routes en het verloop van een upload in `backend/src/features/user/README.md`
+- [x] De routes, de mapper en het verloop van een upload in `backend/src/features/user/README.md`
+- [x] `image/ImageRequest.kt` in `backend/src/shared/README.md`
 
 Klaar als:
 
-- [ ] `kotlin.bat test` slaagt
-- [ ] De server start (`kotlin.bat run`) en de nieuwe tabel bestaat
+- [x] `kotlin.bat test` slaagt (158 tests)
+- [ ] De server start (`kotlin.bat run`) en de nieuwe tabel bestaat. **Nog zelf doen:** poort 8080 was bezet
+      door je eigen server, dus ik kon hem niet starten. Herstart je server; in checkpoint 6 komt een
+      `.http`-bestand om het te proberen
 
 **Commit:** `Add profile image endpoints`
 

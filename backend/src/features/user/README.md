@@ -37,6 +37,8 @@ Endpoints and permissions: `TECHNICAL_DESIGN.md` §4 and §6.
 | `repository/ProfileImageRepository.kt` | The interface: `save` (replaces an existing image), `findByUserId`, `delete` |
 | `repository/ExposedProfileImageRepository.kt` | The Exposed implementation. `save` deletes the old row and inserts the new one in one transaction |
 | `mapper/ProfileImageDatabaseMapper.kt` | `ResultRow.toProfileImage()`: database row → model |
+| `mapper/ProfileImageMapper.kt` | `ProfileImage.contentType()`: the `Content-Type` to send with the image, read from its first bytes (`ImageType.detect`). `null` would mean a stored image is damaged, a bug, so it gives a 500 |
+| `route/ProfileImageRoutes.kt` | `PUT`, `GET` and `DELETE /users/{id}/profile-image`. Changing or deleting needs the account itself or `user.update`, like `PATCH /users/{id}`; every logged-in user may see an image. The upload body is the image file itself, read with `receiveImage()` from `shared/image/` |
 | `service/ProfileImageService.kt` | The rules: `upload` checks the image with `requireValidImage` (400 `INVALID_IMAGE_TYPE` or `IMAGE_TOO_LARGE`), sets `createdAt` and saves it; `get` and `delete` give 404 `PROFILE_IMAGE_NOT_FOUND` when the user has no image. The route checks that the user exists first |
 
 ## How a request flows
@@ -49,6 +51,17 @@ Endpoints and permissions: `TECHNICAL_DESIGN.md` §4 and §6.
    else's needs `user.update` (403 otherwise).
 4. `userService.updateDisplayName` trims and checks the name, then `repository.update` stores it.
 5. The route responds with `UserResponse` (200).
+
+`PUT /api/v1/users/{id}/profile-image` with the image file as the body:
+
+1. The token is checked (401), the owner is read with `userService.getOwnerId(id)` (404 `USER_NOT_FOUND`) and
+   `requireOwnerOrPermission(..., Permission.USER_UPDATE)` runs (403).
+2. `call.receiveImage()` checks the `Content-Length` header before reading: above 2 MB gives 400
+   `IMAGE_TOO_LARGE` without reading the body.
+3. `profileImageService.upload` checks type and size again with `requireValidImage` (400) and saves it.
+4. The route responds 204. A later `GET` sends the bytes back with `image.contentType()`.
+
+`GET` does not look the user up first: an unknown user simply has no image (404 `PROFILE_IMAGE_NOT_FOUND`).
 
 Changing the password is in `authentication`, because hashing belongs there, even though its URL is
 `/users/me/password`.

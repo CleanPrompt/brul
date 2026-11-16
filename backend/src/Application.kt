@@ -14,7 +14,9 @@ import nl.brul.backend.features.authorization.service.AuthorizationService
 import nl.brul.backend.features.authorization.service.RoleService
 import nl.brul.backend.features.feedback.repository.ExposedFeedbackRepository
 import nl.brul.backend.features.feedback.service.FeedbackService
+import nl.brul.backend.features.user.repository.ExposedProfileImageRepository
 import nl.brul.backend.features.user.repository.ExposedUserRepository
+import nl.brul.backend.features.user.service.ProfileImageService
 import nl.brul.backend.features.user.service.UserService
 import nl.brul.backend.plugins.configureAuthentication
 import nl.brul.backend.plugins.configureCallLogging
@@ -44,6 +46,7 @@ fun Application.module(config: AppConfig = AppConfig.load()) {
     val userRepository = ExposedUserRepository()
     val authorizationRepository = ExposedAuthorizationRepository()
     val feedbackRepository = ExposedFeedbackRepository()
+    val profileImageRepository = ExposedProfileImageRepository()
 
     AuthorizationSeeder(authorizationRepository).seed()
 
@@ -60,6 +63,7 @@ fun Application.module(config: AppConfig = AppConfig.load()) {
         bootstrapAdminEmail = config.bootstrapAdminEmail
     )
     val feedbackService = FeedbackService(feedbackRepository)
+    val profileImageService = ProfileImageService(profileImageRepository)
 
     // Plugins and routes
     configureCallLogging()
@@ -67,5 +71,12 @@ fun Application.module(config: AppConfig = AppConfig.load()) {
     configureStatusPages()
     configureRateLimiting()
     configureAuthentication(jwtService, userRepository)
-    configureRouting(authenticationService, userService, roleService, authorizationService, feedbackService)
+    configureRouting(
+        authenticationService,
+        userService,
+        roleService,
+        authorizationService,
+        feedbackService,
+        profileImageService
+    )
 }

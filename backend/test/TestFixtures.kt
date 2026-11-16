@@ -20,7 +20,9 @@ import nl.brul.backend.features.authorization.service.AuthorizationService
 import nl.brul.backend.features.authorization.service.RoleService
 import nl.brul.backend.features.feedback.FakeFeedbackRepository
 import nl.brul.backend.features.feedback.service.FeedbackService
+import nl.brul.backend.features.user.FakeProfileImageRepository
 import nl.brul.backend.features.user.FakeUserRepository
+import nl.brul.backend.features.user.service.ProfileImageService
 import nl.brul.backend.features.user.service.UserService
 import nl.brul.backend.plugins.configureAuthentication
 import nl.brul.backend.plugins.configureRateLimiting
@@ -68,6 +70,8 @@ class TestServices {
     )
     val feedbackRepository = FakeFeedbackRepository()
     val feedbackService = FeedbackService(feedbackRepository)
+    val profileImageRepository = FakeProfileImageRepository()
+    val profileImageService = ProfileImageService(profileImageRepository)
 }
 
 /** Installs the plugins and routes like `Application.module()`, but with [services]. */
@@ -81,7 +85,8 @@ fun Application.configureTestApp(services: TestServices) {
         services.userService,
         services.roleService,
         services.authorizationService,
-        services.feedbackService
+        services.feedbackService,
+        services.profileImageService
     )
 }
 

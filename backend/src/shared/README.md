@@ -15,6 +15,7 @@ in that feature.
 | `paging/SortDirection.kt` | `ASC` or `DESC` |
 | `paging/PageResponse.kt` | The response of every list: `items`, `total`, `limit`, `offset` |
 | `image/ImageType.kt` | Checks uploaded images for every feature that stores them. `ImageType.detect(bytes)` recognises a JPEG or PNG by its first bytes (never by the header or file name); `requireValidImage(bytes)` throws 400 `IMAGE_TOO_LARGE` above 2 MB or `INVALID_IMAGE_TYPE` for anything else. Each feature stores its own images |
+| `image/ImageRequest.kt` | `call.receiveImage()` reads the raw request body as image bytes. It checks the `Content-Length` header first (400 when missing, `IMAGE_TOO_LARGE` above 2 MB), so a huge body is refused before it is read. Ktor 3.6 has no built-in body limit |
 | `database/QueryConditions.kt` | Exposed helpers for repositories: `containsIgnoringCase(text)` (a `LIKE` search where `%` and `_` match literally) and `SortDirection.toSortOrder()` |
 
 ## How a feature uses it

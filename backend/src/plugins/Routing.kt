@@ -15,7 +15,9 @@ import nl.brul.backend.features.authorization.service.RoleService
 import nl.brul.backend.features.feedback.route.feedbackRoutes
 import nl.brul.backend.features.feedback.service.FeedbackService
 import nl.brul.backend.features.health.route.healthRoutes
+import nl.brul.backend.features.user.route.profileImageRoutes
 import nl.brul.backend.features.user.route.userRoutes
+import nl.brul.backend.features.user.service.ProfileImageService
 import nl.brul.backend.features.user.service.UserService
 
 fun Application.configureRouting(
@@ -23,7 +25,8 @@ fun Application.configureRouting(
     userService: UserService,
     roleService: RoleService,
     authorizationService: AuthorizationService,
-    feedbackService: FeedbackService
+    feedbackService: FeedbackService,
+    profileImageService: ProfileImageService
 ) {
     routing {
         healthRoutes()
@@ -45,6 +48,7 @@ fun Application.configureRouting(
                     passwordRoutes(authenticationService)
                 }
                 userRoutes(userService, authorizationService)
+                profileImageRoutes(profileImageService, userService, authorizationService)
                 roleRoutes(roleService, userService, authorizationService)
                 feedbackRoutes(feedbackService, authorizationService)
             }

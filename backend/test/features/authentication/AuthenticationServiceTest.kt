@@ -2,7 +2,7 @@ package nl.brul.backend.features.authentication
 
 import nl.brul.backend.TEST_ADMIN_EMAIL
 import nl.brul.backend.TEST_PASSWORD
-import nl.brul.backend.TestServices
+import nl.brul.backend.testServices
 import nl.brul.backend.features.authentication.dto.ChangePasswordRequest
 import nl.brul.backend.features.authentication.dto.LoginRequest
 import nl.brul.backend.features.authentication.dto.RegisterRequest
@@ -19,7 +19,7 @@ import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
 class AuthenticationServiceTest {
-    private val services = TestServices()
+    private val services = testServices()
     private val service = services.authenticationService
 
     private fun register(email: String = "alice@example.com") =

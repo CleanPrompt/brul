@@ -42,7 +42,7 @@ service/     CategoryService.kt
 route/       CategoryRoutes.kt
 ```
 
-and change: `Permission.kt`, `DatabaseFactory.kt`, `Application.kt`, `Routing.kt`, `TestFixtures.kt`.
+and change: `Permission.kt`, `DatabaseFactory.kt`, `AppServices.kt`, `Application.kt`, `Routing.kt`, `TestFixtures.kt`.
 
 ## Step 1: the model
 
@@ -539,63 +539,50 @@ fun Route.categoryRoutes(categoryService: CategoryService, authorizationService:
 
 ## Step 10: the wiring
 
-Three files connect the new feature to the application.
+Four files connect the new feature to the application. Each needs one or two lines.
 
-**`backend/src/Application.kt`**: create the repository and the service, pass the service to the routing.
+**`backend/src/AppServices.kt`**: accept the repository and build the service, once.
 
 ```kotlin
-// Repositories
-val categoryRepository = ExposedCategoryRepository()
-...
-// Services
-val categoryService = CategoryService(categoryRepository)
-...
-configureRouting(
-    authenticationService, userService, roleService, authorizationService, feedbackService, categoryService
+class AppServices(
+    ...
+    val profileImageRepository: ProfileImageRepository,
+    val categoryRepository: CategoryRepository,            // new
+    config: AppConfig
+) {
+    ...
+    val categoryService = CategoryService(categoryRepository)   // new
+}
+```
+
+**`backend/src/Application.kt`**: give `AppServices` the real repository.
+
+```kotlin
+val services = AppServices(
+    ...
+    categoryRepository = ExposedCategoryRepository(),       // new
+    config = config
 )
 ```
 
-**`backend/src/plugins/Routing.kt`**: accept the service and register the routes inside `authenticate`.
+**`backend/test/TestFixtures.kt`**: give `AppServices` the fake. The tests then use the same wiring as the app.
 
 ```kotlin
-fun Application.configureRouting(
-    authenticationService: AuthenticationService,
-    userService: UserService,
-    roleService: RoleService,
-    authorizationService: AuthorizationService,
-    feedbackService: FeedbackService,
-    categoryService: CategoryService            // new
-) {
-    routing {
+fun testServices(): AppServices =
+    AppServices(
         ...
-            authenticate(JWT_AUTHENTICATION) {
-                ...
-                feedbackRoutes(feedbackService, authorizationService)
-                categoryRoutes(categoryService, authorizationService)   // new
-            }
-    }
-}
+        categoryRepository = FakeCategoryRepository(),      // new
+        config = testConfig()
+    )
 ```
 
-**`backend/test/TestFixtures.kt`**: the tests wire everything too, with a fake.
+**`backend/src/plugins/Routing.kt`**: register the routes inside `authenticate`.
 
 ```kotlin
-class TestServices {
+authenticate(JWT_AUTHENTICATION) {
     ...
-    val categoryRepository = FakeCategoryRepository()
-    val categoryService = CategoryService(categoryRepository)
-}
-
-fun Application.configureTestApp(services: TestServices) {
-    ...
-    configureRouting(
-        services.authenticationService,
-        services.userService,
-        services.roleService,
-        services.authorizationService,
-        services.feedbackService,
-        services.categoryService                // new
-    )
+    feedbackRoutes(services.feedbackService, services.authorizationService)
+    categoryRoutes(services.categoryService, services.authorizationService)   // new
 }
 ```
 
@@ -689,8 +676,8 @@ import io.ktor.server.testing.ApplicationTestBuilder
 import io.ktor.server.testing.testApplication
 import kotlinx.serialization.json.Json
 import nl.brul.backend.TEST_ADMIN_EMAIL
-import nl.brul.backend.TestServices
-import nl.brul.backend.configureTestApp
+import nl.brul.backend.testServices
+import nl.brul.backend.configureApp
 import nl.brul.backend.errorCode
 import nl.brul.backend.features.category.dto.CategoryResponse
 import nl.brul.backend.register
@@ -710,7 +697,7 @@ class CategoryRoutesTest {
 
     @Test
     fun `request without token returns 401`() = testApplication {
-        application { configureTestApp(TestServices()) }
+        application { configureApp(testServices()) }
 
         val response = client.get("/api/v1/categories")
 
@@ -719,7 +706,7 @@ class CategoryRoutesTest {
 
     @Test
     fun `admin creates a category and every user can read it`() = testApplication {
-        application { configureTestApp(TestServices()) }
+        application { configureApp(testServices()) }
         val admin = register(TEST_ADMIN_EMAIL)
         val alice = register("alice@example.com")
 
@@ -733,7 +720,7 @@ class CategoryRoutesTest {
 
     @Test
     fun `regular user cannot create a category`() = testApplication {
-        application { configureTestApp(TestServices()) }
+        application { configureApp(testServices()) }
         val alice = register("alice@example.com")
 
         val response = createCategory(alice.accessToken, "Bugs")
@@ -743,7 +730,7 @@ class CategoryRoutesTest {
 
     @Test
     fun `duplicate name returns 409`() = testApplication {
-        application { configureTestApp(TestServices()) }
+        application { configureApp(testServices()) }
         val admin = register(TEST_ADMIN_EMAIL)
         createCategory(admin.accessToken, "Bugs")
 
@@ -755,7 +742,7 @@ class CategoryRoutesTest {
 
     @Test
     fun `empty name returns 400 and unknown id returns 404`() = testApplication {
-        application { configureTestApp(TestServices()) }
+        application { configureApp(testServices()) }
         val admin = register(TEST_ADMIN_EMAIL)
 
         val empty = createCategory(admin.accessToken, "  ")
@@ -768,7 +755,7 @@ class CategoryRoutesTest {
 
     @Test
     fun `admin renames and deletes a category`() = testApplication {
-        application { configureTestApp(TestServices()) }
+        application { configureApp(testServices()) }
         val admin = register(TEST_ADMIN_EMAIL)
         val id = Json.decodeFromString<CategoryResponse>(createCategory(admin.accessToken, "Bugs").bodyAsText()).id
 
@@ -787,7 +774,7 @@ class CategoryRoutesTest {
 
     @Test
     fun `search matches part of the name and sorts A to Z by default`() = testApplication {
-        application { configureTestApp(TestServices()) }
+        application { configureApp(testServices()) }
         val admin = register(TEST_ADMIN_EMAIL)
         listOf("Feature request", "Bug", "Billing").forEach { createCategory(admin.accessToken, it) }
 
@@ -907,7 +894,7 @@ A feature is not done until others can use it:
 - [ ] Every protected route starts with an access check.
 - [ ] Errors are `AppException` subclasses with stable codes; input checks use `requireValid()`.
 - [ ] Every conversion in `mapper/`; DTOs never contain sensitive fields.
-- [ ] Wired in `Application.kt` **and** `TestServices`.
+- [ ] Wired in `AppServices.kt`, `Application.kt`, `testServices()` and `Routing.kt`.
 - [ ] A fake that behaves like the real repository.
 - [ ] Tests for 2xx, 400, 401, 403, 404 (and 409 if relevant).
 - [ ] `.http` requests and `openapi.yaml` updated.

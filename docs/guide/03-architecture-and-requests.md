@@ -17,7 +17,8 @@ That is a long name for two simple ideas:
 
 ```text
 backend/src/
-├── Application.kt          entry point; creates every object and wires them together
+├── Application.kt          entry point: real repositories, then configureApp (plugins and routes)
+├── AppServices.kt          builds every service once; shared by the app and the tests
 ├── config/                 AppConfig (settings), DatabaseFactory (connection, tables)
 ├── plugins/                Ktor plugin setup only; no business logic
 ├── shared/                 code that every feature uses
@@ -87,44 +88,61 @@ flowchart LR
 Why not send the model directly? Look at `User`: it has `passwordHash` and `tokenVersion`. `UserResponse` leaves them
 out. Because only DTOs are `@Serializable`, a password hash can never end up in a response by accident.
 
-### Wiring: `Application.kt`
+### Wiring: `AppServices` and `Application.kt`
 
 Somewhere, every object has to be created and handed what it needs. Many frameworks do this automatically (Spring,
-Koin). This project does it **by hand**, in one place:
+Koin). This project does it **by hand**, in three small pieces:
 
 ```kotlin
-// backend/src/Application.kt (shortened)
-fun Application.module(config: AppConfig = AppConfig.load()) {
-    // Repositories
-    val userRepository = ExposedUserRepository()
-    val authorizationRepository = ExposedAuthorizationRepository()
-    val feedbackRepository = ExposedFeedbackRepository()
-
-    AuthorizationSeeder(authorizationRepository).seed()
-
-    // Services
+// backend/src/AppServices.kt (shortened): builds every service once
+class AppServices(
+    val userRepository: UserRepository,
+    val authorizationRepository: AuthorizationRepository,
+    val feedbackRepository: FeedbackRepository,
+    val profileImageRepository: ProfileImageRepository,
+    config: AppConfig
+) {
     val jwtService = JwtService(config)
     val authorizationService = AuthorizationService(authorizationRepository, userRepository)
     val userService = UserService(userRepository)
+    val roleService = RoleService(authorizationRepository, userService)
     val feedbackService = FeedbackService(feedbackRepository)
     ...
+}
+```
 
-    // Plugins and routes
+```kotlin
+// backend/src/Application.kt (shortened)
+fun Application.module(config: AppConfig) {
+    val authorizationRepository = ExposedAuthorizationRepository()
+    AuthorizationSeeder(authorizationRepository).seed()
+
+    val services = AppServices(
+        userRepository = ExposedUserRepository(),     // the real repositories, backed by the database
+        authorizationRepository = authorizationRepository,
+        ...
+        config = config
+    )
+    configureApp(services)
+}
+
+fun Application.configureApp(services: AppServices) {
+    configureCallLogging()
     configureSerialization()
     configureStatusPages()
-    configureAuthentication(jwtService, userRepository)
-    configureRouting(authenticationService, userService, roleService, authorizationService, feedbackService)
+    configureRateLimiting()
+    configureAuthentication(services.jwtService, services.userRepository)
+    configureRouting(services)
 }
 ```
 
 This is called **constructor injection**: a class gets its dependencies through its constructor
 (`class UserService(private val repository: UserRepository)`) instead of creating them itself. Benefits:
 
-- You can read the whole object graph in 30 lines.
-- Tests can pass in different objects (fakes) through the same constructor.
+- You can read the whole object graph in one short class.
+- Tests pass fakes into the same `AppServices` (`testServices()` in `backend/test/TestFixtures.kt`) and call the
+  same `configureApp`, so they test exactly the wiring of the real application.
 - No framework magic to explain.
-
-The tests have their own version of this wiring: `TestServices` in `backend/test/TestFixtures.kt`.
 
 ### Shared code
 

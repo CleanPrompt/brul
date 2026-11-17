@@ -7,7 +7,7 @@ features, en de stukken toevoegen die de beoordeling vraagt (UML, testrapport, A
 
 1. Lees [05-stand-van-zaken.md](05-stand-van-zaken.md): wat er al is, en welke beslissingen nog openstaan.
 2. Werk [02-roadmap-hardening.md](02-roadmap-hardening.md) af, checkpoint voor checkpoint. **Volgende stap:
-   checkpoint 5 (kleine verbeteringen) committen, daarna checkpoint 6 (`AppServices`).**
+   checkpoint 6 (`AppServices`) committen, daarna checkpoint 7 (diagrammen per feature).**
 3. Waarom een checkpoint er is, staat in 01, 03 of 04; elk checkpoint verwijst ernaar.
 
 | Bestand | Inhoud |

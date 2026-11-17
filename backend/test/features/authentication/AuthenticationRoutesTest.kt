@@ -13,8 +13,8 @@ import io.ktor.server.testing.ApplicationTestBuilder
 import io.ktor.server.testing.testApplication
 import kotlinx.serialization.json.Json
 import nl.brul.backend.TEST_PASSWORD
-import nl.brul.backend.TestServices
-import nl.brul.backend.configureTestApp
+import nl.brul.backend.testServices
+import nl.brul.backend.configureApp
 import nl.brul.backend.errorCode
 import nl.brul.backend.features.authentication.dto.AuthenticationResponse
 import nl.brul.backend.postJson
@@ -28,14 +28,14 @@ class AuthenticationRoutesTest {
 
     @Test
     fun `register returns 201`() = testApplication {
-        application { configureTestApp(TestServices()) }
+        application { configureApp(testServices()) }
 
         assertEquals(HttpStatusCode.Created, postJson("/api/v1/auth/register", registerBody).status)
     }
 
     @Test
     fun `register with an existing email returns 409`() = testApplication {
-        application { configureTestApp(TestServices()) }
+        application { configureApp(testServices()) }
         postJson("/api/v1/auth/register", registerBody)
 
         val response = postJson("/api/v1/auth/register", registerBody)
@@ -46,7 +46,7 @@ class AuthenticationRoutesTest {
 
     @Test
     fun `login with a wrong password returns 401`() = testApplication {
-        application { configureTestApp(TestServices()) }
+        application { configureApp(testServices()) }
         register("alice@example.com")
 
         val response = postJson(
@@ -60,7 +60,7 @@ class AuthenticationRoutesTest {
 
     @Test
     fun `malformed body returns 400`() = testApplication {
-        application { configureTestApp(TestServices()) }
+        application { configureApp(testServices()) }
 
         val response = postJson("/api/v1/auth/login", """{"email":""")
 
@@ -70,7 +70,7 @@ class AuthenticationRoutesTest {
 
     @Test
     fun `too many authentication requests return 429`() = testApplication {
-        application { configureTestApp(TestServices()) }
+        application { configureApp(testServices()) }
         val loginBody = """{"email":"nobody@example.com","password":"Wrong-password-123"}"""
 
         repeat(10) { postJson("/api/v1/auth/login", loginBody) }
@@ -82,7 +82,7 @@ class AuthenticationRoutesTest {
 
     @Test
     fun `logout returns 204 and the token stops working`() = testApplication {
-        application { configureTestApp(TestServices()) }
+        application { configureApp(testServices()) }
         val alice = register("alice@example.com")
 
         val logout = client.post("/api/v1/auth/logout") { bearerAuth(alice.accessToken) }
@@ -94,7 +94,7 @@ class AuthenticationRoutesTest {
 
     @Test
     fun `logging in again after logout gives a working token`() = testApplication {
-        application { configureTestApp(TestServices()) }
+        application { configureApp(testServices()) }
         val alice = register("alice@example.com")
         client.post("/api/v1/auth/logout") { bearerAuth(alice.accessToken) }
 
@@ -110,14 +110,14 @@ class AuthenticationRoutesTest {
 
     @Test
     fun `logout without token returns 401`() = testApplication {
-        application { configureTestApp(TestServices()) }
+        application { configureApp(testServices()) }
 
         assertEquals(HttpStatusCode.Unauthorized, client.post("/api/v1/auth/logout").status)
     }
 
     @Test
     fun `change password returns a new token and the old token stops working`() = testApplication {
-        application { configureTestApp(TestServices()) }
+        application { configureApp(testServices()) }
         val alice = register("alice@example.com")
 
         val response = changePassword(alice.accessToken, currentPassword = TEST_PASSWORD)
@@ -132,7 +132,7 @@ class AuthenticationRoutesTest {
 
     @Test
     fun `change password with a wrong current password returns 400`() = testApplication {
-        application { configureTestApp(TestServices()) }
+        application { configureApp(testServices()) }
         val alice = register("alice@example.com")
 
         val response = changePassword(alice.accessToken, currentPassword = "Wrong-password-123")
@@ -143,7 +143,7 @@ class AuthenticationRoutesTest {
 
     @Test
     fun `change password without token returns 401`() = testApplication {
-        application { configureTestApp(TestServices()) }
+        application { configureApp(testServices()) }
 
         val response = postJson(
             "/api/v1/users/me/password",
@@ -155,7 +155,7 @@ class AuthenticationRoutesTest {
 
     @Test
     fun `too many password changes return 429`() = testApplication {
-        application { configureTestApp(TestServices()) }
+        application { configureApp(testServices()) }
         val alice = register("alice@example.com")
 
         repeat(5) { changePassword(alice.accessToken, currentPassword = "Wrong-password-123") }
@@ -167,7 +167,7 @@ class AuthenticationRoutesTest {
 
     @Test
     fun `the password change limit is per user`() = testApplication {
-        application { configureTestApp(TestServices()) }
+        application { configureApp(testServices()) }
         val alice = register("alice@example.com")
         val bob = register("bob@example.com")
 

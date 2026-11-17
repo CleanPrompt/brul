@@ -54,7 +54,8 @@ Feature-first modular monolith:
 
 ```text
 backend/src/
-├── Application.kt     # entry point, explicit dependency wiring (no DI framework)
+├── Application.kt     # entry point: real repositories, configureApp (plugins and routes)
+├── AppServices.kt     # builds every service once (constructor injection, no DI framework)
 ├── config/            # AppConfig, DatabaseFactory
 ├── plugins/           # Ktor plugin configuration only, no business logic
 ├── shared/error/      # AppException, ErrorResponse
@@ -76,9 +77,11 @@ Each feature has only the folders it needs:
 | `dto/` | `@Serializable` request/response classes | sensitive fields (password hashes, token versions) |
 | `mapper/` | every conversion, as extension functions | database queries, permission checks |
 
-- Wiring is manual in `backend/src/Application.kt` (constructor injection). Every new repository/service must be
-  wired there **and** in `TestServices` in `backend/test/TestFixtures.kt`, and passed through `configureRouting` in
-  `backend/src/plugins/Routing.kt` and `configureTestApp`.
+- Wiring is manual (constructor injection, no DI framework). `backend/src/AppServices.kt` builds every service once
+  from the repositories. A new feature adds its repository as a constructor parameter of `AppServices` and builds its
+  service there; passes the Exposed repository in `module()` (`Application.kt`) and the fake in `testServices()`
+  (`backend/test/TestFixtures.kt`); and registers its routes in `configureRouting(services)` in
+  `backend/src/plugins/Routing.kt`. `configureApp(services)` installs plugins and routes for the app and the tests.
 - `plugins/` only configures Ktor; no business logic.
 - `shared/` must not depend on any feature.
 - A feature uses another feature through its **service**, not its repository (e.g. `RoleService` calls
@@ -155,10 +158,10 @@ Every list endpoint returns `PageResponse<T>` (`items`, `total`, `limit`, `offse
 
 - Kotlin Test (`@Test`, `assertEquals`, `assertFailsWith`). Test names in English between backticks, e.g.
   `` `returns 403 when permission is missing` ``.
-- Route tests: `testApplication { application { configureTestApp(TestServices()) } ... }`. **Never call `module()` in
+- Route tests: `testApplication { application { configureApp(testServices()) } ... }`. **Never call `module()` in
   tests**; it needs a real database.
-- Helpers in `backend/test/TestFixtures.kt`: `testConfig()`, `TestServices`, `configureTestApp`, `postJson`,
-  `register(email)`, `errorCode()`, `TEST_ADMIN_EMAIL` (registers as admin), `TEST_CREATED_AT`.
+- Helpers in `backend/test/TestFixtures.kt`: `testConfig()`, `testServices()` (the real `AppServices` with fakes),
+  `postJson`, `register(email)`, `errorCode()`, `TEST_ADMIN_EMAIL` (registers as admin), `TEST_CREATED_AT`.
 - Fakes (e.g. `backend/test/features/feedback/FakeFeedbackRepository.kt`) keep data in a map and must behave like the
   Exposed implementation, including refusing duplicates, and each update function changing only its own field.
 - Repository tests use in-memory H2:
@@ -237,7 +240,7 @@ These cost real debugging time. Apply them without being asked.
 - [ ] Correct layer for every piece of code; conversions in `mapper/`.
 - [ ] Access check first in every protected route, using the enum.
 - [ ] Errors via `AppException`, validation via `requireValid`.
-- [ ] Wired in `Application.kt`, `Routing.kt`, `TestServices` and `configureTestApp`.
+- [ ] Wired in `AppServices.kt`, `Application.kt`, `testServices()` and `Routing.kt`.
 - [ ] Tests for the happy flow and 400/401/403/404/409; the fake behaves like the real repository.
 - [ ] No new dependencies, no `!!`, no wildcard imports, lines under ~120 characters.
 - [ ] The `README.md` of every changed feature (and of `shared/`) still explains what its code does.

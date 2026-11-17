@@ -14,8 +14,8 @@ import io.ktor.server.testing.testApplication
 import kotlinx.serialization.json.Json
 import nl.brul.backend.TEST_ADMIN_EMAIL
 import nl.brul.backend.TEST_PASSWORD
-import nl.brul.backend.TestServices
-import nl.brul.backend.configureTestApp
+import nl.brul.backend.testServices
+import nl.brul.backend.configureApp
 import nl.brul.backend.errorCode
 import nl.brul.backend.features.user.dto.UserResponse
 import nl.brul.backend.postJson
@@ -29,7 +29,7 @@ class UserRoutesTest {
 
     @Test
     fun `request without token returns 401`() = testApplication {
-        application { configureTestApp(TestServices()) }
+        application { configureApp(testServices()) }
 
         val response = client.get("/api/v1/users/me")
 
@@ -39,7 +39,7 @@ class UserRoutesTest {
 
     @Test
     fun `me returns the current user`() = testApplication {
-        application { configureTestApp(TestServices()) }
+        application { configureApp(testServices()) }
         val alice = register("alice@example.com", "Alice")
 
         val response = client.get("/api/v1/users/me") { bearerAuth(alice.accessToken) }
@@ -50,7 +50,7 @@ class UserRoutesTest {
 
     @Test
     fun `regular user cannot list all users`() = testApplication {
-        application { configureTestApp(TestServices()) }
+        application { configureApp(testServices()) }
         val alice = register("alice@example.com")
 
         val response = client.get("/api/v1/users") { bearerAuth(alice.accessToken) }
@@ -60,7 +60,7 @@ class UserRoutesTest {
 
     @Test
     fun `admin can list all users`() = testApplication {
-        application { configureTestApp(TestServices()) }
+        application { configureApp(testServices()) }
         val admin = register(TEST_ADMIN_EMAIL)
         register("alice@example.com")
 
@@ -74,8 +74,8 @@ class UserRoutesTest {
 
     @Test
     fun `admin searches users by text and active, sorted by display name`() = testApplication {
-        val services = TestServices()
-        application { configureTestApp(services) }
+        val services = testServices()
+        application { configureApp(services) }
         val admin = register(TEST_ADMIN_EMAIL, "Admin")
         register("alice@example.com", "Alice")
         val bob = register("bob@example.com", "Bob")
@@ -95,7 +95,7 @@ class UserRoutesTest {
 
     @Test
     fun `user list pages with limit and offset`() = testApplication {
-        application { configureTestApp(TestServices()) }
+        application { configureApp(testServices()) }
         val admin = register(TEST_ADMIN_EMAIL)
         register("alice@example.com")
         register("bob@example.com")
@@ -111,7 +111,7 @@ class UserRoutesTest {
 
     @Test
     fun `invalid search parameters return 400`() = testApplication {
-        application { configureTestApp(TestServices()) }
+        application { configureApp(testServices()) }
         val admin = register(TEST_ADMIN_EMAIL)
 
         val paths = listOf(
@@ -133,7 +133,7 @@ class UserRoutesTest {
 
     @Test
     fun `regular user cannot search users`() = testApplication {
-        application { configureTestApp(TestServices()) }
+        application { configureApp(testServices()) }
         val alice = register("alice@example.com")
 
         val response = client.get("/api/v1/users?q=admin") { bearerAuth(alice.accessToken) }
@@ -143,7 +143,7 @@ class UserRoutesTest {
 
     @Test
     fun `user can read own account but not another account`() = testApplication {
-        application { configureTestApp(TestServices()) }
+        application { configureApp(testServices()) }
         val alice = register("alice@example.com")
         val bob = register("bob@example.com")
 
@@ -156,7 +156,7 @@ class UserRoutesTest {
 
     @Test
     fun `admin gets 404 for an unknown user and 400 for an invalid id`() = testApplication {
-        application { configureTestApp(TestServices()) }
+        application { configureApp(testServices()) }
         val admin = register(TEST_ADMIN_EMAIL)
 
         val unknown = client.get("/api/v1/users/${UUID.randomUUID()}") { bearerAuth(admin.accessToken) }
@@ -170,7 +170,7 @@ class UserRoutesTest {
     @Test
     fun `regular user gets 404 for an unknown user, because the owner is read before the access check`() =
         testApplication {
-            application { configureTestApp(TestServices()) }
+            application { configureApp(testServices()) }
             val alice = register("alice@example.com")
             val unknownId = UUID.randomUUID()
 
@@ -188,7 +188,7 @@ class UserRoutesTest {
 
     @Test
     fun `user can update own display name`() = testApplication {
-        application { configureTestApp(TestServices()) }
+        application { configureApp(testServices()) }
         val alice = register("alice@example.com", "Alice")
 
         val response = client.patch("/api/v1/users/${alice.user.id}") {
@@ -203,7 +203,7 @@ class UserRoutesTest {
 
     @Test
     fun `regular user cannot deactivate another user`() = testApplication {
-        application { configureTestApp(TestServices()) }
+        application { configureApp(testServices()) }
         val alice = register("alice@example.com")
         val bob = register("bob@example.com")
 
@@ -214,7 +214,7 @@ class UserRoutesTest {
 
     @Test
     fun `deactivated user's token stops working`() = testApplication {
-        application { configureTestApp(TestServices()) }
+        application { configureApp(testServices()) }
         val admin = register(TEST_ADMIN_EMAIL)
         val alice = register("alice@example.com")
 
@@ -227,7 +227,7 @@ class UserRoutesTest {
 
     @Test
     fun `reactivated user can log in again but the old token stays invalid`() = testApplication {
-        application { configureTestApp(TestServices()) }
+        application { configureApp(testServices()) }
         val admin = register(TEST_ADMIN_EMAIL)
         val alice = register("alice@example.com")
         client.delete("/api/v1/users/${alice.user.id}") { bearerAuth(admin.accessToken) }
@@ -246,7 +246,7 @@ class UserRoutesTest {
 
     @Test
     fun `regular user cannot reactivate a user`() = testApplication {
-        application { configureTestApp(TestServices()) }
+        application { configureApp(testServices()) }
         val alice = register("alice@example.com")
         val bob = register("bob@example.com")
 
@@ -257,7 +257,7 @@ class UserRoutesTest {
 
     @Test
     fun `reactivate without token returns 401`() = testApplication {
-        application { configureTestApp(TestServices()) }
+        application { configureApp(testServices()) }
 
         val response = client.post("/api/v1/users/${UUID.randomUUID()}/reactivate")
 
@@ -266,7 +266,7 @@ class UserRoutesTest {
 
     @Test
     fun `reactivate returns 404 for an unknown user and 400 for an invalid id`() = testApplication {
-        application { configureTestApp(TestServices()) }
+        application { configureApp(testServices()) }
         val admin = register(TEST_ADMIN_EMAIL)
 
         val unknown = client.post("/api/v1/users/${UUID.randomUUID()}/reactivate") { bearerAuth(admin.accessToken) }

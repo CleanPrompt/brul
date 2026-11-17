@@ -15,8 +15,8 @@ import io.ktor.server.testing.ApplicationTestBuilder
 import io.ktor.server.testing.testApplication
 import kotlinx.serialization.json.Json
 import nl.brul.backend.TEST_ADMIN_EMAIL
-import nl.brul.backend.TestServices
-import nl.brul.backend.configureTestApp
+import nl.brul.backend.testServices
+import nl.brul.backend.configureApp
 import nl.brul.backend.errorCode
 import nl.brul.backend.features.feedback.dto.FeedbackResponse
 import nl.brul.backend.register
@@ -56,7 +56,7 @@ class FeedbackRoutesTest {
 
     @Test
     fun `request without token returns 401`() = testApplication {
-        application { configureTestApp(TestServices()) }
+        application { configureApp(testServices()) }
 
         val list = client.get("/api/v1/feedback")
         val create = client.post("/api/v1/feedback")
@@ -67,7 +67,7 @@ class FeedbackRoutesTest {
 
     @Test
     fun `user creates feedback and becomes the owner`() = testApplication {
-        application { configureTestApp(TestServices()) }
+        application { configureApp(testServices()) }
         val alice = register("alice@example.com")
 
         val response = createFeedback(alice.accessToken)
@@ -80,7 +80,7 @@ class FeedbackRoutesTest {
 
     @Test
     fun `create with an empty message or a malformed body returns 400`() = testApplication {
-        application { configureTestApp(TestServices()) }
+        application { configureApp(testServices()) }
         val alice = register("alice@example.com")
 
         val empty = createFeedback(alice.accessToken, message = "   ")
@@ -96,7 +96,7 @@ class FeedbackRoutesTest {
 
     @Test
     fun `user lists only own feedback and admin lists all`() = testApplication {
-        application { configureTestApp(TestServices()) }
+        application { configureApp(testServices()) }
         val admin = register(TEST_ADMIN_EMAIL)
         val alice = register("alice@example.com")
         val bob = register("bob@example.com")
@@ -112,7 +112,7 @@ class FeedbackRoutesTest {
 
     @Test
     fun `ownerId filter cannot widen a regular user's search`() = testApplication {
-        application { configureTestApp(TestServices()) }
+        application { configureApp(testServices()) }
         val alice = register("alice@example.com")
         val bob = register("bob@example.com")
         createFeedback(alice.accessToken)
@@ -126,7 +126,7 @@ class FeedbackRoutesTest {
 
     @Test
     fun `admin filters on owner, status and text`() = testApplication {
-        application { configureTestApp(TestServices()) }
+        application { configureApp(testServices()) }
         val admin = register(TEST_ADMIN_EMAIL)
         val alice = register("alice@example.com")
         val bob = register("bob@example.com")
@@ -145,7 +145,7 @@ class FeedbackRoutesTest {
 
     @Test
     fun `feedback list sorts on status and pages with limit and offset`() = testApplication {
-        application { configureTestApp(TestServices()) }
+        application { configureApp(testServices()) }
         val admin = register(TEST_ADMIN_EMAIL)
         val openId = createFeedbackId(admin.accessToken)
         val closedId = createFeedbackId(admin.accessToken)
@@ -165,7 +165,7 @@ class FeedbackRoutesTest {
 
     @Test
     fun `invalid feedback search parameters return 400`() = testApplication {
-        application { configureTestApp(TestServices()) }
+        application { configureApp(testServices()) }
         val alice = register("alice@example.com")
 
         val paths = listOf(
@@ -183,7 +183,7 @@ class FeedbackRoutesTest {
 
     @Test
     fun `owner and admin can read an item, another user cannot`() = testApplication {
-        application { configureTestApp(TestServices()) }
+        application { configureApp(testServices()) }
         val admin = register(TEST_ADMIN_EMAIL)
         val alice = register("alice@example.com")
         val bob = register("bob@example.com")
@@ -200,7 +200,7 @@ class FeedbackRoutesTest {
 
     @Test
     fun `unknown id returns 404 and an invalid id returns 400`() = testApplication {
-        application { configureTestApp(TestServices()) }
+        application { configureApp(testServices()) }
         val alice = register("alice@example.com")
 
         val unknown = client.get("/api/v1/feedback/${UUID.randomUUID()}") { bearerAuth(alice.accessToken) }
@@ -213,7 +213,7 @@ class FeedbackRoutesTest {
 
     @Test
     fun `owner can edit the message, another user cannot`() = testApplication {
-        application { configureTestApp(TestServices()) }
+        application { configureApp(testServices()) }
         val alice = register("alice@example.com")
         val bob = register("bob@example.com")
         val id = createFeedbackId(alice.accessToken)
@@ -228,7 +228,7 @@ class FeedbackRoutesTest {
 
     @Test
     fun `admin can change the status, the owner cannot`() = testApplication {
-        application { configureTestApp(TestServices()) }
+        application { configureApp(testServices()) }
         val admin = register(TEST_ADMIN_EMAIL)
         val alice = register("alice@example.com")
         val id = createFeedbackId(alice.accessToken)
@@ -243,7 +243,7 @@ class FeedbackRoutesTest {
 
     @Test
     fun `unknown status returns 400 and unknown item returns 404`() = testApplication {
-        application { configureTestApp(TestServices()) }
+        application { configureApp(testServices()) }
         val admin = register(TEST_ADMIN_EMAIL)
         val id = createFeedbackId(admin.accessToken)
 
@@ -258,7 +258,7 @@ class FeedbackRoutesTest {
 
     @Test
     fun `owner can delete an item, after which it is gone`() = testApplication {
-        application { configureTestApp(TestServices()) }
+        application { configureApp(testServices()) }
         val alice = register("alice@example.com")
         val id = createFeedbackId(alice.accessToken)
 
@@ -271,7 +271,7 @@ class FeedbackRoutesTest {
 
     @Test
     fun `another user cannot delete an item but admin can`() = testApplication {
-        application { configureTestApp(TestServices()) }
+        application { configureApp(testServices()) }
         val admin = register(TEST_ADMIN_EMAIL)
         val alice = register("alice@example.com")
         val bob = register("bob@example.com")

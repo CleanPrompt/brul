@@ -59,11 +59,12 @@ documentation.
     ├── http/                 # IntelliJ HTTP client requests; each one asserts its status code
     ├── resources/            # logback.xml, openapi/openapi.yaml
     ├── src/
-    │   ├── Application.kt    # entry point; creates every object once and wires them together
+    │   ├── Application.kt    # entry point: real repositories, then configureApp (plugins and routes)
+    │   ├── AppServices.kt    # builds every service once; the app and the tests share it
     │   ├── config/           # AppConfig (settings from the environment), DatabaseFactory (connection, tables)
     │   ├── plugins/          # Ktor plugin configuration only, no business logic; one configure...() per file
     │   ├── shared/           # code used by more than one feature (README)
     │   └── features/         # one folder per feature, each with a README:
     │                         #   authentication, authorization, user, feedback (the reference), health
-    └── test/                 # same structure as src/, plus TestFixtures.kt (TestServices, configureTestApp)
+    └── test/                 # same structure as src/, plus TestFixtures.kt (testServices(): AppServices with fakes)
 ```

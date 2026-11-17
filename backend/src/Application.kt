@@ -5,19 +5,11 @@ import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 import nl.brul.backend.config.AppConfig
 import nl.brul.backend.config.DatabaseFactory
-import nl.brul.backend.features.authentication.service.AuthenticationService
-import nl.brul.backend.features.authentication.service.JwtService
-import nl.brul.backend.features.authentication.service.PasswordHasher
 import nl.brul.backend.features.authorization.repository.ExposedAuthorizationRepository
 import nl.brul.backend.features.authorization.service.AuthorizationSeeder
-import nl.brul.backend.features.authorization.service.AuthorizationService
-import nl.brul.backend.features.authorization.service.RoleService
 import nl.brul.backend.features.feedback.repository.ExposedFeedbackRepository
-import nl.brul.backend.features.feedback.service.FeedbackService
 import nl.brul.backend.features.user.repository.ExposedProfileImageRepository
 import nl.brul.backend.features.user.repository.ExposedUserRepository
-import nl.brul.backend.features.user.service.ProfileImageService
-import nl.brul.backend.features.user.service.UserService
 import nl.brul.backend.plugins.configureAuthentication
 import nl.brul.backend.plugins.configureCallLogging
 import nl.brul.backend.plugins.configureRateLimiting
@@ -40,43 +32,27 @@ fun main() {
     ).start(wait = true)
 }
 
-/** Creates every object once and wires them together (constructor injection, no DI framework). */
-fun Application.module(config: AppConfig = AppConfig.load()) {
-    // Repositories
-    val userRepository = ExposedUserRepository()
+/** The real application: the Exposed repositories, seeded roles and permissions, and the shared wiring. */
+fun Application.module(config: AppConfig) {
     val authorizationRepository = ExposedAuthorizationRepository()
-    val feedbackRepository = ExposedFeedbackRepository()
-    val profileImageRepository = ExposedProfileImageRepository()
-
     AuthorizationSeeder(authorizationRepository).seed()
 
-    // Services
-    val jwtService = JwtService(config)
-    val authorizationService = AuthorizationService(authorizationRepository, userRepository)
-    val userService = UserService(userRepository)
-    val roleService = RoleService(authorizationRepository, userService)
-    val authenticationService = AuthenticationService(
-        userRepository = userRepository,
-        passwordHasher = PasswordHasher(),
-        jwtService = jwtService,
-        roleService = roleService,
-        bootstrapAdminEmail = config.bootstrapAdminEmail
+    val services = AppServices(
+        userRepository = ExposedUserRepository(),
+        authorizationRepository = authorizationRepository,
+        feedbackRepository = ExposedFeedbackRepository(),
+        profileImageRepository = ExposedProfileImageRepository(),
+        config = config
     )
-    val feedbackService = FeedbackService(feedbackRepository)
-    val profileImageService = ProfileImageService(profileImageRepository)
+    configureApp(services)
+}
 
-    // Plugins and routes
+/** Installs the plugins and routes. `module()` and the tests both call it, so tests run the real wiring. */
+fun Application.configureApp(services: AppServices) {
     configureCallLogging()
     configureSerialization()
     configureStatusPages()
     configureRateLimiting()
-    configureAuthentication(jwtService, userRepository)
-    configureRouting(
-        authenticationService,
-        userService,
-        roleService,
-        authorizationService,
-        feedbackService,
-        profileImageService
-    )
+    configureAuthentication(services.jwtService, services.userRepository)
+    configureRouting(services)
 }

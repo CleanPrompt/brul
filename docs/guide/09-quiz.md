@@ -173,7 +173,7 @@ in; tests pass in fakes the same way.
 
 <details><summary>Answer</summary>
 
-**B.** Tests use `configureTestApp(TestServices())`, the same wiring with fakes.
+**B.** Tests use `configureApp(testServices())`: the same `AppServices` and plugins, with fakes.
 </details>
 
 ---
@@ -560,7 +560,7 @@ database instead.
 
 **11.3** Which test proves that the SQL of a search is correct?
 
-- A. A route test with `TestServices`
+- A. A route test with `testServices()`
 - B. A service test with a fake
 - C. A repository test against in-memory H2
 - D. A mapper test
@@ -587,16 +587,17 @@ database instead.
 
 ## Building a feature (chapter 8)
 
-**12.1** You added `CategoriesTable` and its routes, but the tests do not compile. What did you most likely forget?
+**12.1** You added `categoryRepository` to the constructor of `AppServices`, but the tests do not compile. What did
+you most likely forget?
 
 - A. A README
-- B. Wiring the service in `TestServices` and passing it to `configureRouting` in `configureTestApp`
+- B. Passing a `FakeCategoryRepository` to `AppServices` in `testServices()`
 - C. The `.http` file
 - D. Deleting the database
 
 <details><summary>Answer</summary>
 
-**B.** `configureRouting` got a new parameter; every caller, including the test fixture, must pass it.
+**B.** `AppServices` got a new parameter; both callers, `module()` and `testServices()`, must pass it.
 </details>
 
 **12.2** Do you have to delete `data/brul*` after adding the new `categories` table?

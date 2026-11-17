@@ -14,8 +14,8 @@ import io.ktor.http.contentType
 import io.ktor.server.testing.ApplicationTestBuilder
 import io.ktor.server.testing.testApplication
 import nl.brul.backend.TEST_ADMIN_EMAIL
-import nl.brul.backend.TestServices
-import nl.brul.backend.configureTestApp
+import nl.brul.backend.testServices
+import nl.brul.backend.configureApp
 import nl.brul.backend.errorCode
 import nl.brul.backend.register
 import nl.brul.backend.shared.image.ImageType
@@ -41,7 +41,7 @@ class ProfileImageRoutesTest {
 
     @Test
     fun `the owner uploads an image and every logged-in user can see it`() = testApplication {
-        application { configureTestApp(TestServices()) }
+        application { configureApp(testServices()) }
         val alice = register("alice@example.com")
         val bob = register("bob@example.com")
 
@@ -56,7 +56,7 @@ class ProfileImageRoutesTest {
 
     @Test
     fun `a new upload replaces the old image and gets its own content type`() = testApplication {
-        application { configureTestApp(TestServices()) }
+        application { configureApp(testServices()) }
         val alice = register("alice@example.com")
 
         upload(alice.user.id, alice.accessToken, png)
@@ -69,7 +69,7 @@ class ProfileImageRoutesTest {
 
     @Test
     fun `the owner deletes the image, then it is gone`() = testApplication {
-        application { configureTestApp(TestServices()) }
+        application { configureApp(testServices()) }
         val alice = register("alice@example.com")
         upload(alice.user.id, alice.accessToken, png)
 
@@ -85,7 +85,7 @@ class ProfileImageRoutesTest {
 
     @Test
     fun `returns 400 for a file that is not a JPEG or PNG`() = testApplication {
-        application { configureTestApp(TestServices()) }
+        application { configureApp(testServices()) }
         val alice = register("alice@example.com")
 
         val response = upload(alice.user.id, alice.accessToken, "<svg></svg>".toByteArray())
@@ -96,7 +96,7 @@ class ProfileImageRoutesTest {
 
     @Test
     fun `returns 400 for an image over 2 MB`() = testApplication {
-        application { configureTestApp(TestServices()) }
+        application { configureApp(testServices()) }
         val alice = register("alice@example.com")
 
         val response = upload(alice.user.id, alice.accessToken, png.copyOf(ImageType.MAX_BYTES + 1))
@@ -107,7 +107,7 @@ class ProfileImageRoutesTest {
 
     @Test
     fun `returns 400 for an invalid user id`() = testApplication {
-        application { configureTestApp(TestServices()) }
+        application { configureApp(testServices()) }
         val alice = register("alice@example.com")
 
         val response = client.get(path("not-a-uuid")) { bearerAuth(alice.accessToken) }
@@ -117,7 +117,7 @@ class ProfileImageRoutesTest {
 
     @Test
     fun `returns 401 without a token`() = testApplication {
-        application { configureTestApp(TestServices()) }
+        application { configureApp(testServices()) }
         val alice = register("alice@example.com")
 
         assertEquals(HttpStatusCode.Unauthorized, client.put(path(alice.user.id)) { setBody(png) }.status)
@@ -127,7 +127,7 @@ class ProfileImageRoutesTest {
 
     @Test
     fun `another user gets 403, an admin may change and delete the image`() = testApplication {
-        application { configureTestApp(TestServices()) }
+        application { configureApp(testServices()) }
         val admin = register(TEST_ADMIN_EMAIL)
         val alice = register("alice@example.com")
         val bob = register("bob@example.com")
@@ -146,7 +146,7 @@ class ProfileImageRoutesTest {
 
     @Test
     fun `returns 404 for an unknown user`() = testApplication {
-        application { configureTestApp(TestServices()) }
+        application { configureApp(testServices()) }
         val admin = register(TEST_ADMIN_EMAIL)
         val unknown = UUID.randomUUID().toString()
 

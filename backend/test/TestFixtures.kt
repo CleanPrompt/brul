@@ -6,29 +6,15 @@ import io.ktor.client.statement.HttpResponse
 import io.ktor.client.statement.bodyAsText
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
-import io.ktor.server.application.Application
 import io.ktor.server.testing.ApplicationTestBuilder
 import kotlinx.serialization.json.Json
 import nl.brul.backend.config.AppConfig
 import nl.brul.backend.features.authentication.dto.AuthenticationResponse
-import nl.brul.backend.features.authentication.service.AuthenticationService
-import nl.brul.backend.features.authentication.service.JwtService
-import nl.brul.backend.features.authentication.service.PasswordHasher
 import nl.brul.backend.features.authorization.FakeAuthorizationRepository
 import nl.brul.backend.features.authorization.service.AuthorizationSeeder
-import nl.brul.backend.features.authorization.service.AuthorizationService
-import nl.brul.backend.features.authorization.service.RoleService
 import nl.brul.backend.features.feedback.FakeFeedbackRepository
-import nl.brul.backend.features.feedback.service.FeedbackService
 import nl.brul.backend.features.user.FakeProfileImageRepository
 import nl.brul.backend.features.user.FakeUserRepository
-import nl.brul.backend.features.user.service.ProfileImageService
-import nl.brul.backend.features.user.service.UserService
-import nl.brul.backend.plugins.configureAuthentication
-import nl.brul.backend.plugins.configureRateLimiting
-import nl.brul.backend.plugins.configureRouting
-import nl.brul.backend.plugins.configureSerialization
-import nl.brul.backend.plugins.configureStatusPages
 import nl.brul.backend.shared.error.ErrorResponse
 import java.time.Instant
 
@@ -53,42 +39,15 @@ fun testConfig(): AppConfig =
         bootstrapAdminEmail = TEST_ADMIN_EMAIL
     )
 
-/** All services wired with in-memory fakes, the same way `Application.module()` wires the real ones. */
-class TestServices {
-    val userRepository = FakeUserRepository()
-    val authorizationRepository = FakeAuthorizationRepository().also { AuthorizationSeeder(it).seed() }
-    val jwtService = JwtService(testConfig())
-    val authorizationService = AuthorizationService(authorizationRepository, userRepository)
-    val userService = UserService(userRepository)
-    val roleService = RoleService(authorizationRepository, userService)
-    val authenticationService = AuthenticationService(
-        userRepository = userRepository,
-        passwordHasher = PasswordHasher(),
-        jwtService = jwtService,
-        roleService = roleService,
-        bootstrapAdminEmail = TEST_ADMIN_EMAIL
+/** The real wiring of [AppServices], with in-memory fakes instead of the database. Use with `configureApp`. */
+fun testServices(): AppServices =
+    AppServices(
+        userRepository = FakeUserRepository(),
+        authorizationRepository = FakeAuthorizationRepository().also { AuthorizationSeeder(it).seed() },
+        feedbackRepository = FakeFeedbackRepository(),
+        profileImageRepository = FakeProfileImageRepository(),
+        config = testConfig()
     )
-    val feedbackRepository = FakeFeedbackRepository()
-    val feedbackService = FeedbackService(feedbackRepository)
-    val profileImageRepository = FakeProfileImageRepository()
-    val profileImageService = ProfileImageService(profileImageRepository)
-}
-
-/** Installs the plugins and routes like `Application.module()`, but with [services]. */
-fun Application.configureTestApp(services: TestServices) {
-    configureSerialization()
-    configureStatusPages()
-    configureRateLimiting()
-    configureAuthentication(services.jwtService, services.userRepository)
-    configureRouting(
-        services.authenticationService,
-        services.userService,
-        services.roleService,
-        services.authorizationService,
-        services.feedbackService,
-        services.profileImageService
-    )
-}
 
 suspend fun ApplicationTestBuilder.postJson(path: String, body: String): HttpResponse =
     client.post(path) {

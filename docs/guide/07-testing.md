@@ -69,7 +69,7 @@ Ktor can run the whole application in memory, without a network:
 // backend/test/features/feedback/FeedbackRoutesTest.kt
 @Test
 fun `owner and admin can read an item, another user cannot`() = testApplication {
-    application { configureTestApp(TestServices()) }
+    application { configureApp(testServices()) }
     val admin = register(TEST_ADMIN_EMAIL)
     val alice = register("alice@example.com")
     val bob = register("bob@example.com")
@@ -89,31 +89,27 @@ fun `owner and admin can read an item, another user cannot`() = testApplication 
 - `client.get(...)`, `client.post(...)` send real HTTP requests to it.
 - `register(...)` is a helper that registers a user through the API and returns the token.
 
-### `TestServices` and `configureTestApp`
+### `testServices()` and `configureApp`
 
 ```kotlin
-// backend/test/TestFixtures.kt (shortened)
-class TestServices {
-    val userRepository = FakeUserRepository()
-    val authorizationRepository = FakeAuthorizationRepository().also { AuthorizationSeeder(it).seed() }
-    val jwtService = JwtService(testConfig())
-    val authorizationService = AuthorizationService(authorizationRepository, userRepository)
-    val feedbackRepository = FakeFeedbackRepository()
-    val feedbackService = FeedbackService(feedbackRepository)
-    ...
-}
-
-fun Application.configureTestApp(services: TestServices) {
-    configureSerialization()
-    configureStatusPages()
-    configureRateLimiting()
-    configureAuthentication(services.jwtService, services.userRepository)
-    configureRouting(services.authenticationService, ..., services.feedbackService)
-}
+// backend/test/TestFixtures.kt
+fun testServices(): AppServices =
+    AppServices(
+        userRepository = FakeUserRepository(),
+        authorizationRepository = FakeAuthorizationRepository().also { AuthorizationSeeder(it).seed() },
+        feedbackRepository = FakeFeedbackRepository(),
+        profileImageRepository = FakeProfileImageRepository(),
+        config = testConfig()
+    )
 ```
 
-`TestServices` is the same wiring as `Application.module()`, but with fakes. **Never call `module()` in a test**: it
-creates the Exposed repositories, which need a real database.
+`testServices()` builds the **real** `AppServices` (chapter 3), only with fakes instead of the Exposed repositories.
+The test then calls the same `configureApp(...)` as the real application, so every plugin and route is installed
+exactly as in production. **Never call `module()` in a test**: it creates the Exposed repositories, which need a real
+database.
+
+A test that needs a repository or a service directly keeps the object: `val services = testServices()`, then
+`services.userRepository` or `services.roleService`.
 
 `testConfig()` gives a fixed configuration with a test secret, so tests never read `.env`.
 

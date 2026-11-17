@@ -241,17 +241,21 @@ Bestanden: `features/feedback/repository/*`, `service/FeedbackService.kt`,
 
 **Doel:** de services worden één keer gebouwd en de tests gebruiken exact de echte bedrading (03, S1 en L2).
 
-- [ ] `class AppServices(...)` bouwt alle services uit de repositories en de configuratie
-- [ ] `fun Application.configureApp(services: AppServices)` installeert plugins en routes
-- [ ] `module()` maakt de Exposed-repositories en roept `configureApp` aan; de standaardwaarde van `config` gaat weg
-- [ ] Tests: `TestServices` geeft fake repositories aan `AppServices`; `configureTestApp` gebruikt `configureApp`
+- [x] `class AppServices(...)` bouwt alle services uit de repositories en de configuratie
+- [x] `fun Application.configureApp(services: AppServices)` installeert plugins en routes
+- [x] `module()` maakt de Exposed-repositories en roept `configureApp` aan; de standaardwaarde van `config` gaat weg
+- [x] Tests: `TestServices` geeft fake repositories aan `AppServices`; `configureTestApp` gebruikt `configureApp`
       (de tests krijgen daarmee ook CallLogging, net als de echte app)
-- [ ] `configureRouting(services)` met één parameter
-- [ ] `docs/guide/08-tutorial-categories.md` en `llm-context.md` §3 en §10: de nieuwe plekken om een feature te
+- [x] `configureRouting(services)` met één parameter
+- [x] `docs/guide/08-tutorial-categories.md` en `llm-context.md` §3 en §10: de nieuwe plekken om een feature te
       koppelen
-- [ ] Beslissing bijwerken: in fase 13 werd een `Services`-houder afgewezen; schrijf op waarom het nu wel zinvol is
+- [x] Beslissing bijwerken: in fase 13 werd een `Services`-houder afgewezen; schrijf op waarom het nu wel zinvol is
       (de testbedrading liep uiteen met de echte)
-- [ ] Alle tests slagen zonder dat er een test inhoudelijk verandert
+- [x] Alle tests slagen zonder dat er een test inhoudelijk verandert
+- [x] Anders dan gepland: `TestServices` en `configureTestApp` zijn helemaal weg. `testServices()` geeft de echte
+      `AppServices` met fakes, en de tests roepen dezelfde `configureApp` aan als de app; een aparte testversie zou
+      weer kunnen uitlopen. In de tests veranderen alleen de aanroepen. Ook bijgewerkt: gids 03, 07, 09, root-README,
+      `TECHNICAL_DESIGN.md` §2, de rij voor `module(config)`. Echte server gestart: `/health`, 405, 415. 174 tests groen
 
 **Commit:** `Hardening: build services once and share the wiring with tests`
 

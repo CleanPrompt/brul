@@ -34,7 +34,8 @@ Before you make a new decision, ask:
 | Decision | Alternative | Reason |
 |---|---|---|
 | Feature-first folders | Layer-first (`controllers/`, `services/`, ...) | Everything about one feature is together; a feature can be added or removed as a unit |
-| Manual wiring in `Application.kt` (constructor injection) | A DI framework (Koin, Spring) | 30 readable lines, nothing to configure, nothing magic to explain |
+| Manual wiring in `AppServices` and `Application.kt` (constructor injection) | A DI framework (Koin, Spring) | One short class, nothing to configure, nothing magic to explain |
+| `module(config)` without a default value; `main()` loads the configuration | `module(config = AppConfig.load())` | A test that called `module()` by mistake would silently read `.env`; now it does not compile |
 | Repository interface + Exposed implementation | Services call Exposed directly | Services can be tested with fakes; database code stays in one layer |
 | Separate DTOs and domain models | Send the models as JSON | A password hash can never leak; the JSON contract can change without touching the model |
 | Mappers as extension functions, e.g. `user.toResponse()`, `row.toUser()` | Mapper classes, or conversion inside services | Short, idiomatic, easy to point out during the assessment |
@@ -46,7 +47,7 @@ Before you make a new decision, ask:
 | A feature uses another feature's service, not its repository (`RoleService` → `UserService.requireExists`); `authentication` and `AuthorizationService` are the exceptions | Every service reads any repository | Each error such as `USER_NOT_FOUND` lives in one feature. `authentication` must write password hashes, which `UserService` does not offer; `AuthorizationService` and the JWT check run on every request and need `active` and the token version |
 | A limit shared by a table and a service is one constant in the model (`User.MAX_DISPLAY_NAME_LENGTH`) | The number in both places | The column and the check cannot drift apart |
 | One repository function per change that writes only its own column (`updateDisplayName`, `setActive`, `updateMessage`, `updateStatus`, ...); only a model with one changeable field keeps a single `update` | `update(user)` that writes the whole row back; optimistic locking with a version column | Read, `copy`, write everything back loses a change when two requests overlap: a rename could undo a deactivation. One column per `UPDATE` avoids that without a table change or transactions across functions |
-| `TestServices` wires all services with fakes; `testApplication` calls the `configure...()` functions | A mocking library, or tests against a real database | Same wiring as `module()` without a database (course lesson 7) |
+| `AppServices` builds every service once from the repositories; `configureApp(services)` installs plugins and routes. `module()` passes the Exposed repositories, `testServices()` passes fakes | Build the services twice (in `module()` and in a `TestServices` class); a DI framework (Koin) | Rejected in phase 13 as "only worth it around eight features". Revised in phase 17: the two copies had drifted apart (the tests missed CallLogging), and `configureRouting` took one parameter per service. Now tests run exactly the real wiring, without a database (course lesson 7), and without a new dependency |
 | Removed CallId / `requestId`, RequestValidation, Swagger UI | Keep them | Not needed for the base; `.http` files for manual testing, `openapi.yaml` as the API contract |
 
 ### Security

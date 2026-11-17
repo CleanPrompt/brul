@@ -25,7 +25,7 @@ endpoints. It does not explain; the learning guide (`docs/guide/`) does. Decisio
 
 A **feature-first modular monolith**: one deployable application, with code grouped by feature. Every feature uses the
 same layers (`route/` → `service/` → `repository/` → `database/`, plus `model/`, `dto/` and `mapper/`). The layers,
-the wiring in `Application.kt` and the path of one request are explained in
+the wiring (`AppServices`, `Application.kt`) and the path of one request are explained in
 `docs/guide/03-architecture-and-requests.md`; the folder structure is in the root `README.md`.
 
 ```mermaid

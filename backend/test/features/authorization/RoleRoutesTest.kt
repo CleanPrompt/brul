@@ -13,8 +13,8 @@ import io.ktor.server.testing.ApplicationTestBuilder
 import io.ktor.server.testing.testApplication
 import kotlinx.serialization.json.Json
 import nl.brul.backend.TEST_ADMIN_EMAIL
-import nl.brul.backend.TestServices
-import nl.brul.backend.configureTestApp
+import nl.brul.backend.testServices
+import nl.brul.backend.configureApp
 import nl.brul.backend.errorCode
 import nl.brul.backend.features.authorization.dto.RoleResponse
 import nl.brul.backend.features.authorization.model.DefaultRole
@@ -24,7 +24,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class RoleRoutesTest {
-    private val services = TestServices()
+    private val services = testServices()
     private val adminRoleId: String =
         services.authorizationRepository.findRoleByName(DefaultRole.ADMIN.name)!!.id.toString()
 
@@ -37,7 +37,7 @@ class RoleRoutesTest {
 
     @Test
     fun `admin can list the roles`() = testApplication {
-        application { configureTestApp(services) }
+        application { configureApp(services) }
         val admin = register(TEST_ADMIN_EMAIL)
 
         val response = client.get("/api/v1/roles") { bearerAuth(admin.accessToken) }
@@ -49,7 +49,7 @@ class RoleRoutesTest {
 
     @Test
     fun `regular user cannot list or assign roles`() = testApplication {
-        application { configureTestApp(services) }
+        application { configureApp(services) }
         val alice = register("alice@example.com")
 
         val list = client.get("/api/v1/roles") { bearerAuth(alice.accessToken) }
@@ -61,7 +61,7 @@ class RoleRoutesTest {
 
     @Test
     fun `permissions change immediately, also for an existing token`() = testApplication {
-        application { configureTestApp(services) }
+        application { configureApp(services) }
         val admin = register(TEST_ADMIN_EMAIL)
         val alice = register("alice@example.com")
 
@@ -79,7 +79,7 @@ class RoleRoutesTest {
 
     @Test
     fun `assigning an unknown role returns 404`() = testApplication {
-        application { configureTestApp(services) }
+        application { configureApp(services) }
         val admin = register(TEST_ADMIN_EMAIL)
 
         val response = assignRole(admin.accessToken, admin.user.id, UUID.randomUUID().toString())
@@ -90,7 +90,7 @@ class RoleRoutesTest {
 
     @Test
     fun `admin cannot remove own ADMIN role`() = testApplication {
-        application { configureTestApp(services) }
+        application { configureApp(services) }
         val admin = register(TEST_ADMIN_EMAIL)
 
         val response = client.delete("/api/v1/users/${admin.user.id}/roles/$adminRoleId") {
@@ -105,7 +105,7 @@ class RoleRoutesTest {
 
     @Test
     fun `user can see own roles`() = testApplication {
-        application { configureTestApp(services) }
+        application { configureApp(services) }
         val alice = register("alice@example.com")
 
         val response = client.get("/api/v1/users/${alice.user.id}/roles") { bearerAuth(alice.accessToken) }
@@ -116,7 +116,7 @@ class RoleRoutesTest {
 
     @Test
     fun `user cannot see the roles of another user`() = testApplication {
-        application { configureTestApp(services) }
+        application { configureApp(services) }
         val alice = register("alice@example.com")
         val bob = register("bob@example.com")
 
@@ -127,7 +127,7 @@ class RoleRoutesTest {
 
     @Test
     fun `roles of an unknown user return 404`() = testApplication {
-        application { configureTestApp(services) }
+        application { configureApp(services) }
         val alice = register("alice@example.com")
 
         val response = client.get("/api/v1/users/${UUID.randomUUID()}/roles") { bearerAuth(alice.accessToken) }

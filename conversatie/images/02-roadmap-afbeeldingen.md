@@ -1,11 +1,11 @@
 # Roadmap: afbeeldingen (profielfoto)
 
 Het **waarom** (keuzes, datamodel, 3NF, endpoints, foutcodes) staat in
-[03-plan-afbeeldingen.md](03-plan-afbeeldingen.md). Dit bestand is het **hoe**: de volgorde van het werk, met een
+[01-plan-afbeeldingen.md](01-plan-afbeeldingen.md). Dit bestand is het **hoe**: de volgorde van het werk, met een
 commit als checkpoint na elke stap.
 
-Uitgangspunt: de branch `Base`. Reports bestaan daar nog niet, dus deze roadmap bouwt de **profielfoto**. Foto's
-bij reports staan als vooruitblik onderaan.
+Status: **klaar** (fase 16, commits `6582ebe` tot en met `de61485`). Deze roadmap bouwde de **profielfoto**. Foto's
+bij reports volgen hetzelfde patroon; zie [`conversatie/reports/02-advies-uit-hardening.md`](../reports/02-advies-uit-hardening.md) §2.
 
 ---
 
@@ -16,7 +16,7 @@ bij reports staan als vooruitblik onderaan.
 3. Commit dan **alleen** de bestanden van dat checkpoint, met het commitbericht dat erbij staat.
 4. Werk in elk checkpoint ook de **README** bij van de map die je verandert (regel in
    `docs/guide/llm-context.md` §1).
-5. Gaat iets anders dan gepland, schrijf het dan op in 03 (ontwerp) of hier (volgorde), niet alleen in de code.
+5. Gaat iets anders dan gepland, schrijf het dan op in 01 (ontwerp) of hier (volgorde), niet alleen in de code.
 
 ```mermaid
 flowchart LR
@@ -24,19 +24,17 @@ flowchart LR
     C1 --> C2["2. ImageType"] --> C3["3. Tabel + repository"]
     C3 --> C4["4. Service"] --> C5["5. Routes + wiring"]
     C5 --> C6["6. Documentatie"]
-    C6 -.-> C7["7. Reportfoto's (later)"]
 ```
 
-| # | Checkpoint | Commitbericht |
+| # | Checkpoint | Gecommit als |
 |---|---|---|
-| 0 | Documentatie herstructureren ✅ | `Restructure documentation: one job per document, a README per feature` |
-| 1 | Plan afbeeldingen ✅ | `Plan profile images` |
-| 2 | `ImageType` in `shared/image/` ✅ | `Add ImageType with JPEG/PNG detection and size check` |
-| 3 | Tabel en repository ✅ | `Add user_profile_images table and repository` |
-| 4 | Service ✅ | `Add ProfileImageService` |
-| 5 | Routes en koppelen ✅ | `Add profile image endpoints` |
-| 6 | Documentatie (klaar, nog committen) | `Document profile images` |
-| 7 | Later: foto's bij reports | — |
+| 0 | Documentatie herstructureren ✅ | `6582ebe docs restructure` (samen met 1) |
+| 1 | Plan afbeeldingen ✅ | `6582ebe docs restructure` (samen met 0) |
+| 2 | `ImageType` in `shared/image/` ✅ | `b65107d Add ImageType with JPEG/PNG detection and size check` |
+| 3 | Tabel en repository ✅ | `7cd8c4e Add user_profile_images table and repository` |
+| 4 | Service ✅ | `58b5952`, per ongeluk met het bericht van checkpoint 3 (bedoeld: `Add ProfileImageService`) |
+| 5 | Routes en koppelen ✅ | `840f294 Add profile image endpoints` |
+| 6 | Documentatie ✅ | `de61485 Document profile images` |
 
 ---
 
@@ -59,8 +57,8 @@ Gedaan (fase 15 in `docs/implementation-plan.md`):
 
 Klaar als:
 
-- [ ] Je hebt de root-README, de gids-README en de README van `feedback` doorgelezen en vindt ze duidelijk
-- [ ] `kotlin.bat test` slaagt (er is geen code veranderd, alleen documentatie)
+- [x] Je hebt de root-README, de gids-README en de README van `feedback` doorgelezen en vindt ze duidelijk
+- [x] `kotlin.bat test` slaagt (er is geen code veranderd, alleen documentatie)
 
 **Commit:** `Restructure documentation: one job per document, a README per feature` (samen met checkpoint 1
 gecommit als `docs restructure`)
@@ -73,13 +71,13 @@ gecommit als `docs restructure`)
 
 Gedaan:
 
-- [x] `conversatie/03-plan-afbeeldingen.md`: het ontwerp
-- [x] `conversatie/05-domein-reports.md`: het reports-domein
-- [x] `conversatie/06-roadmap-afbeeldingen.md`: deze roadmap
+- [x] `conversatie/images/01-plan-afbeeldingen.md`: het ontwerp
+- [x] `conversatie/reports/01-domein-reports.md`: het reports-domein (verplaatst op 2026-11-17)
+- [x] `conversatie/images/02-roadmap-afbeeldingen.md`: deze roadmap
 
 Klaar als:
 
-- [ ] Je hebt 03 en 06 doorgelezen en bent het eens met de keuzes
+- [x] Je hebt 01 en 02 doorgelezen en bent het eens met de keuzes
 
 **Commit:** `Plan profile images`
 
@@ -144,7 +142,7 @@ Gewijzigd:
 Eerst controleren:
 
 - [x] Past een foto van 2 MB in de `binary`-kolom van H2? **Ja.**
-- [x] Onverwacht gevonden: `upsert` beschadigt binaire data op H2. Opgeschreven in 03 en in `llm-context.md` §9
+- [x] Onverwacht gevonden: `upsert` beschadigt binaire data op H2. Opgeschreven in 01 en in `llm-context.md` §9
 
 Tests in `backend/test/features/user/ProfileImageRepositoryTest.kt` (H2 in het geheugen):
 
@@ -220,7 +218,7 @@ Nieuw:
 Eerst controleren:
 
 - [x] Grootte begrenzen in Ktor 3.6: **geen ingebouwde plugin** (gecontroleerd in de broncode). Oplossing: de
-      header `Content-Length` controleren vóór het lezen. Opgeschreven in 03, valkuil 4
+      header `Content-Length` controleren vóór het lezen. Opgeschreven in 01, valkuil 4
 - [x] `receive<ByteArray>()` werkt naast de JSON-plugin (`ByteArray` staat in de lijst die de plugin overslaat)
 
 Koppelen (vier plekken):
@@ -284,14 +282,8 @@ Klaar als:
 
 ---
 
-## Checkpoint 7 (later): foto's bij reports
+## Daarna: foto's bij reports
 
-Pas als de feature reports op `Base` staat. Dit wordt dan een eigen roadmap met eigen checkpoints. Hetzelfde
-patroon als de profielfoto, met deze verschillen:
-
-- Tabel `report_images` met een eigen `id`, omdat een report meerdere foto's kan hebben.
-- `POST /reports/{id}/images` (201), `GET` en `DELETE /reports/{id}/images/{imageId}`.
-- De toegang volgt het report: de eigenaar of `report.update`.
-- Verwijder je een report, dan verdwijnen zijn foto's mee (cascade).
-- `ImageType` uit `shared/image/` wordt hergebruikt; er komt geen nieuwe controle.
-- Open punt: het maximum aantal foto's per report (voorstel 5, daarboven 409).
+Niet in deze roadmap. Het patroon en de verschillen met de profielfoto (eigen `id` per foto, toegang volgt het
+report, cascade bij verwijderen, maximaal 5) staan in
+[`conversatie/reports/02-advies-uit-hardening.md`](../reports/02-advies-uit-hardening.md) §2.

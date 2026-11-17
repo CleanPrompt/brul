@@ -1,11 +1,11 @@
 # Plan: afbeeldingen
 
-Status: **profielfoto gebouwd** (fase 16 in `docs/implementation-plan.md`); foto's bij reports volgen later. Dit
-bestand is het ontwerp; de stappen staan in [06-roadmap-afbeeldingen.md](06-roadmap-afbeeldingen.md). De
-beslissingen staan, met hun alternatief, ook in de tabel "Images" van het implementatieplan.
+Status: **klaar**. De profielfoto is gebouwd in fase 16 (`docs/implementation-plan.md`). Dit bestand is het ontwerp;
+de stappen staan in [02-roadmap-afbeeldingen.md](02-roadmap-afbeeldingen.md). De beslissingen staan, met hun
+alternatief, ook in de tabel "Images" van het implementatieplan.
 
-Uitgangspunt: alleen de branch `Base`. Reports bestaan daar nog niet, dus eerst komt de **profielfoto**. De foto's
-bij reports volgen pas als de feature reports er is ([05-domein-reports.md](05-domein-reports.md)).
+Foto's bij reports volgen hetzelfde patroon; het advies daarvoor staat in
+[`conversatie/reports/02-advies-uit-hardening.md`](../reports/02-advies-uit-hardening.md) §2.
 
 ---
 
@@ -36,9 +36,8 @@ een foto op met de header `Authorization: Bearer ...`. Op Android en desktop is 
 webclient kan geen kale `<img src="...">` gebruiken, omdat die geen token meestuurt. Hij haalt de foto op met
 `fetch` en toont hem via een blob-URL. Dat is werk voor de client, niet voor de server.
 
-| Aanname (nog bevestigen) | Gevolg als het anders blijkt |
-|---|---|
-| Een report met foto's gaat in **twee verzoeken**: eerst het report, dan de foto's | Eén verzoek vraagt multipart; dat is lastiger uit te leggen |
+Een report met foto's gaat in **twee verzoeken**: eerst het report, dan de foto's. Dat is een beslissing voor
+reports (zie het advies daar).
 
 ---
 
@@ -147,7 +146,7 @@ toegangscheck, net als de andere user-routes. De `Content-Type` bij het download
 ## 6. Roadmap
 
 De volgorde van het werk, met een commit als checkpoint na elke stap, staat in
-[06-roadmap-afbeeldingen.md](06-roadmap-afbeeldingen.md).
+[02-roadmap-afbeeldingen.md](02-roadmap-afbeeldingen.md).
 
 ---
 
@@ -175,12 +174,11 @@ De volgorde van het werk, met een commit als checkpoint na elke stap, staat in
 
 ---
 
-## 8. Open punten
+## 8. Besloten
 
-| # | Punt | Voorstel |
+| # | Vraag | Besluit |
 |---|---|---|
-| 1 | ~~Alleen Android, of ook een website?~~ | **Besloten:** minimaal Android, mag multiplatform (§1) |
-| 2 | Een report met foto's in één of twee verzoeken? | Twee (aanname in §1) |
-| 3 | Mag iedereen die ingelogd is een profielfoto zien? | Ja; het is een buurtapp |
-| 4 | Foto van een gedeactiveerde gebruiker | Blijft staan; `GET` geeft hem gewoon terug |
-| 5 | `hasProfileImage` in `UserResponse`? | Voorlopig niet (vraagt een extra query); de app probeert `GET` en krijgt 404 |
+| 1 | Alleen Android, of ook een website? | Minimaal Android, mag multiplatform (§1) |
+| 2 | Mag iedereen die ingelogd is een profielfoto zien? | Ja; het is een buurtapp |
+| 3 | Foto van een gedeactiveerde gebruiker | Blijft staan; `GET` geeft hem gewoon terug |
+| 4 | `hasProfileImage` in `UserResponse`? | Niet (vraagt een extra query); de app probeert `GET` en krijgt 404 |

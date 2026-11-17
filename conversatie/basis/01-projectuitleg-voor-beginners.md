@@ -15,7 +15,7 @@ De API regelt nu de basis die bijna elke app nodig heeft:
 
 | Onderdeel | Wat het doet |
 |---|---|
-| **Gebruikers** | Account aanmaken, gegevens opvragen en wijzigen, account deactiveren |
+| **Gebruikers** | Account aanmaken, gegevens opvragen en wijzigen, account deactiveren, profielfoto uploaden |
 | **Authenticatie** | *Wie ben jij?* Registreren, inloggen, uitloggen, wachtwoord wijzigen |
 | **Autorisatie** | *Wat mag jij?* Rollen (ADMIN, USER) en permissies (zoals `user.read`) |
 | **Feedback** | Een voorbeeldfeature: gebruikers sturen feedback, een admin beheert die |
@@ -65,7 +65,7 @@ src/
 ├── Application.kt   # startpunt: maakt alle objecten aan en koppelt ze aan elkaar
 ├── config/          # instellingen (AppConfig) en databaseverbinding (DatabaseFactory)
 ├── plugins/         # Ktor instellen: JSON, foutafhandeling, logging, rate limiting, JWT, routes
-├── shared/          # hulpcode die álle features gebruiken (fouten, paging, parameters)
+├── shared/          # hulpcode die álle features gebruiken (fouten, paging, parameters, afbeeldingen controleren)
 └── features/        # de echte functionaliteit, per onderwerp
     ├── authentication/
     ├── authorization/
@@ -302,3 +302,4 @@ De volledige stap-voor-stap-tutorial staat in `docs/guide/08-tutorial-categories
 | Waarom iets zo gekozen is (met het alternatief) | `docs/implementation-plan.md`, de beslissingentabellen |
 | Wat de code van een feature doet | de `README.md` in die featuremap |
 | Begrippenlijst en oefenquiz | `docs/guide/10-glossary.md`, `docs/guide/09-quiz.md` |
+| Hoe AI is gebruikt en gecontroleerd | `docs/ai-usage.md` |

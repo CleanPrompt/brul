@@ -1,6 +1,6 @@
 # Relationeel diagram (huidige database)
 
-De database zoals hij nu in de code staat (na fase 14). De tabellen zijn gemaakt met Exposed in de `database/`-mappen
+De database zoals hij nu in de code staat (na fase 16). De tabellen zijn gemaakt met Exposed in de `database/`-mappen
 van de features. De officiële bron voor het datamodel is `TECHNICAL_DESIGN.md` §3; dit is een Nederlandse uitleg
 erbij.
 
@@ -42,16 +42,22 @@ erDiagram
         varchar(20) status "OPEN, IN_PROGRESS of CLOSED"
         timestamp created_at "UTC"
     }
+    user_profile_images {
+        uuid user_id PK, FK "één foto per gebruiker"
+        binary data "JPEG of PNG, max. 2 MB"
+        timestamp created_at "UTC"
+    }
 
     users ||--o{ user_roles : "heeft"
     roles ||--o{ user_roles : "toegekend aan"
     roles ||--o{ role_permissions : "geeft"
     permissions ||--o{ role_permissions : "hoort bij"
     users ||--o{ feedback : "is eigenaar van"
+    users ||--o| user_profile_images : "heeft een profielfoto"
 ```
 
 **Legenda:** `PK` = primaire sleutel, `FK` = foreign key (verwijzing naar een andere tabel), `UK` = uniek.
-`||--o{` betekent "één tegen nul of meer".
+`||--o{` betekent "één tegen nul of meer", `||--o|` "één tegen nul of één".
 
 ---
 
@@ -65,6 +71,7 @@ erDiagram
 | `user_roles` | Welke gebruiker welke rol heeft | `features/authorization/database/UserRolesTable.kt` |
 | `role_permissions` | Welke rol welke permissie geeft | `features/authorization/database/RolePermissionsTable.kt` |
 | `feedback` | Feedbackitems, elk van één eigenaar | `features/feedback/database/FeedbackTable.kt` |
+| `user_profile_images` | De profielfoto van een gebruiker (de bytes zelf) | `features/user/database/UserProfileImagesTable.kt` |
 
 ---
 
@@ -75,6 +82,7 @@ erDiagram
 | Gebruiker ↔ rol | **veel-op-veel** | Koppeltabel `user_roles`. Een gebruiker kan meerdere rollen hebben, een rol meerdere gebruikers |
 | Rol ↔ permissie | **veel-op-veel** | Koppeltabel `role_permissions` |
 | Gebruiker → feedback | **één-op-veel** | `feedback.owner_id` verwijst naar `users.id` |
+| Gebruiker → profielfoto | **één-op-nul-of-één** | `user_profile_images.user_id` is primaire sleutel én foreign key, dus de database weigert een tweede foto |
 
 Er is **geen** directe koppeling tussen gebruiker en permissie. Permissies komen alleen via rollen:
 
@@ -110,10 +118,12 @@ flowchart LR
 | `roles`, `permissions` | ✅ 3NF | Alleen `id` en een unieke naam |
 | `user_roles`, `role_permissions` | ✅ 3NF | Alleen de samengestelde sleutel, geen andere kolommen. Er kan dus niets van een deel van de sleutel afhangen (2NF) |
 | `feedback` | ✅ 3NF | Geen gegevens van de eigenaar (zoals naam of e-mail) in de tabel, alleen `owner_id` |
+| `user_profile_images` | ✅ 3NF | Het type (JPEG/PNG) wordt niet opgeslagen: het volgt uit de eerste bytes van `data`, dus een kolom ervoor zou van `data` afhangen en niet van de sleutel |
 
 ---
 
 ## 6. Wat er straks bijkomt
 
-Zie [03-plan-afbeeldingen.md](03-plan-afbeeldingen.md): de tabellen `images` en `user_profile_images`, en later
-`reports` en `report_images`.
+Reports: de tabellen `reports`, `report_images`, `report_likes` en `help_volunteers`. Zie
+[01-domein-reports.md](../reports/01-domein-reports.md) §11. Foto's krijgen **geen** centrale tabel `images`: elke
+feature bewaart zijn eigen foto's (zie [01-plan-afbeeldingen.md](../images/01-plan-afbeeldingen.md)).

@@ -35,6 +35,7 @@ update its source.
 | Decisions, their alternatives and reasons; the history of the phases | `docs/implementation-plan.md` |
 | The project rules for developers and AI assistants | `docs/guide/llm-context.md` (imported by `CLAUDE.md`) |
 | Manual API checks | `backend/http/` and `backend/http/README.md` |
+| How AI tooling was used and how its output was verified | `docs/ai-usage.md` |
 
 Each kind of document has one job: the guide **explains**, `TECHNICAL_DESIGN.md` **lists**, a feature README
 **describes its code**. Explain a concept in one place and point to it from elsewhere; do not copy code into

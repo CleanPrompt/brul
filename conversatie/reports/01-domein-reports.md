@@ -180,7 +180,7 @@ stateDiagram-v2
 - Wie het report mag zien, mag de foto's zien.
 - Verwijder je het report, dan verdwijnen de foto's mee.
 - De controle op type en grootte staat één keer in `shared/`. Profielfoto's gebruiken dezelfde controle (zie
-  [03-plan-afbeeldingen.md](03-plan-afbeeldingen.md)).
+  [01-plan-afbeeldingen.md](../images/01-plan-afbeeldingen.md)).
 
 ---
 

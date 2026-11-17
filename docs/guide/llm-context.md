@@ -198,6 +198,8 @@ These cost real debugging time. Apply them without being asked.
 - CallLogging uses `disableDefaultColors()`. Without it, Ktor loads the native Jansi library and newer JVMs print
   "restricted method" warnings at startup. Do not "fix" those warnings with `--enable-native-access`.
 - `call.receive<T>()` throws `BadRequestException` for a missing or malformed body; `StatusPages` already maps it to 400.
+  A missing or non-JSON `Content-Type` throws `ContentTransformationException`, mapped to 415. Never add a handler
+  that turns a client error into a 500.
 
 **JWT and authentication**
 - Every token must carry `ver`; `validate` rejects a token whose `ver` differs from `users.token_version`, or whose

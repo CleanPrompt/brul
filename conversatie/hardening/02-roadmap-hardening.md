@@ -114,18 +114,21 @@ Uit te leggen: wat is een *request key*, en waarom is `remoteHost` achter een pr
 Bestanden: `backend/src/plugins/StatusPages.kt`, `backend/resources/logback.xml`,
 `backend/test/plugins/StatusPagesTest.kt`.
 
-- [ ] `exception<ContentTransformationException>` → 415 `UNSUPPORTED_MEDIA_TYPE`,
+- [x] `exception<ContentTransformationException>` → 415 `UNSUPPORTED_MEDIA_TYPE`,
       "Content-Type must be application/json". Zet hem **boven** `exception<Throwable>` en schrijf in een
       commentaar wanneer Ktor hem gooit (geen of een verkeerde `Content-Type`)
-- [ ] Controleer of `BadRequestException` (kapotte JSON, ontbrekend veld) nog steeds 400 geeft: Ktor kiest de
+- [x] Controleer of `BadRequestException` (kapotte JSON, ontbrekend veld) nog steeds 400 geeft: Ktor kiest de
       handler van de meest specifieke klasse
-- [ ] `status(HttpStatusCode.MethodNotAllowed)` → 405 `METHOD_NOT_ALLOWED`, "Method not allowed"
-- [ ] Tests: login zonder `Content-Type` geeft 415, `text/plain` geeft 415, `PUT /health` geeft 405 met een
+- [x] `status(HttpStatusCode.MethodNotAllowed)` → 405 `METHOD_NOT_ALLOWED`, "Method not allowed"
+- [x] Tests: login zonder `Content-Type` geeft 415, `text/plain` geeft 415, `PUT /health` geeft 405 met een
       foutcode, kapotte JSON geeft nog steeds 400
-- [ ] `logback.xml`: `YYYY` wordt `yyyy`
-- [ ] `TECHNICAL_DESIGN.md` en `openapi.yaml`: de nieuwe foutcodes `UNSUPPORTED_MEDIA_TYPE` en
+- [x] `logback.xml`: `YYYY` wordt `yyyy`
+- [x] `TECHNICAL_DESIGN.md` en `openapi.yaml`: de nieuwe foutcodes `UNSUPPORTED_MEDIA_TYPE` en
       `METHOD_NOT_ALLOWED` in de lijst van foutcodes
-- [ ] `docs/guide/05-errors-and-database.md`: één zin bij de `StatusPages`-uitleg over 415 en 405
+- [x] `docs/guide/05-errors-and-database.md`: één zin bij de `StatusPages`-uitleg over 415 en 405
+- [x] Tests staan in `StatusPagesTest` met een eigen `POST /json`-route en `PUT /crash`, zodat ze alleen de plugin
+      testen. Ook gecorrigeerd: de gids zei dat `StatusPages` "de eerste passende handler" kiest; het is de meest
+      specifieke klasse (`selectNearestParentClass` in de Ktor-bron). 163 tests groen
 
 Uit te leggen: waarom een fout van de client nooit 500 mag zijn, en wat het verschil is tussen `yyyy` en `YYYY`.
 

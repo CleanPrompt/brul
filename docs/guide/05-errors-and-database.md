@@ -81,20 +81,27 @@ install(StatusPages) {
     exception<BadRequestException> { call, _ ->           // body missing or wrong JSON
         call.respond(HttpStatusCode.BadRequest, ErrorResponse("INVALID_REQUEST", "Request body is missing or malformed"))
     }
+    exception<ContentTransformationException> { call, _ -> // no or wrong Content-Type
+        call.respond(HttpStatusCode.UnsupportedMediaType, ErrorResponse("UNSUPPORTED_MEDIA_TYPE", "..."))
+    }
     exception<Throwable> { call, cause ->                 // a bug
         logger.error("Unhandled request error", cause)
         call.respond(HttpStatusCode.InternalServerError, ErrorResponse("INTERNAL_ERROR", "Internal server error"))
     }
     status(HttpStatusCode.Unauthorized) { call, status -> ... }   // Ktor's own 401 (bad token)
     status(HttpStatusCode.NotFound) { call, status -> ... }       // unknown URL
+    status(HttpStatusCode.MethodNotAllowed) { call, status -> ... } // known URL, wrong method
     status(HttpStatusCode.TooManyRequests) { call, status -> ... } // rate limit
 }
 ```
 
-The plugin wraps every request. When an exception escapes a route, it picks the first matching handler:
+The plugin wraps every request. When an exception escapes a route, it picks the handler of the **most specific**
+class, whatever the order: an `AppException` never reaches the `Throwable` handler.
 
 - An `AppException` becomes its status and `{ code, message }`.
 - A malformed body becomes 400.
+- A body without `Content-Type: application/json` becomes 415. It is the client's mistake, so it must not be a
+  500; the app sees right away that a header is missing.
 - Anything else is a **bug**: it is logged with the full stack trace on the server, and the client sees only
   `INTERNAL_ERROR`.
 

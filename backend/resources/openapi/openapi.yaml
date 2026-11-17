@@ -6,6 +6,8 @@ info:
     Every error response uses the ErrorResponse schema.
     Protected endpoints need `Authorization: Bearer <accessToken>`; a missing or invalid token gives 401,
     a valid token without the required permission gives 403.
+    Every endpoint with a JSON body needs `Content-Type: application/json`; without it the response is
+    415 `UNSUPPORTED_MEDIA_TYPE`. A method that a path does not support gives 405 `METHOD_NOT_ALLOWED`.
 servers:
   - url: http://127.0.0.1:8080
 paths:

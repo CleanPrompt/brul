@@ -120,8 +120,8 @@ The checks we used:
 |---|---|---|
 | A JWT cannot be revoked; a token version per user makes logout work | Tests: after logout the old token gives 401 | Built as phase 8; reused for deactivation and password change |
 | The rate limiter has no `requestKey`, so all clients share one bucket | Read `RateLimitConfig.kt` in the Ktor 3.6 sources: the default is `requestKey = { }` | Fixed in hardening checkpoint 1: a key per IP address, and per user for password changes |
-| A missing or wrong `Content-Type` returns 500 | A temporary test against `configureTestApp` | Planned fix: hardening checkpoint 2 |
-| `YYYY` in `logback.xml` is the week-based year | Known Java date-format behaviour | Planned fix: hardening checkpoint 2 |
+| A missing or wrong `Content-Type` returns 500 | A temporary test against `configureTestApp` | Fixed in hardening checkpoint 2: 415 `UNSUPPORTED_MEDIA_TYPE` |
+| `YYYY` in `logback.xml` is the week-based year | Known Java date-format behaviour | Fixed in hardening checkpoint 2: `yyyy` |
 | `update(user)` writes every column, so two concurrent requests can undo each other's change | Read the repository code | Planned fix: hardening checkpoints 3 and 4 |
 
 ### Errors found while building (code that had to be changed)
@@ -198,6 +198,7 @@ One row per moment where AI played a real part. Newest at the bottom.
 | 2026-11-17 | Claude Code | Compare the project with the course material and criteria | Missing: UML, test report, this log, demo data; report model revised | Criteria supplied by the owner | Yes |
 | 2026-11-17 | Claude Code | Naming and order of the hardening work | "Hardening" instead of "refactor"; demo data moved after reports | Owner's judgement | Yes |
 | 2026-11-17 | Claude Code | Hardening checkpoint 1: rate limit per client | `requestKey` on the IP address; on the user id for password changes | Ktor sources (`rateLimit` inside `authenticate` runs after the token check); new test: user A's limit does not block user B | Yes |
+| 2026-11-17 | Claude Code | Hardening checkpoint 2: 415, 405 and the log year | `ContentTransformationException` → 415, `MethodNotAllowed` → 405, `yyyy`. The guide said `StatusPages` picks "the first matching handler"; corrected to "the most specific class" | Ktor sources (`DefaultEnginePipeline.kt`, `StatusPages.kt`); 4 new tests | Yes |
 | Ongoing | ChatGPT, Claude, Grok, Gemini (chat) | Tutors: explaining code and concepts, other questions | Explanations, no code for the repository | Compared between models; checked against the code, tests and official docs | Used for understanding |
 | **(to confirm)** | ChatGPT | Lesson slides 1–7 to study text | Study notes | Compared with the slides | Yes, for studying |
 | **(to confirm)** | Codex | **(to confirm)** | | | |

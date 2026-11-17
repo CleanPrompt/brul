@@ -219,7 +219,9 @@ code and returns one consistent body:
 | `Unauthorized`, missing or invalid JWT | 401 | `UNAUTHORIZED`, `INVALID_CREDENTIALS` |
 | `Forbidden` | 403 | `FORBIDDEN` |
 | `NotFound`, unknown route | 404 | `USER_NOT_FOUND`, `ROLE_NOT_FOUND`, `FEEDBACK_NOT_FOUND`, `PROFILE_IMAGE_NOT_FOUND`, `NOT_FOUND` |
+| Known path, unsupported method (e.g. `PUT /health`) | 405 | `METHOD_NOT_ALLOWED` |
 | `Conflict` (also enforced by a unique index) | 409 | `EMAIL_ALREADY_REGISTERED` |
+| JSON body without `Content-Type: application/json` | 415 | `UNSUPPORTED_MEDIA_TYPE` |
 | Rate limit exceeded | 429 | `TOO_MANY_REQUESTS` |
 | Any other exception (logged, no details to the client) | 500 | `INTERNAL_ERROR` |
 

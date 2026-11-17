@@ -74,8 +74,8 @@ Gedaan:
 
 Klaar als:
 
-- [ ] Je hebt 01, 03 en 04 gelezen en bent het eens met de punten, of je hebt geschrapt wat je niet wilt
-- [ ] `kotlin.bat test` slaagt (er is geen code veranderd)
+- [x] Je hebt 01, 03 en 04 gelezen en bent het eens met de punten, of je hebt geschrapt wat je niet wilt
+- [x] `kotlin.bat test` slaagt (er is geen code veranderd)
 
 **Commit:** `Hardening: review the base and plan phase 17`
 
@@ -88,15 +88,17 @@ Klaar als:
 
 Bestanden: `backend/src/plugins/RateLimiting.kt`, `backend/test/features/authentication/AuthenticationRoutesTest.kt`.
 
-- [ ] `AUTHENTICATION_RATE_LIMIT`: `requestKey { call -> call.request.origin.remoteHost }`
+- [x] `AUTHENTICATION_RATE_LIMIT`: `requestKey { call -> call.request.origin.remoteHost }`
       (import `io.ktor.server.plugins.origin`)
-- [ ] `PASSWORD_CHANGE_RATE_LIMIT`: sleutel op de gebruiker uit de token (`call.principal<JWTPrincipal>()?.subject`),
+- [x] `PASSWORD_CHANGE_RATE_LIMIT`: sleutel op de gebruiker uit de token (`call.principal<JWTPrincipal>()?.subject`),
       met `remoteHost` als terugval. Deze limiter zit binnen `authenticate`, dus de token is er al
-- [ ] KDoc boven de limiters: *waarom* een sleutel nodig is (anders één gedeelde emmer)
-- [ ] De bestaande tests voor 429 slagen nog (de test host gebruikt steeds hetzelfde adres)
-- [ ] Nieuwe test: na 5 wachtwoordwijzigingen van gebruiker A kan gebruiker B nog steeds zijn wachtwoord wijzigen
-- [ ] `docs/guide/04-security.md`: "10 per minuut" wordt "10 per minuut per client"
-- [ ] `docs/guide/llm-context.md` §9 (*Manual testing*): idem
+- [x] KDoc boven de limiters: *waarom* een sleutel nodig is (anders één gedeelde emmer)
+- [x] De bestaande tests voor 429 slagen nog (de test host gebruikt steeds hetzelfde adres); 159 tests groen
+- [x] Nieuwe test: na 5 wachtwoordwijzigingen van gebruiker A kan gebruiker B nog steeds zijn wachtwoord wijzigen
+- [x] `docs/guide/04-security.md`: "10 per minuut" wordt "10 per minuut per client"
+- [x] `docs/guide/llm-context.md` §9 (*Manual testing*): idem
+- [x] Ook bijgewerkt (zelfde feit): `TECHNICAL_DESIGN.md` (security), `openapi.yaml` (wachtwoord wijzigen),
+      `docs/guide/01-getting-started.md`, de beslissingentabel *Security* en `docs/ai-usage.md`
 
 Uit te leggen: wat is een *request key*, en waarom is `remoteHost` achter een proxy het adres van de proxy?
 

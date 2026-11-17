@@ -18,8 +18,18 @@ Files: `backend/src/features/authentication/` and `backend/src/plugins/Authentic
 | `POST /api/v1/auth/logout` | Log out on every device | 204 |
 | `POST /api/v1/users/me/password` | Change your own password | 200 + new token |
 
-Register and login are public but **rate limited**: at most 10 requests per minute (`plugins/RateLimiting.kt`).
-That slows down someone who tries thousands of passwords. Password changes have their own limit of 5 per minute.
+Register and login are public but **rate limited**: at most 10 requests per minute per client
+(`plugins/RateLimiting.kt`). That slows down someone who tries thousands of passwords. Password changes have their own
+limit of 5 per minute per user.
+
+"Per client" comes from the **request key**: every request gets a key, and every key gets its own bucket of
+requests. Login has no token yet, so the key is the client's IP address (`call.request.origin.remoteHost`). Password
+changes run after the token check, so the key is the user id: two people on the same Wi-Fi do not block each other.
+Without a key, Ktor puts every request in one bucket, and one client could block login for everybody.
+
+Behind a proxy or load balancer, `remoteHost` is the address of the proxy, so all clients would share one bucket
+again. The fix is Ktor's `ForwardedHeaders` plugin, but it trusts a header the client can fake, so it is only safe
+behind a proxy you control. This API runs without a proxy, so it does not use it.
 
 ### Registering
 

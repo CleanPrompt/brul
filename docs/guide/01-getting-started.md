@@ -77,7 +77,7 @@ the status code.
 other files use those tokens. `6-logout.http` logs the user out on every device, so run `1-authentication.http`
 again before running the others a second time.
 
-> **429 Too Many Requests?** Login and registration allow 10 requests per minute. If you run
+> **429 Too Many Requests?** Login and registration allow 10 requests per minute per client. If you run
 > `1-authentication.http` several times quickly, wait a minute. That is the rate limiter doing its job.
 
 ## Step 5: look around

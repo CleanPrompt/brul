@@ -165,6 +165,18 @@ class AuthenticationRoutesTest {
         assertEquals("TOO_MANY_REQUESTS", response.errorCode())
     }
 
+    @Test
+    fun `the password change limit is per user`() = testApplication {
+        application { configureTestApp(TestServices()) }
+        val alice = register("alice@example.com")
+        val bob = register("bob@example.com")
+
+        repeat(5) { changePassword(alice.accessToken, currentPassword = "Wrong-password-123") }
+        val response = changePassword(bob.accessToken, currentPassword = TEST_PASSWORD)
+
+        assertEquals(HttpStatusCode.OK, response.status)
+    }
+
     private suspend fun ApplicationTestBuilder.changePassword(token: String, currentPassword: String): HttpResponse =
         client.post("/api/v1/users/me/password") {
             bearerAuth(token)

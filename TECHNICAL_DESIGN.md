@@ -168,8 +168,9 @@ erDiagram
 - Changing the password (`POST /api/v1/users/me/password`) requires the current password, so a stolen token
   alone cannot take over the account. The response holds a new token, so the device that changed it stays
   logged in.
-- Login and registration are rate limited (10 per minute), password changes separately (5 per minute). A failed
-  login always returns the same error, so callers cannot discover which emails are registered.
+- Login and registration are rate limited (10 per minute per IP address), password changes separately (5 per
+  minute per user). A failed login always returns the same error, so callers cannot discover which emails are
+  registered.
 
 **Authorization (RBAC)**
 - Permissions are a Kotlin `enum class Permission`; `enum class DefaultRole` is the permission matrix.

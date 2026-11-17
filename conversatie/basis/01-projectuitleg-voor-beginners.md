@@ -191,8 +191,8 @@ naam, e-mail of rollen.
 `token_version` in de database. Bij uitloggen, wachtwoord wijzigen of deactiveren gaat dat nummer +1. Oude
 tokens hebben dan het verkeerde nummer en worden geweigerd.
 
-**Rate limiting.** Inloggen en registreren mag maximaal 10 keer per minuut, zodat niemand eindeloos
-wachtwoorden kan raden.
+**Rate limiting.** Inloggen en registreren mag maximaal 10 keer per minuut per IP-adres, zodat niemand
+eindeloos wachtwoorden kan raden. Elk adres heeft een eigen teller, dus één persoon blokkeert de anderen niet.
 
 ---
 

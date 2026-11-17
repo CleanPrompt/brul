@@ -63,6 +63,7 @@ Before you make a new decision, ask:
 | Same error for unknown email, inactive user and wrong password | Specific errors | Callers cannot discover which emails are registered |
 | BCrypt, cost 12 | Fast hashes (SHA-256) | Deliberately slow and salted: brute force becomes impractical |
 | Rate limit on login, registration and password change | No limit | Slows down password guessing |
+| A bucket per client: login and registration keyed on the IP address, password change on the user id | One shared bucket (Ktor's default without `requestKey`) | With one bucket, one client blocks login for everybody. The user id works for password changes because the limiter runs after the token check, so people on the same network do not block each other. Behind a proxy the IP address would be the proxy's; this API runs without one |
 
 ### API design
 

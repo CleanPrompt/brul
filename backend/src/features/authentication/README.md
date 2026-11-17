@@ -23,7 +23,7 @@ This feature has no table of its own: it stores users through `UserRepository` f
 
 `POST /api/v1/auth/login` with `{ "email": ..., "password": ... }`:
 
-1. The rate limiter in `plugins/RateLimiting.kt` allows 10 requests per minute (then 429).
+1. The rate limiter in `plugins/RateLimiting.kt` allows 10 requests per minute per IP address (then 429).
 2. `authenticationRoutes` reads the body and calls `authenticationService.login`.
 3. The service lowercases the email, finds the user and checks with `PasswordHasher.verify`. Unknown email,
    inactive user and wrong password all give 401 `INVALID_CREDENTIALS`.

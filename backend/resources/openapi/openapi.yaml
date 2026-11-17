@@ -91,7 +91,7 @@ paths:
     post:
       summary: >-
         Change your own password; requires the current password. Every earlier token stops working and the
-        response holds a new one. Rate limited (5 per minute).
+        response holds a new one. Rate limited (5 per minute per user).
       security: [{ bearerAuth: [] }]
       requestBody:
         required: true

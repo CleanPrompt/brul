@@ -133,6 +133,19 @@ class StatusPagesTest {
     }
 
     @Test
+    fun `an unknown json field returns 400`() = testApplication {
+        setUpApp()
+
+        val response = client.post("/json") {
+            contentType(ContentType.Application.Json)
+            setBody("""{"code":"X","message":"Y","extra":true}""")
+        }
+
+        assertEquals(HttpStatusCode.BadRequest, response.status)
+        assertEquals("INVALID_REQUEST", response.error().code)
+    }
+
+    @Test
     fun `wrong method on an existing path returns 405 in the error format`() = testApplication {
         setUpApp()
 

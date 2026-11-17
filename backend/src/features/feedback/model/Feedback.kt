@@ -11,4 +11,9 @@ data class Feedback(
     val status: FeedbackStatus,
     /** Set by the server when the item is created (UTC); never changed afterwards. */
     val createdAt: Instant
-)
+) {
+    companion object {
+        /** Used by `FeedbackTable` (column length) and by `FeedbackService` (validation). */
+        const val MAX_MESSAGE_LENGTH = 2000
+    }
+}

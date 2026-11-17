@@ -32,6 +32,24 @@ class UserServiceTest {
     }
 
     @Test
+    fun `accepts the longest display name and rejects one character more`() {
+        val longest = "x".repeat(User.MAX_DISPLAY_NAME_LENGTH)
+
+        assertEquals(longest, service.updateDisplayName(user.id, UpdateUserRequest(longest)).displayName)
+        assertFailsWith<AppException.BadRequest> {
+            service.updateDisplayName(user.id, UpdateUserRequest(longest + "x"))
+        }
+    }
+
+    @Test
+    fun `requireExists gives 404 for an unknown user`() {
+        service.requireExists(user.id)
+
+        val error = assertFailsWith<AppException.NotFound> { service.requireExists(UUID.randomUUID()) }
+        assertEquals("USER_NOT_FOUND", error.code)
+    }
+
+    @Test
     fun `missing user gives 404`() {
         val error = assertFailsWith<AppException.NotFound> { service.getById(UUID.randomUUID()) }
         assertEquals("USER_NOT_FOUND", error.code)

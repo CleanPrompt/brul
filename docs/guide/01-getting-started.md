@@ -107,6 +107,7 @@ Every error in this API has this shape. Chapter 5 explains why.
 | Problem | Cause and fix |
 |---|---|
 | `Missing required configuration: JWT_SECRET` | `backend/.env` is missing or has no `JWT_SECRET` |
+| `JWT_SECRET must contain at least 32 characters` | Make the secret in `backend/.env` longer |
 | `{{baseUrl}}` appears literally in the request | Select the environment `dev` in the HTTP client |
 | Strange database errors after you changed a table | Stop the server and delete `data/brul*`; see chapter 5 |
 | `429` in the `.http` files | Wait a minute; see the rate limit above |

@@ -53,8 +53,8 @@ fun Application.module(config: AppConfig = AppConfig.load()) {
     // Services
     val jwtService = JwtService(config)
     val authorizationService = AuthorizationService(authorizationRepository, userRepository)
-    val roleService = RoleService(authorizationRepository, userRepository)
     val userService = UserService(userRepository)
+    val roleService = RoleService(authorizationRepository, userService)
     val authenticationService = AuthenticationService(
         userRepository = userRepository,
         passwordHasher = PasswordHasher(),

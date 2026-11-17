@@ -7,6 +7,7 @@ import nl.brul.backend.features.authentication.dto.ChangePasswordRequest
 import nl.brul.backend.features.authentication.dto.LoginRequest
 import nl.brul.backend.features.authentication.dto.RegisterRequest
 import nl.brul.backend.features.authorization.model.DefaultRole
+import nl.brul.backend.features.user.model.User
 import nl.brul.backend.shared.error.AppException
 import java.time.Instant
 import java.util.UUID
@@ -71,6 +72,18 @@ class AuthenticationServiceTest {
     @Test
     fun `register rejects an invalid email`() {
         assertFailsWith<AppException.BadRequest> { register(email = "not-an-email") }
+    }
+
+    @Test
+    fun `register rejects an empty or too long display name`() {
+        val tooLong = "x".repeat(User.MAX_DISPLAY_NAME_LENGTH + 1)
+
+        assertFailsWith<AppException.BadRequest> {
+            service.register(RegisterRequest("alice@example.com", "   ", TEST_PASSWORD))
+        }
+        assertFailsWith<AppException.BadRequest> {
+            service.register(RegisterRequest("alice@example.com", tooLong, TEST_PASSWORD))
+        }
     }
 
     @Test

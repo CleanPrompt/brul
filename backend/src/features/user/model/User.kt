@@ -13,4 +13,9 @@ data class User(
     val createdAt: Instant,
     /** Copied into every token as the `ver` claim; raising it invalidates all earlier tokens. Never exposed. */
     val tokenVersion: Int = 0
-)
+) {
+    companion object {
+        /** Used by `UsersTable` (column length) and by the services (validation), so they cannot drift apart. */
+        const val MAX_DISPLAY_NAME_LENGTH = 120
+    }
+}

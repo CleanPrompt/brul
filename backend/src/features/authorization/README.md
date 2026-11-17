@@ -14,7 +14,7 @@ Concepts (owners, 401 versus 403): `docs/guide/04-security.md`. The permission m
 | `model/Role.kt` | A role as stored in the database: id and name |
 | `service/AuthorizationService.kt` | The access checks. `requirePermission` throws 403 without the permission; `requireOwnerOrPermission` lets the owner through and checks the permission for anyone else; `hasPermission` answers yes or no (used to narrow a list) |
 | `service/AuthorizationSeeder.kt` | Runs at startup: stores every `Permission` and `DefaultRole` and links them. It only adds what is missing, so it is safe to run every time |
-| `service/RoleService.kt` | Lists, assigns and removes roles. An admin cannot remove their own ADMIN role, so at least one admin remains. `assignDefaultRole` is used at registration |
+| `service/RoleService.kt` | Lists, assigns and removes roles. An admin cannot remove their own ADMIN role, so at least one admin remains. `assignDefaultRole` is used at registration. It checks that a user exists through `UserService.requireExists`, not through the user repository |
 | `route/RoleRoutes.kt` | `GET /roles`, and the roles of a user: list, assign, remove |
 | `repository/AuthorizationRepository.kt` | The interface for roles, permissions and the links between them |
 | `repository/ExposedAuthorizationRepository.kt` | The Exposed implementation. `findPermissionsForUser` joins `user_roles` and `role_permissions` with explicit join columns |

@@ -31,10 +31,15 @@ class UserService(private val repository: UserRepository) {
     fun getOwnerId(id: UUID): UUID =
         findUser(id).id
 
+    /** 404 `USER_NOT_FOUND` for an unknown user, so other features do not repeat that error themselves. */
+    fun requireExists(id: UUID) {
+        findUser(id)
+    }
+
     fun updateDisplayName(id: UUID, request: UpdateUserRequest): UserResponse {
         val name = request.displayName.trim()
-        requireValid(name.isNotEmpty() && name.length <= 120) {
-            "Display name must contain between 1 and 120 characters"
+        requireValid(name.isNotEmpty() && name.length <= User.MAX_DISPLAY_NAME_LENGTH) {
+            "Display name must contain between 1 and ${User.MAX_DISPLAY_NAME_LENGTH} characters"
         }
 
         // Read first for the 404; the update itself writes only the display name.

@@ -16,6 +16,9 @@ data class AppConfig(
     val bootstrapAdminEmail: String?
 ) {
     companion object {
+        /** HMAC-SHA256 works with a 256-bit (32-byte) key; a shorter secret makes the token weaker than needed. */
+        const val MIN_JWT_SECRET_LENGTH = 32
+
         fun load(): AppConfig {
             val dotenv = dotenv {
                 directory = "backend"
@@ -28,6 +31,13 @@ data class AppConfig(
             fun get(name: String, default: String? = null): String =
                 optional(name) ?: default ?: error("Missing required configuration: $name")
 
+            // HMAC256 needs a long secret; a short one can be guessed by trying many secrets against one token.
+            // Checked here and not in the constructor, so tests can still build an AppConfig with a short secret.
+            val jwtSecret = get("JWT_SECRET")
+            if (jwtSecret.length < MIN_JWT_SECRET_LENGTH) {
+                error("JWT_SECRET must contain at least $MIN_JWT_SECRET_LENGTH characters")
+            }
+
             return AppConfig(
                 host = get("HOST", "127.0.0.1"),
                 port = get("PORT", "8080").toInt(),
@@ -35,7 +45,7 @@ data class AppConfig(
                 databaseDriver = get("DATABASE_DRIVER", "org.h2.Driver"),
                 databaseUser = get("DATABASE_USER", "sa"),
                 databasePassword = get("DATABASE_PASSWORD", ""),
-                jwtSecret = get("JWT_SECRET"),
+                jwtSecret = jwtSecret,
                 jwtIssuer = get("JWT_ISSUER", "brul-backend"),
                 jwtAudience = get("JWT_AUDIENCE", "brul-api"),
                 bootstrapAdminEmail = optional("BOOTSTRAP_ADMIN_EMAIL")

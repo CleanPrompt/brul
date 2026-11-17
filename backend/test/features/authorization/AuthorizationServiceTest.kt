@@ -7,6 +7,7 @@ import nl.brul.backend.features.authorization.service.AuthorizationService
 import nl.brul.backend.features.authorization.service.RoleService
 import nl.brul.backend.features.user.FakeUserRepository
 import nl.brul.backend.features.user.model.User
+import nl.brul.backend.features.user.service.UserService
 import nl.brul.backend.shared.error.AppException
 import nl.brul.backend.TEST_CREATED_AT
 import java.util.UUID
@@ -18,7 +19,7 @@ import kotlin.test.assertTrue
 class AuthorizationServiceTest {
     private val userRepository = FakeUserRepository()
     private val authorizationRepository = FakeAuthorizationRepository().also { AuthorizationSeeder(it).seed() }
-    private val roleService = RoleService(authorizationRepository, userRepository)
+    private val roleService = RoleService(authorizationRepository, UserService(userRepository))
     private val service = AuthorizationService(authorizationRepository, userRepository)
 
     private fun newUser(vararg roles: DefaultRole, active: Boolean = true): UUID {

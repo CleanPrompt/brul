@@ -5,7 +5,7 @@ import nl.brul.backend.features.authorization.mapper.toResponse
 import nl.brul.backend.features.authorization.model.DefaultRole
 import nl.brul.backend.features.authorization.model.Role
 import nl.brul.backend.features.authorization.repository.AuthorizationRepository
-import nl.brul.backend.features.user.repository.UserRepository
+import nl.brul.backend.features.user.service.UserService
 import nl.brul.backend.shared.error.AppException
 import nl.brul.backend.shared.error.requireValid
 import java.util.UUID
@@ -13,18 +13,19 @@ import java.util.UUID
 /** Assigns and revokes roles. Roles and permissions themselves are created by [AuthorizationSeeder]. */
 class RoleService(
     private val authorizationRepository: AuthorizationRepository,
-    private val userRepository: UserRepository
+    /** Another feature, so its service and not its repository: the 404 for an unknown user stays in `user`. */
+    private val userService: UserService
 ) {
     fun findAllRoles(): List<RoleResponse> =
         authorizationRepository.findAllRoles().map { it.toResponse() }
 
     fun findRolesForUser(userId: UUID): List<RoleResponse> {
-        requireUserExists(userId)
+        userService.requireExists(userId)
         return authorizationRepository.findRolesForUser(userId).map { it.toResponse() }
     }
 
     fun assignRole(userId: UUID, roleId: UUID) {
-        requireUserExists(userId)
+        userService.requireExists(userId)
         val role = findRole(roleId)
         authorizationRepository.assignRoleToUser(userId, role.id)
     }
@@ -34,7 +35,7 @@ class RoleService(
      * at least one admin in the system: only another admin can take the role away.
      */
     fun removeRole(userId: UUID, roleId: UUID, currentUserId: UUID) {
-        requireUserExists(userId)
+        userService.requireExists(userId)
         val role = findRole(roleId)
         requireValid(userId != currentUserId || role.name != DefaultRole.ADMIN.name) {
             "You cannot remove your own ADMIN role"
@@ -48,10 +49,6 @@ class RoleService(
         val role = authorizationRepository.findRoleByName(defaultRole.name)
             ?: error("Default role ${defaultRole.name} has not been seeded")
         authorizationRepository.assignRoleToUser(userId, role.id)
-    }
-
-    private fun requireUserExists(userId: UUID) {
-        userRepository.findById(userId) ?: throw AppException.NotFound("User not found", "USER_NOT_FOUND")
     }
 
     private fun findRole(roleId: UUID): Role =

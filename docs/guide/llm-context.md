@@ -81,6 +81,13 @@ Each feature has only the folders it needs:
   `backend/src/plugins/Routing.kt` and `configureTestApp`.
 - `plugins/` only configures Ktor; no business logic.
 - `shared/` must not depend on any feature.
+- A feature uses another feature through its **service**, not its repository (e.g. `RoleService` calls
+  `userService.requireExists(id)`), so each error such as `USER_NOT_FOUND` lives in one feature. Two exceptions read
+  `UserRepository` directly: `authentication` (it creates users and changes password hashes, which `UserService`
+  must not expose) and `AuthorizationService` plus the JWT `validate` (they run on every request and need the
+  `active` flag and token version, not a response DTO).
+- Limits shared by a table and a service are one constant in the model's `companion object`
+  (`User.MAX_DISPLAY_NAME_LENGTH`, `Feedback.MAX_MESSAGE_LENGTH`), used by both.
 
 ## 4. Security and authorization rules
 
@@ -91,7 +98,8 @@ Each feature has only the folders it needs:
   ADMIN uses `Permission.entries`. `AuthorizationSeeder` stores both at startup. **Never check a permission with a
   string literal.** Roles and permissions are never created through the API.
 - Protected routes are inside `authenticate(JWT_AUTHENTICATION)`. Each starts with exactly one access check from
-  `AuthorizationService`, before the work:
+  `AuthorizationService`, before the work, **or** a comment saying that every logged-in user may call it (as
+  `GET /users/me`, `POST /feedback` and `GET /users/{id}/profile-image` do):
   - `requirePermission(call.currentUserId(), Permission.X)`: the caller needs the permission.
   - `requireOwnerOrPermission(currentUserId, ownerId, Permission.X)`: the owner is always allowed, anyone else needs
     the permission. Always read the owner first with the service's `getOwnerId(id)` (404 when unknown), then

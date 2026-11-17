@@ -211,24 +211,27 @@ Bestanden: `features/feedback/repository/*`, `service/FeedbackService.kt`,
 
 **Doel:** de losse punten B1–B4 uit 01, plus L1 en S2 uit 03, in één opruimcommit.
 
-- [ ] **B1** `AppConfig.load()`: `JWT_SECRET` korter dan 32 tekens geeft bij het opstarten
+- [x] **B1** `AppConfig.load()`: `JWT_SECRET` korter dan 32 tekens geeft bij het opstarten
       `error("JWT_SECRET must contain at least 32 characters")`. De check staat in `load()`, niet in de
       constructor: tests bouwen `AppConfig` zelf (`testConfig()`, en `"a-different-secret"` in `JwtServiceTest`)
       en blijven dus werken
-- [ ] `.env.example`: één regel commentaar dat het geheim minstens 32 tekens moet zijn
-- [ ] **B2 + L1** Eén constante per grens in de `companion object` van het model (`User.MAX_DISPLAY_NAME_LENGTH`,
+- [x] `.env.example`: één regel commentaar dat het geheim minstens 32 tekens moet zijn
+- [x] **B2 + L1** Eén constante per grens in de `companion object` van het model (`User.MAX_DISPLAY_NAME_LENGTH`,
       `Feedback.MAX_MESSAGE_LENGTH`), gebruikt door de tabel **en** de service. De regel voor de weergavenaam staat
       dan op één plek, gedeeld door `AuthenticationService.register` en `UserService.updateDisplayName`
-- [ ] Test: registreren met een lege naam en wijzigen naar een naam van 121 tekens geven allebei 400
-- [ ] **S2** `UserService.requireExists(id)`; `RoleService` gebruikt die in plaats van `UserRepository`, zodat
+- [x] Test: registreren met een lege naam en wijzigen naar een naam van 121 tekens geven allebei 400
+- [x] **S2** `UserService.requireExists(id)`; `RoleService` gebruikt die in plaats van `UserRepository`, zodat
       `USER_NOT_FOUND` op minder plekken staat. Regel in `llm-context.md` §3: een feature gebruikt van een andere
       feature de service, niet de repository (uitzondering: `authentication` en `AuthorizationService`, met reden)
-- [ ] **B3** `docs/guide/llm-context.md` §4: "precies één toegangscontrole, *of* een commentaar dat de route open is
+- [x] **B3** `docs/guide/llm-context.md` §4: "precies één toegangscontrole, *of* een commentaar dat de route open is
       voor elke ingelogde gebruiker" (`/users/me`, `POST /feedback`, `GET .../profile-image`)
-- [ ] **B4** Rij in de beslissingentabel: registratie en roltoekenning zijn aparte transacties, met de reden
+- [x] **B4** Rij in de beslissingentabel: registratie en roltoekenning zijn aparte transacties, met de reden
       (USER heeft geen permissies, het risico is klein)
-- [ ] Rij in de beslissingentabel *Images*: de profielfoto van een gedeactiveerde gebruiker blijft zichtbaar
-- [ ] Rij in de beslissingentabel *API design*: onbekende JSON-velden geven 400 (alternatief: `ignoreUnknownKeys`)
+- [x] Rij in de beslissingentabel *Images*: de profielfoto van een gedeactiveerde gebruiker blijft zichtbaar
+- [x] Rij in de beslissingentabel *API design*: onbekende JSON-velden geven 400 (alternatief: `ignoreUnknownKeys`)
+- [x] Ook: een test dat een onbekend JSON-veld 400 geeft, het commentaar "open voor elke ingelogde gebruiker" bij
+      `GET /users/me` en `GET .../profile-image`, de rij voor `JWT_SECRET` en de foutmelding in
+      `01-getting-started.md`. Getest: de server start niet met een te kort geheim. 174 tests groen
 
 **Commit:** `Hardening: check JWT secret, share limits and user-exists check`
 

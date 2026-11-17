@@ -30,8 +30,8 @@ class AuthenticationService(
         requireValid(email.length <= 254 && EMAIL_PATTERN.matches(email)) {
             "Invalid email address"
         }
-        requireValid(displayName.isNotEmpty() && displayName.length <= 120) {
-            "Display name must contain between 1 and 120 characters"
+        requireValid(displayName.isNotEmpty() && displayName.length <= User.MAX_DISPLAY_NAME_LENGTH) {
+            "Display name must contain between 1 and ${User.MAX_DISPLAY_NAME_LENGTH} characters"
         }
         requireValidPassword(request.password)
 

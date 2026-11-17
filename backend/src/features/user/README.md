@@ -16,7 +16,7 @@ Endpoints and permissions: `TECHNICAL_DESIGN.md` §4 and §6.
 | File | What it does |
 |---|---|
 | `route/UserRoutes.kt` | `GET /users/me`, the list, `GET`/`PATCH /users/{id}`, deactivate (`DELETE`) and reactivate. Each route does one access check before the work |
-| `service/UserService.kt` | The rules: the display name is 1–120 characters; you cannot deactivate yourself; deactivating raises the token version so old tokens stop working. `getOwnerId(id)` returns the account id, or 404 |
+| `service/UserService.kt` | The rules: the display name is 1–120 characters; you cannot deactivate yourself; deactivating raises the token version so old tokens stop working. `getOwnerId(id)` returns the account id, or 404; `requireExists(id)` gives the same 404 for other features (`RoleService`). The 120 is `User.MAX_DISPLAY_NAME_LENGTH`, also used by `UsersTable` |
 | `repository/UserRepository.kt` | The interface: find by id or email, search, count, save, and one function per change (`updateDisplayName`, `updatePasswordHash`, `setActive`, `incrementTokenVersion`). Each writes only its own column, so two requests at the same time cannot undo each other's change |
 | `repository/ExposedUserRepository.kt` | The Exposed implementation. `save` turns a duplicate email into 409; `incrementTokenVersion` is one atomic SQL update |
 | `database/UsersTable.kt` | The `users` table, with a unique index on `email` |

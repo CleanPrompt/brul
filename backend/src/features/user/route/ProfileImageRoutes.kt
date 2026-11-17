@@ -37,6 +37,7 @@ fun Route.profileImageRoutes(
             call.respond(HttpStatusCode.NoContent)
         }
 
+        // Every logged-in user may see any profile image; no permission needed.
         get {
             val image = profileImageService.get(call.uuidParameter("id"))
             call.respondBytes(image.data, image.contentType())

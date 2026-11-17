@@ -6,7 +6,7 @@ Android app.
 
 ## Getting started
 
-1. Copy `backend/.env.example` to `backend/.env` and set `JWT_SECRET` to a long random value.
+1. Copy `backend/.env.example` to `backend/.env` and set `JWT_SECRET` to a long random value (at least 32 characters).
 2. Set `BOOTSTRAP_ADMIN_EMAIL`: the account that registers with this email becomes ADMIN.
 3. Run the tests: `./kotlin test` (Windows: `kotlin.bat test`).
 4. Start the server: `./kotlin run`, then open <http://127.0.0.1:8080/health>.

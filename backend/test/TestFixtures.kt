@@ -59,8 +59,8 @@ class TestServices {
     val authorizationRepository = FakeAuthorizationRepository().also { AuthorizationSeeder(it).seed() }
     val jwtService = JwtService(testConfig())
     val authorizationService = AuthorizationService(authorizationRepository, userRepository)
-    val roleService = RoleService(authorizationRepository, userRepository)
     val userService = UserService(userRepository)
+    val roleService = RoleService(authorizationRepository, userService)
     val authenticationService = AuthenticationService(
         userRepository = userRepository,
         passwordHasher = PasswordHasher(),

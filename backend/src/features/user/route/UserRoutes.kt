@@ -23,6 +23,7 @@ import nl.brul.backend.shared.http.uuidParameter
  */
 fun Route.userRoutes(userService: UserService, authorizationService: AuthorizationService) {
     route("/users") {
+        // Every logged-in user may read their own account; no permission needed.
         get("/me") {
             call.respond(userService.getById(call.currentUserId()))
         }

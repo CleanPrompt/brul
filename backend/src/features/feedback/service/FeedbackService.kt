@@ -71,8 +71,8 @@ class FeedbackService(private val repository: FeedbackRepository) {
 
     private fun validMessage(message: String): String {
         val trimmed = message.trim()
-        requireValid(trimmed.isNotEmpty() && trimmed.length <= MAX_MESSAGE_LENGTH) {
-            "Message must contain between 1 and $MAX_MESSAGE_LENGTH characters"
+        requireValid(trimmed.isNotEmpty() && trimmed.length <= Feedback.MAX_MESSAGE_LENGTH) {
+            "Message must contain between 1 and ${Feedback.MAX_MESSAGE_LENGTH} characters"
         }
         return trimmed
     }
@@ -81,9 +81,4 @@ class FeedbackService(private val repository: FeedbackRepository) {
         repository.findById(id) ?: throw feedbackNotFound()
 
     private fun feedbackNotFound() = AppException.NotFound("Feedback not found", "FEEDBACK_NOT_FOUND")
-
-    private companion object {
-        /** Same as the column length in `FeedbackTable`. */
-        const val MAX_MESSAGE_LENGTH = 2000
-    }
 }

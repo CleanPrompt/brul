@@ -17,7 +17,7 @@ Endpoints and permissions: `TECHNICAL_DESIGN.md` §4 and §6. Error codes: §5.
 |---|---|
 | `route/FeedbackRoutes.kt` | The six endpoints under `/feedback`. Each one reads the request, does one access check, calls the service and responds. No business rules |
 | `service/FeedbackService.kt` | The rules: the message is trimmed and 1–2000 characters, a new item starts as `OPEN`, the server sets the id and `createdAt`. `getOwnerId(id)` gives the owner for the access check, or 404 |
-| `repository/FeedbackRepository.kt` | The interface the service uses: find, search, count, save, update, delete |
+| `repository/FeedbackRepository.kt` | The interface the service uses: find, search, count, save, `updateMessage`, `updateStatus`, delete. Each update writes only its own column, so an admin closing an item and the owner editing it at the same time cannot undo each other |
 | `repository/ExposedFeedbackRepository.kt` | The real implementation with Exposed. `search` and `count` share `filtered(query)`, so the total always uses the same filters |
 | `database/FeedbackTable.kt` | The `feedback` table. `owner_id` is a foreign key to `users`; the status is stored by its name |
 | `model/Feedback.kt` | The domain object the service works with |
@@ -41,7 +41,7 @@ Endpoints and permissions: `TECHNICAL_DESIGN.md` §4 and §6. Error codes: §5.
 3. `requireOwnerOrPermission(currentUserId, ownerId, Permission.FEEDBACK_UPDATE)`: the owner passes, anyone else
    needs `feedback.update` (403 otherwise).
 4. `call.receive<FeedbackRequest>()` reads the body; `feedbackService.updateMessage` validates it and calls
-   `repository.update`.
+   `repository.updateMessage`, which writes only the message.
 5. The route responds with `FeedbackResponse` (200).
 
 The list (`GET /feedback`) is the one route that narrows instead of refusing: without `feedback.read`, the route sets

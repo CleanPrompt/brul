@@ -251,6 +251,9 @@ interface CategoryRepository {
 }
 ```
 
+A category has one field that can change, its name, so a single `update` is enough here. Feedback has two (the
+message and the status, changed by different people), so it has one function per column; chapter 5 explains why.
+
 Then the Exposed implementation. New compared with feedback: turning the unique-index error into a 409 (chapter 5).
 
 ```kotlin

@@ -99,16 +99,46 @@ class FeedbackRepositoryTest {
         assertEquals(3, repository.count(secondPage))
     }
 
+    // Each update must change only its own column; the owner, the other field and createdAt keep their value.
+
     @Test
-    fun `updates the message and the status but not the owner`() {
+    fun `updateMessage changes only the message`() {
         val feedback = repository.save(newFeedback(newOwner()))
 
-        val updated = repository.update(
-            feedback.copy(message = "Fixed", status = FeedbackStatus.CLOSED, ownerId = UUID.randomUUID())
-        )
+        assertTrue(repository.updateMessage(feedback.id, "Fixed"))
 
-        assertTrue(updated)
-        assertEquals(feedback.copy(message = "Fixed", status = FeedbackStatus.CLOSED), repository.findById(feedback.id))
+        assertEquals(feedback.copy(message = "Fixed"), repository.findById(feedback.id))
+    }
+
+    @Test
+    fun `updateStatus changes only the status`() {
+        val feedback = repository.save(newFeedback(newOwner()))
+
+        assertTrue(repository.updateStatus(feedback.id, FeedbackStatus.CLOSED))
+
+        assertEquals(feedback.copy(status = FeedbackStatus.CLOSED), repository.findById(feedback.id))
+    }
+
+    @Test
+    fun `a status change and a message change keep each other`() {
+        // Like an admin closing the item while the owner edits the message.
+        val feedback = repository.save(newFeedback(newOwner()))
+
+        repository.updateStatus(feedback.id, FeedbackStatus.CLOSED)
+        repository.updateMessage(feedback.id, "Fixed")
+
+        assertEquals(
+            feedback.copy(message = "Fixed", status = FeedbackStatus.CLOSED),
+            repository.findById(feedback.id)
+        )
+    }
+
+    @Test
+    fun `updates return false for an unknown item`() {
+        val unknownId = UUID.randomUUID()
+
+        assertFalse(repository.updateMessage(unknownId, "Fixed"))
+        assertFalse(repository.updateStatus(unknownId, FeedbackStatus.CLOSED))
     }
 
     @Test

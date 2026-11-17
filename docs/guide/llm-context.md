@@ -152,7 +152,7 @@ Every list endpoint returns `PageResponse<T>` (`items`, `total`, `limit`, `offse
 - Helpers in `backend/test/TestFixtures.kt`: `testConfig()`, `TestServices`, `configureTestApp`, `postJson`,
   `register(email)`, `errorCode()`, `TEST_ADMIN_EMAIL` (registers as admin), `TEST_CREATED_AT`.
 - Fakes (e.g. `backend/test/features/feedback/FakeFeedbackRepository.kt`) keep data in a map and must behave like the
-  Exposed implementation, including refusing duplicates and keeping fields that `update` never changes.
+  Exposed implementation, including refusing duplicates, and each update function changing only its own field.
 - Repository tests use in-memory H2:
   `Database.connect("jdbc:h2:mem:<unique_name>;DB_CLOSE_DELAY=-1", driver = "org.h2.Driver")` and
   `SchemaUtils.create(...)` in `@BeforeTest`. The database is shared by all tests in the class, so every test must use
@@ -177,6 +177,10 @@ These cost real debugging time. Apply them without being asked.
   `LikePattern("%${literal.pattern}%", literal.escapeChar)` instead, as `containsIgnoringCase` does.
 - `deleteWhere { Table.id eq id }` needs `import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq`.
 - Increments must be atomic: `it[col] = col + 1` inside `with(SqlExpressionBuilder) { ... }`, not read-modify-write.
+- Write only the column that changes: one repository function per change (`updateMessage(id, message)`,
+  `setActive(id, active)`), not `update(model)` that writes the whole row back. Otherwise two requests at the same
+  time undo each other's change. The service still reads the item first for the 404. Return `update(...) > 0`.
+  Only a model with a single changeable field (the `categories` tutorial) may keep one `update`.
 - A function returning different column types needs the type `Column<*>`.
 - Do not use `upsert` on a `binary` column: on H2 it damages the bytes (every byte above `0x7F` comes back as
   `EF BF BD`). To replace a row, `deleteWhere` and then `insert` in one `transaction`, as

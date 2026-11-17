@@ -2,6 +2,7 @@ package nl.brul.backend.features.feedback.repository
 
 import nl.brul.backend.features.feedback.model.Feedback
 import nl.brul.backend.features.feedback.model.FeedbackQuery
+import nl.brul.backend.features.feedback.model.FeedbackStatus
 import java.util.UUID
 
 interface FeedbackRepository {
@@ -15,8 +16,13 @@ interface FeedbackRepository {
 
     fun save(feedback: Feedback): Feedback
 
-    /** Updates the message and the status; the owner and the creation time never change. */
-    fun update(feedback: Feedback): Boolean
+    // Each change writes only its own column, so an admin changing the status and the owner editing the message at
+    // the same time cannot undo each other. Both return `false` when no item with [id] exists. The owner and the
+    // creation time never change.
+
+    fun updateMessage(id: UUID, message: String): Boolean
+
+    fun updateStatus(id: UUID, status: FeedbackStatus): Boolean
 
     /** Deletes the row for good; returns `false` when no item with [id] exists. */
     fun delete(id: UUID): Boolean

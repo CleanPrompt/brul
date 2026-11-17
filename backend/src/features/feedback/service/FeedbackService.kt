@@ -46,18 +46,20 @@ class FeedbackService(private val repository: FeedbackRepository) {
         findFeedback(id).ownerId
 
     fun updateMessage(id: UUID, request: FeedbackRequest): FeedbackResponse {
-        val updated = findFeedback(id).copy(message = validMessage(request.message))
-        repository.update(updated)
-        return updated.toResponse()
+        val message = validMessage(request.message)
+        // Read first for the 404; the update itself writes only the message.
+        val feedback = findFeedback(id)
+        repository.updateMessage(id, message)
+        return feedback.copy(message = message).toResponse()
     }
 
     fun updateStatus(id: UUID, request: UpdateFeedbackStatusRequest): FeedbackResponse {
         val status = FeedbackStatus.entries.find { it.name == request.status }
             ?: throw AppException.BadRequest("Status must be one of: ${FeedbackStatus.entries.joinToString()}")
 
-        val updated = findFeedback(id).copy(status = status)
-        repository.update(updated)
-        return updated.toResponse()
+        val feedback = findFeedback(id)
+        repository.updateStatus(id, status)
+        return feedback.copy(status = status).toResponse()
     }
 
     /** A hard delete: unlike users, feedback items have no history worth keeping. */

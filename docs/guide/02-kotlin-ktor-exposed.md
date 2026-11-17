@@ -491,8 +491,8 @@ UsersTable.insert {
     it[email] = user.email
 }
 
-UsersTable.update({ UsersTable.id eq user.id }) {
-    it[displayName] = user.displayName
+UsersTable.update({ UsersTable.id eq id }) {
+    it[UsersTable.displayName] = displayName      // only the column that changes
 }
 
 FeedbackTable.deleteWhere { FeedbackTable.id eq id }

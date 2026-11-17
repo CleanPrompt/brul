@@ -57,9 +57,9 @@ class FakeFeedbackRepository : FeedbackRepository {
 Because the service only knows the `FeedbackRepository` interface, it cannot tell the difference. Fakes make tests
 fast (no database) and independent (every test starts empty).
 
-**A fake must behave like the real thing.** If the real repository never changes the owner on `update`, the fake must
-not either. If the real one refuses duplicate names, so must the fake. Otherwise your tests pass while the real
-application fails.
+**A fake must behave like the real thing.** If the real `updateStatus` changes only the status, the fake's must
+not touch the message either. If the real one refuses duplicate names, so must the fake. Otherwise your tests pass
+while the real application fails.
 
 ## Route tests with `testApplication`
 

@@ -122,7 +122,7 @@ The checks we used:
 | The rate limiter has no `requestKey`, so all clients share one bucket | Read `RateLimitConfig.kt` in the Ktor 3.6 sources: the default is `requestKey = { }` | Fixed in hardening checkpoint 1: a key per IP address, and per user for password changes |
 | A missing or wrong `Content-Type` returns 500 | A temporary test against `configureTestApp` | Fixed in hardening checkpoint 2: 415 `UNSUPPORTED_MEDIA_TYPE` |
 | `YYYY` in `logback.xml` is the week-based year | Known Java date-format behaviour | Fixed in hardening checkpoint 2: `yyyy` |
-| `update(user)` writes every column, so two concurrent requests can undo each other's change | Read the repository code | Fixed for `user` in hardening checkpoint 3 (one function per column); `feedback` follows in checkpoint 4 |
+| `update(user)` writes every column, so two concurrent requests can undo each other's change | Read the repository code | Fixed in hardening checkpoints 3 (`user`) and 4 (`feedback`): one function per column |
 
 ### Errors found while building (code that had to be changed)
 
@@ -200,6 +200,7 @@ One row per moment where AI played a real part. Newest at the bottom.
 | 2026-11-17 | Claude Code | Hardening checkpoint 1: rate limit per client | `requestKey` on the IP address; on the user id for password changes | Ktor sources (`rateLimit` inside `authenticate` runs after the token check); new test: user A's limit does not block user B | Yes |
 | 2026-11-17 | Claude Code | Hardening checkpoint 2: 415, 405 and the log year | `ContentTransformationException` → 415, `MethodNotAllowed` → 405, `yyyy`. The guide said `StatusPages` picks "the first matching handler"; corrected to "the most specific class" | Ktor sources (`DefaultEnginePipeline.kt`, `StatusPages.kt`); 4 new tests | Yes |
 | 2026-11-17 | Claude Code | Hardening checkpoint 3: targeted updates in `user` | `update(user)` replaced by `updateDisplayName`, `updatePasswordHash`, `setActive`; the fake was simplified to plain functions instead of a helper with a lambda, to stay explainable | H2 tests: each function changes only its own column | Yes |
+| 2026-11-17 | Claude Code | Hardening checkpoint 4: targeted updates in `feedback` and the guide | `updateMessage`, `updateStatus`; guide chapters 02, 05, 07, 08 and `llm-context.md` follow the new pattern. The rule "never `update(model)`" was softened, because the `categories` tutorial has one changeable field and keeps its verified code | H2 tests: a status change and a message change keep each other | Yes |
 | Ongoing | ChatGPT, Claude, Grok, Gemini (chat) | Tutors: explaining code and concepts, other questions | Explanations, no code for the repository | Compared between models; checked against the code, tests and official docs | Used for understanding |
 | **(to confirm)** | ChatGPT | Lesson slides 1–7 to study text | Study notes | Compared with the slides | Yes, for studying |
 | **(to confirm)** | Codex | **(to confirm)** | | | |

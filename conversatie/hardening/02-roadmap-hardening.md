@@ -186,20 +186,22 @@ statuswijziging verdwijnen als de eigenaar tegelijk de tekst aanpast.
 Bestanden: `features/feedback/repository/*`, `service/FeedbackService.kt`,
 `test/features/feedback/FakeFeedbackRepository.kt` en de tests.
 
-- [ ] `FeedbackRepository`: `update(feedback)` vervangen door
-  - [ ] `updateMessage(id: UUID, message: String): Boolean`
-  - [ ] `updateStatus(id: UUID, status: FeedbackStatus): Boolean`
-- [ ] `FeedbackService.updateMessage` en `updateStatus` gebruiken ze
-- [ ] `FakeFeedbackRepository` past alleen het eigen veld aan
-- [ ] `FeedbackRepositoryTest`: `updateMessage` laat de status staan en andersom
-- [ ] `features/feedback/README.md` bijgewerkt
-- [ ] **Gids** (`docs/guide/`), want die toont de oude code als voorbeeld:
-  - [ ] `05-errors-and-database.md` (rond regel 179 en 193)
-  - [ ] `02-kotlin-ktor-exposed.md` (rond regel 494, `UsersTable.update`)
-  - [ ] `08-tutorial-categories.md`: heeft een categorie maar één veld dat verandert, dan mag `update` blijven;
+- [x] `FeedbackRepository`: `update(feedback)` vervangen door
+  - [x] `updateMessage(id: UUID, message: String): Boolean`
+  - [x] `updateStatus(id: UUID, status: FeedbackStatus): Boolean`
+- [x] `FeedbackService.updateMessage` en `updateStatus` gebruiken ze
+- [x] `FakeFeedbackRepository` past alleen het eigen veld aan
+- [x] `FeedbackRepositoryTest`: `updateMessage` laat de status staan en andersom
+- [x] `features/feedback/README.md` bijgewerkt
+- [x] **Gids** (`docs/guide/`), want die toont de oude code als voorbeeld:
+  - [x] `05-errors-and-database.md` (rond regel 179 en 193)
+  - [x] `02-kotlin-ktor-exposed.md` (rond regel 494, `UsersTable.update`)
+  - [x] `08-tutorial-categories.md`: heeft een categorie maar één veld dat verandert, dan mag `update` blijven;
         zet er één zin bij waarom
-- [ ] `docs/guide/llm-context.md` §6/§8: de fake moet "fields that `update` never changes" bewaren; herschrijven naar
+- [x] `docs/guide/llm-context.md` §6/§8: de fake moet "fields that `update` never changes" bewaren; herschrijven naar
       de nieuwe functies, en in §9 een valkuil toevoegen: *schrijf alleen de kolom die verandert*
+- [x] Ook: `07-testing.md` (de zin over de fake), de regel in `llm-context.md` §9 noemt de uitzondering voor de
+      tutorial, de beslissingentabel *Architecture* en `docs/ai-usage.md`. 170 tests groen
 
 **Commit:** `Hardening: update single feedback columns, not the whole row`
 

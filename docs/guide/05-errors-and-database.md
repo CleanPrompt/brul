@@ -183,7 +183,8 @@ interface FeedbackRepository {
     fun search(query: FeedbackQuery): List<Feedback>
     fun count(query: FeedbackQuery): Long
     fun save(feedback: Feedback): Feedback
-    fun update(feedback: Feedback): Boolean
+    fun updateMessage(id: UUID, message: String): Boolean
+    fun updateStatus(id: UUID, status: FeedbackStatus): Boolean
     fun delete(id: UUID): Boolean
 }
 ```
@@ -197,16 +198,21 @@ The service only knows the interface. That has two effects:
 
 ```kotlin
 // backend/src/features/feedback/repository/ExposedFeedbackRepository.kt
-override fun update(feedback: Feedback): Boolean = transaction {
-    FeedbackTable.update({ FeedbackTable.id eq feedback.id }) {
-        it[message] = feedback.message
-        it[status] = feedback.status
-    } > 0
+override fun updateStatus(id: UUID, status: FeedbackStatus): Boolean = transaction {
+    FeedbackTable.update({ FeedbackTable.id eq id }) { it[FeedbackTable.status] = status } > 0
 }
 ```
 
 Each repository method opens its own `transaction { }`. For this project that is enough: no operation needs several
 statements to succeed or fail together.
+
+#### Write only the column that changes
+
+There is no `update(feedback)` that writes the whole row back. Suppose there were: an admin reads an item and closes
+it, while the owner reads the same item and edits the message. The owner's request writes its copy back, with the
+**old** status, and the admin's change is gone without an error. With one function per change (`updateMessage`,
+`updateStatus`), each `UPDATE` touches only its own column, so both changes survive. The service still reads the
+item first, for the 404.
 
 #### From row to model: database mappers
 

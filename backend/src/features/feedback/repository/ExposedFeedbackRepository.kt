@@ -5,6 +5,7 @@ import nl.brul.backend.features.feedback.mapper.toFeedback
 import nl.brul.backend.features.feedback.model.Feedback
 import nl.brul.backend.features.feedback.model.FeedbackQuery
 import nl.brul.backend.features.feedback.model.FeedbackSortField
+import nl.brul.backend.features.feedback.model.FeedbackStatus
 import nl.brul.backend.shared.database.containsIgnoringCase
 import nl.brul.backend.shared.database.toSortOrder
 import org.jetbrains.exposed.sql.Column
@@ -69,11 +70,12 @@ class ExposedFeedbackRepository : FeedbackRepository {
         return feedback
     }
 
-    override fun update(feedback: Feedback): Boolean = transaction {
-        FeedbackTable.update({ FeedbackTable.id eq feedback.id }) {
-            it[message] = feedback.message
-            it[status] = feedback.status
-        } > 0
+    override fun updateMessage(id: UUID, message: String): Boolean = transaction {
+        FeedbackTable.update({ FeedbackTable.id eq id }) { it[FeedbackTable.message] = message } > 0
+    }
+
+    override fun updateStatus(id: UUID, status: FeedbackStatus): Boolean = transaction {
+        FeedbackTable.update({ FeedbackTable.id eq id }) { it[FeedbackTable.status] = status } > 0
     }
 
     override fun delete(id: UUID): Boolean = transaction {

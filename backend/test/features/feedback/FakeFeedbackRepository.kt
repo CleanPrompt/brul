@@ -3,6 +3,7 @@ package nl.brul.backend.features.feedback
 import nl.brul.backend.features.feedback.model.Feedback
 import nl.brul.backend.features.feedback.model.FeedbackQuery
 import nl.brul.backend.features.feedback.model.FeedbackSortField
+import nl.brul.backend.features.feedback.model.FeedbackStatus
 import nl.brul.backend.features.feedback.repository.FeedbackRepository
 import nl.brul.backend.shared.paging.SortDirection
 import java.util.UUID
@@ -27,10 +28,17 @@ class FakeFeedbackRepository : FeedbackRepository {
 
     override fun save(feedback: Feedback): Feedback = feedback.also { items[it.id] = it }
 
-    override fun update(feedback: Feedback): Boolean {
-        val existing = items[feedback.id] ?: return false
-        // Like the real repository: only the message and the status change.
-        items[feedback.id] = existing.copy(message = feedback.message, status = feedback.status)
+    // Like the real repository: each function changes only its own field.
+
+    override fun updateMessage(id: UUID, message: String): Boolean {
+        val feedback = items[id] ?: return false
+        items[id] = feedback.copy(message = message)
+        return true
+    }
+
+    override fun updateStatus(id: UUID, status: FeedbackStatus): Boolean {
+        val feedback = items[id] ?: return false
+        items[id] = feedback.copy(status = status)
         return true
     }
 

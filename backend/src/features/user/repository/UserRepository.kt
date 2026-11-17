@@ -15,8 +15,15 @@ interface UserRepository {
     fun count(query: UserQuery): Long
 
     fun save(user: User): User
-    /** Updates the profile fields; never changes `tokenVersion`, see [incrementTokenVersion]. */
-    fun update(user: User): Boolean
+
+    // Each change writes only its own column, so two requests at the same time cannot undo each other's change.
+    // Every function returns `false` when no user with [id] exists. The email never changes through the API.
+
+    fun updateDisplayName(id: UUID, displayName: String): Boolean
+
+    fun updatePasswordHash(id: UUID, passwordHash: String): Boolean
+
+    fun setActive(id: UUID, active: Boolean): Boolean
 
     /** Invalidates every token issued to this user so far. */
     fun incrementTokenVersion(id: UUID)

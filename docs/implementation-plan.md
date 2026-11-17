@@ -42,6 +42,7 @@ Before you make a new decision, ask:
 | `AppConfig` with environment variables and `.env` | `application.yaml` | `application.yaml` was not read by `embeddedServer` and has been removed |
 | `SchemaUtils.create`; delete `./data/brul*` after changing a table | Migrations (Flyway) | Matches the course material (H2 + Exposed); one tool less to learn |
 | One `transaction {}` per repository method; database constraints guard races | Transactions across several methods | The unique index on email is mapped to 409 instead of adding transaction management |
+| One repository function per change that writes only its own column (`updateDisplayName`, `setActive`, ...) | `update(user)` that writes the whole row back; optimistic locking with a version column | Read, `copy`, write everything back loses a change when two requests overlap: a rename could undo a deactivation. One column per `UPDATE` avoids that without a table change or transactions across functions |
 | `TestServices` wires all services with fakes; `testApplication` calls the `configure...()` functions | A mocking library, or tests against a real database | Same wiring as `module()` without a database (course lesson 7) |
 | Removed CallId / `requestId`, RequestValidation, Swagger UI | Keep them | Not needed for the base; `.http` files for manual testing, `openapi.yaml` as the API contract |
 

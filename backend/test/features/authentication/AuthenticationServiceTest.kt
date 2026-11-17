@@ -14,6 +14,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertNotEquals
+import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
 class AuthenticationServiceTest {
@@ -153,8 +154,8 @@ class AuthenticationServiceTest {
     @Test
     fun `login rejects a deactivated user`() {
         register()
-        val user = services.userRepository.findByEmail("alice@example.com")!!
-        services.userRepository.update(user.copy(active = false))
+        val user = assertNotNull(services.userRepository.findByEmail("alice@example.com"))
+        services.userRepository.setActive(user.id, false)
 
         assertFailsWith<AppException.Unauthorized> {
             service.login(LoginRequest("alice@example.com", TEST_PASSWORD))

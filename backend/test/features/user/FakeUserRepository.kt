@@ -38,10 +38,23 @@ class FakeUserRepository : UserRepository {
 
     override fun save(user: User): User = user.also { users[it.id] = it }
 
-    override fun update(user: User): Boolean {
-        val existing = users[user.id] ?: return false
-        // Like the real repository: update never changes the token version.
-        users[user.id] = user.copy(tokenVersion = existing.tokenVersion)
+    // Like the real repository: each function changes only its own field.
+
+    override fun updateDisplayName(id: UUID, displayName: String): Boolean {
+        val user = users[id] ?: return false
+        users[id] = user.copy(displayName = displayName)
+        return true
+    }
+
+    override fun updatePasswordHash(id: UUID, passwordHash: String): Boolean {
+        val user = users[id] ?: return false
+        users[id] = user.copy(passwordHash = passwordHash)
+        return true
+    }
+
+    override fun setActive(id: UUID, active: Boolean): Boolean {
+        val user = users[id] ?: return false
+        users[id] = user.copy(active = active)
         return true
     }
 

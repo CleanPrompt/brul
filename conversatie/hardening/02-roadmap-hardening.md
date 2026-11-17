@@ -154,20 +154,22 @@ flowchart LR
 Bestanden: `features/user/repository/UserRepository.kt`, `ExposedUserRepository.kt`, `service/UserService.kt`,
 `features/authentication/service/AuthenticationService.kt`, `test/features/user/FakeUserRepository.kt` en de tests.
 
-- [ ] `UserRepository`: `update(user)` vervangen door
-  - [ ] `updateDisplayName(id: UUID, displayName: String): Boolean`
-  - [ ] `updatePasswordHash(id: UUID, passwordHash: String): Boolean`
-  - [ ] `setActive(id: UUID, active: Boolean): Boolean`
-- [ ] `ExposedUserRepository`: elke functie is één `UsersTable.update({ UsersTable.id eq id }) { it[kolom] = waarde } > 0`
-- [ ] `email` krijgt geen update-functie: de API kan een e-mailadres niet wijzigen
-- [ ] `UserService.updateDisplayName`, `deactivate`, `reactivate` gebruiken de nieuwe functies. Ze lezen de gebruiker
+- [x] `UserRepository`: `update(user)` vervangen door
+  - [x] `updateDisplayName(id: UUID, displayName: String): Boolean`
+  - [x] `updatePasswordHash(id: UUID, passwordHash: String): Boolean`
+  - [x] `setActive(id: UUID, active: Boolean): Boolean`
+- [x] `ExposedUserRepository`: elke functie is één `UsersTable.update({ UsersTable.id eq id }) { it[kolom] = waarde } > 0`
+- [x] `email` krijgt geen update-functie: de API kan een e-mailadres niet wijzigen
+- [x] `UserService.updateDisplayName`, `deactivate`, `reactivate` gebruiken de nieuwe functies. Ze lezen de gebruiker
       nog steeds eerst (`findUser`, voor de 404) en geven het resultaat terug met `copy(...)`
-- [ ] `AuthenticationService.changePassword` gebruikt `updatePasswordHash`
-- [ ] `FakeUserRepository`: dezelfde drie functies; elk past alleen haar eigen veld aan
-- [ ] `UserRepositoryTest` tegen H2: per functie een test dat **alleen** die kolom verandert
+- [x] `AuthenticationService.changePassword` gebruikt `updatePasswordHash`
+- [x] `FakeUserRepository`: dezelfde drie functies; elk past alleen haar eigen veld aan
+- [x] `UserRepositoryTest` tegen H2: per functie een test dat **alleen** die kolom verandert
       (bijv. `updateDisplayName` laat `passwordHash` en `active` staan)
-- [ ] `features/user/README.md` en de KDoc van `UserRepository` bijgewerkt
-- [ ] Zoek naar `update(` in `backend/` en `docs/`: geen aanroep van de oude functie meer
+- [x] `features/user/README.md` en de KDoc van `UserRepository` bijgewerkt
+- [x] Zoek naar `update(` in `backend/` en `docs/`: geen aanroep van de oude functie meer
+- [x] Ook: de rij in de beslissingentabel *Architecture*, `docs/ai-usage.md`, en een `!!` weg uit
+      `AuthenticationServiceTest` (nu `assertNotNull`). De gidsvoorbeelden volgen in checkpoint 4. 167 tests groen
 
 Uit te leggen: waarom "lezen, kopiëren, alles terugschrijven" fout gaat bij twee verzoeken tegelijk, en waarom één
 kolom per `UPDATE` dat oplost zonder transacties over meerdere functies.

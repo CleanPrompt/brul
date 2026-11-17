@@ -17,7 +17,7 @@ Endpoints and permissions: `TECHNICAL_DESIGN.md` §4 and §6.
 |---|---|
 | `route/UserRoutes.kt` | `GET /users/me`, the list, `GET`/`PATCH /users/{id}`, deactivate (`DELETE`) and reactivate. Each route does one access check before the work |
 | `service/UserService.kt` | The rules: the display name is 1–120 characters; you cannot deactivate yourself; deactivating raises the token version so old tokens stop working. `getOwnerId(id)` returns the account id, or 404 |
-| `repository/UserRepository.kt` | The interface: find by id or email, search, count, save, update, `incrementTokenVersion` |
+| `repository/UserRepository.kt` | The interface: find by id or email, search, count, save, and one function per change (`updateDisplayName`, `updatePasswordHash`, `setActive`, `incrementTokenVersion`). Each writes only its own column, so two requests at the same time cannot undo each other's change |
 | `repository/ExposedUserRepository.kt` | The Exposed implementation. `save` turns a duplicate email into 409; `incrementTokenVersion` is one atomic SQL update |
 | `database/UsersTable.kt` | The `users` table, with a unique index on `email` |
 | `model/User.kt` | The domain object, including `passwordHash` and `tokenVersion` (never sent to the client) |
@@ -49,7 +49,8 @@ Endpoints and permissions: `TECHNICAL_DESIGN.md` §4 and §6.
 2. `UserRoutes` reads the id and asks `userService.getOwnerId(id)` (404 for an unknown user).
 3. `requireOwnerOrPermission(currentUserId, ownerId, Permission.USER_UPDATE)`: your own account passes, someone
    else's needs `user.update` (403 otherwise).
-4. `userService.updateDisplayName` trims and checks the name, then `repository.update` stores it.
+4. `userService.updateDisplayName` trims and checks the name, then `repository.updateDisplayName` writes only that
+   column.
 5. The route responds with `UserResponse` (200).
 
 `PUT /api/v1/users/{id}/profile-image` with the image file as the body:

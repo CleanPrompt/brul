@@ -37,9 +37,10 @@ class UserService(private val repository: UserRepository) {
             "Display name must contain between 1 and 120 characters"
         }
 
-        val updated = findUser(id).copy(displayName = name)
-        repository.update(updated)
-        return updated.toResponse()
+        // Read first for the 404; the update itself writes only the display name.
+        val user = findUser(id)
+        repository.updateDisplayName(id, name)
+        return user.copy(displayName = name).toResponse()
     }
 
     /**
@@ -49,7 +50,8 @@ class UserService(private val repository: UserRepository) {
     fun deactivate(id: UUID, currentUserId: UUID) {
         requireValid(id != currentUserId) { "You cannot deactivate your own account" }
 
-        repository.update(findUser(id).copy(active = false))
+        findUser(id)
+        repository.setActive(id, false)
         repository.incrementTokenVersion(id)
     }
 
@@ -58,7 +60,8 @@ class UserService(private val repository: UserRepository) {
      * so the user has to log in again. Reactivating an active user changes nothing.
      */
     fun reactivate(id: UUID) {
-        repository.update(findUser(id).copy(active = true))
+        findUser(id)
+        repository.setActive(id, true)
     }
 
     private fun findUser(id: UUID): User =

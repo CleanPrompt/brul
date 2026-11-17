@@ -94,7 +94,7 @@ class AuthenticationService(
             throw AppException.BadRequest("Current password is incorrect", "INVALID_CURRENT_PASSWORD")
         }
 
-        userRepository.update(user.copy(passwordHash = passwordHasher.hash(request.newPassword)))
+        userRepository.updatePasswordHash(user.id, passwordHasher.hash(request.newPassword))
         userRepository.incrementTokenVersion(userId)
 
         // Read the user again to get the new token version.

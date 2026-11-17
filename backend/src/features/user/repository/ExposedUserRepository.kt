@@ -94,13 +94,16 @@ class ExposedUserRepository : UserRepository {
             throw exception
         }
 
-    override fun update(user: User): Boolean = transaction {
-        UsersTable.update({ UsersTable.id eq user.id }) {
-            it[email] = user.email
-            it[displayName] = user.displayName
-            it[passwordHash] = user.passwordHash
-            it[active] = user.active
-        } > 0
+    override fun updateDisplayName(id: UUID, displayName: String): Boolean = transaction {
+        UsersTable.update({ UsersTable.id eq id }) { it[UsersTable.displayName] = displayName } > 0
+    }
+
+    override fun updatePasswordHash(id: UUID, passwordHash: String): Boolean = transaction {
+        UsersTable.update({ UsersTable.id eq id }) { it[UsersTable.passwordHash] = passwordHash } > 0
+    }
+
+    override fun setActive(id: UUID, active: Boolean): Boolean = transaction {
+        UsersTable.update({ UsersTable.id eq id }) { it[UsersTable.active] = active } > 0
     }
 
     /**

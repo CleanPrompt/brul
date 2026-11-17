@@ -17,6 +17,7 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
+import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
@@ -69,22 +70,63 @@ class UserRepositoryTest {
         assertTrue(repository.search(query).none { it.active })
     }
 
+    // Each update must change only its own column; the other fields keep their stored value.
+
     @Test
-    fun `updates an existing user`() {
+    fun `updateDisplayName changes only the display name`() {
         val user = repository.save(newUser())
 
-        val updated = repository.update(user.copy(displayName = "Alicia", active = false))
+        assertTrue(repository.updateDisplayName(user.id, "Alicia"))
 
-        assertTrue(updated)
+        assertEquals(user.copy(displayName = "Alicia"), repository.findById(user.id))
+    }
+
+    @Test
+    fun `updatePasswordHash changes only the password hash`() {
+        val user = repository.save(newUser())
+
+        assertTrue(repository.updatePasswordHash(user.id, "new-hash"))
+
+        assertEquals(user.copy(passwordHash = "new-hash"), repository.findById(user.id))
+    }
+
+    @Test
+    fun `setActive changes only the active flag`() {
+        val user = repository.save(newUser())
+
+        assertTrue(repository.setActive(user.id, false))
+
+        assertEquals(user.copy(active = false), repository.findById(user.id))
+    }
+
+    @Test
+    fun `two updates keep each other's change`() {
+        // Like two requests at the same time: one deactivates the user, the other renames it afterwards.
+        val user = repository.save(newUser())
+
+        repository.setActive(user.id, false)
+        repository.updateDisplayName(user.id, "Alicia")
+
         assertEquals(user.copy(displayName = "Alicia", active = false), repository.findById(user.id))
     }
 
     @Test
-    fun `incrementTokenVersion raises the version and update keeps it`() {
+    fun `updates return false for an unknown user`() {
+        val unknownId = UUID.randomUUID()
+
+        assertFalse(repository.updateDisplayName(unknownId, "Alicia"))
+        assertFalse(repository.updatePasswordHash(unknownId, "new-hash"))
+        assertFalse(repository.setActive(unknownId, false))
+    }
+
+    @Test
+    fun `incrementTokenVersion raises the version and the updates keep it`() {
         val user = repository.save(newUser())
 
         repository.incrementTokenVersion(user.id)
-        repository.update(user.copy(displayName = "Alicia"))
+        repository.updateDisplayName(user.id, "Alicia")
+        repository.updatePasswordHash(user.id, "new-hash")
+        repository.setActive(user.id, false)
 
         assertEquals(1, repository.findById(user.id)?.tokenVersion)
     }

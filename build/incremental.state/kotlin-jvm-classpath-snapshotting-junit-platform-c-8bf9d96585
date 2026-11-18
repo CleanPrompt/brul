@@ -1,0 +1,21 @@
+{
+    "codeVersion": "0.13.0",
+    "inputValues": {
+        "kotlinVersion": "2.4.20"
+    },
+    "inputFiles": [
+        "C:\\Users\\donma\\AppData\\Local\\JetBrains\\Kotlin\\.m2.cache\\org\\junit\\platform\\junit-platform-commons\\1.10.1\\junit-platform-commons-1.10.1.jar"
+    ],
+    "inputFilesState": {
+        "C:\\Users\\donma\\AppData\\Local\\JetBrains\\Kotlin\\.m2.cache\\org\\junit\\platform\\junit-platform-commons\\1.10.1\\junit-platform-commons-1.10.1.jar": "size 106265 mtime 2026-10-07T17:25:47.4051327Z"
+    },
+    "outputValues": {},
+    "outputFiles": [
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\ic-cache\\classpath-snapshots\\junit-platform-commons-1.10.1.jar-845db0545cc0195297fc1df93750b5db1b380ca3da75e604bf5223f781711999.abi"
+    ],
+    "outputFilesState": {
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\ic-cache\\classpath-snapshots\\junit-platform-commons-1.10.1.jar-845db0545cc0195297fc1df93750b5db1b380ca3da75e604bf5223f781711999.abi": "size 11725 mtime 2026-11-08T08:48:38.8212614Z"
+    },
+    "excludedOutputFiles": [],
+    "dynamicInputs": {}
+}

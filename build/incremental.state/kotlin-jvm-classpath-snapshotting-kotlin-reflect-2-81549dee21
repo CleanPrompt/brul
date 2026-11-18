@@ -1,0 +1,21 @@
+{
+    "codeVersion": "0.13.0",
+    "inputValues": {
+        "kotlinVersion": "2.4.20"
+    },
+    "inputFiles": [
+        "C:\\Users\\donma\\AppData\\Local\\JetBrains\\Kotlin\\.m2.cache\\org\\jetbrains\\kotlin\\kotlin-reflect\\2.3.21\\kotlin-reflect-2.3.21.jar"
+    ],
+    "inputFilesState": {
+        "C:\\Users\\donma\\AppData\\Local\\JetBrains\\Kotlin\\.m2.cache\\org\\jetbrains\\kotlin\\kotlin-reflect\\2.3.21\\kotlin-reflect-2.3.21.jar": "size 3633922 mtime 2026-10-07T17:25:48.4566541Z"
+    },
+    "outputValues": {},
+    "outputFiles": [
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\ic-cache\\classpath-snapshots\\kotlin-reflect-2.3.21.jar-00660ca0463ed6427204a3a612bce04efbcb86d2724d64bcd31557aabdc8f8a5.abi"
+    ],
+    "outputFilesState": {
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\ic-cache\\classpath-snapshots\\kotlin-reflect-2.3.21.jar-00660ca0463ed6427204a3a612bce04efbcb86d2724d64bcd31557aabdc8f8a5.abi": "size 946503 mtime 2026-11-08T08:48:29.8644851Z"
+    },
+    "excludedOutputFiles": [],
+    "dynamicInputs": {}
+}

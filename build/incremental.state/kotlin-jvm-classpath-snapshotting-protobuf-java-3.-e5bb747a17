@@ -1,0 +1,21 @@
+{
+    "codeVersion": "0.13.0",
+    "inputValues": {
+        "kotlinVersion": "2.4.20"
+    },
+    "inputFiles": [
+        "C:\\Users\\donma\\AppData\\Local\\JetBrains\\Kotlin\\.m2.cache\\com\\google\\protobuf\\protobuf-java\\3.25.9\\protobuf-java-3.25.9.jar"
+    ],
+    "inputFilesState": {
+        "C:\\Users\\donma\\AppData\\Local\\JetBrains\\Kotlin\\.m2.cache\\com\\google\\protobuf\\protobuf-java\\3.25.9\\protobuf-java-3.25.9.jar": "size 1876598 mtime 2026-10-07T17:25:48.4897642Z"
+    },
+    "outputValues": {},
+    "outputFiles": [
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\ic-cache\\classpath-snapshots\\protobuf-java-3.25.9.jar-f178169b4b22fe4fb63d61affc91874e878f4c1b484ceb8aed4ebeeab8bb5190.abi"
+    ],
+    "outputFilesState": {
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\ic-cache\\classpath-snapshots\\protobuf-java-3.25.9.jar-f178169b4b22fe4fb63d61affc91874e878f4c1b484ceb8aed4ebeeab8bb5190.abi": "size 217194 mtime 2026-11-08T08:48:29.7728817Z"
+    },
+    "excludedOutputFiles": [],
+    "dynamicInputs": {}
+}

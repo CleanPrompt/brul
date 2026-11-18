@@ -1,0 +1,21 @@
+{
+    "codeVersion": "0.13.0",
+    "inputValues": {
+        "kotlinVersion": "2.4.20"
+    },
+    "inputFiles": [
+        "C:\\Users\\donma\\AppData\\Local\\JetBrains\\Kotlin\\.m2.cache\\org\\apiguardian\\apiguardian-api\\1.1.2\\apiguardian-api-1.1.2.jar"
+    ],
+    "inputFilesState": {
+        "C:\\Users\\donma\\AppData\\Local\\JetBrains\\Kotlin\\.m2.cache\\org\\apiguardian\\apiguardian-api\\1.1.2\\apiguardian-api-1.1.2.jar": "size 6806 mtime 2026-10-07T17:25:47.3596263Z"
+    },
+    "outputValues": {},
+    "outputFiles": [
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\ic-cache\\classpath-snapshots\\apiguardian-api-1.1.2.jar-cce9f4f38024a867b6e79349b44c038bf4daa44ebc51a5208ef7c5b594084f98.abi"
+    ],
+    "outputFilesState": {
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\ic-cache\\classpath-snapshots\\apiguardian-api-1.1.2.jar-cce9f4f38024a867b6e79349b44c038bf4daa44ebc51a5208ef7c5b594084f98.abi": "size 426 mtime 2026-11-08T08:48:38.81026Z"
+    },
+    "excludedOutputFiles": [],
+    "dynamicInputs": {}
+}

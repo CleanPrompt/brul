@@ -1,0 +1,21 @@
+{
+    "codeVersion": "0.13.0",
+    "inputValues": {
+        "kotlinVersion": "2.4.20"
+    },
+    "inputFiles": [
+        "C:\\Users\\donma\\AppData\\Local\\JetBrains\\Kotlin\\.m2.cache\\org\\jetbrains\\kotlinx\\kotlinx-io-bytestring-jvm\\0.9.1\\kotlinx-io-bytestring-jvm-0.9.1.jar"
+    ],
+    "inputFilesState": {
+        "C:\\Users\\donma\\AppData\\Local\\JetBrains\\Kotlin\\.m2.cache\\org\\jetbrains\\kotlinx\\kotlinx-io-bytestring-jvm\\0.9.1\\kotlinx-io-bytestring-jvm-0.9.1.jar": "size 22776 mtime 2026-10-07T17:25:47.3551253Z"
+    },
+    "outputValues": {},
+    "outputFiles": [
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\ic-cache\\classpath-snapshots\\kotlinx-io-bytestring-jvm-0.9.1.jar-3be229fe374bc0adf5878a3ec25dddb3aab498a74dc545772ad1eefcb7b6c76f.abi"
+    ],
+    "outputFilesState": {
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\ic-cache\\classpath-snapshots\\kotlinx-io-bytestring-jvm-0.9.1.jar-3be229fe374bc0adf5878a3ec25dddb3aab498a74dc545772ad1eefcb7b6c76f.abi": "size 3353 mtime 2026-11-08T08:48:29.6762492Z"
+    },
+    "excludedOutputFiles": [],
+    "dynamicInputs": {}
+}

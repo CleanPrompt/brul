@@ -1,0 +1,22 @@
+{
+    "codeVersion": "0.13.0",
+    "inputValues": {
+        "kotlinVersion": "2.4.20"
+    },
+    "inputFiles": [
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\artifacts\\CompiledJvmArtifact\\backendjvm\\resources-output"
+    ],
+    "inputFilesState": {
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\artifacts\\CompiledJvmArtifact\\backendjvm\\resources-output\\logback.xml": "size 436 mtime 2026-11-08T08:08:07.5956288Z",
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\artifacts\\CompiledJvmArtifact\\backendjvm\\resources-output\\openapi\\openapi.yaml": "size 34216 mtime 2026-11-08T08:32:00.7454856Z"
+    },
+    "outputValues": {},
+    "outputFiles": [
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\ic-cache\\classpath-snapshots\\backend-test-resources-output-81a019137253e7aa15e2672c2d9cfa6f3b091b2859df2f677f5a4be9b26a3ab3.abi"
+    ],
+    "outputFilesState": {
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\ic-cache\\classpath-snapshots\\backend-test-resources-output-81a019137253e7aa15e2672c2d9cfa6f3b091b2859df2f677f5a4be9b26a3ab3.abi": "size 4 mtime 2026-11-08T08:48:38.800856Z"
+    },
+    "excludedOutputFiles": [],
+    "dynamicInputs": {}
+}

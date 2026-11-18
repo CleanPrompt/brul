@@ -1,0 +1,21 @@
+{
+    "codeVersion": "0.13.0",
+    "inputValues": {
+        "kotlinVersion": "2.4.20"
+    },
+    "inputFiles": [
+        "C:\\Users\\donma\\AppData\\Local\\JetBrains\\Kotlin\\.m2.cache\\org\\jboss\\marshalling\\jboss-marshalling\\2.3.0\\jboss-marshalling-2.3.0.jar"
+    ],
+    "inputFilesState": {
+        "C:\\Users\\donma\\AppData\\Local\\JetBrains\\Kotlin\\.m2.cache\\org\\jboss\\marshalling\\jboss-marshalling\\2.3.0\\jboss-marshalling-2.3.0.jar": "size 238365 mtime 2026-10-07T17:25:47.9311619Z"
+    },
+    "outputValues": {},
+    "outputFiles": [
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\ic-cache\\classpath-snapshots\\jboss-marshalling-2.3.0.jar-da7db213236e4c73e9be6e4fbd002ae9ed58ea23e8e0277f106a1ed84ea35b6b.abi"
+    ],
+    "outputFilesState": {
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\ic-cache\\classpath-snapshots\\jboss-marshalling-2.3.0.jar-da7db213236e4c73e9be6e4fbd002ae9ed58ea23e8e0277f106a1ed84ea35b6b.abi": "size 52699 mtime 2026-11-08T08:48:29.6505116Z"
+    },
+    "excludedOutputFiles": [],
+    "dynamicInputs": {}
+}

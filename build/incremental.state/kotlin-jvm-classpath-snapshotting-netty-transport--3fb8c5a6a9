@@ -1,0 +1,21 @@
+{
+    "codeVersion": "0.13.0",
+    "inputValues": {
+        "kotlinVersion": "2.4.20"
+    },
+    "inputFiles": [
+        "C:\\Users\\donma\\AppData\\Local\\JetBrains\\Kotlin\\.m2.cache\\io\\netty\\netty-transport-classes-kqueue\\4.2.17.Final\\netty-transport-classes-kqueue-4.2.17.Final.jar"
+    ],
+    "inputFilesState": {
+        "C:\\Users\\donma\\AppData\\Local\\JetBrains\\Kotlin\\.m2.cache\\io\\netty\\netty-transport-classes-kqueue\\4.2.17.Final\\netty-transport-classes-kqueue-4.2.17.Final.jar": "size 116820 mtime 2026-10-07T17:25:47.929611Z"
+    },
+    "outputValues": {},
+    "outputFiles": [
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\ic-cache\\classpath-snapshots\\netty-transport-classes-kqueue-4.2.17.Final.jar-541c73c4fe35b12a19a692ad74ef932c132b07ae7e00624e719ac57f5e9ff6e7.abi"
+    ],
+    "outputFilesState": {
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\ic-cache\\classpath-snapshots\\netty-transport-classes-kqueue-4.2.17.Final.jar-541c73c4fe35b12a19a692ad74ef932c132b07ae7e00624e719ac57f5e9ff6e7.abi": "size 16633 mtime 2026-11-08T08:48:29.6355064Z"
+    },
+    "excludedOutputFiles": [],
+    "dynamicInputs": {}
+}

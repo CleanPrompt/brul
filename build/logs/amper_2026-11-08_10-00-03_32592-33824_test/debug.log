@@ -1,0 +1,182 @@
+Kotlin Toolchain version 0.13.0 (abc7a5f, 2026-10-01)
+running on Windows 11 10.0 jvm arch amd64
+
+00:01.216 DEBUG                           MockProjectInitializer$DebugLogger Loaded text for file C:\Users\donma\IdeaProjects\08112026\brul\backend\module.yaml
+00:01.404 DEBUG :backend:resolveDependenciesJvmTest ResolveExternalDependenciesTask$Companion resolve dependencies backend -- test -- ch.qos.logback:logback-classic:1.5.18 com.auth0:java-jwt:4.6.2 com.h2database:h2:2.3.232 io.github.cdimascio:dotenv-kotlin:6.5.1 io.ktor:ktor-bom:3.6.0 io.ktor:ktor-serialization-kotlinx-json:3.6.0 io.ktor:ktor-server-auth-jwt-jvm:3.6.0 io.ktor:ktor-server-auth:3.6.0 io.ktor:ktor-server-call-logging:3.6.0 io.ktor:ktor-server-content-negotiation:3.6.0 io.ktor:ktor-server-core:3.6.0 io.ktor:ktor-server-netty:3.6.0 io.ktor:ktor-server-rate-limit:3.6.0 io.ktor:ktor-server-status-pages:3.6.0 io.ktor:ktor-server-test-host:3.6.0 org.jetbrains.exposed:exposed-core:0.61.0 org.jetbrains.exposed:exposed-java-time:0.61.0 org.jetbrains.exposed:exposed-jdbc:0.61.0 org.jetbrains.kotlin:kotlin-stdlib:2.4.20 org.jetbrains.kotlin:kotlin-test-junit5:2.4.20 org.jetbrains.kotlinx:kotlinx-serialization-core:1.11.0 org.jetbrains.kotlinx:kotlinx-serialization-json:1.11.0 org.mindrot:jbcrypt:0.4 -- resolvePlatform=jvm nativeTarget=null wasmTarget=null
+00:01.404 DEBUG :backend:resolveDependenciesJvm ResolveExternalDependenciesTask$Companion resolve dependencies backend -- main -- ch.qos.logback:logback-classic:1.5.18 com.auth0:java-jwt:4.6.2 com.h2database:h2:2.3.232 io.github.cdimascio:dotenv-kotlin:6.5.1 io.ktor:ktor-bom:3.6.0 io.ktor:ktor-serialization-kotlinx-json:3.6.0 io.ktor:ktor-server-auth-jwt-jvm:3.6.0 io.ktor:ktor-server-auth:3.6.0 io.ktor:ktor-server-call-logging:3.6.0 io.ktor:ktor-server-content-negotiation:3.6.0 io.ktor:ktor-server-core:3.6.0 io.ktor:ktor-server-netty:3.6.0 io.ktor:ktor-server-rate-limit:3.6.0 io.ktor:ktor-server-status-pages:3.6.0 org.jetbrains.exposed:exposed-core:0.61.0 org.jetbrains.exposed:exposed-java-time:0.61.0 org.jetbrains.exposed:exposed-jdbc:0.61.0 org.jetbrains.kotlin:kotlin-stdlib:2.4.20 org.jetbrains.kotlinx:kotlinx-serialization-core:1.11.0 org.jetbrains.kotlinx:kotlinx-serialization-json:1.11.0 org.mindrot:jbcrypt:0.4 -- resolvePlatform=jvm nativeTarget=null wasmTarget=null
+00:01.446 DEBUG :backend:resolveDependenciesJvm IncrementalCache          [inc] 'backend:jvm:main' is up-to-date according to state file at 'C:\Users\donma\IdeaProjects\08112026\brul\build\incremental.state\backend_jvm_main-cba3d7438b'
+00:01.447 DEBUG :backend:resolveDependenciesJvmTest IncrementalCache          [inc] 'backend:jvm:test' is up-to-date according to state file at 'C:\Users\donma\IdeaProjects\08112026\brul\build\incremental.state\backend_jvm_test-8981c40a98'
+00:01.475 DEBUG :backend:resolveDependenciesJvm ResolveExternalDependenciesTask$Companion resolve dependencies backend -- main -- ch.qos.logback:logback-classic:1.5.18 com.auth0:java-jwt:4.6.2 com.h2database:h2:2.3.232 io.github.cdimascio:dotenv-kotlin:6.5.1 io.ktor:ktor-bom:3.6.0 io.ktor:ktor-serialization-kotlinx-json:3.6.0 io.ktor:ktor-server-auth-jwt-jvm:3.6.0 io.ktor:ktor-server-auth:3.6.0 io.ktor:ktor-server-call-logging:3.6.0 io.ktor:ktor-server-content-negotiation:3.6.0 io.ktor:ktor-server-core:3.6.0 io.ktor:ktor-server-netty:3.6.0 io.ktor:ktor-server-rate-limit:3.6.0 io.ktor:ktor-server-status-pages:3.6.0 org.jetbrains.exposed:exposed-core:0.61.0 org.jetbrains.exposed:exposed-java-time:0.61.0 org.jetbrains.exposed:exposed-jdbc:0.61.0 org.jetbrains.kotlin:kotlin-stdlib:2.4.20 org.jetbrains.kotlinx:kotlinx-serialization-core:1.11.0 org.jetbrains.kotlinx:kotlinx-serialization-json:1.11.0 org.mindrot:jbcrypt:0.4 -- resolvePlatform=JVM nativeTarget=null
+wasmTarget=null
+https://repo1.maven.org/maven2 https://maven.google.com resolved to:
+  .m2.cache\io\ktor\ktor-server-auth-jwt-jvm\3.6.0\ktor-server-auth-jwt-jvm-3.6.0.jar
+  .m2.cache\ch\qos\logback\logback-classic\1.5.18\logback-classic-1.5.18.jar
+  .m2.cache\io\github\cdimascio\dotenv-kotlin\6.5.1\dotenv-kotlin-6.5.1.jar
+  .m2.cache\org\jetbrains\exposed\exposed-core\0.61.0\exposed-core-0.61.0.jar
+  .m2.cache\org\jetbrains\exposed\exposed-jdbc\0.61.0\exposed-jdbc-0.61.0.jar
+  .m2.cache\org\jetbrains\exposed\exposed-java-time\0.61.0\exposed-java-time-0.61.0.jar
+  .m2.cache\com\h2database\h2\2.3.232\h2-2.3.232.jar
+  .m2.cache\org\mindrot\jbcrypt\0.4\jbcrypt-0.4.jar
+  .m2.cache\com\auth0\java-jwt\4.6.2\java-jwt-4.6.2.jar
+  .m2.cache\org\jetbrains\kotlin\kotlin-stdlib\2.4.20\kotlin-stdlib-2.4.20.jar
+  .m2.cache\io\ktor\ktor-server-core-jvm\3.6.0\ktor-server-core-jvm-3.6.0.jar
+  .m2.cache\io\ktor\ktor-server-netty-jvm\3.6.0\ktor-server-netty-jvm-3.6.0.jar
+  .m2.cache\io\ktor\ktor-server-content-negotiation-jvm\3.6.0\ktor-server-content-negotiation-jvm-3.6.0.jar
+  .m2.cache\io\ktor\ktor-serialization-kotlinx-json-jvm\3.6.0\ktor-serialization-kotlinx-json-jvm-3.6.0.jar
+  .m2.cache\io\ktor\ktor-server-status-pages-jvm\3.6.0\ktor-server-status-pages-jvm-3.6.0.jar
+  .m2.cache\io\ktor\ktor-server-call-logging-jvm\3.6.0\ktor-server-call-logging-jvm-3.6.0.jar
+  .m2.cache\io\ktor\ktor-server-auth-jvm\3.6.0\ktor-server-auth-jvm-3.6.0.jar
+  .m2.cache\org\slf4j\slf4j-api\2.0.19\slf4j-api-2.0.19.jar
+  .m2.cache\com\auth0\jwks-rsa\0.24.1\jwks-rsa-0.24.1.jar
+  .m2.cache\io\ktor\ktor-server-rate-limit-jvm\3.6.0\ktor-server-rate-limit-jvm-3.6.0.jar
+  .m2.cache\ch\qos\logback\logback-core\1.5.18\logback-core-1.5.18.jar
+  .m2.cache\io\github\cdimascio\dotenv-java\3.2.0\dotenv-java-3.2.0.jar
+  .m2.cache\org\jetbrains\kotlin\kotlin-reflect\2.3.21\kotlin-reflect-2.3.21.jar
+  .m2.cache\org\jetbrains\annotations\23.0.0\annotations-23.0.0.jar
+  .m2.cache\org\jetbrains\kotlinx\kotlinx-serialization-core-jvm\1.11.0\kotlinx-serialization-core-jvm-1.11.0.jar
+  .m2.cache\org\jetbrains\kotlinx\kotlinx-serialization-json-jvm\1.11.0\kotlinx-serialization-json-jvm-1.11.0.jar
+  .m2.cache\com\typesafe\config\1.4.9\config-1.4.9.jar
+  .m2.cache\io\netty\netty-codec\4.2.17.Final\netty-codec-4.2.17.Final.jar
+  .m2.cache\io\netty\netty-codec-http2\4.2.17.Final\netty-codec-http2-4.2.17.Final.jar
+  .m2.cache\io\netty\netty-codec-http3\4.2.17.Final\netty-codec-http3-4.2.17.Final.jar
+  .m2.cache\org\eclipse\jetty\alpn\alpn-api\1.1.3.v20160715\alpn-api-1.1.3.v20160715.jar
+  .m2.cache\io\netty\netty-transport-native-kqueue\4.2.17.Final\netty-transport-native-kqueue-4.2.17.Final.jar
+  .m2.cache\io\netty\netty-transport-native-epoll\4.2.17.Final\netty-transport-native-epoll-4.2.17.Final.jar
+  .m2.cache\org\jetbrains\kotlinx\kotlinx-coroutines-core-jvm\1.11.0\kotlinx-coroutines-core-jvm-1.11.0.jar
+  .m2.cache\io\ktor\ktor-utils-jvm\3.6.0\ktor-utils-jvm-3.6.0.jar
+  .m2.cache\io\ktor\ktor-http-jvm\3.6.0\ktor-http-jvm-3.6.0.jar
+  .m2.cache\io\ktor\ktor-serialization-jvm\3.6.0\ktor-serialization-jvm-3.6.0.jar
+  .m2.cache\io\ktor\ktor-events-jvm\3.6.0\ktor-events-jvm-3.6.0.jar
+  .m2.cache\io\ktor\ktor-http-cio-jvm\3.6.0\ktor-http-cio-jvm-3.6.0.jar
+  .m2.cache\io\ktor\ktor-websockets-jvm\3.6.0\ktor-websockets-jvm-3.6.0.jar
+  .m2.cache\io\netty\netty-common\4.2.17.Final\netty-common-4.2.17.Final.jar
+  .m2.cache\io\netty\netty-buffer\4.2.17.Final\netty-buffer-4.2.17.Final.jar
+  .m2.cache\io\netty\netty-transport\4.2.17.Final\netty-transport-4.2.17.Final.jar
+  .m2.cache\io\netty\netty-codec-base\4.2.17.Final\netty-codec-base-4.2.17.Final.jar
+  .m2.cache\io\netty\netty-codec-compression\4.2.17.Final\netty-codec-compression-4.2.17.Final.jar
+  .m2.cache\io\netty\netty-codec-protobuf\4.2.17.Final\netty-codec-protobuf-4.2.17.Final.jar
+  .m2.cache\io\netty\netty-codec-marshalling\4.2.17.Final\netty-codec-marshalling-4.2.17.Final.jar
+  .m2.cache\io\netty\netty-handler\4.2.17.Final\netty-handler-4.2.17.Final.jar
+  .m2.cache\io\netty\netty-codec-http\4.2.17.Final\netty-codec-http-4.2.17.Final.jar
+  .m2.cache\io\netty\netty-transport-native-unix-common\4.2.17.Final\netty-transport-native-unix-common-4.2.17.Final.jar
+  .m2.cache\io\netty\netty-resolver\4.2.17.Final\netty-resolver-4.2.17.Final.jar
+  .m2.cache\io\netty\netty-codec-classes-quic\4.2.17.Final\netty-codec-classes-quic-4.2.17.Final.jar
+  .m2.cache\io\netty\netty-transport-classes-kqueue\4.2.17.Final\netty-transport-classes-kqueue-4.2.17.Final.jar
+  .m2.cache\io\netty\netty-transport-classes-epoll\4.2.17.Final\netty-transport-classes-epoll-4.2.17.Final.jar
+  .m2.cache\io\ktor\ktor-serialization-kotlinx-jvm\3.6.0\ktor-serialization-kotlinx-jvm-3.6.0.jar
+  .m2.cache\org\jetbrains\kotlinx\kotlinx-serialization-json-io-jvm\1.11.0\kotlinx-serialization-json-io-jvm-1.11.0.jar
+  .m2.cache\io\ktor\ktor-client-core-jvm\3.6.0\ktor-client-core-jvm-3.6.0.jar
+  .m2.cache\io\ktor\ktor-server-csrf-jvm\3.6.0\ktor-server-csrf-jvm-3.6.0.jar
+  .m2.cache\io\ktor\ktor-server-sessions-jvm\3.6.0\ktor-server-sessions-jvm-3.6.0.jar
+  .m2.cache\com\google\protobuf\protobuf-java\3.25.9\protobuf-java-3.25.9.jar
+  .m2.cache\com\google\protobuf\nano\protobuf-javanano\3.0.0-alpha-7\protobuf-javanano-3.0.0-alpha-7.jar
+  .m2.cache\org\jboss\marshalling\jboss-marshalling\2.3.0\jboss-marshalling-2.3.0.jar
+  .m2.cache\io\ktor\ktor-io-jvm\3.6.0\ktor-io-jvm-3.6.0.jar
+  .m2.cache\io\ktor\ktor-network-jvm\3.6.0\ktor-network-jvm-3.6.0.jar
+  .m2.cache\io\ktor\ktor-openapi-schema-jvm\3.6.0\ktor-openapi-schema-jvm-3.6.0.jar
+  .m2.cache\io\ktor\ktor-websocket-serialization-jvm\3.6.0\ktor-websocket-serialization-jvm-3.6.0.jar
+  .m2.cache\io\ktor\ktor-sse-jvm\3.6.0\ktor-sse-jvm-3.6.0.jar
+  .m2.cache\org\jetbrains\kotlinx\kotlinx-io-core-jvm\0.9.1\kotlinx-io-core-jvm-0.9.1.jar
+  .m2.cache\org\jetbrains\kotlinx\kotlinx-io-bytestring-jvm\0.9.1\kotlinx-io-bytestring-jvm-0.9.1.jar
+00:01.475 DEBUG :backend:resolveDependenciesJvmTest ResolveExternalDependenciesTask$Companion resolve dependencies backend -- test -- ch.qos.logback:logback-classic:1.5.18 com.auth0:java-jwt:4.6.2 com.h2database:h2:2.3.232 io.github.cdimascio:dotenv-kotlin:6.5.1 io.ktor:ktor-bom:3.6.0 io.ktor:ktor-serialization-kotlinx-json:3.6.0 io.ktor:ktor-server-auth-jwt-jvm:3.6.0 io.ktor:ktor-server-auth:3.6.0 io.ktor:ktor-server-call-logging:3.6.0 io.ktor:ktor-server-content-negotiation:3.6.0 io.ktor:ktor-server-core:3.6.0 io.ktor:ktor-server-netty:3.6.0 io.ktor:ktor-server-rate-limit:3.6.0 io.ktor:ktor-server-status-pages:3.6.0 io.ktor:ktor-server-test-host:3.6.0 org.jetbrains.exposed:exposed-core:0.61.0 org.jetbrains.exposed:exposed-java-time:0.61.0 org.jetbrains.exposed:exposed-jdbc:0.61.0 org.jetbrains.kotlin:kotlin-stdlib:2.4.20 org.jetbrains.kotlin:kotlin-test-junit5:2.4.20 org.jetbrains.kotlinx:kotlinx-serialization-core:1.11.0 org.jetbrains.kotlinx:kotlinx-serialization-json:1.11.0 org.mindrot:jbcrypt:0.4 -- resolvePlatform=JVM nativeTarget=null
+wasmTarget=null
+https://repo1.maven.org/maven2 https://maven.google.com resolved to:
+  .m2.cache\io\ktor\ktor-server-auth-jwt-jvm\3.6.0\ktor-server-auth-jwt-jvm-3.6.0.jar
+  .m2.cache\ch\qos\logback\logback-classic\1.5.18\logback-classic-1.5.18.jar
+  .m2.cache\io\github\cdimascio\dotenv-kotlin\6.5.1\dotenv-kotlin-6.5.1.jar
+  .m2.cache\org\jetbrains\exposed\exposed-core\0.61.0\exposed-core-0.61.0.jar
+  .m2.cache\org\jetbrains\exposed\exposed-jdbc\0.61.0\exposed-jdbc-0.61.0.jar
+  .m2.cache\org\jetbrains\exposed\exposed-java-time\0.61.0\exposed-java-time-0.61.0.jar
+  .m2.cache\com\h2database\h2\2.3.232\h2-2.3.232.jar
+  .m2.cache\org\mindrot\jbcrypt\0.4\jbcrypt-0.4.jar
+  .m2.cache\com\auth0\java-jwt\4.6.2\java-jwt-4.6.2.jar
+  .m2.cache\org\jetbrains\kotlin\kotlin-stdlib\2.4.20\kotlin-stdlib-2.4.20.jar
+  .m2.cache\org\jetbrains\kotlin\kotlin-test-junit5\2.4.20\kotlin-test-junit5-2.4.20.jar
+  .m2.cache\io\ktor\ktor-server-core-jvm\3.6.0\ktor-server-core-jvm-3.6.0.jar
+  .m2.cache\io\ktor\ktor-server-netty-jvm\3.6.0\ktor-server-netty-jvm-3.6.0.jar
+  .m2.cache\io\ktor\ktor-server-content-negotiation-jvm\3.6.0\ktor-server-content-negotiation-jvm-3.6.0.jar
+  .m2.cache\io\ktor\ktor-serialization-kotlinx-json-jvm\3.6.0\ktor-serialization-kotlinx-json-jvm-3.6.0.jar
+  .m2.cache\io\ktor\ktor-server-status-pages-jvm\3.6.0\ktor-server-status-pages-jvm-3.6.0.jar
+  .m2.cache\io\ktor\ktor-server-call-logging-jvm\3.6.0\ktor-server-call-logging-jvm-3.6.0.jar
+  .m2.cache\io\ktor\ktor-server-auth-jvm\3.6.0\ktor-server-auth-jvm-3.6.0.jar
+  .m2.cache\org\slf4j\slf4j-api\2.0.19\slf4j-api-2.0.19.jar
+  .m2.cache\com\auth0\jwks-rsa\0.24.1\jwks-rsa-0.24.1.jar
+  .m2.cache\io\ktor\ktor-server-rate-limit-jvm\3.6.0\ktor-server-rate-limit-jvm-3.6.0.jar
+  .m2.cache\ch\qos\logback\logback-core\1.5.18\logback-core-1.5.18.jar
+  .m2.cache\io\github\cdimascio\dotenv-java\3.2.0\dotenv-java-3.2.0.jar
+  .m2.cache\org\jetbrains\kotlin\kotlin-reflect\2.3.21\kotlin-reflect-2.3.21.jar
+  .m2.cache\io\ktor\ktor-server-test-host-jvm\3.6.0\ktor-server-test-host-jvm-3.6.0.jar
+  .m2.cache\org\jetbrains\annotations\23.0.0\annotations-23.0.0.jar
+  .m2.cache\org\jetbrains\kotlin\kotlin-test\2.4.20\kotlin-test-2.4.20.jar
+  .m2.cache\org\junit\jupiter\junit-jupiter-api\5.10.1\junit-jupiter-api-5.10.1.jar
+  .m2.cache\org\jetbrains\kotlinx\kotlinx-serialization-core-jvm\1.11.0\kotlinx-serialization-core-jvm-1.11.0.jar
+  .m2.cache\org\jetbrains\kotlinx\kotlinx-serialization-json-jvm\1.11.0\kotlinx-serialization-json-jvm-1.11.0.jar
+  .m2.cache\com\typesafe\config\1.4.9\config-1.4.9.jar
+  .m2.cache\io\netty\netty-codec\4.2.17.Final\netty-codec-4.2.17.Final.jar
+  .m2.cache\io\netty\netty-codec-http2\4.2.17.Final\netty-codec-http2-4.2.17.Final.jar
+  .m2.cache\io\netty\netty-codec-http3\4.2.17.Final\netty-codec-http3-4.2.17.Final.jar
+  .m2.cache\org\eclipse\jetty\alpn\alpn-api\1.1.3.v20160715\alpn-api-1.1.3.v20160715.jar
+  .m2.cache\io\netty\netty-transport-native-kqueue\4.2.17.Final\netty-transport-native-kqueue-4.2.17.Final.jar
+  .m2.cache\io\netty\netty-transport-native-epoll\4.2.17.Final\netty-transport-native-epoll-4.2.17.Final.jar
+  .m2.cache\org\jetbrains\kotlinx\kotlinx-coroutines-core-jvm\1.11.0\kotlinx-coroutines-core-jvm-1.11.0.jar
+  .m2.cache\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar
+  .m2.cache\org\junit\platform\junit-platform-commons\1.10.1\junit-platform-commons-1.10.1.jar
+  .m2.cache\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar
+  .m2.cache\io\ktor\ktor-utils-jvm\3.6.0\ktor-utils-jvm-3.6.0.jar
+  .m2.cache\io\ktor\ktor-http-jvm\3.6.0\ktor-http-jvm-3.6.0.jar
+  .m2.cache\io\ktor\ktor-serialization-jvm\3.6.0\ktor-serialization-jvm-3.6.0.jar
+  .m2.cache\io\ktor\ktor-events-jvm\3.6.0\ktor-events-jvm-3.6.0.jar
+  .m2.cache\io\ktor\ktor-http-cio-jvm\3.6.0\ktor-http-cio-jvm-3.6.0.jar
+  .m2.cache\io\ktor\ktor-websockets-jvm\3.6.0\ktor-websockets-jvm-3.6.0.jar
+  .m2.cache\io\netty\netty-common\4.2.17.Final\netty-common-4.2.17.Final.jar
+  .m2.cache\io\netty\netty-buffer\4.2.17.Final\netty-buffer-4.2.17.Final.jar
+  .m2.cache\io\netty\netty-transport\4.2.17.Final\netty-transport-4.2.17.Final.jar
+  .m2.cache\io\netty\netty-codec-base\4.2.17.Final\netty-codec-base-4.2.17.Final.jar
+  .m2.cache\io\netty\netty-codec-compression\4.2.17.Final\netty-codec-compression-4.2.17.Final.jar
+  .m2.cache\io\netty\netty-codec-protobuf\4.2.17.Final\netty-codec-protobuf-4.2.17.Final.jar
+  .m2.cache\io\netty\netty-codec-marshalling\4.2.17.Final\netty-codec-marshalling-4.2.17.Final.jar
+  .m2.cache\io\netty\netty-handler\4.2.17.Final\netty-handler-4.2.17.Final.jar
+  .m2.cache\io\netty\netty-codec-http\4.2.17.Final\netty-codec-http-4.2.17.Final.jar
+  .m2.cache\io\netty\netty-transport-native-unix-common\4.2.17.Final\netty-transport-native-unix-common-4.2.17.Final.jar
+  .m2.cache\io\netty\netty-resolver\4.2.17.Final\netty-resolver-4.2.17.Final.jar
+  .m2.cache\io\netty\netty-codec-classes-quic\4.2.17.Final\netty-codec-classes-quic-4.2.17.Final.jar
+  .m2.cache\io\netty\netty-transport-classes-kqueue\4.2.17.Final\netty-transport-classes-kqueue-4.2.17.Final.jar
+  .m2.cache\io\netty\netty-transport-classes-epoll\4.2.17.Final\netty-transport-classes-epoll-4.2.17.Final.jar
+  .m2.cache\io\ktor\ktor-serialization-kotlinx-jvm\3.6.0\ktor-serialization-kotlinx-jvm-3.6.0.jar
+  .m2.cache\org\jetbrains\kotlinx\kotlinx-serialization-json-io-jvm\1.11.0\kotlinx-serialization-json-io-jvm-1.11.0.jar
+  .m2.cache\io\ktor\ktor-client-core-jvm\3.6.0\ktor-client-core-jvm-3.6.0.jar
+  .m2.cache\io\ktor\ktor-server-csrf-jvm\3.6.0\ktor-server-csrf-jvm-3.6.0.jar
+  .m2.cache\io\ktor\ktor-server-sessions-jvm\3.6.0\ktor-server-sessions-jvm-3.6.0.jar
+  .m2.cache\io\ktor\ktor-network-tls-jvm\3.6.0\ktor-network-tls-jvm-3.6.0.jar
+  .m2.cache\io\ktor\ktor-client-apache5-jvm\3.6.0\ktor-client-apache5-jvm-3.6.0.jar
+  .m2.cache\io\ktor\ktor-network-tls-certificates-jvm\3.6.0\ktor-network-tls-certificates-jvm-3.6.0.jar
+  .m2.cache\io\ktor\ktor-server-websockets-jvm\3.6.0\ktor-server-websockets-jvm-3.6.0.jar
+  .m2.cache\io\ktor\ktor-client-cio-jvm\3.6.0\ktor-client-cio-jvm-3.6.0.jar
+  .m2.cache\io\ktor\ktor-test-dispatcher-jvm\3.6.0\ktor-test-dispatcher-jvm-3.6.0.jar
+  .m2.cache\com\google\protobuf\protobuf-java\3.25.9\protobuf-java-3.25.9.jar
+  .m2.cache\com\google\protobuf\nano\protobuf-javanano\3.0.0-alpha-7\protobuf-javanano-3.0.0-alpha-7.jar
+  .m2.cache\org\jboss\marshalling\jboss-marshalling\2.3.0\jboss-marshalling-2.3.0.jar
+  .m2.cache\org\apache\httpcomponents\client5\httpclient5\5.6.4\httpclient5-5.6.4.jar
+  .m2.cache\io\ktor\ktor-io-jvm\3.6.0\ktor-io-jvm-3.6.0.jar
+  .m2.cache\io\ktor\ktor-network-jvm\3.6.0\ktor-network-jvm-3.6.0.jar
+  .m2.cache\io\ktor\ktor-openapi-schema-jvm\3.6.0\ktor-openapi-schema-jvm-3.6.0.jar
+  .m2.cache\io\ktor\ktor-websocket-serialization-jvm\3.6.0\ktor-websocket-serialization-jvm-3.6.0.jar
+  .m2.cache\io\ktor\ktor-sse-jvm\3.6.0\ktor-sse-jvm-3.6.0.jar
+  .m2.cache\org\apache\httpcomponents\core5\httpcore5\5.4.3\httpcore5-5.4.3.jar
+  .m2.cache\org\apache\httpcomponents\core5\httpcore5-h2\5.4.3\httpcore5-h2-5.4.3.jar
+  .m2.cache\org\jetbrains\kotlinx\kotlinx-coroutines-test-jvm\1.11.0\kotlinx-coroutines-test-jvm-1.11.0.jar
+  .m2.cache\org\jetbrains\kotlinx\kotlinx-io-core-jvm\0.9.1\kotlinx-io-core-jvm-0.9.1.jar
+  .m2.cache\org\jetbrains\kotlinx\kotlinx-io-bytestring-jvm\0.9.1\kotlinx-io-bytestring-jvm-0.9.1.jar
+00:01.476 DEBUG :backend:compileJvm       JvmCompileTask            compile backend -- main
+00:01.500 DEBUG :backend:compileJvm       JdkProvider               `JAVA_HOME` was found but doesn't match the JDK selection criteria: major version mismatch: expected 25 but got 21. The Kotlin Toolchain will provision a suitable JDK instead.
+00:01.539 DEBUG :backend:compileJvm       IncrementalCache          [inc] 'jdk-provisioning_{"majorVersion":25}' is up-to-date according to state file at 'C:\Users\donma\IdeaProjects\08112026\brul\build\incremental.state\jdk-provisioning___majorVersion__25_-a1d432fb5a'
+00:01.579 DEBUG :backend:compileJvm       IncrementalCache          [inc] ':backend:compileJvm' is up-to-date according to state file at 'C:\Users\donma\IdeaProjects\08112026\brul\build\incremental.state\_backend_compileJvm-bc83e01dcb'
+00:01.583 DEBUG :backend:compileJvmTest   JvmCompileTask            compile backend -- test
+00:01.583 DEBUG :backend:compileJvmTest   JdkProvider               `JAVA_HOME` was found but doesn't match the JDK selection criteria: major version mismatch: expected 25 but got 21. The Kotlin Toolchain will provision a suitable JDK instead.
+00:01.605 DEBUG :backend:jarJvm           IncrementalCache          [inc] ':backend:jarJvm' is up-to-date according to state file at 'C:\Users\donma\IdeaProjects\08112026\brul\build\incremental.state\_backend_jarJvm-f6be17f61e'
+00:01.614 DEBUG :backend:compileJvmTest   IncrementalCache          [inc] ':backend:compileJvmTest' is up-to-date according to state file at 'C:\Users\donma\IdeaProjects\08112026\brul\build\incremental.state\_backend_compileJvmTest-838a5a666d'
+00:01.849 DEBUG :backend:testJvm          IncrementalCache          [inc] 'extract-junit-listeners-classpath' is up-to-date according to state file at 'C:\Users\donma\IdeaProjects\08112026\brul\build\incremental.state\extract-junit-listeners-classpath-8605e841e1'
+00:01.849 DEBUG :backend:testJvm          JdkProvider               `JAVA_HOME` was found but doesn't match the JDK selection criteria: major version mismatch: expected 25 but got 21. The Kotlin Toolchain will provision a suitable JDK instead.
+00:01.854 INFO  :backend:testJvm          Slf4jExtensionsKt         Testing module 'backend' for platform 'jvm'...
+00:01.858 DEBUG :backend:testJvm          ProcessRunner             [cmd] C:\Users\donma\AppData\Local\JetBrains\Kotlin\extract.cache\3f354780d9-OpenJDK25U-jdk_x64_windows_hotspot_25.0.5_8.zip.99a122.d\jdk-25.0.5+8\bin\java.exe @C:\Users\donma\IdeaProjects\08112026\brul\build\temp\java-args-17641378806350679284.txt
+00:02.586 ERROR                           MainKt                    JVM tests failed for module 'backend' with exit code 2 (no tests were discovered) (see errors above)

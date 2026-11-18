@@ -1,0 +1,21 @@
+{
+    "codeVersion": "0.13.0",
+    "inputValues": {
+        "kotlinVersion": "2.4.20"
+    },
+    "inputFiles": [
+        "C:\\Users\\donma\\AppData\\Local\\JetBrains\\Kotlin\\.m2.cache\\org\\jetbrains\\kotlinx\\kotlinx-serialization-json-jvm\\1.11.0\\kotlinx-serialization-json-jvm-1.11.0.jar"
+    ],
+    "inputFilesState": {
+        "C:\\Users\\donma\\AppData\\Local\\JetBrains\\Kotlin\\.m2.cache\\org\\jetbrains\\kotlinx\\kotlinx-serialization-json-jvm\\1.11.0\\kotlinx-serialization-json-jvm-1.11.0.jar": "size 294166 mtime 2026-10-07T17:25:47.353626Z"
+    },
+    "outputValues": {},
+    "outputFiles": [
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\ic-cache\\classpath-snapshots\\kotlinx-serialization-json-jvm-1.11.0.jar-132f92256c28f8608b74ef54943443f0e1f2e571b2d9e53e6734084e8e321d7a.abi"
+    ],
+    "outputFilesState": {
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\ic-cache\\classpath-snapshots\\kotlinx-serialization-json-jvm-1.11.0.jar-132f92256c28f8608b74ef54943443f0e1f2e571b2d9e53e6734084e8e321d7a.abi": "size 43947 mtime 2026-11-08T08:48:29.5905055Z"
+    },
+    "excludedOutputFiles": [],
+    "dynamicInputs": {}
+}

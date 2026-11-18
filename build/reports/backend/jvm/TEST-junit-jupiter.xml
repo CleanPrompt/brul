@@ -1,0 +1,1367 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="JUnit Jupiter" tests="217" skipped="0" failures="0" errors="0" time="36.67" hostname="DonM-PC" timestamp="2026-11-08T10:02:53">
+<properties>
+<property name="file.encoding" value="UTF-8"/>
+<property name="file.separator" value="\"/>
+<property name="java.class.path" value="C:\Users\donma\AppData\Local\JetBrains\Kotlin\download.cache\81ad195086-junit-platform-console-standalone-6.1.3.jar;C:\Users\donma\IdeaProjects\08112026\brul\build\temp\amper-junit-listeners\amper-junit-listeners-jvm.jar;C:\Users\donma\IdeaProjects\08112026\brul\build\temp\amper-junit-listeners\amper-junit-event-protocol-jvm.jar;C:\Users\donma\IdeaProjects\08112026\brul\build\temp\amper-junit-listeners\kotlin-stdlib-2.4.0.jar;C:\Users\donma\IdeaProjects\08112026\brul\build\temp\amper-junit-listeners\annotations-13.0.jar;C:\Users\donma\IdeaProjects\08112026\brul\build\artifacts\CompiledJvmArtifact\backendjvmTest\kotlin-output;C:\Users\donma\IdeaProjects\08112026\brul\build\tasks\_backend_jarJvm\backend-jvm.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\io\ktor\ktor-server-auth-jwt-jvm\3.6.0\ktor-server-auth-jwt-jvm-3.6.0.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\ch\qos\logback\logback-classic\1.5.18\logback-classic-1.5.18.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\io\github\cdimascio\dotenv-kotlin\6.5.1\dotenv-kotlin-6.5.1.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\org\jetbrains\exposed\exposed-core\0.61.0\exposed-core-0.61.0.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\org\jetbrains\exposed\exposed-jdbc\0.61.0\exposed-jdbc-0.61.0.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\org\jetbrains\exposed\exposed-java-time\0.61.0\exposed-java-time-0.61.0.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\com\h2database\h2\2.3.232\h2-2.3.232.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\org\mindrot\jbcrypt\0.4\jbcrypt-0.4.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\com\auth0\java-jwt\4.6.2\java-jwt-4.6.2.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\org\jetbrains\kotlin\kotlin-stdlib\2.4.20\kotlin-stdlib-2.4.20.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\org\jetbrains\kotlin\kotlin-test-junit5\2.4.20\kotlin-test-junit5-2.4.20.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\io\ktor\ktor-server-core-jvm\3.6.0\ktor-server-core-jvm-3.6.0.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\io\ktor\ktor-server-netty-jvm\3.6.0\ktor-server-netty-jvm-3.6.0.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\io\ktor\ktor-server-content-negotiation-jvm\3.6.0\ktor-server-content-negotiation-jvm-3.6.0.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\io\ktor\ktor-serialization-kotlinx-json-jvm\3.6.0\ktor-serialization-kotlinx-json-jvm-3.6.0.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\io\ktor\ktor-server-status-pages-jvm\3.6.0\ktor-server-status-pages-jvm-3.6.0.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\io\ktor\ktor-server-call-logging-jvm\3.6.0\ktor-server-call-logging-jvm-3.6.0.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\io\ktor\ktor-server-auth-jvm\3.6.0\ktor-server-auth-jvm-3.6.0.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\org\slf4j\slf4j-api\2.0.19\slf4j-api-2.0.19.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\com\auth0\jwks-rsa\0.24.1\jwks-rsa-0.24.1.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\io\ktor\ktor-server-rate-limit-jvm\3.6.0\ktor-server-rate-limit-jvm-3.6.0.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\ch\qos\logback\logback-core\1.5.18\logback-core-1.5.18.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\io\github\cdimascio\dotenv-java\3.2.0\dotenv-java-3.2.0.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\org\jetbrains\kotlin\kotlin-reflect\2.3.21\kotlin-reflect-2.3.21.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\com\fasterxml\jackson\core\jackson-core\2.22.3\jackson-core-2.22.3.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\com\fasterxml\jackson\core\jackson-databind\2.22.3\jackson-databind-2.22.3.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\io\ktor\ktor-server-test-host-jvm\3.6.0\ktor-server-test-host-jvm-3.6.0.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\org\jetbrains\annotations\23.0.0\annotations-23.0.0.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\org\jetbrains\kotlin\kotlin-test\2.4.20\kotlin-test-2.4.20.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\org\junit\jupiter\junit-jupiter-engine\5.10.1\junit-jupiter-engine-5.10.1.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\org\junit\platform\junit-platform-launcher\1.10.1\junit-platform-launcher-1.10.1.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\org\jetbrains\kotlinx\kotlinx-serialization-core-jvm\1.11.0\kotlinx-serialization-core-jvm-1.11.0.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\org\jetbrains\kotlinx\kotlinx-serialization-json-jvm\1.11.0\kotlinx-serialization-json-jvm-1.11.0.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\com\typesafe\config\1.4.9\config-1.4.9.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\io\netty\netty-codec\4.2.17.Final\netty-codec-4.2.17.Final.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\io\netty\netty-codec-http2\4.2.17.Final\netty-codec-http2-4.2.17.Final.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\io\netty\netty-codec-http3\4.2.17.Final\netty-codec-http3-4.2.17.Final.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\org\eclipse\jetty\alpn\alpn-api\1.1.3.v20160715\alpn-api-1.1.3.v20160715.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\io\netty\netty-transport-native-kqueue\4.2.17.Final\netty-transport-native-kqueue-4.2.17.Final.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\io\netty\netty-transport-native-epoll\4.2.17.Final\netty-transport-native-epoll-4.2.17.Final.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\org\fusesource\jansi\jansi\2.4.3\jansi-2.4.3.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\org\jetbrains\kotlinx\kotlinx-coroutines-slf4j\1.11.0\kotlinx-coroutines-slf4j-1.11.0.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\com\google\guava\guava\33.6.0-jre\guava-33.6.0-jre.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\org\jetbrains\kotlinx\kotlinx-coroutines-core-jvm\1.11.0\kotlinx-coroutines-core-jvm-1.11.0.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\com\fasterxml\jackson\core\jackson-annotations\2.22\jackson-annotations-2.22.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\org\jetbrains\kotlinx\kotlinx-coroutines-debug\1.11.0\kotlinx-coroutines-debug-1.11.0.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\org\junit\platform\junit-platform-engine\1.10.1\junit-platform-engine-1.10.1.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\org\junit\jupiter\junit-jupiter-api\5.10.1\junit-jupiter-api-5.10.1.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\io\ktor\ktor-utils-jvm\3.6.0\ktor-utils-jvm-3.6.0.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\io\ktor\ktor-http-jvm\3.6.0\ktor-http-jvm-3.6.0.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\io\ktor\ktor-serialization-jvm\3.6.0\ktor-serialization-jvm-3.6.0.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\io\ktor\ktor-events-jvm\3.6.0\ktor-events-jvm-3.6.0.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\io\ktor\ktor-http-cio-jvm\3.6.0\ktor-http-cio-jvm-3.6.0.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\io\ktor\ktor-websockets-jvm\3.6.0\ktor-websockets-jvm-3.6.0.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\io\netty\netty-common\4.2.17.Final\netty-common-4.2.17.Final.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\io\netty\netty-buffer\4.2.17.Final\netty-buffer-4.2.17.Final.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\io\netty\netty-transport\4.2.17.Final\netty-transport-4.2.17.Final.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\io\netty\netty-codec-base\4.2.17.Final\netty-codec-base-4.2.17.Final.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\io\netty\netty-codec-compression\4.2.17.Final\netty-codec-compression-4.2.17.Final.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\io\netty\netty-codec-protobuf\4.2.17.Final\netty-codec-protobuf-4.2.17.Final.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\io\netty\netty-codec-marshalling\4.2.17.Final\netty-codec-marshalling-4.2.17.Final.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\io\netty\netty-handler\4.2.17.Final\netty-handler-4.2.17.Final.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\io\netty\netty-codec-http\4.2.17.Final\netty-codec-http-4.2.17.Final.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\io\netty\netty-transport-native-unix-common\4.2.17.Final\netty-transport-native-unix-common-4.2.17.Final.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\io\netty\netty-resolver\4.2.17.Final\netty-resolver-4.2.17.Final.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\io\netty\netty-codec-classes-quic\4.2.17.Final\netty-codec-classes-quic-4.2.17.Final.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\io\netty\netty-codec-native-quic\4.2.17.Final\netty-codec-native-quic-4.2.17.Final-linux-aarch_64.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\io\netty\netty-codec-native-quic\4.2.17.Final\netty-codec-native-quic-4.2.17.Final-osx-x86_64.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\io\netty\netty-codec-native-quic\4.2.17.Final\netty-codec-native-quic-4.2.17.Final-osx-aarch_64.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\io\netty\netty-codec-native-quic\4.2.17.Final\netty-codec-native-quic-4.2.17.Final-windows-x86_64.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\io\netty\netty-transport-classes-kqueue\4.2.17.Final\netty-transport-classes-kqueue-4.2.17.Final.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\io\netty\netty-transport-classes-epoll\4.2.17.Final\netty-transport-classes-epoll-4.2.17.Final.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\io\ktor\ktor-server-routing-openapi-jvm\3.6.0\ktor-server-routing-openapi-jvm-3.6.0.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\io\ktor\ktor-serialization-kotlinx-jvm\3.6.0\ktor-serialization-kotlinx-jvm-3.6.0.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\org\jetbrains\kotlinx\kotlinx-serialization-json-io-jvm\1.11.0\kotlinx-serialization-json-io-jvm-1.11.0.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\io\ktor\ktor-client-core-jvm\3.6.0\ktor-client-core-jvm-3.6.0.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\io\ktor\ktor-server-csrf-jvm\3.6.0\ktor-server-csrf-jvm-3.6.0.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\io\ktor\ktor-server-sessions-jvm\3.6.0\ktor-server-sessions-jvm-3.6.0.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\com\google\guava\failureaccess\1.0.3\failureaccess-1.0.3.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\com\google\guava\listenablefuture\9999.0-empty-to-avoid-conflict-with-guava\listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\org\jspecify\jspecify\1.0.0\jspecify-1.0.0.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\com\google\errorprone\error_prone_annotations\2.47.0\error_prone_annotations-2.47.0.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\com\google\j2objc\j2objc-annotations\3.1\j2objc-annotations-3.1.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\io\ktor\ktor-network-tls-jvm\3.6.0\ktor-network-tls-jvm-3.6.0.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\io\ktor\ktor-client-apache5-jvm\3.6.0\ktor-client-apache5-jvm-3.6.0.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\io\ktor\ktor-network-tls-certificates-jvm\3.6.0\ktor-network-tls-certificates-jvm-3.6.0.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\io\ktor\ktor-server-websockets-jvm\3.6.0\ktor-server-websockets-jvm-3.6.0.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\io\ktor\ktor-client-cio-jvm\3.6.0\ktor-client-cio-jvm-3.6.0.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\io\ktor\ktor-test-dispatcher-jvm\3.6.0\ktor-test-dispatcher-jvm-3.6.0.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\net\bytebuddy\byte-buddy\1.17.6\byte-buddy-1.17.6.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\net\bytebuddy\byte-buddy-agent\1.17.6\byte-buddy-agent-1.17.6.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\net\java\dev\jna\jna\5.9.0\jna-5.9.0.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\net\java\dev\jna\jna-platform\5.9.0\jna-platform-5.9.0.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\org\junit\platform\junit-platform-commons\1.10.1\junit-platform-commons-1.10.1.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\com\google\protobuf\protobuf-java\3.25.9\protobuf-java-3.25.9.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\com\google\protobuf\nano\protobuf-javanano\3.0.0-alpha-7\protobuf-javanano-3.0.0-alpha-7.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\org\jboss\marshalling\jboss-marshalling\2.3.0\jboss-marshalling-2.3.0.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\org\apache\httpcomponents\client5\httpclient5\5.6.4\httpclient5-5.6.4.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\io\ktor\ktor-io-jvm\3.6.0\ktor-io-jvm-3.6.0.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\io\ktor\ktor-network-jvm\3.6.0\ktor-network-jvm-3.6.0.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\io\ktor\ktor-openapi-schema-jvm\3.6.0\ktor-openapi-schema-jvm-3.6.0.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\com\charleskorn\kaml\kaml-jvm\0.79.0\kaml-jvm-0.79.0.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\io\ktor\ktor-server-auth-api-key-jvm\3.6.0\ktor-server-auth-api-key-jvm-3.6.0.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\org\jetbrains\kotlinx\kotlinx-io-core-jvm\0.9.1\kotlinx-io-core-jvm-0.9.1.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\io\ktor\ktor-websocket-serialization-jvm\3.6.0\ktor-websocket-serialization-jvm-3.6.0.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\io\ktor\ktor-sse-jvm\3.6.0\ktor-sse-jvm-3.6.0.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\org\apache\httpcomponents\core5\httpcore5\5.4.3\httpcore5-5.4.3.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\org\apache\httpcomponents\core5\httpcore5-h2\5.4.3\httpcore5-h2-5.4.3.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\org\jetbrains\kotlinx\kotlinx-coroutines-test-jvm\1.11.0\kotlinx-coroutines-test-jvm-1.11.0.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\org\jetbrains\kotlinx\kotlinx-datetime-jvm\0.8.0-0.6.x-compat\kotlinx-datetime-jvm-0.8.0-0.6.x-compat.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\it\krzeminski\snakeyaml-engine-kmp-jvm\3.1.1\snakeyaml-engine-kmp-jvm-3.1.1.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\com\squareup\okio\okio-jvm\3.12.0\okio-jvm-3.12.0.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\org\jetbrains\kotlinx\kotlinx-io-bytestring-jvm\0.9.1\kotlinx-io-bytestring-jvm-0.9.1.jar;C:\Users\donma\AppData\Local\JetBrains\Kotlin\.m2.cache\net\thauvin\erik\urlencoder\urlencoder-lib-jvm\1.6.0\urlencoder-lib-jvm-1.6.0.jar"/>
+<property name="java.class.version" value="69.0"/>
+<property name="java.home" value="C:\Users\donma\AppData\Local\JetBrains\Kotlin\extract.cache\3f354780d9-OpenJDK25U-jdk_x64_windows_hotspot_25.0.5_8.zip.99a122.d\jdk-25.0.5+8"/>
+<property name="java.io.tmpdir" value="C:\Users\donma\AppData\Local\Temp\"/>
+<property name="java.library.path" value="C:\Users\donma\AppData\Local\JetBrains\Kotlin\extract.cache\3f354780d9-OpenJDK25U-jdk_x64_windows_hotspot_25.0.5_8.zip.99a122.d\jdk-25.0.5+8\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:/Program Files/Google/Chrome/Application;C:/Program Files/Eclipse Adoptium/jdk-21.0.12.101-hotspot/bin;C:/Program Files (x86)/Razer Chroma SDK/bin;C:/Program Files/Razer Chroma SDK/bin;C:/Program Files (x86)/Razer/ChromaBroadcast/bin;C:/Program Files/Razer/ChromaBroadcast/bin;C:/WINDOWS/system32;C:/WINDOWS;C:/WINDOWS/System32/Wbem;C:/WINDOWS/System32/WindowsPowerShell/v1.0/;C:/WINDOWS/System32/OpenSSH/;C:/Program Files/dotnet/;C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common;C:/Program Files/NVIDIA Corporation/NVIDIA app/NvDLISR;C:/WINDOWS/system32/config/systemprofile/AppData/Local/Microsoft/WindowsApps;C:/Users/donma/AppData/Local/Microsoft/WindowsApps;C:/xampp/php;C:/ProgramData/ComposerSetup/bin;C:/Program Files/Git/cmd;C:/Program Files/nodejs/;C:/Users/donma/AppData/Local/Programs/Python/Launcher/;C:/Users/donma/AppData/Local/Microsoft/WindowsApps;C:/Users/donma/AppData/Local/Programs/Microsoft VS Code/bin;C:/Users/donma/AppData/Local/GitHubDesktop/bin;C:/Users/donma/AppData/Roaming/Composer/vendor/bin;C:/Users/donma/AppData/Local/JetBrains/Toolbox/scripts;;C:/Users/donma/.local/bin;C:/Users/donma/AppData/Roaming/npm;C:/Users/donma/AppData/Local/Programs/Microsoft VS Code/bin/copilot-shim;."/>
+<property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
+<property name="java.runtime.version" value="25.0.5+8-LTS"/>
+<property name="java.specification.name" value="Java Platform API Specification"/>
+<property name="java.specification.vendor" value="Oracle Corporation"/>
+<property name="java.specification.version" value="25"/>
+<property name="java.vendor" value="Eclipse Adoptium"/>
+<property name="java.vendor.url" value="https://adoptium.net/"/>
+<property name="java.vendor.url.bug" value="https://github.com/adoptium/adoptium-support/issues"/>
+<property name="java.vendor.version" value="Temurin-25.0.5+8"/>
+<property name="java.version" value="25.0.5"/>
+<property name="java.version.date" value="2026-10-20"/>
+<property name="java.vm.compressedOopsMode" value="Zero based"/>
+<property name="java.vm.info" value="mixed mode, sharing"/>
+<property name="java.vm.name" value="OpenJDK 64-Bit Server VM"/>
+<property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+<property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+<property name="java.vm.specification.version" value="25"/>
+<property name="java.vm.vendor" value="Eclipse Adoptium"/>
+<property name="java.vm.version" value="25.0.5+8-LTS"/>
+<property name="jdk.debug" value="release"/>
+<property name="junit.docs.version" value="6.1.3"/>
+<property name="junit.vintage.discovery.issue.reporting.enabled" value="false"/>
+<property name="line.separator" value="&#13;&#10;"/>
+<property name="native.encoding" value="Cp1252"/>
+<property name="os.arch" value="amd64"/>
+<property name="os.name" value="Windows 11"/>
+<property name="os.version" value="10.0"/>
+<property name="path.separator" value=";"/>
+<property name="stderr.encoding" value="UTF-8"/>
+<property name="stdin.encoding" value="Cp1252"/>
+<property name="stdout.encoding" value="UTF-8"/>
+<property name="sun.arch.data.model" value="64"/>
+<property name="sun.boot.library.path" value="C:\Users\donma\AppData\Local\JetBrains\Kotlin\extract.cache\3f354780d9-OpenJDK25U-jdk_x64_windows_hotspot_25.0.5_8.zip.99a122.d\jdk-25.0.5+8\bin"/>
+<property name="sun.cpu.endian" value="little"/>
+<property name="sun.cpu.isalist" value="amd64"/>
+<property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
+<property name="sun.java.command" value="org.junit.platform.console.ConsoleLauncher execute --disable-banner --fail-if-no-tests --reports-dir=C:\Users\donma\IdeaProjects\08112026\brul\build\reports\backend\jvm --scan-class-path=C:\Users\donma\IdeaProjects\08112026\brul\build\artifacts\CompiledJvmArtifact\backendjvmTest\kotlin-output --details=none"/>
+<property name="sun.java.launcher" value="SUN_STANDARD"/>
+<property name="sun.jnu.encoding" value="Cp1252"/>
+<property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+<property name="sun.os.patch.level" value=""/>
+<property name="user.country" value="NL"/>
+<property name="user.dir" value="C:\Users\donma\IdeaProjects\08112026\brul\backend"/>
+<property name="user.home" value="C:\Users\donma"/>
+<property name="user.language" value="nl"/>
+<property name="user.name" value="donmaikel"/>
+<property name="user.script" value=""/>
+<property name="user.timezone" value="Europe/Amsterdam"/>
+<property name="user.variant" value=""/>
+</properties>
+<testcase name="the response has the location, its source, an ISO time and the image url()" classname="nl.brul.backend.features.report.ReportPhotoMapperTest" time="0.001">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.ReportPhotoMapperTest]/[method:the response has the location, its source, an ISO time and the image url()]
+display-name: JUnit Jupiter > ReportPhotoMapperTest > the response has the location, its source, an ISO time and the image url()
+]]></system-out>
+</testcase>
+<testcase name="change password rejects a wrong current password()" classname="nl.brul.backend.features.authentication.AuthenticationServiceTest" time="0.435">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.authentication.AuthenticationServiceTest]/[method:change password rejects a wrong current password()]
+display-name: JUnit Jupiter > AuthenticationServiceTest > change password rejects a wrong current password()
+]]></system-out>
+</testcase>
+<testcase name="rejects empty display name()" classname="nl.brul.backend.features.user.UserServiceTest" time="0">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.user.UserServiceTest]/[method:rejects empty display name()]
+display-name: JUnit Jupiter > UserServiceTest > rejects empty display name()
+]]></system-out>
+</testcase>
+<testcase name="rejects a report for a user that does not exist()" classname="nl.brul.backend.features.report.ReportRepositoryTest" time="0.004">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.ReportRepositoryTest]/[method:rejects a report for a user that does not exist()]
+display-name: JUnit Jupiter > ReportRepositoryTest > rejects a report for a user that does not exist()
+]]></system-out>
+</testcase>
+<testcase name="without GPS in the photo the app coordinates are used()" classname="nl.brul.backend.features.report.ReportPhotoRoutesTest" time="0.668">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.ReportPhotoRoutesTest]/[method:without GPS in the photo the app coordinates are used()]
+display-name: JUnit Jupiter > ReportPhotoRoutesTest > without GPS in the photo the app coordinates are used()
+]]></system-out>
+</testcase>
+<testcase name="create sets the owner, trims the message and starts as OPEN()" classname="nl.brul.backend.features.feedback.FeedbackServiceTest" time="0">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.feedback.FeedbackServiceTest]/[method:create sets the owner, trims the message and starts as OPEN()]
+display-name: JUnit Jupiter > FeedbackServiceTest > create sets the owner, trims the message and starts as OPEN()
+]]></system-out>
+</testcase>
+<testcase name="seeding twice creates each default role once()" classname="nl.brul.backend.features.authorization.AuthorizationRepositoryTest" time="0.044">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.authorization.AuthorizationRepositoryTest]/[method:seeding twice creates each default role once()]
+display-name: JUnit Jupiter > AuthorizationRepositoryTest > seeding twice creates each default role once()
+]]></system-out>
+</testcase>
+<testcase name="assigning an unknown role returns 404()" classname="nl.brul.backend.features.authorization.RoleRoutesTest" time="0.231">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.authorization.RoleRoutesTest]/[method:assigning an unknown role returns 404()]
+display-name: JUnit Jupiter > RoleRoutesTest > assigning an unknown role returns 404()
+]]></system-out>
+</testcase>
+<testcase name="unknown route returns 404 in the error format()" classname="nl.brul.backend.plugins.StatusPagesTest" time="0.006">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.plugins.StatusPagesTest]/[method:unknown route returns 404 in the error format()]
+display-name: JUnit Jupiter > StatusPagesTest > unknown route returns 404 in the error format()
+]]></system-out>
+</testcase>
+<testcase name="sorting on distance puts the nearest first()" classname="nl.brul.backend.features.report.ReportSearchTest" time="0.001">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.ReportSearchTest]/[method:sorting on distance puts the nearest first()]
+display-name: JUnit Jupiter > ReportSearchTest > sorting on distance puts the nearest first()
+]]></system-out>
+</testcase>
+<testcase name="G2 without GPS in the photo the app location is used()" classname="nl.brul.backend.features.report.ReportPhotoServiceTest" time="0.002">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.ReportPhotoServiceTest]/[method:G2 without GPS in the photo the app location is used()]
+display-name: JUnit Jupiter > ReportPhotoServiceTest > G2 without GPS in the photo the app location is used()
+]]></system-out>
+</testcase>
+<testcase name="returns 415 for a file that is not a JPEG or PNG()" classname="nl.brul.backend.features.report.ReportPhotoRoutesTest" time="0.656">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.ReportPhotoRoutesTest]/[method:returns 415 for a file that is not a JPEG or PNG()]
+display-name: JUnit Jupiter > ReportPhotoRoutesTest > returns 415 for a file that is not a JPEG or PNG()
+]]></system-out>
+</testcase>
+<testcase name="logging in again after logout gives a working token()" classname="nl.brul.backend.features.authentication.AuthenticationRoutesTest" time="0.438">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.authentication.AuthenticationRoutesTest]/[method:logging in again after logout gives a working token()]
+display-name: JUnit Jupiter > AuthenticationRoutesTest > logging in again after logout gives a working token()
+]]></system-out>
+</testcase>
+<testcase name="users cannot deactivate their own account()" classname="nl.brul.backend.features.user.UserServiceTest" time="0">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.user.UserServiceTest]/[method:users cannot deactivate their own account()]
+display-name: JUnit Jupiter > UserServiceTest > users cannot deactivate their own account()
+]]></system-out>
+</testcase>
+<testcase name="serialized response contains no password hash()" classname="nl.brul.backend.features.user.UserMapperTest" time="0">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.user.UserMapperTest]/[method:serialized response contains no password hash()]
+display-name: JUnit Jupiter > UserMapperTest > serialized response contains no password hash()
+]]></system-out>
+</testcase>
+<testcase name="the radius keeps only the reports within that many kilometres()" classname="nl.brul.backend.features.report.ReportSearchTest" time="0">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.ReportSearchTest]/[method:the radius keeps only the reports within that many kilometres()]
+display-name: JUnit Jupiter > ReportSearchTest > the radius keeps only the reports within that many kilometres()
+]]></system-out>
+</testcase>
+<testcase name="every user can list the photos and download the image()" classname="nl.brul.backend.features.report.ReportPhotoRoutesTest" time="0.716">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.ReportPhotoRoutesTest]/[method:every user can list the photos and download the image()]
+display-name: JUnit Jupiter > ReportPhotoRoutesTest > every user can list the photos and download the image()
+]]></system-out>
+</testcase>
+<testcase name="an unknown report gives 404()" classname="nl.brul.backend.features.report.ReportPhotoServiceTest" time="0.002">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.ReportPhotoServiceTest]/[method:an unknown report gives 404()]
+display-name: JUnit Jupiter > ReportPhotoServiceTest > an unknown report gives 404()
+]]></system-out>
+</testcase>
+<testcase name="user can update own display name()" classname="nl.brul.backend.features.user.UserRoutesTest" time="0.224">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.user.UserRoutesTest]/[method:user can update own display name()]
+display-name: JUnit Jupiter > UserRoutesTest > user can update own display name()
+]]></system-out>
+</testcase>
+<testcase name="the view count goes up by one in the database()" classname="nl.brul.backend.features.report.ReportRepositoryTest" time="0.003">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.ReportRepositoryTest]/[method:the view count goes up by one in the database()]
+display-name: JUnit Jupiter > ReportRepositoryTest > the view count goes up by one in the database()
+]]></system-out>
+</testcase>
+<testcase name="equal values keep a stable order on the id()" classname="nl.brul.backend.features.report.ReportSearchTest" time="0">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.ReportSearchTest]/[method:equal values keep a stable order on the id()]
+display-name: JUnit Jupiter > ReportSearchTest > equal values keep a stable order on the id()
+]]></system-out>
+</testcase>
+<testcase name="deactivate marks another user inactive()" classname="nl.brul.backend.features.user.UserServiceTest" time="0">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.user.UserServiceTest]/[method:deactivate marks another user inactive()]
+display-name: JUnit Jupiter > UserServiceTest > deactivate marks another user inactive()
+]]></system-out>
+</testcase>
+<testcase name="change password without token returns 401()" classname="nl.brul.backend.features.authentication.AuthenticationRoutesTest" time="0.005">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.authentication.AuthenticationRoutesTest]/[method:change password without token returns 401()]
+display-name: JUnit Jupiter > AuthenticationRoutesTest > change password without token returns 401()
+]]></system-out>
+</testcase>
+<testcase name="incorrect password is rejected()" classname="nl.brul.backend.features.authentication.PasswordHasherTest" time="0.434">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.authentication.PasswordHasherTest]/[method:incorrect password is rejected()]
+display-name: JUnit Jupiter > PasswordHasherTest > incorrect password is rejected()
+]]></system-out>
+</testcase>
+<testcase name="deleting the report removes its photo rows (CASCADE)()" classname="nl.brul.backend.features.report.ReportPhotoRepositoryTest" time="0.007">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.ReportPhotoRepositoryTest]/[method:deleting the report removes its photo rows (CASCADE)()]
+display-name: JUnit Jupiter > ReportPhotoRepositoryTest > deleting the report removes its photo rows (CASCADE)()
+]]></system-out>
+</testcase>
+<testcase name="an unknown report gives 404 and an invalid id 400()" classname="nl.brul.backend.features.report.ReportPhotoRoutesTest" time="0.656">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.ReportPhotoRoutesTest]/[method:an unknown report gives 404 and an invalid id 400()]
+display-name: JUnit Jupiter > ReportPhotoRoutesTest > an unknown report gives 404 and an invalid id 400()
+]]></system-out>
+</testcase>
+<testcase name="unknown id returns 404 and an invalid id returns 400()" classname="nl.brul.backend.features.feedback.FeedbackRoutesTest" time="0.227">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.feedback.FeedbackRoutesTest]/[method:unknown id returns 404 and an invalid id returns 400()]
+display-name: JUnit Jupiter > FeedbackRoutesTest > unknown id returns 404 and an invalid id returns 400()
+]]></system-out>
+</testcase>
+<testcase name="malformed body returns 400()" classname="nl.brul.backend.features.authentication.AuthenticationRoutesTest" time="0.005">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.authentication.AuthenticationRoutesTest]/[method:malformed body returns 400()]
+display-name: JUnit Jupiter > AuthenticationRoutesTest > malformed body returns 400()
+]]></system-out>
+</testcase>
+<testcase name="saves and retrieves feedback()" classname="nl.brul.backend.features.feedback.FeedbackRepositoryTest" time="0.003">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.feedback.FeedbackRepositoryTest]/[method:saves and retrieves feedback()]
+display-name: JUnit Jupiter > FeedbackRepositoryTest > saves and retrieves feedback()
+]]></system-out>
+</testcase>
+<testcase name="every user sees all reports, filtered and paged()" classname="nl.brul.backend.features.report.ReportRoutesTest" time="0.465">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.ReportRoutesTest]/[method:every user sees all reports, filtered and paged()]
+display-name: JUnit Jupiter > ReportRoutesTest > every user sees all reports, filtered and paged()
+]]></system-out>
+</testcase>
+<testcase name="reads valid values()" classname="nl.brul.backend.shared.http.QueryParametersTest" time="0">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.shared.http.QueryParametersTest]/[method:reads valid values()]
+display-name: JUnit Jupiter > QueryParametersTest > reads valid values()
+]]></system-out>
+</testcase>
+<testcase name="token contains user id as subject and passes verification()" classname="nl.brul.backend.features.authentication.JwtServiceTest" time="0.008">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.authentication.JwtServiceTest]/[method:token contains user id as subject and passes verification()]
+display-name: JUnit Jupiter > JwtServiceTest > token contains user id as subject and passes verification()
+]]></system-out>
+</testcase>
+<testcase name="login with a wrong password returns 401()" classname="nl.brul.backend.features.authentication.AuthenticationRoutesTest" time="0.443">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.authentication.AuthenticationRoutesTest]/[method:login with a wrong password returns 401()]
+display-name: JUnit Jupiter > AuthenticationRoutesTest > login with a wrong password returns 401()
+]]></system-out>
+</testcase>
+<testcase name="delete removes the item()" classname="nl.brul.backend.features.feedback.FeedbackServiceTest" time="0">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.feedback.FeedbackServiceTest]/[method:delete removes the item()]
+display-name: JUnit Jupiter > FeedbackServiceTest > delete removes the item()
+]]></system-out>
+</testcase>
+<testcase name="message is passed to the client()" classname="nl.brul.backend.plugins.StatusPagesTest" time="0.008">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.plugins.StatusPagesTest]/[method:message is passed to the client()]
+display-name: JUnit Jupiter > StatusPagesTest > message is passed to the client()
+]]></system-out>
+</testcase>
+<testcase name="logout without token returns 401()" classname="nl.brul.backend.features.authentication.AuthenticationRoutesTest" time="0.005">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.authentication.AuthenticationRoutesTest]/[method:logout without token returns 401()]
+display-name: JUnit Jupiter > AuthenticationRoutesTest > logout without token returns 401()
+]]></system-out>
+</testcase>
+<testcase name="owner can delete an item, after which it is gone()" classname="nl.brul.backend.features.feedback.FeedbackRoutesTest" time="0.883">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.feedback.FeedbackRoutesTest]/[method:owner can delete an item, after which it is gone()]
+display-name: JUnit Jupiter > FeedbackRoutesTest > owner can delete an item, after which it is gone()
+]]></system-out>
+</testcase>
+<testcase name="admin cannot remove own ADMIN role()" classname="nl.brul.backend.features.authorization.RoleRoutesTest" time="0.231">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.authorization.RoleRoutesTest]/[method:admin cannot remove own ADMIN role()]
+display-name: JUnit Jupiter > RoleRoutesTest > admin cannot remove own ADMIN role()
+]]></system-out>
+</testcase>
+<testcase name="unknown status returns 400 and unknown item returns 404()" classname="nl.brul.backend.features.feedback.FeedbackRoutesTest" time="0.226">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.feedback.FeedbackRoutesTest]/[method:unknown status returns 400 and unknown item returns 404()]
+display-name: JUnit Jupiter > FeedbackRoutesTest > unknown status returns 400 and unknown item returns 404()
+]]></system-out>
+</testcase>
+<testcase name="the files of a report can be cleaned up()" classname="nl.brul.backend.features.report.ReportPhotoServiceTest" time="0.003">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.ReportPhotoServiceTest]/[method:the files of a report can be cleaned up()]
+display-name: JUnit Jupiter > ReportPhotoServiceTest > the files of a report can be cleaned up()
+]]></system-out>
+</testcase>
+<testcase name="deactivate raises the token version()" classname="nl.brul.backend.features.user.UserServiceTest" time="0">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.user.UserServiceTest]/[method:deactivate raises the token version()]
+display-name: JUnit Jupiter > UserServiceTest > deactivate raises the token version()
+]]></system-out>
+</testcase>
+<testcase name="photo without EXIF has no location()" classname="nl.brul.backend.features.report.PhotoGpsReaderTest" time="0.002">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.PhotoGpsReaderTest]/[method:photo without EXIF has no location()]
+display-name: JUnit Jupiter > PhotoGpsReaderTest > photo without EXIF has no location()
+]]></system-out>
+</testcase>
+<testcase name="user can see own roles()" classname="nl.brul.backend.features.authorization.RoleRoutesTest" time="0.224">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.authorization.RoleRoutesTest]/[method:user can see own roles()]
+display-name: JUnit Jupiter > RoleRoutesTest > user can see own roles()
+]]></system-out>
+</testcase>
+<testcase name="a help request needs between 1 and 50 volunteers()" classname="nl.brul.backend.features.report.ReportModelTest" time="0">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.ReportModelTest]/[method:a help request needs between 1 and 50 volunteers()]
+display-name: JUnit Jupiter > ReportModelTest > a help request needs between 1 and 50 volunteers()
+]]></system-out>
+</testcase>
+<testcase name="missing user gives 404()" classname="nl.brul.backend.features.user.UserServiceTest" time="0">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.user.UserServiceTest]/[method:missing user gives 404()]
+display-name: JUnit Jupiter > UserServiceTest > missing user gives 404()
+]]></system-out>
+</testcase>
+<testcase name="an area without a location returns 400()" classname="nl.brul.backend.features.report.ReportRoutesTest" time="0.227">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.ReportRoutesTest]/[method:an area without a location returns 400()]
+display-name: JUnit Jupiter > ReportRoutesTest > an area without a location returns 400()
+]]></system-out>
+</testcase>
+<testcase name="the owner uploads a photo and its GPS comes from the photo()" classname="nl.brul.backend.features.report.ReportPhotoRoutesTest" time="0.666">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.ReportPhotoRoutesTest]/[method:the owner uploads a photo and its GPS comes from the photo()]
+display-name: JUnit Jupiter > ReportPhotoRoutesTest > the owner uploads a photo and its GPS comes from the photo()
+]]></system-out>
+</testcase>
+<testcase name="rejects an empty or too long message()" classname="nl.brul.backend.features.feedback.FeedbackServiceTest" time="0">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.feedback.FeedbackServiceTest]/[method:rejects an empty or too long message()]
+display-name: JUnit Jupiter > FeedbackServiceTest > rejects an empty or too long message()
+]]></system-out>
+</testcase>
+<testcase name="protected route without token returns 401 in the error format()" classname="nl.brul.backend.plugins.StatusPagesTest" time="0.005">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.plugins.StatusPagesTest]/[method:protected route without token returns 401 in the error format()]
+display-name: JUnit Jupiter > StatusPagesTest > protected route without token returns 401 in the error format()
+]]></system-out>
+</testcase>
+<testcase name="revoking a role removes its permissions immediately()" classname="nl.brul.backend.features.authorization.AuthorizationServiceTest" time="0">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.authorization.AuthorizationServiceTest]/[method:revoking a role removes its permissions immediately()]
+display-name: JUnit Jupiter > AuthorizationServiceTest > revoking a role removes its permissions immediately()
+]]></system-out>
+</testcase>
+<testcase name="a valid report has the type of its details()" classname="nl.brul.backend.features.report.ReportModelTest" time="0">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.ReportModelTest]/[method:a valid report has the type of its details()]
+display-name: JUnit Jupiter > ReportModelTest > a valid report has the type of its details()
+]]></system-out>
+</testcase>
+<testcase name="owner and admin can read an item, another user cannot()" classname="nl.brul.backend.features.feedback.FeedbackRoutesTest" time="0.677">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.feedback.FeedbackRoutesTest]/[method:owner and admin can read an item, another user cannot()]
+display-name: JUnit Jupiter > FeedbackRoutesTest > owner and admin can read an item, another user cannot()
+]]></system-out>
+</testcase>
+<testcase name="admin searches users by text and active, sorted by display name()" classname="nl.brul.backend.features.user.UserRoutesTest" time="0.874">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.user.UserRoutesTest]/[method:admin searches users by text and active, sorted by display name()]
+display-name: JUnit Jupiter > UserRoutesTest > admin searches users by text and active, sorted by display name()
+]]></system-out>
+</testcase>
+<testcase name="request without token returns 401()" classname="nl.brul.backend.features.report.ReportRoutesTest" time="0.006">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.ReportRoutesTest]/[method:request without token returns 401()]
+display-name: JUnit Jupiter > ReportRoutesTest > request without token returns 401()
+]]></system-out>
+</testcase>
+<testcase name="delete removes the row and reports a missing row()" classname="nl.brul.backend.features.feedback.FeedbackRepositoryTest" time="0.008">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.feedback.FeedbackRepositoryTest]/[method:delete removes the row and reports a missing row()]
+display-name: JUnit Jupiter > FeedbackRepositoryTest > delete removes the row and reports a missing row()
+]]></system-out>
+</testcase>
+<testcase name="title and description may not be empty or too long()" classname="nl.brul.backend.features.report.ReportModelTest" time="0">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.ReportModelTest]/[method:title and description may not be empty or too long()]
+display-name: JUnit Jupiter > ReportModelTest > title and description may not be empty or too long()
+]]></system-out>
+</testcase>
+<testcase name="saves and retrieves a user()" classname="nl.brul.backend.features.user.UserRepositoryTest" time="0.007">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.user.UserRepositoryTest]/[method:saves and retrieves a user()]
+display-name: JUnit Jupiter > UserRepositoryTest > saves and retrieves a user()
+]]></system-out>
+</testcase>
+<testcase name="regular user cannot list all users()" classname="nl.brul.backend.features.user.UserRoutesTest" time="0.233">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.user.UserRoutesTest]/[method:regular user cannot list all users()]
+display-name: JUnit Jupiter > UserRoutesTest > regular user cannot list all users()
+]]></system-out>
+</testcase>
+<testcase name="change password with a wrong current password returns 400()" classname="nl.brul.backend.features.authentication.AuthenticationRoutesTest" time="0.437">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.authentication.AuthenticationRoutesTest]/[method:change password with a wrong current password returns 400()]
+display-name: JUnit Jupiter > AuthenticationRoutesTest > change password with a wrong current password returns 400()
+]]></system-out>
+</testcase>
+<testcase name="register gives a new user the USER role()" classname="nl.brul.backend.features.authentication.AuthenticationServiceTest" time="0.215">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.authentication.AuthenticationServiceTest]/[method:register gives a new user the USER role()]
+display-name: JUnit Jupiter > AuthenticationServiceTest > register gives a new user the USER role()
+]]></system-out>
+</testcase>
+<testcase name="delete removes the data and the file()" classname="nl.brul.backend.features.report.ReportPhotoServiceTest" time="0.003">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.ReportPhotoServiceTest]/[method:delete removes the data and the file()]
+display-name: JUnit Jupiter > ReportPhotoServiceTest > delete removes the data and the file()
+]]></system-out>
+</testcase>
+<testcase name="deactivated admin is denied()" classname="nl.brul.backend.features.authorization.AuthorizationServiceTest" time="0">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.authorization.AuthorizationServiceTest]/[method:deactivated admin is denied()]
+display-name: JUnit Jupiter > AuthorizationServiceTest > deactivated admin is denied()
+]]></system-out>
+</testcase>
+<testcase name="token from another issuer is rejected()" classname="nl.brul.backend.features.authentication.JwtServiceTest" time="0.007">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.authentication.JwtServiceTest]/[method:token from another issuer is rejected()]
+display-name: JUnit Jupiter > JwtServiceTest > token from another issuer is rejected()
+]]></system-out>
+</testcase>
+<testcase name="a resolved report cannot go back, which gives 409()" classname="nl.brul.backend.features.report.ReportServiceTest" time="0">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.ReportServiceTest]/[method:a resolved report cannot go back, which gives 409()]
+display-name: JUnit Jupiter > ReportServiceTest > a resolved report cannot go back, which gives 409()
+]]></system-out>
+</testcase>
+<testcase name="regular user cannot search users()" classname="nl.brul.backend.features.user.UserRoutesTest" time="0.232">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.user.UserRoutesTest]/[method:regular user cannot search users()]
+display-name: JUnit Jupiter > UserRoutesTest > regular user cannot search users()
+]]></system-out>
+</testcase>
+<testcase name="admin has every permission()" classname="nl.brul.backend.features.authorization.AuthorizationServiceTest" time="0">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.authorization.AuthorizationServiceTest]/[method:admin has every permission()]
+display-name: JUnit Jupiter > AuthorizationServiceTest > admin has every permission()
+]]></system-out>
+</testcase>
+<testcase name="admins can remove another role from their own account()" classname="nl.brul.backend.features.authorization.AuthorizationServiceTest" time="0">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.authorization.AuthorizationServiceTest]/[method:admins can remove another role from their own account()]
+display-name: JUnit Jupiter > AuthorizationServiceTest > admins can remove another role from their own account()
+]]></system-out>
+</testcase>
+<testcase name="delete removes the report and the files of its photos()" classname="nl.brul.backend.features.report.ReportServiceTest" time="0.003">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.ReportServiceTest]/[method:delete removes the report and the files of its photos()]
+display-name: JUnit Jupiter > ReportServiceTest > delete removes the report and the files of its photos()
+]]></system-out>
+</testcase>
+<testcase name="register rejects a duplicate email()" classname="nl.brul.backend.features.authentication.AuthenticationServiceTest" time="0.215">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.authentication.AuthenticationServiceTest]/[method:register rejects a duplicate email()]
+display-name: JUnit Jupiter > AuthenticationServiceTest > register rejects a duplicate email()
+]]></system-out>
+</testcase>
+<testcase name="deactivated user's token stops working()" classname="nl.brul.backend.features.user.UserRoutesTest" time="0.458">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.user.UserRoutesTest]/[method:deactivated user's token stops working()]
+display-name: JUnit Jupiter > UserRoutesTest > deactivated user's token stops working()
+]]></system-out>
+</testcase>
+<testcase name="the type of a report cannot change()" classname="nl.brul.backend.features.report.ReportServiceTest" time="0">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.ReportServiceTest]/[method:the type of a report cannot change()]
+display-name: JUnit Jupiter > ReportServiceTest > the type of a report cannot change()
+]]></system-out>
+</testcase>
+<testcase name="reactivate without token returns 401()" classname="nl.brul.backend.features.user.UserRoutesTest" time="0.005">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.user.UserRoutesTest]/[method:reactivate without token returns 401()]
+display-name: JUnit Jupiter > UserRoutesTest > reactivate without token returns 401()
+]]></system-out>
+</testcase>
+<testcase name="the first broken rule decides()" classname="nl.brul.backend.features.report.PhotoRulesTest" time="0">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.PhotoRulesTest]/[method:the first broken rule decides()]
+display-name: JUnit Jupiter > PhotoRulesTest > the first broken rule decides()
+]]></system-out>
+</testcase>
+<testcase name="regular user has no permissions()" classname="nl.brul.backend.features.authorization.AuthorizationServiceTest" time="0">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.authorization.AuthorizationServiceTest]/[method:regular user has no permissions()]
+display-name: JUnit Jupiter > AuthorizationServiceTest > regular user has no permissions()
+]]></system-out>
+</testcase>
+<testcase name="the owner and an admin may update, someone else gets 403()" classname="nl.brul.backend.features.report.ReportRoutesTest" time="0.692">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.ReportRoutesTest]/[method:the owner and an admin may update, someone else gets 403()]
+display-name: JUnit Jupiter > ReportRoutesTest > the owner and an admin may update, someone else gets 403()
+]]></system-out>
+</testcase>
+<testcase name="updateStatus changes the status()" classname="nl.brul.backend.features.feedback.FeedbackServiceTest" time="0">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.feedback.FeedbackServiceTest]/[method:updateStatus changes the status()]
+display-name: JUnit Jupiter > FeedbackServiceTest > updateStatus changes the status()
+]]></system-out>
+</testcase>
+<testcase name="returns 409 for the fourth photo()" classname="nl.brul.backend.features.report.ReportPhotoRoutesTest" time="0.677">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.ReportPhotoRoutesTest]/[method:returns 409 for the fourth photo()]
+display-name: JUnit Jupiter > ReportPhotoRoutesTest > returns 409 for the fourth photo()
+]]></system-out>
+</testcase>
+<testcase name="search text is trimmed and blank means no filter()" classname="nl.brul.backend.shared.http.QueryParametersTest" time="0">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.shared.http.QueryParametersTest]/[method:search text is trimmed and blank means no filter()]
+display-name: JUnit Jupiter > QueryParametersTest > search text is trimmed and blank means no filter()
+]]></system-out>
+</testcase>
+<testcase name="without any GPS the photo has no location()" classname="nl.brul.backend.features.report.ReportPhotoServiceTest" time="0.002">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.ReportPhotoServiceTest]/[method:without any GPS the photo has no location()]
+display-name: JUnit Jupiter > ReportPhotoServiceTest > without any GPS the photo has no location()
+]]></system-out>
+</testcase>
+<testcase name="maps all public fields()" classname="nl.brul.backend.features.user.UserMapperTest" time="0">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.user.UserMapperTest]/[method:maps all public fields()]
+display-name: JUnit Jupiter > UserMapperTest > maps all public fields()
+]]></system-out>
+</testcase>
+<testcase name="admin can list the roles()" classname="nl.brul.backend.features.authorization.RoleRoutesTest" time="0.227">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.authorization.RoleRoutesTest]/[method:admin can list the roles()]
+display-name: JUnit Jupiter > RoleRoutesTest > admin can list the roles()
+]]></system-out>
+</testcase>
+<testcase name="deleting a report removes its photo files()" classname="nl.brul.backend.features.report.ReportPhotoRoutesTest" time="0.661">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.ReportPhotoRoutesTest]/[method:deleting a report removes its photo files()]
+display-name: JUnit Jupiter > ReportPhotoRoutesTest > deleting a report removes its photo files()
+]]></system-out>
+</testcase>
+<testcase name="update changes the content and the status, but not the owner, time or views()" classname="nl.brul.backend.features.report.ReportRepositoryTest" time="0.004">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.ReportRepositoryTest]/[method:update changes the content and the status, but not the owner, time or views()]
+display-name: JUnit Jupiter > ReportRepositoryTest > update changes the content and the status, but not the owner, time or views()
+]]></system-out>
+</testcase>
+<testcase name="updates display name and preserves password hash()" classname="nl.brul.backend.features.user.UserServiceTest" time="0.001">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.user.UserServiceTest]/[method:updates display name and preserves password hash()]
+display-name: JUnit Jupiter > UserServiceTest > updates display name and preserves password hash()
+]]></system-out>
+</testcase>
+<testcase name="register sets createdAt to the current time in UTC()" classname="nl.brul.backend.features.authentication.AuthenticationServiceTest" time="0.213">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.authentication.AuthenticationServiceTest]/[method:register sets createdAt to the current time in UTC()]
+display-name: JUnit Jupiter > AuthenticationServiceTest > register sets createdAt to the current time in UTC()
+]]></system-out>
+</testcase>
+<testcase name="me returns the current user()" classname="nl.brul.backend.features.user.UserRoutesTest" time="0.223">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.user.UserRoutesTest]/[method:me returns the current user()]
+display-name: JUnit Jupiter > UserRoutesTest > me returns the current user()
+]]></system-out>
+</testcase>
+<testcase name="logout returns 204 and the token stops working()" classname="nl.brul.backend.features.authentication.AuthenticationRoutesTest" time="0.219">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.authentication.AuthenticationRoutesTest]/[method:logout returns 204 and the token stops working()]
+display-name: JUnit Jupiter > AuthenticationRoutesTest > logout returns 204 and the token stops working()
+]]></system-out>
+</testcase>
+<testcase name="search filters on status and on text, ignoring case()" classname="nl.brul.backend.features.feedback.FeedbackRepositoryTest" time="0.006">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.feedback.FeedbackRepositoryTest]/[method:search filters on status and on text, ignoring case()]
+display-name: JUnit Jupiter > FeedbackRepositoryTest > search filters on status and on text, ignoring case()
+]]></system-out>
+</testcase>
+<testcase name="delete removes the row and reports a missing row()" classname="nl.brul.backend.features.report.ReportRepositoryTest" time="0.009">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.ReportRepositoryTest]/[method:delete removes the row and reports a missing row()]
+display-name: JUnit Jupiter > ReportRepositoryTest > delete removes the row and reports a missing row()
+]]></system-out>
+</testcase>
+<testcase name="search filters on the owner and returns the newest first by default()" classname="nl.brul.backend.features.feedback.FeedbackRepositoryTest" time="0.004">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.feedback.FeedbackRepositoryTest]/[method:search filters on the owner and returns the newest first by default()]
+display-name: JUnit Jupiter > FeedbackRepositoryTest > search filters on the owner and returns the newest first by default()
+]]></system-out>
+</testcase>
+<testcase name="another user cannot delete an item but admin can()" classname="nl.brul.backend.features.feedback.FeedbackRoutesTest" time="0.674">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.feedback.FeedbackRoutesTest]/[method:another user cannot delete an item but admin can()]
+display-name: JUnit Jupiter > FeedbackRoutesTest > another user cannot delete an item but admin can()
+]]></system-out>
+</testcase>
+<testcase name="reactivated user can log in again but the old token stays invalid()" classname="nl.brul.backend.features.user.UserRoutesTest" time="0.67">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.user.UserRoutesTest]/[method:reactivated user can log in again but the old token stays invalid()]
+display-name: JUnit Jupiter > UserRoutesTest > reactivated user can log in again but the old token stays invalid()
+]]></system-out>
+</testcase>
+<testcase name="admin can list all users()" classname="nl.brul.backend.features.user.UserRoutesTest" time="0.452">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.user.UserRoutesTest]/[method:admin can list all users()]
+display-name: JUnit Jupiter > UserRoutesTest > admin can list all users()
+]]></system-out>
+</testcase>
+<testcase name="login rejects a wrong password()" classname="nl.brul.backend.features.authentication.AuthenticationServiceTest" time="0.428">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.authentication.AuthenticationServiceTest]/[method:login rejects a wrong password()]
+display-name: JUnit Jupiter > AuthenticationServiceTest > login rejects a wrong password()
+]]></system-out>
+</testcase>
+<testcase name="user can read own account but not another account()" classname="nl.brul.backend.features.user.UserRoutesTest" time="0.447">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.user.UserRoutesTest]/[method:user can read own account but not another account()]
+display-name: JUnit Jupiter > UserRoutesTest > user can read own account but not another account()
+]]></system-out>
+</testcase>
+<testcase name="saves and retrieves every type with its extra field()" classname="nl.brul.backend.features.report.ReportRepositoryTest" time="0.006">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.ReportRepositoryTest]/[method:saves and retrieves every type with its extra field()]
+display-name: JUnit Jupiter > ReportRepositoryTest > saves and retrieves every type with its extra field()
+]]></system-out>
+</testcase>
+<testcase name="change password rejects a short new password()" classname="nl.brul.backend.features.authentication.AuthenticationServiceTest" time="0.216">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.authentication.AuthenticationServiceTest]/[method:change password rejects a short new password()]
+display-name: JUnit Jupiter > AuthenticationServiceTest > change password rejects a short new password()
+]]></system-out>
+</testcase>
+<testcase name="login rejects an unknown email with the same error()" classname="nl.brul.backend.features.authentication.AuthenticationServiceTest" time="0">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.authentication.AuthenticationServiceTest]/[method:login rejects an unknown email with the same error()]
+display-name: JUnit Jupiter > AuthenticationServiceTest > login rejects an unknown email with the same error()
+]]></system-out>
+</testcase>
+<testcase name="P3 a text file is rejected and nothing is stored()" classname="nl.brul.backend.features.report.ReportPhotoServiceTest" time="0.001">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.ReportPhotoServiceTest]/[method:P3 a text file is rejected and nothing is stored()]
+display-name: JUnit Jupiter > ReportPhotoServiceTest > P3 a text file is rejected and nothing is stored()
+]]></system-out>
+</testcase>
+<testcase name="the response has the ids as text, the time in ISO 8601 and only the extra field of the type()" classname="nl.brul.backend.features.report.ReportMapperTest" time="0">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.ReportMapperTest]/[method:the response has the ids as text, the time in ISO 8601 and only the extra field of the type()]
+display-name: JUnit Jupiter > ReportMapperTest > the response has the ids as text, the time in ISO 8601 and only the extra field of the type()
+]]></system-out>
+</testcase>
+<testcase name="the distance between Breda and Tilburg is about 22 km()" classname="nl.brul.backend.features.report.ReportModelTest" time="0">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.ReportModelTest]/[method:the distance between Breda and Tilburg is about 22 km()]
+display-name: JUnit Jupiter > ReportModelTest > the distance between Breda and Tilburg is about 22 km()
+]]></system-out>
+</testcase>
+<testcase name="request without token returns 401()" classname="nl.brul.backend.features.user.UserRoutesTest" time="0.005">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.user.UserRoutesTest]/[method:request without token returns 401()]
+display-name: JUnit Jupiter > UserRoutesTest > request without token returns 401()
+]]></system-out>
+</testcase>
+<testcase name="a location must be on earth()" classname="nl.brul.backend.features.report.ReportModelTest" time="0">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.ReportModelTest]/[method:a location must be on earth()]
+display-name: JUnit Jupiter > ReportModelTest > a location must be on earth()
+]]></system-out>
+</testcase>
+<testcase name="incrementTokenVersion raises the version and update keeps it()" classname="nl.brul.backend.features.user.UserRepositoryTest" time="0.349">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.user.UserRepositoryTest]/[method:incrementTokenVersion raises the version and update keeps it()]
+display-name: JUnit Jupiter > UserRepositoryTest > incrementTokenVersion raises the version and update keeps it()
+]]></system-out>
+</testcase>
+<testcase name="hashed password can be verified()" classname="nl.brul.backend.features.authentication.PasswordHasherTest" time="0.447">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.authentication.PasswordHasherTest]/[method:hashed password can be verified()]
+display-name: JUnit Jupiter > PasswordHasherTest > hashed password can be verified()
+]]></system-out>
+</testcase>
+<testcase name="a help request keeps its number of volunteers()" classname="nl.brul.backend.features.report.ReportServiceTest" time="0">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.ReportServiceTest]/[method:a help request keeps its number of volunteers()]
+display-name: JUnit Jupiter > ReportServiceTest > a help request keeps its number of volunteers()
+]]></system-out>
+</testcase>
+<testcase name="user lists only own feedback and admin lists all()" classname="nl.brul.backend.features.feedback.FeedbackRoutesTest" time="0.657">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.feedback.FeedbackRoutesTest]/[method:user lists only own feedback and admin lists all()]
+display-name: JUnit Jupiter > FeedbackRoutesTest > user lists only own feedback and admin lists all()
+]]></system-out>
+</testcase>
+<testcase name="user creates a report and becomes the owner()" classname="nl.brul.backend.features.report.ReportRoutesTest" time="0.232">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.ReportRoutesTest]/[method:user creates a report and becomes the owner()]
+display-name: JUnit Jupiter > ReportRoutesTest > user creates a report and becomes the owner()
+]]></system-out>
+</testcase>
+<testcase name="the list shows the photos of the report, oldest first, and the image comes back()" classname="nl.brul.backend.features.report.ReportPhotoServiceTest" time="0.037">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.ReportPhotoServiceTest]/[method:the list shows the photos of the report, oldest first, and the image comes back()]
+display-name: JUnit Jupiter > ReportPhotoServiceTest > the list shows the photos of the report, oldest first, and the image comes back()
+]]></system-out>
+</testcase>
+<testcase name="reads big-endian EXIF as well()" classname="nl.brul.backend.features.report.PhotoGpsReaderTest" time="0.002">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.PhotoGpsReaderTest]/[method:reads big-endian EXIF as well()]
+display-name: JUnit Jupiter > PhotoGpsReaderTest > reads big-endian EXIF as well()
+]]></system-out>
+</testcase>
+<testcase name="register gives the bootstrap admin the ADMIN role()" classname="nl.brul.backend.features.authentication.AuthenticationServiceTest" time="0.215">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.authentication.AuthenticationServiceTest]/[method:register gives the bootstrap admin the ADMIN role()]
+display-name: JUnit Jupiter > AuthenticationServiceTest > register gives the bootstrap admin the ADMIN role()
+]]></system-out>
+</testcase>
+<testcase name="missing feedback gives 404()" classname="nl.brul.backend.features.feedback.FeedbackServiceTest" time="0">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.feedback.FeedbackServiceTest]/[method:missing feedback gives 404()]
+display-name: JUnit Jupiter > FeedbackServiceTest > missing feedback gives 404()
+]]></system-out>
+</testcase>
+<testcase name="login succeeds with correct credentials()" classname="nl.brul.backend.features.authentication.AuthenticationServiceTest" time="0.428">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.authentication.AuthenticationServiceTest]/[method:login succeeds with correct credentials()]
+display-name: JUnit Jupiter > AuthenticationServiceTest > login succeeds with correct credentials()
+]]></system-out>
+</testcase>
+<testcase name="search returns one page and the total number of matches()" classname="nl.brul.backend.features.feedback.FeedbackServiceTest" time="0">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.feedback.FeedbackServiceTest]/[method:search returns one page and the total number of matches()]
+display-name: JUnit Jupiter > FeedbackServiceTest > search returns one page and the total number of matches()
+]]></system-out>
+</testcase>
+<testcase name="an unknown report gives 404()" classname="nl.brul.backend.features.report.ReportServiceTest" time="0">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.ReportServiceTest]/[method:an unknown report gives 404()]
+display-name: JUnit Jupiter > ReportServiceTest > an unknown report gives 404()
+]]></system-out>
+</testcase>
+<testcase name="without an area every report stays, newest first by default()" classname="nl.brul.backend.features.report.ReportSearchTest" time="0">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.ReportSearchTest]/[method:without an area every report stays, newest first by default()]
+display-name: JUnit Jupiter > ReportSearchTest > without an area every report stays, newest first by default()
+]]></system-out>
+</testcase>
+<testcase name="a resolved report cannot go back, which returns 409()" classname="nl.brul.backend.features.report.ReportRoutesTest" time="0.241">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.ReportRoutesTest]/[method:a resolved report cannot go back, which returns 409()]
+display-name: JUnit Jupiter > ReportRoutesTest > a resolved report cannot go back, which returns 409()
+]]></system-out>
+</testcase>
+<testcase name="rejects a second user with the same email()" classname="nl.brul.backend.features.user.UserRepositoryTest" time="0.015">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.user.UserRepositoryTest]/[method:rejects a second user with the same email()]
+display-name: JUnit Jupiter > UserRepositoryTest > rejects a second user with the same email()
+]]></system-out>
+</testcase>
+<testcase name="create with an empty message or a malformed body returns 400()" classname="nl.brul.backend.features.feedback.FeedbackRoutesTest" time="0.232">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.feedback.FeedbackRoutesTest]/[method:create with an empty message or a malformed body returns 400()]
+display-name: JUnit Jupiter > FeedbackRoutesTest > create with an empty message or a malformed body returns 400()
+]]></system-out>
+</testcase>
+<testcase name="a normal JPEG or PNG is allowed and its format is returned()" classname="nl.brul.backend.features.report.PhotoRulesTest" time="0">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.PhotoRulesTest]/[method:a normal JPEG or PNG is allowed and its format is returned()]
+display-name: JUnit Jupiter > PhotoRulesTest > a normal JPEG or PNG is allowed and its format is returned()
+]]></system-out>
+</testcase>
+<testcase name="returns 400 without a photo or with only one coordinate()" classname="nl.brul.backend.features.report.ReportPhotoRoutesTest" time="0.686">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.ReportPhotoRoutesTest]/[method:returns 400 without a photo or with only one coordinate()]
+display-name: JUnit Jupiter > ReportPhotoRoutesTest > returns 400 without a photo or with only one coordinate()
+]]></system-out>
+</testcase>
+<testcase name="getOwnerId returns the owner()" classname="nl.brul.backend.features.feedback.FeedbackServiceTest" time="0">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.feedback.FeedbackServiceTest]/[method:getOwnerId returns the owner()]
+display-name: JUnit Jupiter > FeedbackServiceTest > getOwnerId returns the owner()
+]]></system-out>
+</testcase>
+<testcase name="admin can change the status, the owner cannot()" classname="nl.brul.backend.features.feedback.FeedbackRoutesTest" time="0.446">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.feedback.FeedbackRoutesTest]/[method:admin can change the status, the owner cannot()]
+display-name: JUnit Jupiter > FeedbackRoutesTest > admin can change the status, the owner cannot()
+]]></system-out>
+</testcase>
+<testcase name="request without token returns 401()" classname="nl.brul.backend.features.report.ReportPhotoRoutesTest" time="0.663">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.ReportPhotoRoutesTest]/[method:request without token returns 401()]
+display-name: JUnit Jupiter > ReportPhotoRoutesTest > request without token returns 401()
+]]></system-out>
+</testcase>
+<testcase name="create sets the owner, the status OPEN and the time, and trims the text()" classname="nl.brul.backend.features.report.ReportServiceTest" time="0">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.ReportServiceTest]/[method:create sets the owner, the status OPEN and the time, and trims the text()]
+display-name: JUnit Jupiter > ReportServiceTest > create sets the owner, the status OPEN and the time, and trims the text()
+]]></system-out>
+</testcase>
+<testcase name="a cut-off file gives no location and no crash()" classname="nl.brul.backend.features.report.PhotoGpsReaderTest" time="0.003">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.PhotoGpsReaderTest]/[method:a cut-off file gives no location and no crash()]
+display-name: JUnit Jupiter > PhotoGpsReaderTest > a cut-off file gives no location and no crash()
+]]></system-out>
+</testcase>
+<testcase name="delete removes only that photo()" classname="nl.brul.backend.features.report.ReportPhotoRepositoryTest" time="0.007">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.ReportPhotoRepositoryTest]/[method:delete removes only that photo()]
+display-name: JUnit Jupiter > ReportPhotoRepositoryTest > delete removes only that photo()
+]]></system-out>
+</testcase>
+<testcase name="removing a role removes its permissions()" classname="nl.brul.backend.features.authorization.AuthorizationRepositoryTest" time="0.019">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.authorization.AuthorizationRepositoryTest]/[method:removing a role removes its permissions()]
+display-name: JUnit Jupiter > AuthorizationRepositoryTest > removing a role removes its permissions()
+]]></system-out>
+</testcase>
+<testcase name="the owner and an admin may delete, someone else gets 403()" classname="nl.brul.backend.features.report.ReportRoutesTest" time="0.688">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.ReportRoutesTest]/[method:the owner and an admin may delete, someone else gets 403()]
+display-name: JUnit Jupiter > ReportRoutesTest > the owner and an admin may delete, someone else gets 403()
+]]></system-out>
+</testcase>
+<testcase name="no file is left behind when saving the data fails()" classname="nl.brul.backend.features.report.ReportPhotoServiceTest" time="0.002">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.ReportPhotoServiceTest]/[method:no file is left behind when saving the data fails()]
+display-name: JUnit Jupiter > ReportPhotoServiceTest > no file is left behind when saving the data fails()
+]]></system-out>
+</testcase>
+<testcase name="lists the photos of one report, oldest first, and counts them()" classname="nl.brul.backend.features.report.ReportPhotoRepositoryTest" time="0.11">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.ReportPhotoRepositoryTest]/[method:lists the photos of one report, oldest first, and counts them()]
+display-name: JUnit Jupiter > ReportPhotoRepositoryTest > lists the photos of one report, oldest first, and counts them()
+]]></system-out>
+</testcase>
+<testcase name="the uploader deletes a photo and then it is gone()" classname="nl.brul.backend.features.report.ReportPhotoRoutesTest" time="0.66">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.ReportPhotoRoutesTest]/[method:the uploader deletes a photo and then it is gone()]
+display-name: JUnit Jupiter > ReportPhotoRoutesTest > the uploader deletes a photo and then it is gone()
+]]></system-out>
+</testcase>
+<testcase name="login rejects a deactivated user()" classname="nl.brul.backend.features.authentication.AuthenticationServiceTest" time="0.214">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.authentication.AuthenticationServiceTest]/[method:login rejects a deactivated user()]
+display-name: JUnit Jupiter > AuthenticationServiceTest > login rejects a deactivated user()
+]]></system-out>
+</testcase>
+<testcase name="admin gets 404 for an unknown user and 400 for an invalid id()" classname="nl.brul.backend.features.user.UserRoutesTest" time="0.229">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.user.UserRoutesTest]/[method:admin gets 404 for an unknown user and 400 for an invalid id()]
+display-name: JUnit Jupiter > UserRoutesTest > admin gets 404 for an unknown user and 400 for an invalid id()
+]]></system-out>
+</testcase>
+<testcase name="updates an existing user()" classname="nl.brul.backend.features.user.UserRepositoryTest" time="0.007">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.user.UserRepositoryTest]/[method:updates an existing user()]
+display-name: JUnit Jupiter > UserRepositoryTest > updates an existing user()
+]]></system-out>
+</testcase>
+<testcase name="P4 the fourth photo is rejected()" classname="nl.brul.backend.features.report.PhotoRulesTest" time="0">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.PhotoRulesTest]/[method:P4 the fourth photo is rejected()]
+display-name: JUnit Jupiter > PhotoRulesTest > P4 the fourth photo is rejected()
+]]></system-out>
+</testcase>
+<testcase name="updateMessage changes the message and keeps the status()" classname="nl.brul.backend.features.feedback.FeedbackServiceTest" time="0">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.feedback.FeedbackServiceTest]/[method:updateMessage changes the message and keeps the status()]
+display-name: JUnit Jupiter > FeedbackServiceTest > updateMessage changes the message and keeps the status()
+]]></system-out>
+</testcase>
+<testcase name="users may access their own account without a permission()" classname="nl.brul.backend.features.authorization.AuthorizationServiceTest" time="0">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.authorization.AuthorizationServiceTest]/[method:users may access their own account without a permission()]
+display-name: JUnit Jupiter > AuthorizationServiceTest > users may access their own account without a permission()
+]]></system-out>
+</testcase>
+<testcase name="south and west become negative()" classname="nl.brul.backend.features.report.PhotoGpsReaderTest" time="0.001">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.PhotoGpsReaderTest]/[method:south and west become negative()]
+display-name: JUnit Jupiter > PhotoGpsReaderTest > south and west become negative()
+]]></system-out>
+</testcase>
+<testcase name="someone else gets 403, an admin may add a photo()" classname="nl.brul.backend.features.report.ReportPhotoRoutesTest" time="0.667">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.ReportPhotoRoutesTest]/[method:someone else gets 403, an admin may add a photo()]
+display-name: JUnit Jupiter > ReportPhotoRoutesTest > someone else gets 403, an admin may add a photo()
+]]></system-out>
+</testcase>
+<testcase name="owners may access their own resource, others need the permission()" classname="nl.brul.backend.features.authorization.AuthorizationServiceTest" time="0">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.authorization.AuthorizationServiceTest]/[method:owners may access their own resource, others need the permission()]
+display-name: JUnit Jupiter > AuthorizationServiceTest > owners may access their own resource, others need the permission()
+]]></system-out>
+</testcase>
+<testcase name="register normalizes email and stores a hashed password()" classname="nl.brul.backend.features.authentication.AuthenticationServiceTest" time="0.211">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.authentication.AuthenticationServiceTest]/[method:register normalizes email and stores a hashed password()]
+display-name: JUnit Jupiter > AuthenticationServiceTest > register normalizes email and stores a hashed password()
+]]></system-out>
+</testcase>
+<testcase name="opening a report counts a view, an unknown or invalid id gives 404 or 400()" classname="nl.brul.backend.features.report.ReportRoutesTest" time="0.467">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.ReportRoutesTest]/[method:opening a report counts a view, an unknown or invalid id gives 404 or 400()]
+display-name: JUnit Jupiter > ReportRoutesTest > opening a report counts a view, an unknown or invalid id gives 404 or 400()
+]]></system-out>
+</testcase>
+<testcase name="too many password changes return 429()" classname="nl.brul.backend.features.authentication.AuthenticationRoutesTest" time="1.32">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.authentication.AuthenticationRoutesTest]/[method:too many password changes return 429()]
+display-name: JUnit Jupiter > AuthenticationRoutesTest > too many password changes return 429()
+]]></system-out>
+</testcase>
+<testcase name="application exceptions map to status codes()" classname="nl.brul.backend.plugins.StatusPagesTest" time="0.008">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.plugins.StatusPagesTest]/[method:application exceptions map to status codes()]
+display-name: JUnit Jupiter > StatusPagesTest > application exceptions map to status codes()
+]]></system-out>
+</testcase>
+<testcase name="register rejects an invalid email()" classname="nl.brul.backend.features.authentication.AuthenticationServiceTest" time="0">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.authentication.AuthenticationServiceTest]/[method:register rejects an invalid email()]
+display-name: JUnit Jupiter > AuthenticationServiceTest > register rejects an invalid email()
+]]></system-out>
+</testcase>
+<testcase name="search matches part of the email or the display name, ignoring case()" classname="nl.brul.backend.features.user.UserRepositoryTest" time="0.017">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.user.UserRepositoryTest]/[method:search matches part of the email or the display name, ignoring case()]
+display-name: JUnit Jupiter > UserRepositoryTest > search matches part of the email or the display name, ignoring case()
+]]></system-out>
+</testcase>
+<testcase name="each type gets its own extra field and no other()" classname="nl.brul.backend.features.report.ReportModelTest" time="0">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.ReportModelTest]/[method:each type gets its own extra field and no other()]
+display-name: JUnit Jupiter > ReportModelTest > each type gets its own extra field and no other()
+]]></system-out>
+</testcase>
+<testcase name="saves and retrieves a photo with and without a location()" classname="nl.brul.backend.features.report.ReportPhotoRepositoryTest" time="0.006">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.ReportPhotoRepositoryTest]/[method:saves and retrieves a photo with and without a location()]
+display-name: JUnit Jupiter > ReportPhotoRepositoryTest > saves and retrieves a photo with and without a location()
+]]></system-out>
+</testcase>
+<testcase name="someone else cannot delete a photo, an admin can()" classname="nl.brul.backend.features.report.ReportPhotoRoutesTest" time="0.664">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.ReportPhotoRoutesTest]/[method:someone else cannot delete a photo, an admin can()]
+display-name: JUnit Jupiter > ReportPhotoRoutesTest > someone else cannot delete a photo, an admin can()
+]]></system-out>
+</testcase>
+<testcase name="the app location needs both numbers or neither, on earth()" classname="nl.brul.backend.features.report.ReportPhotoMapperTest" time="0.001">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.ReportPhotoMapperTest]/[method:the app location needs both numbers or neither, on earth()]
+display-name: JUnit Jupiter > ReportPhotoMapperTest > the app location needs both numbers or neither, on earth()
+]]></system-out>
+</testcase>
+<testcase name="permissions change immediately, also for an existing token()" classname="nl.brul.backend.features.authorization.RoleRoutesTest" time="0.456">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.authorization.RoleRoutesTest]/[method:permissions change immediately, also for an existing token()]
+display-name: JUnit Jupiter > RoleRoutesTest > permissions change immediately, also for an existing token()
+]]></system-out>
+</testcase>
+<testcase name="owner can edit the message, another user cannot()" classname="nl.brul.backend.features.feedback.FeedbackRoutesTest" time="0.446">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.feedback.FeedbackRoutesTest]/[method:owner can edit the message, another user cannot()]
+display-name: JUnit Jupiter > FeedbackRoutesTest > owner can edit the message, another user cannot()
+]]></system-out>
+</testcase>
+<testcase name="G1 the photo wins over the app location()" classname="nl.brul.backend.features.report.ReportPhotoServiceTest" time="0.005">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.ReportPhotoServiceTest]/[method:G1 the photo wins over the app location()]
+display-name: JUnit Jupiter > ReportPhotoServiceTest > G1 the photo wins over the app location()
+]]></system-out>
+</testcase>
+<testcase name="regular user cannot deactivate another user()" classname="nl.brul.backend.features.user.UserRoutesTest" time="0.457">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.user.UserRoutesTest]/[method:regular user cannot deactivate another user()]
+display-name: JUnit Jupiter > UserRoutesTest > regular user cannot deactivate another user()
+]]></system-out>
+</testcase>
+<testcase name="password hashes use different salts()" classname="nl.brul.backend.features.authentication.PasswordHasherTest" time="0.432">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.authentication.PasswordHasherTest]/[method:password hashes use different salts()]
+display-name: JUnit Jupiter > PasswordHasherTest > password hashes use different salts()
+]]></system-out>
+</testcase>
+<testcase name="admins cannot remove their own ADMIN role()" classname="nl.brul.backend.features.authorization.AuthorizationServiceTest" time="0">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.authorization.AuthorizationServiceTest]/[method:admins cannot remove their own ADMIN role()]
+display-name: JUnit Jupiter > AuthorizationServiceTest > admins cannot remove their own ADMIN role()
+]]></system-out>
+</testcase>
+<testcase name="without a location all three location fields are empty()" classname="nl.brul.backend.features.report.ReportPhotoMapperTest" time="0.003">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.ReportPhotoMapperTest]/[method:without a location all three location fields are empty()]
+display-name: JUnit Jupiter > ReportPhotoMapperTest > without a location all three location fields are empty()
+]]></system-out>
+</testcase>
+<testcase name="garbage gives no location and no crash()" classname="nl.brul.backend.features.report.PhotoGpsReaderTest" time="0">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.PhotoGpsReaderTest]/[method:garbage gives no location and no crash()]
+display-name: JUnit Jupiter > PhotoGpsReaderTest > garbage gives no location and no crash()
+]]></system-out>
+</testcase>
+<testcase name="regular user cannot list or assign roles()" classname="nl.brul.backend.features.authorization.RoleRoutesTest" time="0.225">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.authorization.RoleRoutesTest]/[method:regular user cannot list or assign roles()]
+display-name: JUnit Jupiter > RoleRoutesTest > regular user cannot list or assign roles()
+]]></system-out>
+</testcase>
+<testcase name="create with a wrong category or a malformed body returns 400()" classname="nl.brul.backend.features.report.ReportRoutesTest" time="0.239">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.ReportRoutesTest]/[method:create with a wrong category or a malformed body returns 400()]
+display-name: JUnit Jupiter > ReportRoutesTest > create with a wrong category or a malformed body returns 400()
+]]></system-out>
+</testcase>
+<testcase name="register with an existing email returns 409()" classname="nl.brul.backend.features.authentication.AuthenticationRoutesTest" time="0.22">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.authentication.AuthenticationRoutesTest]/[method:register with an existing email returns 409()]
+display-name: JUnit Jupiter > AuthenticationRoutesTest > register with an existing email returns 409()
+]]></system-out>
+</testcase>
+<testcase name="maps all fields()" classname="nl.brul.backend.features.feedback.FeedbackMapperTest" time="0">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.feedback.FeedbackMapperTest]/[method:maps all fields()]
+display-name: JUnit Jupiter > FeedbackMapperTest > maps all fields()
+]]></system-out>
+</testcase>
+<testcase name="missing parameters give null or the defaults()" classname="nl.brul.backend.shared.http.QueryParametersTest" time="0">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.shared.http.QueryParametersTest]/[method:missing parameters give null or the defaults()]
+display-name: JUnit Jupiter > QueryParametersTest > missing parameters give null or the defaults()
+]]></system-out>
+</testcase>
+<testcase name="query parameters become a ReportQuery()" classname="nl.brul.backend.features.report.ReportMapperTest" time="0">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.ReportMapperTest]/[method:query parameters become a ReportQuery()]
+display-name: JUnit Jupiter > ReportMapperTest > query parameters become a ReportQuery()
+]]></system-out>
+</testcase>
+<testcase name="userId filter cannot widen a regular user's search()" classname="nl.brul.backend.features.feedback.FeedbackRoutesTest" time="0.455">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.feedback.FeedbackRoutesTest]/[method:userId filter cannot widen a regular user's search()]
+display-name: JUnit Jupiter > FeedbackRoutesTest > userId filter cannot widen a regular user's search()
+]]></system-out>
+</testcase>
+<testcase name="search filters on active and returns the requested page()" classname="nl.brul.backend.features.user.UserRepositoryTest" time="0.014">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.user.UserRepositoryTest]/[method:search filters on active and returns the requested page()]
+display-name: JUnit Jupiter > UserRepositoryTest > search filters on active and returns the requested page()
+]]></system-out>
+</testcase>
+<testcase name="reactivate of a missing user gives 404()" classname="nl.brul.backend.features.user.UserServiceTest" time="0">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.user.UserServiceTest]/[method:reactivate of a missing user gives 404()]
+display-name: JUnit Jupiter > UserServiceTest > reactivate of a missing user gives 404()
+]]></system-out>
+</testcase>
+<testcase name="user without any role is denied()" classname="nl.brul.backend.features.authorization.AuthorizationServiceTest" time="0">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.authorization.AuthorizationServiceTest]/[method:user without any role is denied()]
+display-name: JUnit Jupiter > AuthorizationServiceTest > user without any role is denied()
+]]></system-out>
+</testcase>
+<testcase name="request without token returns 401()" classname="nl.brul.backend.features.feedback.FeedbackRoutesTest" time="0.012">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.feedback.FeedbackRoutesTest]/[method:request without token returns 401()]
+display-name: JUnit Jupiter > FeedbackRoutesTest > request without token returns 401()
+]]></system-out>
+</testcase>
+<testcase name="sorting on distance is nearest first unless an order is given()" classname="nl.brul.backend.features.report.ReportMapperTest" time="0">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.ReportMapperTest]/[method:sorting on distance is nearest first unless an order is given()]
+display-name: JUnit Jupiter > ReportMapperTest > sorting on distance is nearest first unless an order is given()
+]]></system-out>
+</testcase>
+<testcase name="create rejects an unknown type, a wrong category and a missing extra field()" classname="nl.brul.backend.features.report.ReportServiceTest" time="0">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.ReportServiceTest]/[method:create rejects an unknown type, a wrong category and a missing extra field()]
+display-name: JUnit Jupiter > ReportServiceTest > create rejects an unknown type, a wrong category and a missing extra field()
+]]></system-out>
+</testcase>
+<testcase name="too many authentication requests return 429()" classname="nl.brul.backend.features.authentication.AuthenticationRoutesTest" time="0.014">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.authentication.AuthenticationRoutesTest]/[method:too many authentication requests return 429()]
+display-name: JUnit Jupiter > AuthenticationRoutesTest > too many authentication requests return 429()
+]]></system-out>
+</testcase>
+<testcase name="expired token is rejected()" classname="nl.brul.backend.features.authentication.JwtServiceTest" time="0.002">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.authentication.JwtServiceTest]/[method:expired token is rejected()]
+display-name: JUnit Jupiter > JwtServiceTest > expired token is rejected()
+]]></system-out>
+</testcase>
+<testcase name="reactivate returns 404 for an unknown user and 400 for an invalid id()" classname="nl.brul.backend.features.user.UserRoutesTest" time="0.231">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.user.UserRoutesTest]/[method:reactivate returns 404 for an unknown user and 400 for an invalid id()]
+display-name: JUnit Jupiter > UserRoutesTest > reactivate returns 404 for an unknown user and 400 for an invalid id()
+]]></system-out>
+</testcase>
+<testcase name="a JPEG and a PNG are recognised by their bytes, other files are not()" classname="nl.brul.backend.features.report.PhotoRulesTest" time="0.003">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.PhotoRulesTest]/[method:a JPEG and a PNG are recognised by their bytes, other files are not()]
+display-name: JUnit Jupiter > PhotoRulesTest > a JPEG and a PNG are recognised by their bytes, other files are not()
+]]></system-out>
+</testcase>
+<testcase name="feedback list sorts on status and pages with limit and offset()" classname="nl.brul.backend.features.feedback.FeedbackRoutesTest" time="0.236">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.feedback.FeedbackRoutesTest]/[method:feedback list sorts on status and pages with limit and offset()]
+display-name: JUnit Jupiter > FeedbackRoutesTest > feedback list sorts on status and pages with limit and offset()
+]]></system-out>
+</testcase>
+<testcase name="P4 the fourth photo is rejected()" classname="nl.brul.backend.features.report.ReportPhotoServiceTest" time="0.009">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.ReportPhotoServiceTest]/[method:P4 the fourth photo is rejected()]
+display-name: JUnit Jupiter > ReportPhotoServiceTest > P4 the fourth photo is rejected()
+]]></system-out>
+</testcase>
+<testcase name="an area or distance without a location, or half a location, is a 400()" classname="nl.brul.backend.features.report.ReportMapperTest" time="0">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.ReportMapperTest]/[method:an area or distance without a location, or half a location, is a 400()]
+display-name: JUnit Jupiter > ReportMapperTest > an area or distance without a location, or half a location, is a 400()
+]]></system-out>
+</testcase>
+<testcase name="token signed with another secret is rejected()" classname="nl.brul.backend.features.authentication.JwtServiceTest" time="0.089">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.authentication.JwtServiceTest]/[method:token signed with another secret is rejected()]
+display-name: JUnit Jupiter > JwtServiceTest > token signed with another secret is rejected()
+]]></system-out>
+</testcase>
+<testcase name="P2 exactly 5 MB is allowed, one byte more is not()" classname="nl.brul.backend.features.report.PhotoRulesTest" time="0">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.PhotoRulesTest]/[method:P2 exactly 5 MB is allowed, one byte more is not()]
+display-name: JUnit Jupiter > PhotoRulesTest > P2 exactly 5 MB is allowed, one byte more is not()
+]]></system-out>
+</testcase>
+<testcase name="rejects an unknown status()" classname="nl.brul.backend.features.feedback.FeedbackServiceTest" time="0">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.feedback.FeedbackServiceTest]/[method:rejects an unknown status()]
+display-name: JUnit Jupiter > FeedbackServiceTest > rejects an unknown status()
+]]></system-out>
+</testcase>
+<testcase name="admin filters on owner, status and text()" classname="nl.brul.backend.features.feedback.FeedbackRoutesTest" time="0.695">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.feedback.FeedbackRoutesTest]/[method:admin filters on owner, status and text()]
+display-name: JUnit Jupiter > FeedbackRoutesTest > admin filters on owner, status and text()
+]]></system-out>
+</testcase>
+<testcase name="change password returns a new token and the old token stops working()" classname="nl.brul.backend.features.authentication.AuthenticationRoutesTest" time="0.655">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.authentication.AuthenticationRoutesTest]/[method:change password returns a new token and the old token stops working()]
+display-name: JUnit Jupiter > AuthenticationRoutesTest > change password returns a new token and the old token stops working()
+]]></system-out>
+</testcase>
+<testcase name="change password rejects a new password equal to the current one()" classname="nl.brul.backend.features.authentication.AuthenticationServiceTest" time="0.214">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.authentication.AuthenticationServiceTest]/[method:change password rejects a new password equal to the current one()]
+display-name: JUnit Jupiter > AuthenticationServiceTest > change password rejects a new password equal to the current one()
+]]></system-out>
+</testcase>
+<testcase name="invalid search parameters return 400()" classname="nl.brul.backend.features.user.UserRoutesTest" time="0.237">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.user.UserRoutesTest]/[method:invalid search parameters return 400()]
+display-name: JUnit Jupiter > UserRoutesTest > invalid search parameters return 400()
+]]></system-out>
+</testcase>
+<testcase name="user gets the permissions of all assigned roles()" classname="nl.brul.backend.features.authorization.AuthorizationRepositoryTest" time="0.014">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.authorization.AuthorizationRepositoryTest]/[method:user gets the permissions of all assigned roles()]
+display-name: JUnit Jupiter > AuthorizationRepositoryTest > user gets the permissions of all assigned roles()
+]]></system-out>
+</testcase>
+<testcase name="findMatching filters on type, category, status and text in title or description()" classname="nl.brul.backend.features.report.ReportRepositoryTest" time="0.008">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.ReportRepositoryTest]/[method:findMatching filters on type, category, status and text in title or description()]
+display-name: JUnit Jupiter > ReportRepositoryTest > findMatching filters on type, category, status and text in title or description()
+]]></system-out>
+</testcase>
+<testcase name="returns 413 for a photo over 5 MB and stores nothing()" classname="nl.brul.backend.features.report.ReportPhotoRoutesTest" time="0.67">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.ReportPhotoRoutesTest]/[method:returns 413 for a photo over 5 MB and stores nothing()]
+display-name: JUnit Jupiter > ReportPhotoRoutesTest > returns 413 for a photo over 5 MB and stores nothing()
+]]></system-out>
+</testcase>
+<testcase name="search returns one page and the total()" classname="nl.brul.backend.features.report.ReportServiceTest" time="0">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.ReportServiceTest]/[method:search returns one page and the total()]
+display-name: JUnit Jupiter > ReportServiceTest > search returns one page and the total()
+]]></system-out>
+</testcase>
+<testcase name="zero zero means no GPS fix()" classname="nl.brul.backend.features.report.PhotoGpsReaderTest" time="0.002">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.PhotoGpsReaderTest]/[method:zero zero means no GPS fix()]
+display-name: JUnit Jupiter > PhotoGpsReaderTest > zero zero means no GPS fix()
+]]></system-out>
+</testcase>
+<testcase name="sorting on views puts the most viewed first()" classname="nl.brul.backend.features.report.ReportSearchTest" time="0">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.ReportSearchTest]/[method:sorting on views puts the most viewed first()]
+display-name: JUnit Jupiter > ReportSearchTest > sorting on views puts the most viewed first()
+]]></system-out>
+</testcase>
+<testcase name="the file is stored under the photo id and the server sets the time and the url()" classname="nl.brul.backend.features.report.ReportPhotoServiceTest" time="0.002">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.ReportPhotoServiceTest]/[method:the file is stored under the photo id and the server sets the time and the url()]
+display-name: JUnit Jupiter > ReportPhotoServiceTest > the file is stored under the photo id and the server sets the time and the url()
+]]></system-out>
+</testcase>
+<testcase name="users may not access another account without the permission()" classname="nl.brul.backend.features.authorization.AuthorizationServiceTest" time="0">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.authorization.AuthorizationServiceTest]/[method:users may not access another account without the permission()]
+display-name: JUnit Jupiter > AuthorizationServiceTest > users may not access another account without the permission()
+]]></system-out>
+</testcase>
+<testcase name="P3 an unknown format is rejected()" classname="nl.brul.backend.features.report.PhotoRulesTest" time="0">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.PhotoRulesTest]/[method:P3 an unknown format is rejected()]
+display-name: JUnit Jupiter > PhotoRulesTest > P3 an unknown format is rejected()
+]]></system-out>
+</testcase>
+<testcase name="reads latitude and longitude from a phone photo()" classname="nl.brul.backend.features.report.PhotoGpsReaderTest" time="0.003">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.PhotoGpsReaderTest]/[method:reads latitude and longitude from a phone photo()]
+display-name: JUnit Jupiter > PhotoGpsReaderTest > reads latitude and longitude from a phone photo()
+]]></system-out>
+</testcase>
+<testcase name="G1 the location comes from the photo itself()" classname="nl.brul.backend.features.report.ReportPhotoServiceTest" time="0.004">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.ReportPhotoServiceTest]/[method:G1 the location comes from the photo itself()]
+display-name: JUnit Jupiter > ReportPhotoServiceTest > G1 the location comes from the photo itself()
+]]></system-out>
+</testcase>
+<testcase name="opening a report counts as a view()" classname="nl.brul.backend.features.report.ReportServiceTest" time="0">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.ReportServiceTest]/[method:opening a report counts as a view()]
+display-name: JUnit Jupiter > ReportServiceTest > opening a report counts as a view()
+]]></system-out>
+</testcase>
+<testcase name="percent sign in the search text is matched literally()" classname="nl.brul.backend.features.feedback.FeedbackRepositoryTest" time="0.003">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.feedback.FeedbackRepositoryTest]/[method:percent sign in the search text is matched literally()]
+display-name: JUnit Jupiter > FeedbackRepositoryTest > percent sign in the search text is matched literally()
+]]></system-out>
+</testcase>
+<testcase name="unexpected exception returns 500 without details()" classname="nl.brul.backend.plugins.StatusPagesTest" time="0.007">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.plugins.StatusPagesTest]/[method:unexpected exception returns 500 without details()]
+display-name: JUnit Jupiter > StatusPagesTest > unexpected exception returns 500 without details()
+]]></system-out>
+</testcase>
+<testcase name="search sorts ascending and returns the requested page()" classname="nl.brul.backend.features.feedback.FeedbackRepositoryTest" time="0.004">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.feedback.FeedbackRepositoryTest]/[method:search sorts ascending and returns the requested page()]
+display-name: JUnit Jupiter > FeedbackRepositoryTest > search sorts ascending and returns the requested page()
+]]></system-out>
+</testcase>
+<testcase name="findMatching filters on the owner and returns the newest first()" classname="nl.brul.backend.features.report.ReportRepositoryTest" time="0.005">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.ReportRepositoryTest]/[method:findMatching filters on the owner and returns the newest first()]
+display-name: JUnit Jupiter > ReportRepositoryTest > findMatching filters on the owner and returns the newest first()
+]]></system-out>
+</testcase>
+<testcase name="update changes the content and the status but keeps the owner, time and views()" classname="nl.brul.backend.features.report.ReportServiceTest" time="0">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.ReportServiceTest]/[method:update changes the content and the status but keeps the owner, time and views()]
+display-name: JUnit Jupiter > ReportServiceTest > update changes the content and the status but keeps the owner, time and views()
+]]></system-out>
+</testcase>
+<testcase name="register rejects a short password()" classname="nl.brul.backend.features.authentication.AuthenticationServiceTest" time="0">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.authentication.AuthenticationServiceTest]/[method:register rejects a short password()]
+display-name: JUnit Jupiter > AuthenticationServiceTest > register rejects a short password()
+]]></system-out>
+</testcase>
+<testcase name="rejects feedback for a user that does not exist()" classname="nl.brul.backend.features.feedback.FeedbackRepositoryTest" time="0.005">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.feedback.FeedbackRepositoryTest]/[method:rejects feedback for a user that does not exist()]
+display-name: JUnit Jupiter > FeedbackRepositoryTest > rejects feedback for a user that does not exist()
+]]></system-out>
+</testcase>
+<testcase name="invalid feedback search parameters return 400()" classname="nl.brul.backend.features.feedback.FeedbackRoutesTest" time="0.239">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.feedback.FeedbackRoutesTest]/[method:invalid feedback search parameters return 400()]
+display-name: JUnit Jupiter > FeedbackRoutesTest > invalid feedback search parameters return 400()
+]]></system-out>
+</testcase>
+<testcase name="user list pages with limit and offset()" classname="nl.brul.backend.features.user.UserRoutesTest" time="0.677">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.user.UserRoutesTest]/[method:user list pages with limit and offset()]
+display-name: JUnit Jupiter > UserRoutesTest > user list pages with limit and offset()
+]]></system-out>
+</testcase>
+<testcase name="invalid values give 400()" classname="nl.brul.backend.shared.http.QueryParametersTest" time="0">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.shared.http.QueryParametersTest]/[method:invalid values give 400()]
+display-name: JUnit Jupiter > QueryParametersTest > invalid values give 400()
+]]></system-out>
+</testcase>
+<testcase name="user creates feedback and becomes the owner()" classname="nl.brul.backend.features.feedback.FeedbackRoutesTest" time="0.221">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.feedback.FeedbackRoutesTest]/[method:user creates feedback and becomes the owner()]
+display-name: JUnit Jupiter > FeedbackRoutesTest > user creates feedback and becomes the owner()
+]]></system-out>
+</testcase>
+<testcase name="register returns 201()" classname="nl.brul.backend.features.authentication.AuthenticationRoutesTest" time="0.219">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.authentication.AuthenticationRoutesTest]/[method:register returns 201()]
+display-name: JUnit Jupiter > AuthenticationRoutesTest > register returns 201()
+]]></system-out>
+</testcase>
+<testcase name="regular user cannot reactivate a user()" classname="nl.brul.backend.features.user.UserRoutesTest" time="0.463">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.user.UserRoutesTest]/[method:regular user cannot reactivate a user()]
+display-name: JUnit Jupiter > UserRoutesTest > regular user cannot reactivate a user()
+]]></system-out>
+</testcase>
+<testcase name="change password replaces the password and raises the token version()" classname="nl.brul.backend.features.authentication.AuthenticationServiceTest" time="1.068">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.authentication.AuthenticationServiceTest]/[method:change password replaces the password and raises the token version()]
+display-name: JUnit Jupiter > AuthenticationServiceTest > change password replaces the password and raises the token version()
+]]></system-out>
+</testcase>
+<testcase name="the category must belong to the type()" classname="nl.brul.backend.features.report.ReportModelTest" time="0">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.ReportModelTest]/[method:the category must belong to the type()]
+display-name: JUnit Jupiter > ReportModelTest > the category must belong to the type()
+]]></system-out>
+</testcase>
+<testcase name="the status only moves forward()" classname="nl.brul.backend.features.report.ReportModelTest" time="0">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.ReportModelTest]/[method:the status only moves forward()]
+display-name: JUnit Jupiter > ReportModelTest > the status only moves forward()
+]]></system-out>
+</testcase>
+<testcase name="PNG has no location()" classname="nl.brul.backend.features.report.PhotoGpsReaderTest" time="0.002">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.report.PhotoGpsReaderTest]/[method:PNG has no location()]
+display-name: JUnit Jupiter > PhotoGpsReaderTest > PNG has no location()
+]]></system-out>
+</testcase>
+<testcase name="reactivate marks a deactivated user active and keeps the token version()" classname="nl.brul.backend.features.user.UserServiceTest" time="0">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.user.UserServiceTest]/[method:reactivate marks a deactivated user active and keeps the token version()]
+display-name: JUnit Jupiter > UserServiceTest > reactivate marks a deactivated user active and keeps the token version()
+]]></system-out>
+</testcase>
+<testcase name="updates the message and the status but not the owner()" classname="nl.brul.backend.features.feedback.FeedbackRepositoryTest" time="0.003">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:nl.brul.backend.features.feedback.FeedbackRepositoryTest]/[method:updates the message and the status but not the owner()]
+display-name: JUnit Jupiter > FeedbackRepositoryTest > updates the message and the status but not the owner()
+]]></system-out>
+</testcase>
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]
+display-name: JUnit Jupiter
+]]></system-out>
+</testsuite>

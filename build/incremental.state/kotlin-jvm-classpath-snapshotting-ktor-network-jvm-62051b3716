@@ -1,0 +1,21 @@
+{
+    "codeVersion": "0.13.0",
+    "inputValues": {
+        "kotlinVersion": "2.4.20"
+    },
+    "inputFiles": [
+        "C:\\Users\\donma\\AppData\\Local\\JetBrains\\Kotlin\\.m2.cache\\io\\ktor\\ktor-network-jvm\\3.6.0\\ktor-network-jvm-3.6.0.jar"
+    ],
+    "inputFilesState": {
+        "C:\\Users\\donma\\AppData\\Local\\JetBrains\\Kotlin\\.m2.cache\\io\\ktor\\ktor-network-jvm\\3.6.0\\ktor-network-jvm-3.6.0.jar": "size 202163 mtime 2026-10-07T17:25:47.4860288Z"
+    },
+    "outputValues": {},
+    "outputFiles": [
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\ic-cache\\classpath-snapshots\\ktor-network-jvm-3.6.0.jar-e8a1602fed937cf812f27c3a723864b38e4b661f453b964669e283bc086b4c8c.abi"
+    ],
+    "outputFilesState": {
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\ic-cache\\classpath-snapshots\\ktor-network-jvm-3.6.0.jar-e8a1602fed937cf812f27c3a723864b38e4b661f453b964669e283bc086b4c8c.abi": "size 29919 mtime 2026-11-08T08:48:29.6822501Z"
+    },
+    "excludedOutputFiles": [],
+    "dynamicInputs": {}
+}

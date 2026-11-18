@@ -1,0 +1,21 @@
+{
+    "codeVersion": "0.13.0",
+    "inputValues": {
+        "kotlinVersion": "2.4.20"
+    },
+    "inputFiles": [
+        "C:\\Users\\donma\\AppData\\Local\\JetBrains\\Kotlin\\.m2.cache\\io\\ktor\\ktor-events-jvm\\3.6.0\\ktor-events-jvm-3.6.0.jar"
+    ],
+    "inputFilesState": {
+        "C:\\Users\\donma\\AppData\\Local\\JetBrains\\Kotlin\\.m2.cache\\io\\ktor\\ktor-events-jvm\\3.6.0\\ktor-events-jvm-3.6.0.jar": "size 6397 mtime 2026-10-07T17:25:49.1384452Z"
+    },
+    "outputValues": {},
+    "outputFiles": [
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\ic-cache\\classpath-snapshots\\ktor-events-jvm-3.6.0.jar-89eeb5d7e34a605c141500d770b12f3580339a651e41512167a94732b93c3f39.abi"
+    ],
+    "outputFilesState": {
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\ic-cache\\classpath-snapshots\\ktor-events-jvm-3.6.0.jar-89eeb5d7e34a605c141500d770b12f3580339a651e41512167a94732b93c3f39.abi": "size 922 mtime 2026-11-08T08:48:29.4846058Z"
+    },
+    "excludedOutputFiles": [],
+    "dynamicInputs": {}
+}

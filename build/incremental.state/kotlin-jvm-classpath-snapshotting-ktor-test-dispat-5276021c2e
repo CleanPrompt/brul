@@ -1,0 +1,21 @@
+{
+    "codeVersion": "0.13.0",
+    "inputValues": {
+        "kotlinVersion": "2.4.20"
+    },
+    "inputFiles": [
+        "C:\\Users\\donma\\AppData\\Local\\JetBrains\\Kotlin\\.m2.cache\\io\\ktor\\ktor-test-dispatcher-jvm\\3.6.0\\ktor-test-dispatcher-jvm-3.6.0.jar"
+    ],
+    "inputFilesState": {
+        "C:\\Users\\donma\\AppData\\Local\\JetBrains\\Kotlin\\.m2.cache\\io\\ktor\\ktor-test-dispatcher-jvm\\3.6.0\\ktor-test-dispatcher-jvm-3.6.0.jar": "size 6962 mtime 2026-10-07T17:25:47.4590861Z"
+    },
+    "outputValues": {},
+    "outputFiles": [
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\ic-cache\\classpath-snapshots\\ktor-test-dispatcher-jvm-3.6.0.jar-7f89e2851151b0089d018817e6cb3264c863b170568fa29394b032c3f24b13ac.abi"
+    ],
+    "outputFilesState": {
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\ic-cache\\classpath-snapshots\\ktor-test-dispatcher-jvm-3.6.0.jar-7f89e2851151b0089d018817e6cb3264c863b170568fa29394b032c3f24b13ac.abi": "size 670 mtime 2026-11-08T08:48:38.8337972Z"
+    },
+    "excludedOutputFiles": [],
+    "dynamicInputs": {}
+}

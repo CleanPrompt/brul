@@ -1,0 +1,21 @@
+{
+    "codeVersion": "0.13.0",
+    "inputValues": {
+        "kotlinVersion": "2.4.20"
+    },
+    "inputFiles": [
+        "C:\\Users\\donma\\AppData\\Local\\JetBrains\\Kotlin\\.m2.cache\\org\\apache\\httpcomponents\\core5\\httpcore5\\5.4.3\\httpcore5-5.4.3.jar"
+    ],
+    "inputFilesState": {
+        "C:\\Users\\donma\\AppData\\Local\\JetBrains\\Kotlin\\.m2.cache\\org\\apache\\httpcomponents\\core5\\httpcore5\\5.4.3\\httpcore5-5.4.3.jar": "size 955121 mtime 2026-10-07T17:25:48.4919149Z"
+    },
+    "outputValues": {},
+    "outputFiles": [
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\ic-cache\\classpath-snapshots\\httpcore5-5.4.3.jar-e05dae6ab132131919402ed729379ce297ecd1866901a5713aa29bd68b47d43c.abi"
+    ],
+    "outputFilesState": {
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\ic-cache\\classpath-snapshots\\httpcore5-5.4.3.jar-e05dae6ab132131919402ed729379ce297ecd1866901a5713aa29bd68b47d43c.abi": "size 207532 mtime 2026-11-08T08:48:38.8669081Z"
+    },
+    "excludedOutputFiles": [],
+    "dynamicInputs": {}
+}

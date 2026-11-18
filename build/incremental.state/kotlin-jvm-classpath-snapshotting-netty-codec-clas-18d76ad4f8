@@ -1,0 +1,21 @@
+{
+    "codeVersion": "0.13.0",
+    "inputValues": {
+        "kotlinVersion": "2.4.20"
+    },
+    "inputFiles": [
+        "C:\\Users\\donma\\AppData\\Local\\JetBrains\\Kotlin\\.m2.cache\\io\\netty\\netty-codec-classes-quic\\4.2.17.Final\\netty-codec-classes-quic-4.2.17.Final.jar"
+    ],
+    "inputFilesState": {
+        "C:\\Users\\donma\\AppData\\Local\\JetBrains\\Kotlin\\.m2.cache\\io\\netty\\netty-codec-classes-quic\\4.2.17.Final\\netty-codec-classes-quic-4.2.17.Final.jar": "size 265345 mtime 2026-10-07T17:25:48.3188599Z"
+    },
+    "outputValues": {},
+    "outputFiles": [
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\ic-cache\\classpath-snapshots\\netty-codec-classes-quic-4.2.17.Final.jar-eae238ea2a35645b1f192ad8e4a56eaa336245fba7dbfdc3398aba036b7e35ca.abi"
+    ],
+    "outputFilesState": {
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\ic-cache\\classpath-snapshots\\netty-codec-classes-quic-4.2.17.Final.jar-eae238ea2a35645b1f192ad8e4a56eaa336245fba7dbfdc3398aba036b7e35ca.abi": "size 46574 mtime 2026-11-08T08:48:29.6500109Z"
+    },
+    "excludedOutputFiles": [],
+    "dynamicInputs": {}
+}

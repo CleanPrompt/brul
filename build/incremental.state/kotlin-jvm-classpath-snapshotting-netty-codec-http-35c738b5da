@@ -1,0 +1,21 @@
+{
+    "codeVersion": "0.13.0",
+    "inputValues": {
+        "kotlinVersion": "2.4.20"
+    },
+    "inputFiles": [
+        "C:\\Users\\donma\\AppData\\Local\\JetBrains\\Kotlin\\.m2.cache\\io\\netty\\netty-codec-http\\4.2.17.Final\\netty-codec-http-4.2.17.Final.jar"
+    ],
+    "inputFilesState": {
+        "C:\\Users\\donma\\AppData\\Local\\JetBrains\\Kotlin\\.m2.cache\\io\\netty\\netty-codec-http\\4.2.17.Final\\netty-codec-http-4.2.17.Final.jar": "size 679207 mtime 2026-10-07T17:25:47.9103692Z"
+    },
+    "outputValues": {},
+    "outputFiles": [
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\ic-cache\\classpath-snapshots\\netty-codec-http-4.2.17.Final.jar-10e0f5b89dde151aa220f41fb78a13698159560a6331d8aef005b0c75f2679ef.abi"
+    ],
+    "outputFilesState": {
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\ic-cache\\classpath-snapshots\\netty-codec-http-4.2.17.Final.jar-10e0f5b89dde151aa220f41fb78a13698159560a6331d8aef005b0c75f2679ef.abi": "size 130179 mtime 2026-11-08T08:48:29.6742479Z"
+    },
+    "excludedOutputFiles": [],
+    "dynamicInputs": {}
+}

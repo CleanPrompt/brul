@@ -1,0 +1,21 @@
+{
+    "codeVersion": "0.13.0",
+    "inputValues": {
+        "kotlinVersion": "2.4.20"
+    },
+    "inputFiles": [
+        "C:\\Users\\donma\\AppData\\Local\\JetBrains\\Kotlin\\.m2.cache\\io\\netty\\netty-common\\4.2.17.Final\\netty-common-4.2.17.Final.jar"
+    ],
+    "inputFilesState": {
+        "C:\\Users\\donma\\AppData\\Local\\JetBrains\\Kotlin\\.m2.cache\\io\\netty\\netty-common\\4.2.17.Final\\netty-common-4.2.17.Final.jar": "size 820948 mtime 2026-10-07T17:25:48.6518124Z"
+    },
+    "outputValues": {},
+    "outputFiles": [
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\ic-cache\\classpath-snapshots\\netty-common-4.2.17.Final.jar-7c23d8ab49e749bb2d28425bd095ea0b7d4e8ce75814a49a5f5839a799aaee74.abi"
+    ],
+    "outputFilesState": {
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\ic-cache\\classpath-snapshots\\netty-common-4.2.17.Final.jar-7c23d8ab49e749bb2d28425bd095ea0b7d4e8ce75814a49a5f5839a799aaee74.abi": "size 183073 mtime 2026-11-08T08:48:29.6682468Z"
+    },
+    "excludedOutputFiles": [],
+    "dynamicInputs": {}
+}

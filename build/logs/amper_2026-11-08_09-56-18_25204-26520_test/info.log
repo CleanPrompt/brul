@@ -1,0 +1,5 @@
+Kotlin Toolchain version 0.13.0 (abc7a5f, 2026-10-01)
+running on Windows 11 10.0 jvm arch amd64
+
+00:01.848 INFO  :backend:testJvm          Slf4jExtensionsKt         Testing module 'backend' for platform 'jvm'...
+00:02.851 ERROR                           MainKt                    JVM tests failed for module 'backend' with exit code 2 (no tests were discovered) (see errors above)

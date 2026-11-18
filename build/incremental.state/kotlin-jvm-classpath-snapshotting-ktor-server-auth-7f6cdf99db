@@ -1,0 +1,21 @@
+{
+    "codeVersion": "0.13.0",
+    "inputValues": {
+        "kotlinVersion": "2.4.20"
+    },
+    "inputFiles": [
+        "C:\\Users\\donma\\AppData\\Local\\JetBrains\\Kotlin\\.m2.cache\\io\\ktor\\ktor-server-auth-jwt-jvm\\3.6.0\\ktor-server-auth-jwt-jvm-3.6.0.jar"
+    ],
+    "inputFilesState": {
+        "C:\\Users\\donma\\AppData\\Local\\JetBrains\\Kotlin\\.m2.cache\\io\\ktor\\ktor-server-auth-jwt-jvm\\3.6.0\\ktor-server-auth-jwt-jvm-3.6.0.jar": "size 54506 mtime 2026-10-24T12:53:45.7977499Z"
+    },
+    "outputValues": {},
+    "outputFiles": [
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\ic-cache\\classpath-snapshots\\ktor-server-auth-jwt-jvm-3.6.0.jar-686caa72fa133dc344b6e29317d38fe87b2a99c23b44215a9c8dbe15f96a292f.abi"
+    ],
+    "outputFilesState": {
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\ic-cache\\classpath-snapshots\\ktor-server-auth-jwt-jvm-3.6.0.jar-686caa72fa133dc344b6e29317d38fe87b2a99c23b44215a9c8dbe15f96a292f.abi": "size 5383 mtime 2026-11-08T08:48:29.5241129Z"
+    },
+    "excludedOutputFiles": [],
+    "dynamicInputs": {}
+}

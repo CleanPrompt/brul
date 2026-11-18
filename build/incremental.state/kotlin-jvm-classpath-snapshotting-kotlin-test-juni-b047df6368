@@ -1,0 +1,21 @@
+{
+    "codeVersion": "0.13.0",
+    "inputValues": {
+        "kotlinVersion": "2.4.20"
+    },
+    "inputFiles": [
+        "C:\\Users\\donma\\AppData\\Local\\JetBrains\\Kotlin\\.m2.cache\\org\\jetbrains\\kotlin\\kotlin-test-junit5\\2.4.20\\kotlin-test-junit5-2.4.20.jar"
+    ],
+    "inputFilesState": {
+        "C:\\Users\\donma\\AppData\\Local\\JetBrains\\Kotlin\\.m2.cache\\org\\jetbrains\\kotlin\\kotlin-test-junit5\\2.4.20\\kotlin-test-junit5-2.4.20.jar": "size 5183 mtime 2026-10-07T17:25:47.3521253Z"
+    },
+    "outputValues": {},
+    "outputFiles": [
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\ic-cache\\classpath-snapshots\\kotlin-test-junit5-2.4.20.jar-774198d275296ecbf2a26b7c7d27ff65c487c50194c1e7e665c28ee941668776.abi"
+    ],
+    "outputFilesState": {
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\ic-cache\\classpath-snapshots\\kotlin-test-junit5-2.4.20.jar-774198d275296ecbf2a26b7c7d27ff65c487c50194c1e7e665c28ee941668776.abi": "size 833 mtime 2026-11-08T08:48:38.8003348Z"
+    },
+    "excludedOutputFiles": [],
+    "dynamicInputs": {}
+}

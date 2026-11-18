@@ -1,0 +1,21 @@
+{
+    "codeVersion": "0.13.0",
+    "inputValues": {
+        "kotlinVersion": "2.4.20"
+    },
+    "inputFiles": [
+        "C:\\Users\\donma\\AppData\\Local\\JetBrains\\Kotlin\\.m2.cache\\io\\github\\cdimascio\\dotenv-kotlin\\6.5.1\\dotenv-kotlin-6.5.1.jar"
+    ],
+    "inputFilesState": {
+        "C:\\Users\\donma\\AppData\\Local\\JetBrains\\Kotlin\\.m2.cache\\io\\github\\cdimascio\\dotenv-kotlin\\6.5.1\\dotenv-kotlin-6.5.1.jar": "size 7433 mtime 2026-10-24T12:53:46.82011Z"
+    },
+    "outputValues": {},
+    "outputFiles": [
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\ic-cache\\classpath-snapshots\\dotenv-kotlin-6.5.1.jar-c22ee372b189d75751f60201831496aa9cdda85124b24c76746163c85cbfda8e.abi"
+    ],
+    "outputFilesState": {
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\ic-cache\\classpath-snapshots\\dotenv-kotlin-6.5.1.jar-c22ee372b189d75751f60201831496aa9cdda85124b24c76746163c85cbfda8e.abi": "size 523 mtime 2026-11-08T08:48:29.4661022Z"
+    },
+    "excludedOutputFiles": [],
+    "dynamicInputs": {}
+}

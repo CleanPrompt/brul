@@ -1,0 +1,21 @@
+{
+    "codeVersion": "0.13.0",
+    "inputValues": {
+        "kotlinVersion": "2.4.20"
+    },
+    "inputFiles": [
+        "C:\\Users\\donma\\AppData\\Local\\JetBrains\\Kotlin\\.m2.cache\\com\\auth0\\java-jwt\\4.6.2\\java-jwt-4.6.2.jar"
+    ],
+    "inputFilesState": {
+        "C:\\Users\\donma\\AppData\\Local\\JetBrains\\Kotlin\\.m2.cache\\com\\auth0\\java-jwt\\4.6.2\\java-jwt-4.6.2.jar": "size 66066 mtime 2026-11-05T19:18:16.6856931Z"
+    },
+    "outputValues": {},
+    "outputFiles": [
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\ic-cache\\classpath-snapshots\\java-jwt-4.6.2.jar-75d3697ab608f43ccaa78b45669c07a4972a2ec0c4b81c7b2d671acf0a3b4ece.abi"
+    ],
+    "outputFilesState": {
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\ic-cache\\classpath-snapshots\\java-jwt-4.6.2.jar-75d3697ab608f43ccaa78b45669c07a4972a2ec0c4b81c7b2d671acf0a3b4ece.abi": "size 13187 mtime 2026-11-08T08:48:29.4235892Z"
+    },
+    "excludedOutputFiles": [],
+    "dynamicInputs": {}
+}

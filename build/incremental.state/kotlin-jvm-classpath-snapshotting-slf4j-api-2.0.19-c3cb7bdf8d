@@ -1,0 +1,21 @@
+{
+    "codeVersion": "0.13.0",
+    "inputValues": {
+        "kotlinVersion": "2.4.20"
+    },
+    "inputFiles": [
+        "C:\\Users\\donma\\AppData\\Local\\JetBrains\\Kotlin\\.m2.cache\\org\\slf4j\\slf4j-api\\2.0.19\\slf4j-api-2.0.19.jar"
+    ],
+    "inputFilesState": {
+        "C:\\Users\\donma\\AppData\\Local\\JetBrains\\Kotlin\\.m2.cache\\org\\slf4j\\slf4j-api\\2.0.19\\slf4j-api-2.0.19.jar": "size 70246 mtime 2026-10-07T17:25:47.8816662Z"
+    },
+    "outputValues": {},
+    "outputFiles": [
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\ic-cache\\classpath-snapshots\\slf4j-api-2.0.19.jar-617be47db090100a6216a038fbcf5fd257c03d90c9fb44b05e52a3d0228c7638.abi"
+    ],
+    "outputFilesState": {
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\ic-cache\\classpath-snapshots\\slf4j-api-2.0.19.jar-617be47db090100a6216a038fbcf5fd257c03d90c9fb44b05e52a3d0228c7638.abi": "size 11890 mtime 2026-11-08T08:48:29.4245894Z"
+    },
+    "excludedOutputFiles": [],
+    "dynamicInputs": {}
+}

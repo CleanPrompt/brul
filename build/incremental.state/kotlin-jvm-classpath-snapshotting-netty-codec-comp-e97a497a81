@@ -1,0 +1,21 @@
+{
+    "codeVersion": "0.13.0",
+    "inputValues": {
+        "kotlinVersion": "2.4.20"
+    },
+    "inputFiles": [
+        "C:\\Users\\donma\\AppData\\Local\\JetBrains\\Kotlin\\.m2.cache\\io\\netty\\netty-codec-compression\\4.2.17.Final\\netty-codec-compression-4.2.17.Final.jar"
+    ],
+    "inputFilesState": {
+        "C:\\Users\\donma\\AppData\\Local\\JetBrains\\Kotlin\\.m2.cache\\io\\netty\\netty-codec-compression\\4.2.17.Final\\netty-codec-compression-4.2.17.Final.jar": "size 237078 mtime 2026-10-07T17:25:48.4962486Z"
+    },
+    "outputValues": {},
+    "outputFiles": [
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\ic-cache\\classpath-snapshots\\netty-codec-compression-4.2.17.Final.jar-6722a22d78f1f49b90da5baf70a788df93e65d293e30819623b7233fb101df90.abi"
+    ],
+    "outputFilesState": {
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\ic-cache\\classpath-snapshots\\netty-codec-compression-4.2.17.Final.jar-6722a22d78f1f49b90da5baf70a788df93e65d293e30819623b7233fb101df90.abi": "size 37594 mtime 2026-11-08T08:48:29.5695018Z"
+    },
+    "excludedOutputFiles": [],
+    "dynamicInputs": {}
+}

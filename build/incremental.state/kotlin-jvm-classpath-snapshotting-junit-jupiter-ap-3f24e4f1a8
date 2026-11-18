@@ -1,0 +1,21 @@
+{
+    "codeVersion": "0.13.0",
+    "inputValues": {
+        "kotlinVersion": "2.4.20"
+    },
+    "inputFiles": [
+        "C:\\Users\\donma\\AppData\\Local\\JetBrains\\Kotlin\\.m2.cache\\org\\junit\\jupiter\\junit-jupiter-api\\5.10.1\\junit-jupiter-api-5.10.1.jar"
+    ],
+    "inputFilesState": {
+        "C:\\Users\\donma\\AppData\\Local\\JetBrains\\Kotlin\\.m2.cache\\org\\junit\\jupiter\\junit-jupiter-api\\5.10.1\\junit-jupiter-api-5.10.1.jar": "size 210958 mtime 2026-10-07T17:25:47.4136348Z"
+    },
+    "outputValues": {},
+    "outputFiles": [
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\ic-cache\\classpath-snapshots\\junit-jupiter-api-5.10.1.jar-364cab81f594d02b5dd4b699a841678ed32eab58e1a0b8c58573a7ddfe0e9ab9.abi"
+    ],
+    "outputFilesState": {
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\ic-cache\\classpath-snapshots\\junit-jupiter-api-5.10.1.jar-364cab81f594d02b5dd4b699a841678ed32eab58e1a0b8c58573a7ddfe0e9ab9.abi": "size 53150 mtime 2026-11-08T08:48:38.8357975Z"
+    },
+    "excludedOutputFiles": [],
+    "dynamicInputs": {}
+}

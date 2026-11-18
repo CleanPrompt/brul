@@ -1,0 +1,21 @@
+{
+    "codeVersion": "0.13.0",
+    "inputValues": {
+        "kotlinVersion": "2.4.20"
+    },
+    "inputFiles": [
+        "C:\\Users\\donma\\AppData\\Local\\JetBrains\\Kotlin\\.m2.cache\\io\\netty\\netty-codec-marshalling\\4.2.17.Final\\netty-codec-marshalling-4.2.17.Final.jar"
+    ],
+    "inputFilesState": {
+        "C:\\Users\\donma\\AppData\\Local\\JetBrains\\Kotlin\\.m2.cache\\io\\netty\\netty-codec-marshalling\\4.2.17.Final\\netty-codec-marshalling-4.2.17.Final.jar": "size 20378 mtime 2026-10-07T17:25:47.9151381Z"
+    },
+    "outputValues": {},
+    "outputFiles": [
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\ic-cache\\classpath-snapshots\\netty-codec-marshalling-4.2.17.Final.jar-5af1c06b5f38171a81584eb5f03b90479cc729eb41ba402b545274f26310faad.abi"
+    ],
+    "outputFilesState": {
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\ic-cache\\classpath-snapshots\\netty-codec-marshalling-4.2.17.Final.jar-5af1c06b5f38171a81584eb5f03b90479cc729eb41ba402b545274f26310faad.abi": "size 5684 mtime 2026-11-08T08:48:29.5438157Z"
+    },
+    "excludedOutputFiles": [],
+    "dynamicInputs": {}
+}

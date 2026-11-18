@@ -1,0 +1,21 @@
+{
+    "codeVersion": "0.13.0",
+    "inputValues": {
+        "kotlinVersion": "2.4.20"
+    },
+    "inputFiles": [
+        "C:\\Users\\donma\\AppData\\Local\\JetBrains\\Kotlin\\.m2.cache\\io\\netty\\netty-transport-native-epoll\\4.2.17.Final\\netty-transport-native-epoll-4.2.17.Final.jar"
+    ],
+    "inputFilesState": {
+        "C:\\Users\\donma\\AppData\\Local\\JetBrains\\Kotlin\\.m2.cache\\io\\netty\\netty-transport-native-epoll\\4.2.17.Final\\netty-transport-native-epoll-4.2.17.Final.jar": "size 7196 mtime 2026-10-07T17:25:48.3263491Z"
+    },
+    "outputValues": {},
+    "outputFiles": [
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\ic-cache\\classpath-snapshots\\netty-transport-native-epoll-4.2.17.Final.jar-8f9107a7bce13cb3e3786f40ea10af45aa9fcec8233ba80deb64da37e82bbbaf.abi"
+    ],
+    "outputFilesState": {
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\ic-cache\\classpath-snapshots\\netty-transport-native-epoll-4.2.17.Final.jar-8f9107a7bce13cb3e3786f40ea10af45aa9fcec8233ba80deb64da37e82bbbaf.abi": "size 4 mtime 2026-11-08T08:48:29.4641025Z"
+    },
+    "excludedOutputFiles": [],
+    "dynamicInputs": {}
+}

@@ -1,0 +1,1121 @@
+openapi: 3.0.3
+info:
+  title: Brul Backend API
+  version: 1.0.0
+  description: |
+    Every error response uses the ErrorResponse schema.
+    Protected endpoints need `Authorization: Bearer <accessToken>`; a missing or invalid token gives 401,
+    a valid token without the required permission gives 403.
+servers:
+  - url: http://127.0.0.1:8080
+paths:
+  /health:
+    get:
+      summary: Check application health
+      responses:
+        '200':
+          description: Application is running
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: OK
+
+  /api/v1/auth/register:
+    post:
+      summary: Register a new user (gets the USER role)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+      responses:
+        '201':
+          description: User registered
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthenticationResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+
+  /api/v1/auth/login:
+    post:
+      summary: Log in with email and password
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: Logged in
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthenticationResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+
+  /api/v1/auth/logout:
+    post:
+      summary: Log out on every device; all tokens issued to the user so far stop working
+      security: [{ bearerAuth: [] }]
+      responses:
+        '204':
+          description: Logged out
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /api/v1/users/me:
+    get:
+      summary: The current user
+      security: [{ bearerAuth: [] }]
+      responses:
+        '200':
+          $ref: '#/components/responses/User'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /api/v1/users/me/password:
+    post:
+      summary: >-
+        Change your own password; requires the current password. Every earlier token stops working and the
+        response holds a new one. Rate limited (5 per minute).
+      security: [{ bearerAuth: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChangePasswordRequest'
+      responses:
+        '200':
+          description: Password changed; use the new token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthenticationResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+
+  /api/v1/users:
+    get:
+      summary: Search, filter, sort and page users (user.read)
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - $ref: '#/components/parameters/SearchText'
+        - name: active
+          in: query
+          description: Only active (`true`) or only deactivated (`false`) users
+          schema:
+            type: boolean
+        - name: sort
+          in: query
+          schema:
+            type: string
+            enum: [createdAt, displayName, email]
+            default: createdAt
+        - $ref: '#/components/parameters/Order'
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/Offset'
+      responses:
+        '200':
+          description: One page of users; `q` matches part of the email or display name, ignoring case
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserPageResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /api/v1/users/{id}:
+    parameters:
+      - $ref: '#/components/parameters/UserId'
+    get:
+      summary: One user (own account, or user.read)
+      security: [{ bearerAuth: [] }]
+      responses:
+        '200':
+          $ref: '#/components/responses/User'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    patch:
+      summary: Update the display name (own account, or user.update)
+      security: [{ bearerAuth: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUserRequest'
+      responses:
+        '200':
+          $ref: '#/components/responses/User'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      summary: Deactivate a user (user.delete); you cannot deactivate yourself
+      security: [{ bearerAuth: [] }]
+      responses:
+        '204':
+          description: User deactivated
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /api/v1/users/{id}/reactivate:
+    parameters:
+      - $ref: '#/components/parameters/UserId'
+    post:
+      summary: Reactivate a deactivated user (user.delete); tokens from before the deactivation stay invalid
+      security: [{ bearerAuth: [] }]
+      responses:
+        '204':
+          description: User reactivated
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /api/v1/roles:
+    get:
+      summary: All roles (role.read)
+      security: [{ bearerAuth: [] }]
+      responses:
+        '200':
+          $ref: '#/components/responses/Roles'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /api/v1/users/{id}/roles:
+    parameters:
+      - $ref: '#/components/parameters/UserId'
+    get:
+      summary: Roles of a user (own account, or role.read)
+      security: [{ bearerAuth: [] }]
+      responses:
+        '200':
+          $ref: '#/components/responses/Roles'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    post:
+      summary: Assign a role to a user (role.assign)
+      security: [{ bearerAuth: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssignRoleRequest'
+      responses:
+        '204':
+          description: Role assigned
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /api/v1/users/{id}/roles/{roleId}:
+    parameters:
+      - $ref: '#/components/parameters/UserId'
+      - name: roleId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    delete:
+      summary: Remove a role from a user (role.assign; 400 when admins remove their own ADMIN role)
+      security: [{ bearerAuth: [] }]
+      responses:
+        '204':
+          description: Role removed
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /api/v1/feedback:
+    post:
+      summary: Create feedback; the caller becomes the owner and the status starts as OPEN
+      security: [{ bearerAuth: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FeedbackRequest'
+      responses:
+        '201':
+          $ref: '#/components/responses/Feedback'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    get:
+      summary: >-
+        Search, filter, sort and page feedback. Own items only, or every item with feedback.read; without that
+        permission the userId filter is ignored.
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - $ref: '#/components/parameters/SearchText'
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [OPEN, IN_PROGRESS, CLOSED]
+        - name: userId
+          in: query
+          description: Only items of this owner (needs feedback.read to see other owners)
+          schema:
+            type: string
+            format: uuid
+        - name: sort
+          in: query
+          schema:
+            type: string
+            enum: [createdAt, status]
+            default: createdAt
+        - $ref: '#/components/parameters/Order'
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/Offset'
+      responses:
+        '200':
+          description: One page of feedback; `q` matches part of the message, ignoring case
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FeedbackPageResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /api/v1/feedback/{id}:
+    parameters:
+      - $ref: '#/components/parameters/FeedbackId'
+    get:
+      summary: One item (owner, or feedback.read)
+      security: [{ bearerAuth: [] }]
+      responses:
+        '200':
+          $ref: '#/components/responses/Feedback'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    patch:
+      summary: Edit the message (owner, or feedback.update)
+      security: [{ bearerAuth: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FeedbackRequest'
+      responses:
+        '200':
+          $ref: '#/components/responses/Feedback'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      summary: Delete an item for good (owner, or feedback.delete)
+      security: [{ bearerAuth: [] }]
+      responses:
+        '204':
+          description: Feedback deleted
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /api/v1/feedback/{id}/status:
+    parameters:
+      - $ref: '#/components/parameters/FeedbackId'
+    patch:
+      summary: Change the status (feedback.update; also required for the owner)
+      security: [{ bearerAuth: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateFeedbackStatusRequest'
+      responses:
+        '200':
+          $ref: '#/components/responses/Feedback'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /api/v1/reports:
+    post:
+      summary: Make a report; the caller becomes the owner and the status starts as OPEN
+      security: [{ bearerAuth: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateReportRequest'
+      responses:
+        '201':
+          $ref: '#/components/responses/Report'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    get:
+      summary: >-
+        Search, filter, sort and page reports. Every logged-in user sees every report. latitude, longitude and
+        radiusKm limit the result to an area; sort=distance needs latitude and longitude and is nearest first.
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - $ref: '#/components/parameters/SearchText'
+        - name: type
+          in: query
+          schema:
+            type: string
+            enum: [SAFETY, NUISANCE, HELP_REQUEST]
+        - name: category
+          in: query
+          schema:
+            $ref: '#/components/schemas/ReportCategory'
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [OPEN, IN_PROGRESS, RESOLVED]
+        - name: ownerId
+          in: query
+          schema:
+            type: string
+            format: uuid
+        - name: latitude
+          in: query
+          description: Together with longitude; needed for radiusKm and sort=distance
+          schema:
+            type: number
+            minimum: -90
+            maximum: 90
+        - name: longitude
+          in: query
+          schema:
+            type: number
+            minimum: -180
+            maximum: 180
+        - name: radiusKm
+          in: query
+          description: Only reports within this many kilometres of latitude and longitude
+          schema:
+            type: number
+            exclusiveMinimum: true
+            minimum: 0
+            maximum: 100
+        - name: sort
+          in: query
+          schema:
+            type: string
+            enum: [createdAt, viewCount, distance]
+            default: createdAt
+        - $ref: '#/components/parameters/Order'
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/Offset'
+      responses:
+        '200':
+          description: One page of reports; `q` matches part of the title or the description, ignoring case
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportPageResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /api/v1/reports/{id}:
+    parameters:
+      - $ref: '#/components/parameters/ReportId'
+    get:
+      summary: One report; counts as a view (the response already includes it)
+      security: [{ bearerAuth: [] }]
+      responses:
+        '200':
+          $ref: '#/components/responses/Report'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      summary: >-
+        Replace the content and the status (owner, or report.update). The type cannot change; the status only moves
+        forward (OPEN → IN_PROGRESS → RESOLVED, or OPEN → RESOLVED).
+      security: [{ bearerAuth: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateReportRequest'
+      responses:
+        '200':
+          $ref: '#/components/responses/Report'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          description: The status cannot go back (`INVALID_STATUS_CHANGE`)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      summary: Delete a report for good, with its photos (owner, or report.delete)
+      security: [{ bearerAuth: [] }]
+      responses:
+        '204':
+          description: Report deleted
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /api/v1/reports/{id}/photos:
+    parameters:
+      - $ref: '#/components/parameters/ReportId'
+    get:
+      summary: The photos of a report, oldest first (at most 3, so no paging)
+      security: [{ bearerAuth: [] }]
+      responses:
+        '200':
+          description: The photos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ReportPhotoResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    post:
+      summary: >-
+        Add a photo (owner of the report, or report.update). The location comes from the GPS data in the photo, or
+        else from the optional latitude and longitude fields.
+      security: [{ bearerAuth: [] }]
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: [photo]
+              properties:
+                photo:
+                  type: string
+                  format: binary
+                  description: A JPEG or PNG of at most 5 MB
+                latitude:
+                  type: number
+                  description: Only used when the photo has no GPS data; send together with longitude
+                longitude:
+                  type: number
+      responses:
+        '201':
+          description: The photo was added
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportPhotoResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          description: The report already has 3 photos (`PHOTO_LIMIT_REACHED`)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '413':
+          description: The photo is larger than 5 MB (`PHOTO_TOO_LARGE`)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '415':
+          description: The file is not a JPEG or PNG (`UNSUPPORTED_PHOTO_TYPE`)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/photos/{id}:
+    parameters:
+      - $ref: '#/components/parameters/PhotoId'
+    get:
+      summary: The image itself
+      security: [{ bearerAuth: [] }]
+      responses:
+        '200':
+          description: The image
+          content:
+            image/jpeg:
+              schema:
+                type: string
+                format: binary
+            image/png:
+              schema:
+                type: string
+                format: binary
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      summary: Delete a photo (uploader, or report.photo.delete)
+      security: [{ bearerAuth: [] }]
+      responses:
+        '204':
+          description: Photo deleted
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  parameters:
+    UserId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    FeedbackId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    ReportId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    PhotoId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    SearchText:
+      name: q
+      in: query
+      description: Free search text, trimmed; `%` and `_` are matched literally
+      schema:
+        type: string
+        maxLength: 100
+    Order:
+      name: order
+      in: query
+      schema:
+        type: string
+        enum: [asc, desc]
+        default: desc
+    Limit:
+      name: limit
+      in: query
+      description: Page size
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 20
+    Offset:
+      name: offset
+      in: query
+      description: Number of items to skip
+      schema:
+        type: integer
+        minimum: 0
+        default: 0
+
+  responses:
+    Report:
+      description: The report
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ReportResponse'
+    Feedback:
+      description: The feedback item
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/FeedbackResponse'
+    User:
+      description: The user
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UserResponse'
+    Roles:
+      description: Roles
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/RoleResponse'
+    BadRequest:
+      description: Invalid input or malformed body (`INVALID_REQUEST`)
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Missing or invalid token (`UNAUTHORIZED`) or wrong credentials (`INVALID_CREDENTIALS`)
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Forbidden:
+      description: Authenticated, but the required permission is missing (`FORBIDDEN`)
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    NotFound:
+      description: >-
+        Resource not found (`USER_NOT_FOUND`, `ROLE_NOT_FOUND`, `FEEDBACK_NOT_FOUND`, `REPORT_NOT_FOUND`,
+        `PHOTO_NOT_FOUND`)
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Conflict:
+      description: Email address is already registered (`EMAIL_ALREADY_REGISTERED`)
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    TooManyRequests:
+      description: Rate limit exceeded (`TOO_MANY_REQUESTS`)
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+  schemas:
+    ErrorResponse:
+      type: object
+      required: [code, message]
+      properties:
+        code:
+          type: string
+          description: Stable, machine-readable error code
+          example: EMAIL_ALREADY_REGISTERED
+        message:
+          type: string
+          example: Email address is already registered
+    RegisterRequest:
+      type: object
+      required: [email, displayName, password]
+      properties:
+        email:
+          type: string
+          format: email
+          maxLength: 254
+        displayName:
+          type: string
+          minLength: 1
+          maxLength: 120
+        password:
+          type: string
+          minLength: 12
+          maxLength: 72
+    LoginRequest:
+      type: object
+      required: [email, password]
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+    ChangePasswordRequest:
+      type: object
+      required: [currentPassword, newPassword]
+      properties:
+        currentPassword:
+          type: string
+        newPassword:
+          type: string
+          minLength: 12
+          maxLength: 72
+          description: Must differ from the current password
+    AuthenticationResponse:
+      type: object
+      properties:
+        accessToken:
+          type: string
+        tokenType:
+          type: string
+          example: Bearer
+        expiresIn:
+          type: integer
+          format: int64
+          description: Lifetime of the access token in seconds
+        user:
+          $ref: '#/components/schemas/UserResponse'
+    UserResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        email:
+          type: string
+          format: email
+        displayName:
+          type: string
+        active:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+          description: Set by the server at registration, ISO 8601 in UTC
+          example: '2026-11-04T14:25:07Z'
+    UpdateUserRequest:
+      type: object
+      required: [displayName]
+      properties:
+        displayName:
+          type: string
+          minLength: 1
+          maxLength: 120
+    RoleResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+          example: ADMIN
+    AssignRoleRequest:
+      type: object
+      required: [roleId]
+      properties:
+        roleId:
+          type: string
+          format: uuid
+    UserPageResponse:
+      description: PageResponse with UserResponse items
+      allOf:
+        - $ref: '#/components/schemas/PageInfo'
+        - type: object
+          properties:
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/UserResponse'
+    FeedbackPageResponse:
+      description: PageResponse with FeedbackResponse items
+      allOf:
+        - $ref: '#/components/schemas/PageInfo'
+        - type: object
+          properties:
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/FeedbackResponse'
+    PageInfo:
+      type: object
+      properties:
+        total:
+          type: integer
+          format: int64
+          description: Every match, not only this page; there is a next page when offset + items.length < total
+        limit:
+          type: integer
+        offset:
+          type: integer
+    FeedbackRequest:
+      description: Body of FeedbackRequest, used to create feedback and to edit its message
+      type: object
+      required: [message]
+      properties:
+        message:
+          type: string
+          minLength: 1
+          maxLength: 2000
+    UpdateFeedbackStatusRequest:
+      type: object
+      required: [status]
+      properties:
+        status:
+          type: string
+          enum: [OPEN, IN_PROGRESS, CLOSED]
+    FeedbackResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        userId:
+          type: string
+          format: uuid
+          description: The owner
+        message:
+          type: string
+        status:
+          type: string
+          enum: [OPEN, IN_PROGRESS, CLOSED]
+        createdAt:
+          type: string
+          format: date-time
+          description: Set by the server, ISO 8601 in UTC
+          example: '2026-11-05T09:30:00Z'
+    ReportCategory:
+      type: string
+      description: >-
+        SAFETY: THEFT, SUSPICIOUS_SITUATION, TRAFFIC_SAFETY. NUISANCE: NOISE, WASTE, VANDALISM, PARKING.
+        HELP_REQUEST: GROCERIES, TRANSPORT, MOVING, CHORES, OTHER.
+      enum: [THEFT, SUSPICIOUS_SITUATION, TRAFFIC_SAFETY, NOISE, WASTE, VANDALISM, PARKING, GROCERIES, TRANSPORT,
+        MOVING, CHORES, OTHER]
+    CreateReportRequest:
+      description: urgent is required for SAFETY only, volunteersNeeded for HELP_REQUEST only; otherwise leave them out
+      type: object
+      required: [type, title, description, category, latitude, longitude]
+      properties:
+        type:
+          type: string
+          enum: [SAFETY, NUISANCE, HELP_REQUEST]
+        title:
+          type: string
+          minLength: 1
+          maxLength: 120
+        description:
+          type: string
+          minLength: 1
+          maxLength: 2000
+        category:
+          $ref: '#/components/schemas/ReportCategory'
+        latitude:
+          type: number
+          minimum: -90
+          maximum: 90
+        longitude:
+          type: number
+          minimum: -180
+          maximum: 180
+        urgent:
+          type: boolean
+        volunteersNeeded:
+          type: integer
+          minimum: 1
+          maximum: 50
+    UpdateReportRequest:
+      description: The whole report again, plus its status. The type must stay the same.
+      allOf:
+        - $ref: '#/components/schemas/CreateReportRequest'
+        - type: object
+          required: [status]
+          properties:
+            status:
+              type: string
+              enum: [OPEN, IN_PROGRESS, RESOLVED]
+    ReportResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        ownerId:
+          type: string
+          format: uuid
+        type:
+          type: string
+          enum: [SAFETY, NUISANCE, HELP_REQUEST]
+        title:
+          type: string
+        description:
+          type: string
+        category:
+          $ref: '#/components/schemas/ReportCategory'
+        latitude:
+          type: number
+        longitude:
+          type: number
+        status:
+          type: string
+          enum: [OPEN, IN_PROGRESS, RESOLVED]
+        urgent:
+          type: boolean
+          nullable: true
+        volunteersNeeded:
+          type: integer
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+          example: '2026-11-08T09:30:00Z'
+        viewCount:
+          type: integer
+    ReportPageResponse:
+      description: PageResponse with ReportResponse items
+      allOf:
+        - $ref: '#/components/schemas/PageInfo'
+        - type: object
+          properties:
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/ReportResponse'
+    ReportPhotoResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        reportId:
+          type: string
+          format: uuid
+        uploaderId:
+          type: string
+          format: uuid
+        contentType:
+          type: string
+          enum: [image/jpeg, image/png]
+        sizeBytes:
+          type: integer
+          format: int64
+        createdAt:
+          type: string
+          format: date-time
+        latitude:
+          type: number
+          nullable: true
+          description: Where the photo was taken; null when neither the photo nor the app gave a location
+        longitude:
+          type: number
+          nullable: true
+        locationSource:
+          type: string
+          enum: [PHOTO, APP]
+          nullable: true
+          description: PHOTO = from the GPS data in the photo, APP = sent by the app
+        url:
+          type: string
+          example: /api/v1/photos/0b9f4f0e-6c2a-4c1e-9d0e-3f1a2b3c4d5e

@@ -1,0 +1,21 @@
+{
+    "codeVersion": "0.13.0",
+    "inputValues": {
+        "kotlinVersion": "2.4.20"
+    },
+    "inputFiles": [
+        "C:\\Users\\donma\\AppData\\Local\\JetBrains\\Kotlin\\.m2.cache\\org\\jetbrains\\kotlinx\\kotlinx-io-core-jvm\\0.9.1\\kotlinx-io-core-jvm-0.9.1.jar"
+    ],
+    "inputFilesState": {
+        "C:\\Users\\donma\\AppData\\Local\\JetBrains\\Kotlin\\.m2.cache\\org\\jetbrains\\kotlinx\\kotlinx-io-core-jvm\\0.9.1\\kotlinx-io-core-jvm-0.9.1.jar": "size 153576 mtime 2026-10-07T17:25:47.3596263Z"
+    },
+    "outputValues": {},
+    "outputFiles": [
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\ic-cache\\classpath-snapshots\\kotlinx-io-core-jvm-0.9.1.jar-365f9bdfc7e0d5264e5733f838ef5cb900cc54e8a016d5c6aa5a0ec257e80f62.abi"
+    ],
+    "outputFilesState": {
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\ic-cache\\classpath-snapshots\\kotlinx-io-core-jvm-0.9.1.jar-365f9bdfc7e0d5264e5733f838ef5cb900cc54e8a016d5c6aa5a0ec257e80f62.abi": "size 15268 mtime 2026-11-08T08:48:29.6939697Z"
+    },
+    "excludedOutputFiles": [],
+    "dynamicInputs": {}
+}

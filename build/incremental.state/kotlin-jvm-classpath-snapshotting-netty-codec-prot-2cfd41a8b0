@@ -1,0 +1,21 @@
+{
+    "codeVersion": "0.13.0",
+    "inputValues": {
+        "kotlinVersion": "2.4.20"
+    },
+    "inputFiles": [
+        "C:\\Users\\donma\\AppData\\Local\\JetBrains\\Kotlin\\.m2.cache\\io\\netty\\netty-codec-protobuf\\4.2.17.Final\\netty-codec-protobuf-4.2.17.Final.jar"
+    ],
+    "inputFilesState": {
+        "C:\\Users\\donma\\AppData\\Local\\JetBrains\\Kotlin\\.m2.cache\\io\\netty\\netty-codec-protobuf\\4.2.17.Final\\netty-codec-protobuf-4.2.17.Final.jar": "size 15108 mtime 2026-10-07T17:25:47.916744Z"
+    },
+    "outputValues": {},
+    "outputFiles": [
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\ic-cache\\classpath-snapshots\\netty-codec-protobuf-4.2.17.Final.jar-804e6dcbe988bbd7d67c13401c1d6ecbc56a3d13c77d8a7a2e9b5e27db3bd05d.abi"
+    ],
+    "outputFilesState": {
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\ic-cache\\classpath-snapshots\\netty-codec-protobuf-4.2.17.Final.jar-804e6dcbe988bbd7d67c13401c1d6ecbc56a3d13c77d8a7a2e9b5e27db3bd05d.abi": "size 2092 mtime 2026-11-08T08:48:29.5478165Z"
+    },
+    "excludedOutputFiles": [],
+    "dynamicInputs": {}
+}

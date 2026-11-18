@@ -1,0 +1,21 @@
+{
+    "codeVersion": "0.13.0",
+    "inputValues": {
+        "kotlinVersion": "2.4.20"
+    },
+    "inputFiles": [
+        "C:\\Users\\donma\\AppData\\Local\\JetBrains\\Kotlin\\.m2.cache\\io\\netty\\netty-transport\\4.2.17.Final\\netty-transport-4.2.17.Final.jar"
+    ],
+    "inputFilesState": {
+        "C:\\Users\\donma\\AppData\\Local\\JetBrains\\Kotlin\\.m2.cache\\io\\netty\\netty-transport\\4.2.17.Final\\netty-transport-4.2.17.Final.jar": "size 549857 mtime 2026-10-07T17:25:47.9447339Z"
+    },
+    "outputValues": {},
+    "outputFiles": [
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\ic-cache\\classpath-snapshots\\netty-transport-4.2.17.Final.jar-1ba4bf31e9755d63cd12496c2419bfdbdb61ea378f36b15cb8862e31ce13a240.abi"
+    ],
+    "outputFilesState": {
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\ic-cache\\classpath-snapshots\\netty-transport-4.2.17.Final.jar-1ba4bf31e9755d63cd12496c2419bfdbdb61ea378f36b15cb8862e31ce13a240.abi": "size 100341 mtime 2026-11-08T08:48:29.5925062Z"
+    },
+    "excludedOutputFiles": [],
+    "dynamicInputs": {}
+}

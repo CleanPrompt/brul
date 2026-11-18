@@ -1,0 +1,21 @@
+{
+    "codeVersion": "0.13.0",
+    "inputValues": {
+        "kotlinVersion": "2.4.20"
+    },
+    "inputFiles": [
+        "C:\\Users\\donma\\AppData\\Local\\JetBrains\\Kotlin\\.m2.cache\\io\\ktor\\ktor-server-call-logging-jvm\\3.6.0\\ktor-server-call-logging-jvm-3.6.0.jar"
+    ],
+    "inputFilesState": {
+        "C:\\Users\\donma\\AppData\\Local\\JetBrains\\Kotlin\\.m2.cache\\io\\ktor\\ktor-server-call-logging-jvm\\3.6.0\\ktor-server-call-logging-jvm-3.6.0.jar": "size 55052 mtime 2026-10-07T17:25:47.4495846Z"
+    },
+    "outputValues": {},
+    "outputFiles": [
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\ic-cache\\classpath-snapshots\\ktor-server-call-logging-jvm-3.6.0.jar-d50fa83709d3113f4ce9a2104e3f422702a53334c1f90a96f4e3aa4eaca1d7a6.abi"
+    ],
+    "outputFilesState": {
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\ic-cache\\classpath-snapshots\\ktor-server-call-logging-jvm-3.6.0.jar-d50fa83709d3113f4ce9a2104e3f422702a53334c1f90a96f4e3aa4eaca1d7a6.abi": "size 5660 mtime 2026-11-08T08:48:29.4901067Z"
+    },
+    "excludedOutputFiles": [],
+    "dynamicInputs": {}
+}

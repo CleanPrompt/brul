@@ -1,0 +1,21 @@
+{
+    "codeVersion": "0.13.0",
+    "inputValues": {
+        "kotlinVersion": "2.4.20"
+    },
+    "inputFiles": [
+        "C:\\Users\\donma\\AppData\\Local\\JetBrains\\Kotlin\\.m2.cache\\org\\jetbrains\\exposed\\exposed-core\\0.61.0\\exposed-core-0.61.0.jar"
+    ],
+    "inputFilesState": {
+        "C:\\Users\\donma\\AppData\\Local\\JetBrains\\Kotlin\\.m2.cache\\org\\jetbrains\\exposed\\exposed-core\\0.61.0\\exposed-core-0.61.0.jar": "size 1156371 mtime 2026-10-24T12:53:45.8228692Z"
+    },
+    "outputValues": {},
+    "outputFiles": [
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\ic-cache\\classpath-snapshots\\exposed-core-0.61.0.jar-36b079bd728d79a999c41e49a88c76910968f1a5daef0e1c03706208814ecb4e.abi"
+    ],
+    "outputFilesState": {
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\ic-cache\\classpath-snapshots\\exposed-core-0.61.0.jar-36b079bd728d79a999c41e49a88c76910968f1a5daef0e1c03706208814ecb4e.abi": "size 152691 mtime 2026-11-08T08:48:29.8211507Z"
+    },
+    "excludedOutputFiles": [],
+    "dynamicInputs": {}
+}

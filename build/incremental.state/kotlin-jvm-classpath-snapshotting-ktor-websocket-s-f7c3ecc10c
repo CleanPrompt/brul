@@ -1,0 +1,21 @@
+{
+    "codeVersion": "0.13.0",
+    "inputValues": {
+        "kotlinVersion": "2.4.20"
+    },
+    "inputFiles": [
+        "C:\\Users\\donma\\AppData\\Local\\JetBrains\\Kotlin\\.m2.cache\\io\\ktor\\ktor-websocket-serialization-jvm\\3.6.0\\ktor-websocket-serialization-jvm-3.6.0.jar"
+    ],
+    "inputFilesState": {
+        "C:\\Users\\donma\\AppData\\Local\\JetBrains\\Kotlin\\.m2.cache\\io\\ktor\\ktor-websocket-serialization-jvm\\3.6.0\\ktor-websocket-serialization-jvm-3.6.0.jar": "size 7268 mtime 2026-10-07T17:25:47.4590861Z"
+    },
+    "outputValues": {},
+    "outputFiles": [
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\ic-cache\\classpath-snapshots\\ktor-websocket-serialization-jvm-3.6.0.jar-2c12a1e745e5c69f92d8e99c56ec28324258e765280418597fbae83408a600ba.abi"
+    ],
+    "outputFilesState": {
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\ic-cache\\classpath-snapshots\\ktor-websocket-serialization-jvm-3.6.0.jar-2c12a1e745e5c69f92d8e99c56ec28324258e765280418597fbae83408a600ba.abi": "size 765 mtime 2026-11-08T08:48:29.6390067Z"
+    },
+    "excludedOutputFiles": [],
+    "dynamicInputs": {}
+}

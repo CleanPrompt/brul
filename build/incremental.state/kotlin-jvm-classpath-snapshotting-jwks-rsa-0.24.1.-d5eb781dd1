@@ -1,0 +1,21 @@
+{
+    "codeVersion": "0.13.0",
+    "inputValues": {
+        "kotlinVersion": "2.4.20"
+    },
+    "inputFiles": [
+        "C:\\Users\\donma\\AppData\\Local\\JetBrains\\Kotlin\\.m2.cache\\com\\auth0\\jwks-rsa\\0.24.1\\jwks-rsa-0.24.1.jar"
+    ],
+    "inputFilesState": {
+        "C:\\Users\\donma\\AppData\\Local\\JetBrains\\Kotlin\\.m2.cache\\com\\auth0\\jwks-rsa\\0.24.1\\jwks-rsa-0.24.1.jar": "size 22345 mtime 2026-10-24T12:53:45.8309095Z"
+    },
+    "outputValues": {},
+    "outputFiles": [
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\ic-cache\\classpath-snapshots\\jwks-rsa-0.24.1.jar-5b01ed584008bafa5f047180e4c97afec6a3bf7f57ee2b2b2052acbbbd8779da.abi"
+    ],
+    "outputFilesState": {
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\ic-cache\\classpath-snapshots\\jwks-rsa-0.24.1.jar-5b01ed584008bafa5f047180e4c97afec6a3bf7f57ee2b2b2052acbbbd8779da.abi": "size 3924 mtime 2026-11-08T08:48:29.4175879Z"
+    },
+    "excludedOutputFiles": [],
+    "dynamicInputs": {}
+}

@@ -1,0 +1,21 @@
+{
+    "codeVersion": "0.13.0",
+    "inputValues": {
+        "kotlinVersion": "2.4.20"
+    },
+    "inputFiles": [
+        "C:\\Users\\donma\\AppData\\Local\\JetBrains\\Kotlin\\.m2.cache\\io\\ktor\\ktor-server-content-negotiation-jvm\\3.6.0\\ktor-server-content-negotiation-jvm-3.6.0.jar"
+    ],
+    "inputFilesState": {
+        "C:\\Users\\donma\\AppData\\Local\\JetBrains\\Kotlin\\.m2.cache\\io\\ktor\\ktor-server-content-negotiation-jvm\\3.6.0\\ktor-server-content-negotiation-jvm-3.6.0.jar": "size 42267 mtime 2026-10-07T17:25:47.466404Z"
+    },
+    "outputValues": {},
+    "outputFiles": [
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\ic-cache\\classpath-snapshots\\ktor-server-content-negotiation-jvm-3.6.0.jar-9fad7217dbbfb1eac7d028e6da5b6d0234e3d57d955056f40cdccf71e9f9c36b.abi"
+    ],
+    "outputFilesState": {
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\ic-cache\\classpath-snapshots\\ktor-server-content-negotiation-jvm-3.6.0.jar-9fad7217dbbfb1eac7d028e6da5b6d0234e3d57d955056f40cdccf71e9f9c36b.abi": "size 4992 mtime 2026-11-08T08:48:29.5241129Z"
+    },
+    "excludedOutputFiles": [],
+    "dynamicInputs": {}
+}

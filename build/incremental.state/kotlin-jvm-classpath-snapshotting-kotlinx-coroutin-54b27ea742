@@ -1,0 +1,21 @@
+{
+    "codeVersion": "0.13.0",
+    "inputValues": {
+        "kotlinVersion": "2.4.20"
+    },
+    "inputFiles": [
+        "C:\\Users\\donma\\AppData\\Local\\JetBrains\\Kotlin\\.m2.cache\\org\\jetbrains\\kotlinx\\kotlinx-coroutines-core-jvm\\1.11.0\\kotlinx-coroutines-core-jvm-1.11.0.jar"
+    ],
+    "inputFilesState": {
+        "C:\\Users\\donma\\AppData\\Local\\JetBrains\\Kotlin\\.m2.cache\\org\\jetbrains\\kotlinx\\kotlinx-coroutines-core-jvm\\1.11.0\\kotlinx-coroutines-core-jvm-1.11.0.jar": "size 1577052 mtime 2026-10-07T17:25:47.3556257Z"
+    },
+    "outputValues": {},
+    "outputFiles": [
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\ic-cache\\classpath-snapshots\\kotlinx-coroutines-core-jvm-1.11.0.jar-e95965bc5760bbe1640d1621127223220221af69985518d07f7778cc89071c1e.abi"
+    ],
+    "outputFilesState": {
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\ic-cache\\classpath-snapshots\\kotlinx-coroutines-core-jvm-1.11.0.jar-e95965bc5760bbe1640d1621127223220221af69985518d07f7778cc89071c1e.abi": "size 198066 mtime 2026-11-08T08:48:29.8283262Z"
+    },
+    "excludedOutputFiles": [],
+    "dynamicInputs": {}
+}

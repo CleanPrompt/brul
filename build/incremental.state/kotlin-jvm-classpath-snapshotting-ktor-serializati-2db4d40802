@@ -1,0 +1,21 @@
+{
+    "codeVersion": "0.13.0",
+    "inputValues": {
+        "kotlinVersion": "2.4.20"
+    },
+    "inputFiles": [
+        "C:\\Users\\donma\\AppData\\Local\\JetBrains\\Kotlin\\.m2.cache\\io\\ktor\\ktor-serialization-kotlinx-json-jvm\\3.6.0\\ktor-serialization-kotlinx-json-jvm-3.6.0.jar"
+    ],
+    "inputFilesState": {
+        "C:\\Users\\donma\\AppData\\Local\\JetBrains\\Kotlin\\.m2.cache\\io\\ktor\\ktor-serialization-kotlinx-json-jvm\\3.6.0\\ktor-serialization-kotlinx-json-jvm-3.6.0.jar": "size 26741 mtime 2026-10-07T17:25:47.843982Z"
+    },
+    "outputValues": {},
+    "outputFiles": [
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\ic-cache\\classpath-snapshots\\ktor-serialization-kotlinx-json-jvm-3.6.0.jar-8e1c6b4a5669ac4ddafe20bf93dbbc8761c0747360c3aedbc1b3b583b705fe89.abi"
+    ],
+    "outputFilesState": {
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\ic-cache\\classpath-snapshots\\ktor-serialization-kotlinx-json-jvm-3.6.0.jar-8e1c6b4a5669ac4ddafe20bf93dbbc8761c0747360c3aedbc1b3b583b705fe89.abi": "size 3942 mtime 2026-11-08T08:48:29.4821054Z"
+    },
+    "excludedOutputFiles": [],
+    "dynamicInputs": {}
+}

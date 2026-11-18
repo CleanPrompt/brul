@@ -1,0 +1,21 @@
+{
+    "codeVersion": "0.13.0",
+    "inputValues": {
+        "kotlinVersion": "2.4.20"
+    },
+    "inputFiles": [
+        "C:\\Users\\donma\\AppData\\Local\\JetBrains\\Kotlin\\.m2.cache\\com\\google\\protobuf\\nano\\protobuf-javanano\\3.0.0-alpha-7\\protobuf-javanano-3.0.0-alpha-7.jar"
+    ],
+    "inputFilesState": {
+        "C:\\Users\\donma\\AppData\\Local\\JetBrains\\Kotlin\\.m2.cache\\com\\google\\protobuf\\nano\\protobuf-javanano\\3.0.0-alpha-7\\protobuf-javanano-3.0.0-alpha-7.jar": "size 50197 mtime 2026-10-07T17:25:48.4486662Z"
+    },
+    "outputValues": {},
+    "outputFiles": [
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\ic-cache\\classpath-snapshots\\protobuf-javanano-3.0.0-alpha-7.jar-4238b07a499249c417cfab8cd65e0c52a1f52a2ce18d4e9dffc819ee2b806c2f.abi"
+    ],
+    "outputFilesState": {
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\ic-cache\\classpath-snapshots\\protobuf-javanano-3.0.0-alpha-7.jar-4238b07a499249c417cfab8cd65e0c52a1f52a2ce18d4e9dffc819ee2b806c2f.abi": "size 4782 mtime 2026-11-08T08:48:29.6475104Z"
+    },
+    "excludedOutputFiles": [],
+    "dynamicInputs": {}
+}

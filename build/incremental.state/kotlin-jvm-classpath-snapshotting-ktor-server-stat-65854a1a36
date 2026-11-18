@@ -1,0 +1,21 @@
+{
+    "codeVersion": "0.13.0",
+    "inputValues": {
+        "kotlinVersion": "2.4.20"
+    },
+    "inputFiles": [
+        "C:\\Users\\donma\\AppData\\Local\\JetBrains\\Kotlin\\.m2.cache\\io\\ktor\\ktor-server-status-pages-jvm\\3.6.0\\ktor-server-status-pages-jvm-3.6.0.jar"
+    ],
+    "inputFilesState": {
+        "C:\\Users\\donma\\AppData\\Local\\JetBrains\\Kotlin\\.m2.cache\\io\\ktor\\ktor-server-status-pages-jvm\\3.6.0\\ktor-server-status-pages-jvm-3.6.0.jar": "size 35308 mtime 2026-10-07T17:25:47.4086333Z"
+    },
+    "outputValues": {},
+    "outputFiles": [
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\ic-cache\\classpath-snapshots\\ktor-server-status-pages-jvm-3.6.0.jar-f362e1c1e98428ec66dee09a74b715847674866bdf2ac8aa1bb2d2fce24f5545.abi"
+    ],
+    "outputFilesState": {
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\ic-cache\\classpath-snapshots\\ktor-server-status-pages-jvm-3.6.0.jar-f362e1c1e98428ec66dee09a74b715847674866bdf2ac8aa1bb2d2fce24f5545.abi": "size 3300 mtime 2026-11-08T08:48:29.5463164Z"
+    },
+    "excludedOutputFiles": [],
+    "dynamicInputs": {}
+}

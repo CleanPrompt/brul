@@ -1,0 +1,21 @@
+{
+    "codeVersion": "0.13.0",
+    "inputValues": {
+        "kotlinVersion": "2.4.20"
+    },
+    "inputFiles": [
+        "C:\\Users\\donma\\AppData\\Local\\JetBrains\\Kotlin\\.m2.cache\\io\\ktor\\ktor-http-cio-jvm\\3.6.0\\ktor-http-cio-jvm-3.6.0.jar"
+    ],
+    "inputFilesState": {
+        "C:\\Users\\donma\\AppData\\Local\\JetBrains\\Kotlin\\.m2.cache\\io\\ktor\\ktor-http-cio-jvm\\3.6.0\\ktor-http-cio-jvm-3.6.0.jar": "size 134494 mtime 2026-10-07T17:25:47.501496Z"
+    },
+    "outputValues": {},
+    "outputFiles": [
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\ic-cache\\classpath-snapshots\\ktor-http-cio-jvm-3.6.0.jar-27428fe8df271ed38b9abec20b14bbd3e41d4dedf291adc97de75d712a829be3.abi"
+    ],
+    "outputFilesState": {
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\ic-cache\\classpath-snapshots\\ktor-http-cio-jvm-3.6.0.jar-27428fe8df271ed38b9abec20b14bbd3e41d4dedf291adc97de75d712a829be3.abi": "size 13033 mtime 2026-11-08T08:48:29.5373133Z"
+    },
+    "excludedOutputFiles": [],
+    "dynamicInputs": {}
+}

@@ -1,0 +1,21 @@
+{
+    "codeVersion": "0.13.0",
+    "inputValues": {
+        "kotlinVersion": "2.4.20"
+    },
+    "inputFiles": [
+        "C:\\Users\\donma\\AppData\\Local\\JetBrains\\Kotlin\\.m2.cache\\io\\ktor\\ktor-server-csrf-jvm\\3.6.0\\ktor-server-csrf-jvm-3.6.0.jar"
+    ],
+    "inputFilesState": {
+        "C:\\Users\\donma\\AppData\\Local\\JetBrains\\Kotlin\\.m2.cache\\io\\ktor\\ktor-server-csrf-jvm\\3.6.0\\ktor-server-csrf-jvm-3.6.0.jar": "size 18708 mtime 2026-10-07T17:25:47.5340036Z"
+    },
+    "outputValues": {},
+    "outputFiles": [
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\ic-cache\\classpath-snapshots\\ktor-server-csrf-jvm-3.6.0.jar-539cc123925fc5e51644aeed13417fcc37107b6ec1d36c290e60d2ffbcb1b490.abi"
+    ],
+    "outputFilesState": {
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\ic-cache\\classpath-snapshots\\ktor-server-csrf-jvm-3.6.0.jar-539cc123925fc5e51644aeed13417fcc37107b6ec1d36c290e60d2ffbcb1b490.abi": "size 1217 mtime 2026-11-08T08:48:29.6355064Z"
+    },
+    "excludedOutputFiles": [],
+    "dynamicInputs": {}
+}

@@ -1,0 +1,21 @@
+{
+    "codeVersion": "0.13.0",
+    "inputValues": {
+        "kotlinVersion": "2.4.20"
+    },
+    "inputFiles": [
+        "C:\\Users\\donma\\AppData\\Local\\JetBrains\\Kotlin\\.m2.cache\\io\\ktor\\ktor-server-rate-limit-jvm\\3.6.0\\ktor-server-rate-limit-jvm-3.6.0.jar"
+    ],
+    "inputFilesState": {
+        "C:\\Users\\donma\\AppData\\Local\\JetBrains\\Kotlin\\.m2.cache\\io\\ktor\\ktor-server-rate-limit-jvm\\3.6.0\\ktor-server-rate-limit-jvm-3.6.0.jar": "size 57715 mtime 2026-11-05T19:18:16.6765285Z"
+    },
+    "outputValues": {},
+    "outputFiles": [
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\ic-cache\\classpath-snapshots\\ktor-server-rate-limit-jvm-3.6.0.jar-38872047f10a1f3b80ce89117ff1d357883998535cb7963eb114b2b20889eec0.abi"
+    ],
+    "outputFilesState": {
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\ic-cache\\classpath-snapshots\\ktor-server-rate-limit-jvm-3.6.0.jar-38872047f10a1f3b80ce89117ff1d357883998535cb7963eb114b2b20889eec0.abi": "size 8028 mtime 2026-11-08T08:48:29.5368154Z"
+    },
+    "excludedOutputFiles": [],
+    "dynamicInputs": {}
+}

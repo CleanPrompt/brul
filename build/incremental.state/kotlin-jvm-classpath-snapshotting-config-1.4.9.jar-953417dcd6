@@ -1,0 +1,21 @@
+{
+    "codeVersion": "0.13.0",
+    "inputValues": {
+        "kotlinVersion": "2.4.20"
+    },
+    "inputFiles": [
+        "C:\\Users\\donma\\AppData\\Local\\JetBrains\\Kotlin\\.m2.cache\\com\\typesafe\\config\\1.4.9\\config-1.4.9.jar"
+    ],
+    "inputFilesState": {
+        "C:\\Users\\donma\\AppData\\Local\\JetBrains\\Kotlin\\.m2.cache\\com\\typesafe\\config\\1.4.9\\config-1.4.9.jar": "size 297970 mtime 2026-10-07T17:25:48.4237779Z"
+    },
+    "outputValues": {},
+    "outputFiles": [
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\ic-cache\\classpath-snapshots\\config-1.4.9.jar-54200c155d8ce3dac555ebe0c816c5d819336316ac15dc31c08a96321648547f.abi"
+    ],
+    "outputFilesState": {
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\ic-cache\\classpath-snapshots\\config-1.4.9.jar-54200c155d8ce3dac555ebe0c816c5d819336316ac15dc31c08a96321648547f.abi": "size 49074 mtime 2026-11-08T08:48:29.4681027Z"
+    },
+    "excludedOutputFiles": [],
+    "dynamicInputs": {}
+}

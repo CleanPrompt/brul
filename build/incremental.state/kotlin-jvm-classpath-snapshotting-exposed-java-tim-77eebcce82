@@ -1,0 +1,21 @@
+{
+    "codeVersion": "0.13.0",
+    "inputValues": {
+        "kotlinVersion": "2.4.20"
+    },
+    "inputFiles": [
+        "C:\\Users\\donma\\AppData\\Local\\JetBrains\\Kotlin\\.m2.cache\\org\\jetbrains\\exposed\\exposed-java-time\\0.61.0\\exposed-java-time-0.61.0.jar"
+    ],
+    "inputFilesState": {
+        "C:\\Users\\donma\\AppData\\Local\\JetBrains\\Kotlin\\.m2.cache\\org\\jetbrains\\exposed\\exposed-java-time\\0.61.0\\exposed-java-time-0.61.0.jar": "size 60240 mtime 2026-11-05T19:18:16.672153Z"
+    },
+    "outputValues": {},
+    "outputFiles": [
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\ic-cache\\classpath-snapshots\\exposed-java-time-0.61.0.jar-656eb697385a538cb11cb4b0204ac677f2572798e5570488ac7c238a8935bf4f.abi"
+    ],
+    "outputFilesState": {
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\ic-cache\\classpath-snapshots\\exposed-java-time-0.61.0.jar-656eb697385a538cb11cb4b0204ac677f2572798e5570488ac7c238a8935bf4f.abi": "size 11058 mtime 2026-11-08T08:48:29.5373133Z"
+    },
+    "excludedOutputFiles": [],
+    "dynamicInputs": {}
+}

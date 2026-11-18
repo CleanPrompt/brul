@@ -1,0 +1,11 @@
+Kotlin Toolchain version 0.13.0 (abc7a5f, 2026-10-01)
+running on Windows 11 10.0 jvm arch amd64
+
+00:14.346 INFO  :backend:compileJvm       Slf4jExtensionsKt         Compiling module 'backend' for platform 'jvm'...
+00:16.111 INFO  :backend:compileJvm       KotlinBuildToolsApiKt     Non-incremental compilation will be performed: Unknown inputs changes
+00:24.298 INFO  :backend:compileJvm       MessagesKt                Compilation successful for 'backend' [jvm]
+00:24.367 INFO  :backend:compileJvmTest   Slf4jExtensionsKt         Compiling module 'backend' for platform 'jvm'...
+00:24.630 INFO  :backend:compileJvmTest   KotlinBuildToolsApiKt     Non-incremental compilation will be performed: Unknown inputs changes
+00:28.477 INFO  :backend:compileJvmTest   MessagesKt                Compilation successful for 'backend' [jvm tests]
+00:28.525 INFO  :backend:testJvm          Slf4jExtensionsKt         Testing module 'backend' for platform 'jvm'...
+00:29.712 ERROR :backend:resolveDependenciesJvmTest MainKt                    JVM tests failed for module 'backend' with exit code 2 (no tests were discovered) (see errors above)

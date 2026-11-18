@@ -1,0 +1,23 @@
+{
+    "codeVersion": "0.13.0",
+    "inputValues": {
+        "junit-listeners-classpath": "amper-junit-listeners-jvm.jar\namper-junit-event-protocol-jvm.jar\nkotlin-stdlib-2.4.0.jar\nannotations-13.0.jar"
+    },
+    "inputFiles": [],
+    "inputFilesState": {},
+    "outputValues": {},
+    "outputFiles": [
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\temp\\amper-junit-listeners\\amper-junit-listeners-jvm.jar",
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\temp\\amper-junit-listeners\\amper-junit-event-protocol-jvm.jar",
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\temp\\amper-junit-listeners\\kotlin-stdlib-2.4.0.jar",
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\temp\\amper-junit-listeners\\annotations-13.0.jar"
+    ],
+    "outputFilesState": {
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\temp\\amper-junit-listeners\\amper-junit-event-protocol-jvm.jar": "size 64670 mtime 2026-11-08T08:48:42.907287Z",
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\temp\\amper-junit-listeners\\amper-junit-listeners-jvm.jar": "size 17277 mtime 2026-11-08T08:48:42.9064906Z",
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\temp\\amper-junit-listeners\\annotations-13.0.jar": "size 17536 mtime 2026-11-08T08:48:42.9177815Z",
+        "C:\\Users\\donma\\IdeaProjects\\08112026\\brul\\build\\temp\\amper-junit-listeners\\kotlin-stdlib-2.4.0.jar": "size 1841929 mtime 2026-11-08T08:48:42.9172811Z"
+    },
+    "excludedOutputFiles": [],
+    "dynamicInputs": {}
+}

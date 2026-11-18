@@ -27,6 +27,8 @@ update its source.
 |---|---|
 | To learn how the project works and how to add a feature | `docs/guide/` |
 | What the code of a feature or of `shared/` does | the `README.md` in that folder |
+| Class and sequence diagrams | the `README.md` of each feature and of `shared/`; the package diagram in `TECHNICAL_DESIGN.md` §2 |
+| Where a Kotlin concept is used | `TECHNICAL_DESIGN.md` §2, *Kotlin concepts in this project* |
 | The API contract: paths, parameters, request and response schemas | `backend/resources/openapi/openapi.yaml` |
 | The endpoint overview with the required access | `TECHNICAL_DESIGN.md` §6 |
 | The permission matrix | `DefaultRole.kt` in code; explained in `TECHNICAL_DESIGN.md` §4 |

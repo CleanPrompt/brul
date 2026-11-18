@@ -28,69 +28,83 @@ same layers (`route/` → `service/` → `repository/` → `database/`, plus `mo
 the wiring (`AppServices`, `Application.kt`) and the path of one request are explained in
 `docs/guide/03-architecture-and-requests.md`; the folder structure is in the root `README.md`.
 
+### Package diagram
+
+Each box is a package (folder) under `backend/src/`; an arrow means "uses code from", taken from the imports. Every
+feature except `health` also uses `shared` (one dotted arrow) and `plugins.currentUserId()` (not drawn).
+`shared` and `health` depend on no feature.
+
 ```mermaid
-flowchart LR
-    Client(["Client<br/>Android app, .http files"])
+flowchart TB
+    root["nl.brul.backend<br/>Application.kt, AppServices.kt"]
+    config["config<br/>AppConfig, DatabaseFactory"]
+    plugins["plugins<br/>Routing, Authentication, StatusPages, RateLimiting, ..."]
 
-    subgraph plugins
-        Routing
-        RateLimit[RateLimiting]
-        Jwt["Authentication (JWT)"]
-        StatusPages["StatusPages<br/>AppException → { code, message }"]
+    subgraph features
+        authentication["authentication"]
+        authorization["authorization"]
+        user["user<br/>accounts, profile images"]
+        feedback["feedback<br/>(reference feature)"]
+        health["health"]
     end
 
-    subgraph authentication
-        AuthenticationRoutes
-        AuthenticationService["AuthenticationService<br/>JwtService, PasswordHasher"]
-    end
+    shared["shared<br/>error, http, paging, image, database"]
 
-    subgraph user
-        UserRoutes
-        UserService
-        UserRepository
-    end
+    root -->|builds the services, installs| plugins
+    root -->|Exposed repositories| features
+    root --> config
+    config -->|"creates the tables"| features
+    plugins -->|routes of every feature| features
+    plugins -->|"JWT check: UserRepository"| user
+    plugins -->|AppException, ErrorResponse| shared
 
-    subgraph authorization
-        RoleRoutes
-        AuthorizationService["AuthorizationService<br/>RoleService"]
-        AuthorizationRepository
-        Seeder["AuthorizationSeeder<br/>Permission, DefaultRole"]
-    end
-
-    subgraph feedback
-        FeedbackRoutes
-        FeedbackService
-        FeedbackRepository
-    end
-
-    DB[("H2")]
-
-    Client --> Routing
-    Routing --> RateLimit -->|/api/v1/auth| AuthenticationRoutes
-    Routing --> Jwt
-    Jwt -->|/auth/logout| AuthenticationRoutes
-    Jwt -->|/users| UserRoutes
-    Jwt -->|/roles| RoleRoutes
-    Jwt -->|/feedback| FeedbackRoutes
-    Jwt -->|"user active, same token version"| UserRepository
-
-    AuthenticationRoutes --> AuthenticationService
-    AuthenticationService --> UserRepository
-    AuthenticationService -->|default role| AuthorizationService
-
-    UserRoutes -->|check access| AuthorizationService
-    UserRoutes --> UserService --> UserRepository
-    RoleRoutes --> AuthorizationService
-    FeedbackRoutes -->|owner or permission| AuthorizationService
-    FeedbackRoutes --> FeedbackService --> FeedbackRepository
-
-    AuthorizationService --> AuthorizationRepository
-    Seeder --> AuthorizationRepository
-    UserRepository --> DB
-    AuthorizationRepository --> DB
-    FeedbackRepository --> DB
-    StatusPages -.->|error responses| Client
+    authentication -->|"UserRepository, User, UserResponse"| user
+    authentication -->|"RoleService, DefaultRole"| authorization
+    authorization -->|"UserRepository (access checks), UserService (404)"| user
+    user -->|"AuthorizationService, Permission"| authorization
+    feedback -->|"AuthorizationService, Permission"| authorization
+    feedback -->|"UsersTable (foreign key)"| user
+    features -.->|"all except health"| shared
 ```
+
+`user` and `authorization` use each other: the user routes check access with `AuthorizationService`, and
+`AuthorizationService` reads users. Both directions go through a service or a repository interface, never through
+routes, so there is no cycle between classes.
+
+### Class and sequence diagrams per feature
+
+Each diagram lives next to the code it describes, in the feature's `README.md`:
+
+| Feature | Class diagram | Sequence diagram |
+|---|---|---|
+| `authentication` | routes, service, `PasswordHasher`, `JwtService`, DTOs | logging in |
+| `authorization` | `Permission`, `DefaultRole`, the two services, seeder, repository | a permission check |
+| `user` | accounts and profile images | uploading a profile image |
+| `feedback` | the reference feature | a protected request with the owner check |
+| `shared` | the `AppException` hierarchy, paging, `ImageType` | none |
+
+### Kotlin concepts in this project
+
+Where to point at each concept from the course (lesson 7) in the code:
+
+| Concept | Where |
+|---|---|
+| Interface and implementations (polymorphism) | `UserRepository` → `ExposedUserRepository`, and `FakeUserRepository` in the tests |
+| `sealed class`, inheritance, exhaustive `when` with `is` | `AppException` (`shared/error/`) and `toHttpStatus()` in `plugins/StatusPages.kt` |
+| `data class` versus normal `class` (equality) | `User` (data class) versus `ProfileImage` (a `ByteArray` is compared by reference) |
+| `object` and `companion object` | `UsersTable`, `DatabaseFactory`; `User.MAX_DISPLAY_NAME_LENGTH`, `ImageType.detect` |
+| `enum class` with a property | `Permission(val key: String)`, `DefaultRole(val permissions)`, `ImageType(val contentType)` |
+| Extension functions and top-level functions | the mappers (`User.toResponse()`), `Parameters.page()`, `containsIgnoringCase` |
+| Null safety: `?.`, `?:`, `?.let`, `takeIf` | `validate` in `plugins/Authentication.kt`, `shared/http/QueryParameters.kt`, `AppConfig.load()` |
+| Higher-order function, function type, `inline` | `requireValid(condition) { "message" }` with `message: () -> String` |
+| Lambda with receiver (DSL) | `routing { }`, `install(StatusPages) { }`, `transaction { }` |
+| Generics | `PageResponse<T>`, `fun <T> Parameters.oneOf(...)` |
+| Named and default arguments | `AppServices(userRepository = ..., config = ...)` in `Application.kt`; `BadRequest(message, code = ...)` |
+| Visibility | `private fun`, `private val`, `private companion object` in `ExposedUserRepository` |
+| Collections | `associateBy` and `map` in the query mappers and services, `find` in `FeedbackService`; `filter` and `sortedBy` in the fakes |
+| Constructor injection | every service, built in `AppServices` |
+
+Not used yet: an abstract class and an `init` block (they come with reports), delegated properties and overloading.
 
 Naming: code uses the full words `authentication` and `authorization`; only the URL keeps the conventional short
 prefix `/auth`.

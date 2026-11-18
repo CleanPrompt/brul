@@ -27,9 +27,18 @@ whether an API exists in the versions below, say so instead of guessing. Never i
   file. Each kind of document has one job: `docs/guide/` explains, `TECHNICAL_DESIGN.md` lists, a feature README
   describes its code. Do not copy code into documentation; name the file instead.
 - Every feature folder (`features/<name>/`) and `shared/` has a `README.md` in English that explains **what the
-  code does**: the purpose, what each file is responsible for, and how a request flows through it. It points to the
-  sources for endpoints, permissions, error codes and the data model instead of copying them. Update the README in
-  the same change as the code. Other source folders get no README; the root `README.md` describes them.
+  code does**, always with the same headings, in this order (`features/feedback/README.md` is the example):
+  1. title and a short introduction: the purpose, and pointers to endpoints, permissions and error codes in
+     `TECHNICAL_DESIGN.md` (never copied);
+  2. `## Class diagram`: a Mermaid `classDiagram` of this feature only (routes as `<<routes>>`, service, repository
+     interface and its Exposed implementation, model, DTOs), showing the OO relations;
+  3. `## Files`: a table, one row per file, saying what it does;
+  4. `## How a request flows`: a Mermaid `sequenceDiagram` of one typical request with its error branches
+     (`alt` blocks for 401/403/404/400), and short notes below it;
+  5. `## Tests`: a table of the test files, their kind (unit, repository against H2, routes) and what they test.
+
+  A very small feature (`health`) may skip the diagrams. Update the README in the same change as the code, diagrams
+  included. Other source folders get no README; the root `README.md` describes them.
 - Diagrams are Mermaid inside the Markdown file; folder trees may stay plain text.
 
 ## 2. Stack and versions
@@ -243,6 +252,7 @@ These cost real debugging time. Apply them without being asked.
 - [ ] Wired in `AppServices.kt`, `Application.kt`, `testServices()` and `Routing.kt`.
 - [ ] Tests for the happy flow and 400/401/403/404/409; the fake behaves like the real repository.
 - [ ] No new dependencies, no `!!`, no wildcard imports, lines under ~120 characters.
-- [ ] The `README.md` of every changed feature (and of `shared/`) still explains what its code does.
+- [ ] The `README.md` of every changed feature (and of `shared/`) still explains what its code does, and its class
+      and sequence diagrams still match the code.
 - [ ] Told the student if a table changed (delete `data/brul*`), and which docs to update (`openapi.yaml`,
       `docs/implementation-plan.md`, the feature `README.md`).

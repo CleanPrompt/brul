@@ -122,6 +122,9 @@ Before you make a new decision, ask:
 | Each kind of document has one job: the guide explains concepts, `TECHNICAL_DESIGN.md` lists, the feature READMEs describe their code | The same explanation in several documents | The same topics were explained in up to four places; students did not know where to start |
 | Every feature and `shared/` has a `README.md` that explains what its code does, file by file; other source folders have none (the root `README.md` describes them) | A short pointer `README.md` in every folder | Fellow students read the code without the author next to them; three-line pointers did not explain enough |
 | Diagrams in Mermaid inside the Markdown | PlantUML files | GitHub and IntelliJ render Mermaid without a plugin, and the diagram sits next to its text |
+| The class and sequence diagram of a feature live in its `README.md`, under fixed headings; only the package diagram is central (`TECHNICAL_DESIGN.md` §2) | All UML in one central document | One source per fact: a feature's diagram changes with its code, in the same commit. The package diagram is about all features together |
+| A class diagram shows the classes of one feature with their public functions, without parameter types; mappers and query classes are left out; routes are drawn as a class with the stereotype `<<routes>>` | Every file and every type | A complete diagram becomes unreadable; the *Files* table lists everything. Routes are extension functions, which UML has no symbol for |
+| A sequence diagram draws each error branch (`alt`) straight back to the client, with a note that `StatusPages` builds the answer | `StatusPages` as an extra participant | One more participant with an arrow per branch makes the diagram twice as wide |
 
 ## Phases
 

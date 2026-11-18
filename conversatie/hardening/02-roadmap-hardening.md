@@ -279,28 +279,28 @@ feature; alleen wat over meerdere features gaat, staat centraal.
 
 Per README:
 
-- [ ] `features/authentication/README.md`: klassen + **sequence 1: inloggen** (`AuthenticationService` →
+- [x] `features/authentication/README.md`: klassen + **sequence 1: inloggen** (`AuthenticationService` →
       `UserRepository` → `PasswordHasher` → `JwtService`)
-- [ ] `features/feedback/README.md`: klassen + **sequence 2: beveiligd verzoek met eigenaarscontrole**
+- [x] `features/feedback/README.md`: klassen + **sequence 2: beveiligd verzoek met eigenaarscontrole**
       (`PATCH /feedback/{id}`: JWT `validate` met tokenversie → `getOwnerId` → `requireOwnerOrPermission` → service →
       repository). `## Copying it` blijft als zesde kop
-- [ ] `features/user/README.md`: klassen (ook profielfoto) + **sequence 3: profielfoto uploaden**
+- [x] `features/user/README.md`: klassen (ook profielfoto) + **sequence 3: profielfoto uploaden**
       (`Content-Length` → `requireValidImage` → opslaan)
-- [ ] `features/authorization/README.md`: klassen (`Permission`, `DefaultRole`, seeder, de twee services) +
+- [x] `features/authorization/README.md`: klassen (`Permission`, `DefaultRole`, seeder, de twee services) +
       sequence van een permissiecontrole
-- [ ] `shared/README.md`: klassen (`AppException`-hiërarchie als `sealed`, `Page`, `PageResponse<T>`, `ImageType`);
+- [x] `shared/README.md`: klassen (`AppException`-hiërarchie als `sealed`, `Page`, `PageResponse<T>`, `ImageType`);
       geen sequence (niet nodig)
-- [ ] `features/health/README.md`: blijft kort, geen diagrammen (één route)
-- [ ] De regel voor READMEs in `docs/guide/llm-context.md` §1 beschrijft deze vaste indeling, zodat nieuwe features
+- [x] `features/health/README.md`: blijft kort, geen diagrammen (één route)
+- [x] De regel voor READMEs in `docs/guide/llm-context.md` §1 beschrijft deze vaste indeling, zodat nieuwe features
       (reports) hem volgen
 
 Centraal, in `TECHNICAL_DESIGN.md`:
 
-- [ ] §2: het architectuurdiagram bijwerken tot een **packagediagram** van de features en hun afhankelijkheden. Het
+- [x] §2: het architectuurdiagram bijwerken tot een **packagediagram** van de features en hun afhankelijkheden. Het
       huidige diagram mist de profielfoto (`ProfileImageRoutes`, `ProfileImageService`) en is dus verouderd
-- [ ] §2: een korte lijst *Class diagrams per feature* met links naar de READMEs, in plaats van een eigen kopie
-- [ ] Tabel *Kotlin concepts in this project* (concept → bestand), uit 04 §9
-- [ ] Geen gekunstelde code voor concepten die ontbreken; die komen met reports of in het individuele portfolio
+- [x] §2: een korte lijst *Class diagrams per feature* met links naar de READMEs, in plaats van een eigen kopie
+- [x] Tabel *Kotlin concepts in this project* (concept → bestand), uit 04 §9
+- [x] Geen gekunstelde code voor concepten die ontbreken; die komen met reports of in het individuele portfolio
 
 Voor het ontwikkeldocument (buiten de backend-code), **geschikt voor een teamgenoot**:
 
@@ -308,7 +308,11 @@ Voor het ontwikkeldocument (buiten de backend-code), **geschikt voor een teamgen
       op "diagrammen in Mermaid", omdat Mermaid geen echt use case-diagram kent
 - [ ] **User stories** voor de hele app, in `docs/user-stories.md`
 - [ ] Root-README, tabel *Where to find what*: use cases, user stories, en "class and sequence diagrams: the README
-      of each feature"
+      of each feature" (de rij voor de klasse- en sequence diagrams staat er al; use cases en user stories volgen)
+
+Stand: het backenddeel is klaar. Alle diagrammen zijn met Mermaid 11 geparst, en elk element is nagelopen tegen de
+code en de testnamen. Ook gedaan: drie rijen in de beslissingentabel *Documentation* en de checklist in
+`llm-context.md` §10 ("diagrammen kloppen nog"). Use case-diagram en user stories staan nog open (voor een teamgenoot).
 
 Uit te leggen: waarom een klassendiagram bij de feature staat en het packagediagram centraal.
 

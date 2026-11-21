@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Fooi berekenen</string>
+    <string name="calculate_tip">Fooi berekenen</string>
+    <string name="bill_amount">Bedrag rekening</string>
+    <string name="how_was_the_service">Fooipercentage</string>
+    <string name="round_up_tip">Fooi naar boven afronden?</string>
+    <string name="tip_amount">Fooi: %s</string>
+</resources>

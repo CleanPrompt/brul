@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Dobbelsteen</string>
+    <string name="roll">Gooien</string>
+    <string name="dice_result">Dobbelsteen toont %d</string>
+</resources>

@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Kunstgalerij</string>
+    <string name="previous">Vorige</string>
+    <string name="next">Volgende</string>
+    <string name="artist_and_year">%1$s (%2$d)</string>
+    <string name="artist_unknown">Onbekende kunstenaar</string>
+    <string name="title_sunset">Zonsondergang boven de polder</string>
+    <string name="title_circles">Blauwe cirkels</string>
+    <string name="title_windmill">Molen</string>
+    <string name="title_blocks">Compositie in rood, geel en blauw</string>
+</resources>

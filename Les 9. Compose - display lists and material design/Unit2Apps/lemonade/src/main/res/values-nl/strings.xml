@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Limonade</string>
+    <string name="lemon_select">Tik op de citroenboom om een citroen te plukken</string>
+    <string name="lemon_squeeze">Blijf op de citroen tikken om hem uit te persen</string>
+    <string name="lemon_drink">Tik op de limonade om hem op te drinken</string>
+    <string name="lemon_empty_glass">Tik op het lege glas om opnieuw te beginnen</string>
+    <string name="lemon_tree_content_description">Citroenboom</string>
+    <string name="lemon_content_description">Citroen</string>
+    <string name="lemonade_content_description">Glas limonade</string>
+    <string name="empty_glass_content_description">Leeg glas</string>
+</resources>
